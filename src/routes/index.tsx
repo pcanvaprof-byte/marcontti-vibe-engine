@@ -28,6 +28,8 @@ import m4Branco from "@/assets/m4-branco.jpg";
 import m4Cinza from "@/assets/m4-cinza.jpg";
 import m4Preto from "@/assets/m4-preto.jpg";
 import modelEtrek from "@/assets/model-etrek.jpg";
+import etrekPreto from "@/assets/etrek-preto.jpg";
+import etrekAzul from "@/assets/etrek-azul.jpg";
 import fontainePreto from "@/assets/fontaine-preto.jpg";
 import fontaineBranco from "@/assets/fontaine-branco.jpg";
 import fontaineRose from "@/assets/fontaine-rose.jpg";
