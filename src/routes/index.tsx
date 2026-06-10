@@ -159,7 +159,10 @@ const products: Product[] = [
     range: "até 60 km",
     speed: "50 km/h",
     power: "1.000W",
-    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelEtrek }],
+    colors: [
+      { name: "Preto", hex: "#1a1a1a", image: etrekPreto },
+      { name: "Azul Metálico", hex: "#1e4a8a", image: etrekAzul },
+    ],
   },
 ];
 
