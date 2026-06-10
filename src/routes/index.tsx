@@ -443,49 +443,74 @@ function Benefits() {
   );
 }
 
+function InstagramTile({ src, index }: { src: string; index: number }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <a
+      href="https://instagram.com/marcontti.garage"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Abrir perfil @marcontti.garage no Instagram"
+      className="group aspect-square overflow-hidden rounded-xl bg-white/5 relative block"
+    >
+      {!loaded && (
+        <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-white/5 via-white/10 to-white/5" />
+      )}
+      <img
+        src={src}
+        alt={`Post ${index + 1} do Instagram @marcontti.garage`}
+        loading="lazy"
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}
+      />
+      <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/60 grid place-items-center transition-all">
+        <Instagram size={22} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
+    </a>
+  );
+}
+
 function InstagramSection() {
   return (
     <section className="py-24 sm:py-32 bg-charcoal text-white">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div>
-            <span className="text-primary text-sm font-semibold uppercase tracking-widest">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:gap-6 mb-10 sm:mb-12 md:flex md:flex-row md:items-end md:justify-between">
+          <div className="min-w-0">
+            <span className="text-primary text-xs sm:text-sm font-semibold uppercase tracking-widest">
               @marcontti.garage
             </span>
-            <h2 className="text-4xl sm:text-5xl font-black mt-3 max-w-xl">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mt-3 max-w-xl leading-tight">
               Siga a nossa garagem.
             </h2>
           </div>
           <a
             href="https://instagram.com/marcontti.garage"
             target="_blank"
-            rel="noopener"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-semibold px-6 py-3 rounded-full transition-all hover:-translate-y-0.5 self-start md:self-auto"
+            rel="noopener noreferrer"
+            className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-semibold px-6 py-3 rounded-full transition-all hover:-translate-y-0.5 shrink-0"
           >
             <Instagram size={18} />
             Seguir no Instagram
           </a>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
           {gallery.map((src, i) => (
-            <a
-              key={i}
-              href="https://instagram.com/marcontti.garage"
-              target="_blank"
-              rel="noopener"
-              className="group aspect-square overflow-hidden rounded-xl bg-white/5 relative"
-            >
-              <img
-                src={src}
-                alt="Marcontti Garage Instagram"
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/60 grid place-items-center transition-all">
-                <Instagram size={22} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            </a>
+            <InstagramTile key={i} src={src} index={i} />
           ))}
+        </div>
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
+          <a
+            href="https://instagram.com/marcontti.garage"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-semibold px-6 py-3 rounded-full transition-all hover:-translate-y-0.5"
+          >
+            <Instagram size={18} />
+            Ver no Instagram
+          </a>
         </div>
       </div>
     </section>
