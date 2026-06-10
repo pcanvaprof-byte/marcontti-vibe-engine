@@ -30,6 +30,8 @@ import m4Preto from "@/assets/m4-preto.jpg";
 import modelEtrek from "@/assets/model-etrek.jpg";
 import etrekPreto from "@/assets/etrek-preto.jpg";
 import etrekAzul from "@/assets/etrek-azul.jpg";
+import etrekVermelho from "@/assets/etrek-vermelho.jpg";
+import etrekVerde from "@/assets/etrek-verde.jpg";
 import fontainePreto from "@/assets/fontaine-preto.jpg";
 import fontaineBranco from "@/assets/fontaine-branco.jpg";
 import fontaineRose from "@/assets/fontaine-rose.jpg";
@@ -160,8 +162,10 @@ const products: Product[] = [
     speed: "50 km/h",
     power: "1.000W",
     colors: [
-      { name: "Preto", hex: "#1a1a1a", image: etrekPreto },
       { name: "Azul Metálico", hex: "#1e4a8a", image: etrekAzul },
+      { name: "Preto", hex: "#1a1a1a", image: etrekPreto },
+      { name: "Vermelho", hex: "#c81e1e", image: etrekVermelho },
+      { name: "Verde", hex: "#3d5c3a", image: etrekVerde },
     ],
   },
 ];
