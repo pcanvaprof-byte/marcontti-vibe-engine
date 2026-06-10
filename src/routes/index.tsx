@@ -84,7 +84,7 @@ const benefits = [
 const gallery = [
   heroScooter,
   scooterUrban,
-  garageExterior,
+  garageExterior.url,
   scooterCity,
   scooterRetro,
   heroScooter,
