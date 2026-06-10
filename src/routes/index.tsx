@@ -188,14 +188,14 @@ const benefits = [
   },
 ];
 
-const gallery = [
-  heroScooter,
-  eko7Vermelho,
-  garageExterior.url,
-  tricicloVermelho,
-  fontaineRose,
-  modelHarley,
-];
+import ig0 from "@/assets/ig/ig-0.jpg.asset.json";
+import ig1 from "@/assets/ig/ig-1.jpg.asset.json";
+import ig4 from "@/assets/ig/ig-4.jpg.asset.json";
+import ig7 from "@/assets/ig/ig-7.jpg.asset.json";
+import ig10 from "@/assets/ig/ig-10.jpg.asset.json";
+import ig11 from "@/assets/ig/ig-11.jpg.asset.json";
+
+const gallery = [ig0.url, ig1.url, ig4.url, ig7.url, ig10.url, ig11.url];
 
 function Header() {
   const [open, setOpen] = useState(false);
