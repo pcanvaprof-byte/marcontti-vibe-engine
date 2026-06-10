@@ -16,9 +16,11 @@ import {
   ChevronRight,
 } from "lucide-react";
 import heroScooter from "@/assets/hero-scooter.jpg";
-import scooterCity from "@/assets/scooter-city.jpg";
-import scooterUrban from "@/assets/scooter-urban.jpg";
-import scooterRetro from "@/assets/scooter-retro.jpg";
+import modelX13 from "@/assets/model-x13.jpg";
+import modelHarley from "@/assets/model-harley.jpg";
+import modelM4 from "@/assets/model-m4.jpg";
+import modelEtrek from "@/assets/model-etrek.jpg";
+import modelFontaine from "@/assets/model-fontaine.jpg";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
 import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
 
@@ -38,28 +40,49 @@ export const Route = createFileRoute("/")({
 
 const products = [
   {
-    name: "Marcontti City E-1",
-    tag: "Urbano",
-    price: "R$ 9.990",
-    range: "85 km",
+    name: "X-13",
+    tag: "Citycoco",
+    price: "R$ 10.490",
+    range: "60–80 km",
     speed: "50 km/h",
-    image: scooterCity,
+    power: "1.000W",
+    image: modelX13,
   },
   {
-    name: "Marcontti Urban X",
-    tag: "Performance",
-    price: "R$ 12.490",
-    range: "110 km",
-    speed: "65 km/h",
-    image: scooterUrban,
+    name: "Harley",
+    tag: "Chopper",
+    price: "R$ 10.990",
+    range: "60–80 km",
+    speed: "50 km/h",
+    power: "1.000W",
+    image: modelHarley,
   },
   {
-    name: "Marcontti Classic",
-    tag: "Lifestyle",
-    price: "R$ 8.490",
-    range: "75 km",
-    speed: "45 km/h",
-    image: scooterRetro,
+    name: "M4",
+    tag: "Urbano",
+    price: "R$ 10.990",
+    range: "60–80 km",
+    speed: "50 km/h",
+    power: "1.000W",
+    image: modelM4,
+  },
+  {
+    name: "E-Trek",
+    tag: "Trabalho",
+    price: "R$ 8.990",
+    range: "até 60 km",
+    speed: "50 km/h",
+    power: "1.000W",
+    image: modelEtrek,
+  },
+  {
+    name: "Fontaine",
+    tag: "Compacto",
+    price: "R$ 5.290",
+    range: "até 40 km",
+    speed: "32 km/h",
+    power: "1.000W",
+    image: modelFontaine,
   },
 ];
 
@@ -83,11 +106,11 @@ const benefits = [
 
 const gallery = [
   heroScooter,
-  scooterUrban,
+  modelX13,
   garageExterior.url,
-  scooterCity,
-  scooterRetro,
-  heroScooter,
+  modelHarley,
+  modelEtrek,
+  modelFontaine,
 ];
 
 function Header() {
