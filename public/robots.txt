@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://marcontti-vibe-engine.lovable.app/sitemap.xml
