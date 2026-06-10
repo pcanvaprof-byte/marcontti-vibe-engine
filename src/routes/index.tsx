@@ -295,52 +295,77 @@ function Products() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((p) => (
-            <article
-              key={p.name}
-              className="group bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 transition-all hover:-translate-y-2 hover:shadow-[var(--shadow-card)]"
-            >
-              <div className="aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative">
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  width={1024}
-                  height={1024}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <span className="absolute top-4 left-4 bg-charcoal text-white text-xs font-semibold px-3 py-1 rounded-full">
-                  {p.tag}
-                </span>
-              </div>
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <h3 className="text-xl font-bold">{p.name}</h3>
-                  <div className="text-right">
-                    <div className="text-xs text-muted-foreground">a partir de</div>
-                    <div className="text-lg font-black text-primary">{p.price}</div>
-                  </div>
-                </div>
-                <div className="flex gap-4 text-sm text-muted-foreground border-t border-border pt-4 mb-5">
-                  <span>
-                    <strong className="text-foreground">{p.range}</strong> autonomia
-                  </span>
-                  <span className="w-px bg-border" />
-                  <span>
-                    <strong className="text-foreground">{p.speed}</strong> vel. máx.
-                  </span>
-                </div>
-                <a
-                  href="#contato"
-                  className="inline-flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2 transition-all"
-                >
-                  Saiba Mais <ChevronRight size={16} />
-                </a>
-              </div>
-            </article>
+            <ProductCard key={p.name} product={p} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function ProductCard({ product: p }: { product: Product }) {
+  const [selected, setSelected] = useState(0);
+  const variant = p.colors[selected];
+  return (
+    <article className="group bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 transition-all hover:-translate-y-2 hover:shadow-[var(--shadow-card)]">
+      <div className="aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative">
+        <img
+          src={variant.image}
+          alt={`${p.name} ${variant.name}`}
+          width={1024}
+          height={1024}
+          loading="lazy"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <span className="absolute top-4 left-4 bg-charcoal text-white text-xs font-semibold px-3 py-1 rounded-full">
+          {p.tag}
+        </span>
+      </div>
+      <div className="p-6">
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div>
+            <h3 className="text-xl font-bold">{p.name}</h3>
+            <div className="text-xs text-muted-foreground mt-1">Cor: {variant.name}</div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs text-muted-foreground">a partir de</div>
+            <div className="text-lg font-black text-primary">{p.price}</div>
+          </div>
+        </div>
+        {p.colors.length > 1 && (
+          <div className="flex gap-2 mb-4">
+            {p.colors.map((c, i) => (
+              <button
+                key={c.name}
+                type="button"
+                onClick={() => setSelected(i)}
+                aria-label={c.name}
+                title={c.name}
+                className={`w-6 h-6 rounded-full border-2 transition-all ${
+                  i === selected ? "border-primary scale-110" : "border-border hover:border-primary/60"
+                }`}
+                style={{ backgroundColor: c.hex }}
+              />
+            ))}
+          </div>
+        )}
+        <div className="flex gap-4 text-sm text-muted-foreground border-t border-border pt-4 mb-5">
+          <span>
+            <strong className="text-foreground">{p.range}</strong> autonomia
+          </span>
+          <span className="w-px bg-border" />
+          <span>
+            <strong className="text-foreground">{p.speed}</strong> vel. máx.
+          </span>
+        </div>
+        <a
+          href="#contato"
+          className="inline-flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2 transition-all"
+        >
+          Saiba Mais <ChevronRight size={16} />
+        </a>
+      </div>
+    </article>
   );
 }
 
