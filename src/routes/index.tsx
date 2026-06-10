@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Menu,
@@ -15,6 +15,8 @@ import {
   MessageCircle,
   ChevronRight,
 } from "lucide-react";
+import { models, type Model } from "@/lib/models";
+import { TestRideForm } from "@/components/TestRideForm";
 import heroScooter from "@/assets/hero-scooter.jpg";
 import modelX13 from "@/assets/model-x13.jpg";
 import x13Vermelho from "@/assets/x13-vermelho.jpg";
