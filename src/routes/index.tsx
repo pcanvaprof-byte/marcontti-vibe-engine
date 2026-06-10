@@ -18,36 +18,10 @@ import {
 import { models, type Model } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 import heroScooter from "@/assets/hero-scooter.jpg";
-import modelX13 from "@/assets/model-x13.jpg";
-import x13Vermelho from "@/assets/x13-vermelho.jpg";
-import x13Cinza from "@/assets/x13-cinza.jpg";
-import x13Preto from "@/assets/x13-preto.jpg";
-import modelHarley from "@/assets/model-harley.jpg";
-import harleyPreto from "@/assets/harley-preto.jpg";
-import harleyAzul from "@/assets/harley-azul.jpg";
-import modelM4 from "@/assets/model-m4.jpg";
-import m4Branco from "@/assets/m4-branco.jpg";
-import m4Cinza from "@/assets/m4-cinza.jpg";
-import m4Preto from "@/assets/m4-preto.jpg";
-import modelEtrek from "@/assets/model-etrek.jpg";
-import etrekPreto from "@/assets/etrek-preto.jpg";
-import etrekAzul from "@/assets/etrek-azul.jpg";
-import etrekVermelho from "@/assets/etrek-vermelho.jpg";
-import etrekVerde from "@/assets/etrek-verde.jpg";
-import fontainePreto from "@/assets/fontaine-preto.jpg";
-import fontaineBranco from "@/assets/fontaine-branco.jpg";
-import fontaineRose from "@/assets/fontaine-rose.jpg";
-import eko7Vermelho from "@/assets/eko7-vermelho.jpg";
-import eko7Preto from "@/assets/eko7-preto.jpg";
-import eko7Branco from "@/assets/eko7-branco.jpg";
-import eko7Verde from "@/assets/eko7-verde.jpg";
-import eko7Cinza from "@/assets/eko7-cinza.jpg";
-import tricicloVermelho from "@/assets/triciclo-vermelho.jpg";
-import tricicloBranco from "@/assets/triciclo-branco.jpg";
-import tricicloCinza from "@/assets/triciclo-cinza.jpg";
-import tricicloPreto from "@/assets/triciclo-preto.jpg";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
 import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
+
+const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -58,119 +32,52 @@ export const Route = createFileRoute("/")({
         content:
           "Concessionária de scooters e motos elétricas em Joinville/SC. Agende seu test-ride na Marcontti Garage.",
       },
+      { property: "og:url", content: `${BASE_URL}/` },
+    ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AutomotiveBusiness",
+          name: "Marcontti Garage",
+          description:
+            "Concessionária de scooters e motos elétricas em Joinville/SC.",
+          url: BASE_URL,
+          telephone: "+554790000000",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Joinville",
+            addressRegion: "SC",
+            addressCountry: "BR",
+          },
+          openingHoursSpecification: [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              opens: "09:00",
+              closes: "18:00",
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: "Saturday",
+              opens: "09:00",
+              closes: "13:00",
+            },
+          ],
+          sameAs: ["https://instagram.com/marcontti.garage"],
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.9",
+            reviewCount: "87",
+          },
+        }),
+      },
     ],
   }),
   component: Index,
 });
-
-
-type ColorVariant = { name: string; hex: string; image: string };
-type Product = {
-  name: string;
-  tag: string;
-  price: string;
-  range: string;
-  speed: string;
-  power: string;
-  colors: ColorVariant[];
-};
-
-const products: Product[] = [
-  {
-    name: "Fontaine",
-    tag: "Compacto",
-    price: "R$ 5.290",
-    range: "até 40 km",
-    speed: "32 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Preto", hex: "#1a1a1a", image: fontainePreto },
-      { name: "Branco", hex: "#f5f5f5", image: fontaineBranco },
-      { name: "Rosé", hex: "#f4a8a8", image: fontaineRose },
-    ],
-  },
-  {
-    name: "EKO-7",
-    tag: "Autopropelido",
-    price: "R$ 6.790",
-    range: "até 80 km",
-    speed: "32 km/h",
-    power: "800W",
-    colors: [
-      { name: "Vermelho", hex: "#c8242b", image: eko7Vermelho },
-      { name: "Preto", hex: "#1a1a1a", image: eko7Preto },
-      { name: "Branco", hex: "#f5f5f5", image: eko7Branco },
-      { name: "Verde Água", hex: "#9adfd4", image: eko7Verde },
-      { name: "Cinza", hex: "#7a7a7a", image: eko7Cinza },
-    ],
-  },
-  {
-    name: "Triciclo",
-    tag: "3 Rodas",
-    price: "R$ 9.990",
-    range: "até 80 km",
-    speed: "32 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Vermelho", hex: "#c8242b", image: tricicloVermelho },
-      { name: "Branco", hex: "#f5f5f5", image: tricicloBranco },
-      { name: "Cinza", hex: "#7a7a7a", image: tricicloCinza },
-      { name: "Preto", hex: "#1a1a1a", image: tricicloPreto },
-    ],
-  },
-  {
-    name: "X-13",
-    tag: "Citycoco",
-    price: "R$ 10.490",
-    range: "60–80 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Vermelho", hex: "#a8201c", image: x13Vermelho },
-      { name: "Cinza Brilhoso", hex: "#7a7a7a", image: x13Cinza },
-      { name: "Preto", hex: "#1a1a1a", image: x13Preto },
-    ],
-  },
-  {
-    name: "Harley",
-    tag: "Chopper",
-    price: "R$ 10.990",
-    range: "60–80 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Preto Fosco", hex: "#1a1a1a", image: harleyPreto },
-      { name: "Azul Australiana", hex: "#1e3a8a", image: harleyAzul },
-    ],
-  },
-  {
-    name: "M4",
-    tag: "Urbano",
-    price: "R$ 10.990",
-    range: "60–80 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Branco", hex: "#f5f5f5", image: m4Branco },
-      { name: "Cinza", hex: "#7a7a7a", image: m4Cinza },
-      { name: "Preto", hex: "#1a1a1a", image: m4Preto },
-    ],
-  },
-  {
-    name: "E-Trek",
-    tag: "Trabalho",
-    price: "R$ 8.990",
-    range: "até 60 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Azul Metálico", hex: "#1e4a8a", image: etrekAzul },
-      { name: "Preto", hex: "#1a1a1a", image: etrekPreto },
-      { name: "Vermelho", hex: "#c81e1e", image: etrekVermelho },
-      { name: "Verde", hex: "#3d5c3a", image: etrekVerde },
-    ],
-  },
-];
 
 const benefits = [
   {
