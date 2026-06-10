@@ -17,6 +17,9 @@ import {
 } from "lucide-react";
 import heroScooter from "@/assets/hero-scooter.jpg";
 import modelX13 from "@/assets/model-x13.jpg";
+import x13Vermelho from "@/assets/x13-vermelho.jpg";
+import x13Cinza from "@/assets/x13-cinza.jpg";
+import x13Preto from "@/assets/x13-preto.jpg";
 import modelHarley from "@/assets/model-harley.jpg";
 import modelM4 from "@/assets/model-m4.jpg";
 import modelEtrek from "@/assets/model-etrek.jpg";
@@ -111,7 +114,11 @@ const products: Product[] = [
     range: "60–80 km",
     speed: "50 km/h",
     power: "1.000W",
-    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelX13 }],
+    colors: [
+      { name: "Vermelho", hex: "#a8201c", image: x13Vermelho },
+      { name: "Cinza Brilhoso", hex: "#7a7a7a", image: x13Cinza },
+      { name: "Preto", hex: "#1a1a1a", image: x13Preto },
+    ],
   },
   {
     name: "Harley",
