@@ -185,3 +185,7 @@
 .animate-fade-up { animation: fade-up 0.8s var(--transition-smooth) both; }
 .animate-float { animation: float 3.5s ease-in-out infinite; }
 .animate-pulse-ring { animation: pulse-ring 1.6s ease-out infinite; }
+
+#lovable-badge {
+  display: none !important;
+}
