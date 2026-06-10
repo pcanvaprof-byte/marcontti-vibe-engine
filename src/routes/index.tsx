@@ -19,7 +19,8 @@ import heroScooter from "@/assets/hero-scooter.jpg";
 import scooterCity from "@/assets/scooter-city.jpg";
 import scooterUrban from "@/assets/scooter-urban.jpg";
 import scooterRetro from "@/assets/scooter-retro.jpg";
-import garageExterior from "@/assets/garage-exterior.jpg";
+import garageExterior from "@/assets/garage-exterior.png.asset.json";
+import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -83,7 +84,7 @@ const benefits = [
 const gallery = [
   heroScooter,
   scooterUrban,
-  garageExterior,
+  garageExterior.url,
   scooterCity,
   scooterRetro,
   heroScooter,
@@ -101,9 +102,7 @@ function Header() {
     <header className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/60">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 font-display font-black text-xl tracking-tight">
-          <span className="w-8 h-8 rounded-full bg-primary grid place-items-center text-primary-foreground">
-            <Zap size={16} strokeWidth={3} />
-          </span>
+          <img src={marconttiLogo.url} alt="Marcontti Garage" width={36} height={36} className="w-9 h-9 rounded-full" />
           MARCONTTI
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-foreground/80">
@@ -225,7 +224,7 @@ function Products() {
             </h2>
           </div>
           <p className="text-muted-foreground max-w-md">
-            Cada Marcontti combina design contemporâneo, autonomia urbana e a melhor relação
+            Cada scooter combina design contemporâneo, autonomia urbana e a melhor relação
             custo-benefício do mercado.
           </p>
         </div>
@@ -379,12 +378,12 @@ function Contact() {
 
           <div className="rounded-3xl overflow-hidden mb-8 shadow-[var(--shadow-card)]">
             <img
-              src={garageExterior}
+              src={garageExterior.url}
               alt="Loja Marcontti Garage em Joinville"
               width={1600}
               height={1024}
               loading="lazy"
-              className="w-full h-64 object-cover"
+              className="w-full h-72 object-cover"
             />
           </div>
 
@@ -476,9 +475,7 @@ function Footer() {
     <footer className="bg-charcoal text-white/70 py-12">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col md:flex-row justify-between gap-6 items-center">
         <div className="flex items-center gap-2 font-display font-black text-white">
-          <span className="w-7 h-7 rounded-full bg-primary grid place-items-center text-primary-foreground">
-            <Zap size={14} strokeWidth={3} />
-          </span>
+          <img src={marconttiLogo.url} alt="Marcontti Garage" width={28} height={28} className="w-7 h-7 rounded-full" />
           MARCONTTI GARAGE
         </div>
         <div className="text-sm">
