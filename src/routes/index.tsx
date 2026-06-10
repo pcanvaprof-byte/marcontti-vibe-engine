@@ -35,6 +35,21 @@ import tricicloPreto from "@/assets/triciclo-preto.jpg";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
 import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
 
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Marcontti Garage — A Nova Era da Mobilidade em Joinville" },
+      {
+        name: "description",
+        content:
+          "Concessionária de scooters e motos elétricas em Joinville/SC. Agende seu test-ride na Marcontti Garage.",
+      },
+    ],
+  }),
+  component: Index,
+});
+
+
 type ColorVariant = { name: string; hex: string; image: string };
 type Product = {
   name: string;
