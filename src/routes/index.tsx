@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Menu,
@@ -15,37 +15,13 @@ import {
   MessageCircle,
   ChevronRight,
 } from "lucide-react";
+import { models, type Model } from "@/lib/models";
+import { TestRideForm } from "@/components/TestRideForm";
 import heroScooter from "@/assets/hero-scooter.jpg";
-import modelX13 from "@/assets/model-x13.jpg";
-import x13Vermelho from "@/assets/x13-vermelho.jpg";
-import x13Cinza from "@/assets/x13-cinza.jpg";
-import x13Preto from "@/assets/x13-preto.jpg";
-import modelHarley from "@/assets/model-harley.jpg";
-import harleyPreto from "@/assets/harley-preto.jpg";
-import harleyAzul from "@/assets/harley-azul.jpg";
-import modelM4 from "@/assets/model-m4.jpg";
-import m4Branco from "@/assets/m4-branco.jpg";
-import m4Cinza from "@/assets/m4-cinza.jpg";
-import m4Preto from "@/assets/m4-preto.jpg";
-import modelEtrek from "@/assets/model-etrek.jpg";
-import etrekPreto from "@/assets/etrek-preto.jpg";
-import etrekAzul from "@/assets/etrek-azul.jpg";
-import etrekVermelho from "@/assets/etrek-vermelho.jpg";
-import etrekVerde from "@/assets/etrek-verde.jpg";
-import fontainePreto from "@/assets/fontaine-preto.jpg";
-import fontaineBranco from "@/assets/fontaine-branco.jpg";
-import fontaineRose from "@/assets/fontaine-rose.jpg";
-import eko7Vermelho from "@/assets/eko7-vermelho.jpg";
-import eko7Preto from "@/assets/eko7-preto.jpg";
-import eko7Branco from "@/assets/eko7-branco.jpg";
-import eko7Verde from "@/assets/eko7-verde.jpg";
-import eko7Cinza from "@/assets/eko7-cinza.jpg";
-import tricicloVermelho from "@/assets/triciclo-vermelho.jpg";
-import tricicloBranco from "@/assets/triciclo-branco.jpg";
-import tricicloCinza from "@/assets/triciclo-cinza.jpg";
-import tricicloPreto from "@/assets/triciclo-preto.jpg";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
 import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
+
+const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -56,119 +32,52 @@ export const Route = createFileRoute("/")({
         content:
           "Concessionária de scooters e motos elétricas em Joinville/SC. Agende seu test-ride na Marcontti Garage.",
       },
+      { property: "og:url", content: `${BASE_URL}/` },
+    ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "AutomotiveBusiness",
+          name: "Marcontti Garage",
+          description:
+            "Concessionária de scooters e motos elétricas em Joinville/SC.",
+          url: BASE_URL,
+          telephone: "+554790000000",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Joinville",
+            addressRegion: "SC",
+            addressCountry: "BR",
+          },
+          openingHoursSpecification: [
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              opens: "09:00",
+              closes: "18:00",
+            },
+            {
+              "@type": "OpeningHoursSpecification",
+              dayOfWeek: "Saturday",
+              opens: "09:00",
+              closes: "13:00",
+            },
+          ],
+          sameAs: ["https://instagram.com/marcontti.garage"],
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: "4.9",
+            reviewCount: "87",
+          },
+        }),
+      },
     ],
   }),
   component: Index,
 });
-
-
-type ColorVariant = { name: string; hex: string; image: string };
-type Product = {
-  name: string;
-  tag: string;
-  price: string;
-  range: string;
-  speed: string;
-  power: string;
-  colors: ColorVariant[];
-};
-
-const products: Product[] = [
-  {
-    name: "Fontaine",
-    tag: "Compacto",
-    price: "R$ 5.290",
-    range: "até 40 km",
-    speed: "32 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Preto", hex: "#1a1a1a", image: fontainePreto },
-      { name: "Branco", hex: "#f5f5f5", image: fontaineBranco },
-      { name: "Rosé", hex: "#f4a8a8", image: fontaineRose },
-    ],
-  },
-  {
-    name: "EKO-7",
-    tag: "Autopropelido",
-    price: "R$ 6.790",
-    range: "até 80 km",
-    speed: "32 km/h",
-    power: "800W",
-    colors: [
-      { name: "Vermelho", hex: "#c8242b", image: eko7Vermelho },
-      { name: "Preto", hex: "#1a1a1a", image: eko7Preto },
-      { name: "Branco", hex: "#f5f5f5", image: eko7Branco },
-      { name: "Verde Água", hex: "#9adfd4", image: eko7Verde },
-      { name: "Cinza", hex: "#7a7a7a", image: eko7Cinza },
-    ],
-  },
-  {
-    name: "Triciclo",
-    tag: "3 Rodas",
-    price: "R$ 9.990",
-    range: "até 80 km",
-    speed: "32 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Vermelho", hex: "#c8242b", image: tricicloVermelho },
-      { name: "Branco", hex: "#f5f5f5", image: tricicloBranco },
-      { name: "Cinza", hex: "#7a7a7a", image: tricicloCinza },
-      { name: "Preto", hex: "#1a1a1a", image: tricicloPreto },
-    ],
-  },
-  {
-    name: "X-13",
-    tag: "Citycoco",
-    price: "R$ 10.490",
-    range: "60–80 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Vermelho", hex: "#a8201c", image: x13Vermelho },
-      { name: "Cinza Brilhoso", hex: "#7a7a7a", image: x13Cinza },
-      { name: "Preto", hex: "#1a1a1a", image: x13Preto },
-    ],
-  },
-  {
-    name: "Harley",
-    tag: "Chopper",
-    price: "R$ 10.990",
-    range: "60–80 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Preto Fosco", hex: "#1a1a1a", image: harleyPreto },
-      { name: "Azul Australiana", hex: "#1e3a8a", image: harleyAzul },
-    ],
-  },
-  {
-    name: "M4",
-    tag: "Urbano",
-    price: "R$ 10.990",
-    range: "60–80 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Branco", hex: "#f5f5f5", image: m4Branco },
-      { name: "Cinza", hex: "#7a7a7a", image: m4Cinza },
-      { name: "Preto", hex: "#1a1a1a", image: m4Preto },
-    ],
-  },
-  {
-    name: "E-Trek",
-    tag: "Trabalho",
-    price: "R$ 8.990",
-    range: "até 60 km",
-    speed: "50 km/h",
-    power: "1.000W",
-    colors: [
-      { name: "Azul Metálico", hex: "#1e4a8a", image: etrekAzul },
-      { name: "Preto", hex: "#1a1a1a", image: etrekPreto },
-      { name: "Vermelho", hex: "#c81e1e", image: etrekVermelho },
-      { name: "Verde", hex: "#3d5c3a", image: etrekVerde },
-    ],
-  },
-];
 
 const benefits = [
   {
@@ -337,7 +246,7 @@ function Products() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((p) => (
+          {models.map((p) => (
             <ProductCard key={p.name} product={p} />
           ))}
         </div>
@@ -346,12 +255,17 @@ function Products() {
   );
 }
 
-function ProductCard({ product: p }: { product: Product }) {
+function ProductCard({ product: p }: { product: Model }) {
   const [selected, setSelected] = useState(0);
   const variant = p.colors[selected];
   return (
     <article className="group bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 transition-all hover:-translate-y-2 hover:shadow-[var(--shadow-card)]">
-      <div className="aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative">
+      <Link
+        to="/modelos/$slug"
+        params={{ slug: p.slug }}
+        className="block aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative cursor-pointer"
+        aria-label={`Ver detalhes do ${p.name}`}
+      >
         <img
           src={variant.image}
           alt={`${p.name} ${variant.name}`}
@@ -363,11 +277,20 @@ function ProductCard({ product: p }: { product: Product }) {
         <span className="absolute top-4 left-4 bg-charcoal text-white text-xs font-semibold px-3 py-1 rounded-full">
           {p.tag}
         </span>
-      </div>
+        <span className="absolute bottom-4 right-4 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity inline-flex items-center gap-1">
+          Ver detalhes <ChevronRight size={14} />
+        </span>
+      </Link>
       <div className="p-6">
         <div className="flex items-start justify-between gap-3 mb-4">
           <div>
-            <h3 className="text-xl font-bold">{p.name}</h3>
+            <Link
+              to="/modelos/$slug"
+              params={{ slug: p.slug }}
+              className="text-xl font-bold hover:text-primary transition-colors"
+            >
+              {p.name}
+            </Link>
             <div className="text-xs text-muted-foreground mt-1">Cor: {variant.name}</div>
           </div>
           <div className="text-right">
@@ -376,7 +299,7 @@ function ProductCard({ product: p }: { product: Product }) {
           </div>
         </div>
         {p.colors.length > 1 && (
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-4 flex-wrap">
             {p.colors.map((c, i) => (
               <button
                 key={c.name}
@@ -401,12 +324,13 @@ function ProductCard({ product: p }: { product: Product }) {
             <strong className="text-foreground">{p.speed}</strong> vel. máx.
           </span>
         </div>
-        <a
-          href="#contato"
+        <Link
+          to="/modelos/$slug"
+          params={{ slug: p.slug }}
           className="inline-flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2 transition-all"
         >
-          Saiba Mais <ChevronRight size={16} />
-        </a>
+          Ver mais informações <ChevronRight size={16} />
+        </Link>
       </div>
     </article>
   );
@@ -561,67 +485,8 @@ function Contact() {
           </div>
         </div>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            alert("Recebemos seu contato! Em breve retornaremos.");
-          }}
-          className="bg-card rounded-3xl p-8 sm:p-10 border border-border shadow-[var(--shadow-card)]"
-        >
-          <h3 className="text-2xl font-bold mb-2">Agende seu test-ride</h3>
-          <p className="text-muted-foreground mb-8">
-            Preencha o formulário e entraremos em contato em instantes.
-          </p>
-          <div className="space-y-4">
-            <input
-              required
-              maxLength={100}
-              placeholder="Seu nome"
-              className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-            />
-            <div className="grid sm:grid-cols-2 gap-4">
-              <input
-                required
-                type="email"
-                maxLength={150}
-                placeholder="E-mail"
-                className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-              />
-              <input
-                required
-                type="tel"
-                maxLength={20}
-                placeholder="WhatsApp"
-                className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-              />
-            </div>
-            <select
-              defaultValue=""
-              className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-            >
-              <option value="" disabled>
-                Modelo de interesse
-              </option>
-              {products.map((p) => (
-                <option key={p.name}>{p.name}</option>
-              ))}
-              <option>Outro / Catálogo completo</option>
-            </select>
-            <textarea
-              rows={4}
-              maxLength={500}
-              placeholder="Mensagem (opcional)"
-              className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors resize-none"
-            />
-            <button
-              type="submit"
-              className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-4 rounded-full transition-all hover:shadow-[var(--shadow-elegant)] hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
-            >
-              Enviar Solicitação
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        </form>
+        <TestRideForm />
+
       </div>
     </section>
   );
