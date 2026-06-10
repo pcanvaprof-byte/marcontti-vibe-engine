@@ -246,7 +246,7 @@ function Products() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((p) => (
+          {models.map((p) => (
             <ProductCard key={p.name} product={p} />
           ))}
         </div>
@@ -255,12 +255,17 @@ function Products() {
   );
 }
 
-function ProductCard({ product: p }: { product: Product }) {
+function ProductCard({ product: p }: { product: Model }) {
   const [selected, setSelected] = useState(0);
   const variant = p.colors[selected];
   return (
     <article className="group bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 transition-all hover:-translate-y-2 hover:shadow-[var(--shadow-card)]">
-      <div className="aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative">
+      <Link
+        to="/modelos/$slug"
+        params={{ slug: p.slug }}
+        className="block aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative cursor-pointer"
+        aria-label={`Ver detalhes do ${p.name}`}
+      >
         <img
           src={variant.image}
           alt={`${p.name} ${variant.name}`}
@@ -272,11 +277,20 @@ function ProductCard({ product: p }: { product: Product }) {
         <span className="absolute top-4 left-4 bg-charcoal text-white text-xs font-semibold px-3 py-1 rounded-full">
           {p.tag}
         </span>
-      </div>
+        <span className="absolute bottom-4 right-4 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity inline-flex items-center gap-1">
+          Ver detalhes <ChevronRight size={14} />
+        </span>
+      </Link>
       <div className="p-6">
         <div className="flex items-start justify-between gap-3 mb-4">
           <div>
-            <h3 className="text-xl font-bold">{p.name}</h3>
+            <Link
+              to="/modelos/$slug"
+              params={{ slug: p.slug }}
+              className="text-xl font-bold hover:text-primary transition-colors"
+            >
+              {p.name}
+            </Link>
             <div className="text-xs text-muted-foreground mt-1">Cor: {variant.name}</div>
           </div>
           <div className="text-right">
@@ -285,7 +299,7 @@ function ProductCard({ product: p }: { product: Product }) {
           </div>
         </div>
         {p.colors.length > 1 && (
-          <div className="flex gap-2 mb-4">
+          <div className="flex gap-2 mb-4 flex-wrap">
             {p.colors.map((c, i) => (
               <button
                 key={c.name}
@@ -310,12 +324,13 @@ function ProductCard({ product: p }: { product: Product }) {
             <strong className="text-foreground">{p.speed}</strong> vel. máx.
           </span>
         </div>
-        <a
-          href="#contato"
+        <Link
+          to="/modelos/$slug"
+          params={{ slug: p.slug }}
           className="inline-flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2 transition-all"
         >
-          Saiba Mais <ChevronRight size={16} />
-        </a>
+          Ver mais informações <ChevronRight size={16} />
+        </Link>
       </div>
     </article>
   );
