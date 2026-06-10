@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, Check, MessageCircle, Zap } from "lucide-react";
-import { getModel, models, buildWhatsAppUrl } from "@/lib/models";
+import { getModel, models, buildWhatsAppUrl, type ColorVariant } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 
 const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
