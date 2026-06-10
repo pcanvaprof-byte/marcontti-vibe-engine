@@ -485,67 +485,8 @@ function Contact() {
           </div>
         </div>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            alert("Recebemos seu contato! Em breve retornaremos.");
-          }}
-          className="bg-card rounded-3xl p-8 sm:p-10 border border-border shadow-[var(--shadow-card)]"
-        >
-          <h3 className="text-2xl font-bold mb-2">Agende seu test-ride</h3>
-          <p className="text-muted-foreground mb-8">
-            Preencha o formulário e entraremos em contato em instantes.
-          </p>
-          <div className="space-y-4">
-            <input
-              required
-              maxLength={100}
-              placeholder="Seu nome"
-              className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-            />
-            <div className="grid sm:grid-cols-2 gap-4">
-              <input
-                required
-                type="email"
-                maxLength={150}
-                placeholder="E-mail"
-                className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-              />
-              <input
-                required
-                type="tel"
-                maxLength={20}
-                placeholder="WhatsApp"
-                className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-              />
-            </div>
-            <select
-              defaultValue=""
-              className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors"
-            >
-              <option value="" disabled>
-                Modelo de interesse
-              </option>
-              {products.map((p) => (
-                <option key={p.name}>{p.name}</option>
-              ))}
-              <option>Outro / Catálogo completo</option>
-            </select>
-            <textarea
-              rows={4}
-              maxLength={500}
-              placeholder="Mensagem (opcional)"
-              className="w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors resize-none"
-            />
-            <button
-              type="submit"
-              className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-4 rounded-full transition-all hover:shadow-[var(--shadow-elegant)] hover:-translate-y-0.5 inline-flex items-center justify-center gap-2"
-            >
-              Enviar Solicitação
-              <ArrowRight size={18} />
-            </button>
-          </div>
-        </form>
+        <TestRideForm />
+
       </div>
     </section>
   );
