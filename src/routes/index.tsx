@@ -166,13 +166,13 @@ function Hero() {
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-ring" />
             Joinville · SC
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.95] mb-6">
-            A Nova Era da
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.95] mb-6 uppercase">
+            A Revolução
             <br />
-            <span className="bg-gradient-to-r from-[oklch(0.74_0.18_45)] to-[oklch(0.66_0.21_38)] bg-clip-text text-transparent">
-              Mobilidade
-            </span>{" "}
-            em Joinville
+            é{" "}
+            <span className="bg-gradient-to-r from-[oklch(0.96_0.22_124)] to-[oklch(0.93_0.24_122)] bg-clip-text text-transparent">
+              Elétrica
+            </span>
           </h1>
           <p className="text-lg sm:text-xl text-white/75 max-w-xl mb-10 leading-relaxed">
             Estilo, economia e sustentabilidade sobre duas rodas. Conheça a linha completa de
