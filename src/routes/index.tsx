@@ -21,7 +21,12 @@ import x13Vermelho from "@/assets/x13-vermelho.jpg";
 import x13Cinza from "@/assets/x13-cinza.jpg";
 import x13Preto from "@/assets/x13-preto.jpg";
 import modelHarley from "@/assets/model-harley.jpg";
+import harleyPreto from "@/assets/harley-preto.jpg";
+import harleyAzul from "@/assets/harley-azul.jpg";
 import modelM4 from "@/assets/model-m4.jpg";
+import m4Branco from "@/assets/m4-branco.jpg";
+import m4Cinza from "@/assets/m4-cinza.jpg";
+import m4Preto from "@/assets/m4-preto.jpg";
 import modelEtrek from "@/assets/model-etrek.jpg";
 import fontainePreto from "@/assets/fontaine-preto.jpg";
 import fontaineBranco from "@/assets/fontaine-branco.jpg";
@@ -127,7 +132,10 @@ const products: Product[] = [
     range: "60–80 km",
     speed: "50 km/h",
     power: "1.000W",
-    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelHarley }],
+    colors: [
+      { name: "Preto Fosco", hex: "#1a1a1a", image: harleyPreto },
+      { name: "Azul Australiana", hex: "#1e3a8a", image: harleyAzul },
+    ],
   },
   {
     name: "M4",
@@ -136,7 +144,11 @@ const products: Product[] = [
     range: "60–80 km",
     speed: "50 km/h",
     power: "1.000W",
-    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelM4 }],
+    colors: [
+      { name: "Branco", hex: "#f5f5f5", image: m4Branco },
+      { name: "Cinza", hex: "#7a7a7a", image: m4Cinza },
+      { name: "Preto", hex: "#1a1a1a", image: m4Preto },
+    ],
   },
   {
     name: "E-Trek",
