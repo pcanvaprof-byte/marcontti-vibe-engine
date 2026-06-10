@@ -20,25 +20,75 @@ import modelX13 from "@/assets/model-x13.jpg";
 import modelHarley from "@/assets/model-harley.jpg";
 import modelM4 from "@/assets/model-m4.jpg";
 import modelEtrek from "@/assets/model-etrek.jpg";
-import modelFontaine from "@/assets/model-fontaine.jpg";
+import fontainePreto from "@/assets/fontaine-preto.jpg";
+import fontaineBranco from "@/assets/fontaine-branco.jpg";
+import fontaineRose from "@/assets/fontaine-rose.jpg";
+import eko7Vermelho from "@/assets/eko7-vermelho.jpg";
+import eko7Preto from "@/assets/eko7-preto.jpg";
+import eko7Branco from "@/assets/eko7-branco.jpg";
+import eko7Verde from "@/assets/eko7-verde.jpg";
+import eko7Cinza from "@/assets/eko7-cinza.jpg";
+import tricicloVermelho from "@/assets/triciclo-vermelho.jpg";
+import tricicloBranco from "@/assets/triciclo-branco.jpg";
+import tricicloCinza from "@/assets/triciclo-cinza.jpg";
+import tricicloPreto from "@/assets/triciclo-preto.jpg";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
 import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Marcontti Garage — A Nova Era da Mobilidade em Joinville" },
-      {
-        name: "description",
-        content:
-          "Concessionária de scooters e motos elétricas em Joinville/SC. Agende seu test-ride na Marcontti Garage.",
-      },
-    ],
-  }),
-  component: Index,
-});
+type ColorVariant = { name: string; hex: string; image: string };
+type Product = {
+  name: string;
+  tag: string;
+  price: string;
+  range: string;
+  speed: string;
+  power: string;
+  colors: ColorVariant[];
+};
 
-const products = [
+const products: Product[] = [
+  {
+    name: "Fontaine",
+    tag: "Compacto",
+    price: "R$ 5.290",
+    range: "até 40 km",
+    speed: "32 km/h",
+    power: "1.000W",
+    colors: [
+      { name: "Preto", hex: "#1a1a1a", image: fontainePreto },
+      { name: "Branco", hex: "#f5f5f5", image: fontaineBranco },
+      { name: "Rosé", hex: "#f4a8a8", image: fontaineRose },
+    ],
+  },
+  {
+    name: "EKO-7",
+    tag: "Autopropelido",
+    price: "R$ 6.790",
+    range: "até 80 km",
+    speed: "32 km/h",
+    power: "800W",
+    colors: [
+      { name: "Vermelho", hex: "#c8242b", image: eko7Vermelho },
+      { name: "Preto", hex: "#1a1a1a", image: eko7Preto },
+      { name: "Branco", hex: "#f5f5f5", image: eko7Branco },
+      { name: "Verde Água", hex: "#9adfd4", image: eko7Verde },
+      { name: "Cinza", hex: "#7a7a7a", image: eko7Cinza },
+    ],
+  },
+  {
+    name: "Triciclo",
+    tag: "3 Rodas",
+    price: "R$ 9.990",
+    range: "até 80 km",
+    speed: "32 km/h",
+    power: "1.000W",
+    colors: [
+      { name: "Vermelho", hex: "#c8242b", image: tricicloVermelho },
+      { name: "Branco", hex: "#f5f5f5", image: tricicloBranco },
+      { name: "Cinza", hex: "#7a7a7a", image: tricicloCinza },
+      { name: "Preto", hex: "#1a1a1a", image: tricicloPreto },
+    ],
+  },
   {
     name: "X-13",
     tag: "Citycoco",
@@ -46,7 +96,7 @@ const products = [
     range: "60–80 km",
     speed: "50 km/h",
     power: "1.000W",
-    image: modelX13,
+    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelX13 }],
   },
   {
     name: "Harley",
@@ -55,7 +105,7 @@ const products = [
     range: "60–80 km",
     speed: "50 km/h",
     power: "1.000W",
-    image: modelHarley,
+    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelHarley }],
   },
   {
     name: "M4",
@@ -64,7 +114,7 @@ const products = [
     range: "60–80 km",
     speed: "50 km/h",
     power: "1.000W",
-    image: modelM4,
+    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelM4 }],
   },
   {
     name: "E-Trek",
@@ -73,16 +123,7 @@ const products = [
     range: "até 60 km",
     speed: "50 km/h",
     power: "1.000W",
-    image: modelEtrek,
-  },
-  {
-    name: "Fontaine",
-    tag: "Compacto",
-    price: "R$ 5.290",
-    range: "até 40 km",
-    speed: "32 km/h",
-    power: "1.000W",
-    image: modelFontaine,
+    colors: [{ name: "Preto", hex: "#1a1a1a", image: modelEtrek }],
   },
 ];
 
@@ -106,11 +147,11 @@ const benefits = [
 
 const gallery = [
   heroScooter,
-  modelX13,
+  eko7Vermelho,
   garageExterior.url,
+  tricicloVermelho,
+  fontaineRose,
   modelHarley,
-  modelEtrek,
-  modelFontaine,
 ];
 
 function Header() {
