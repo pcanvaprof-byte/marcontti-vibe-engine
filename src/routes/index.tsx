@@ -81,12 +81,12 @@ const benefits = [
 ];
 
 const gallery = [
-  "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&q=80",
-  "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=600&q=80",
-  "https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?w=600&q=80",
-  "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&q=80",
-  "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=600&q=80",
-  "https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?w=600&q=80",
+  heroScooter,
+  scooterUrban,
+  garageExterior,
+  scooterCity,
+  scooterRetro,
+  heroScooter,
 ];
 
 function Header() {
@@ -236,14 +236,14 @@ function Products() {
               key={p.name}
               className="group bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 transition-all hover:-translate-y-2 hover:shadow-[var(--shadow-card)]"
             >
-              <div className="aspect-[5/4] bg-surface overflow-hidden relative">
+              <div className="aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative">
                 <img
                   src={p.image}
                   alt={p.name}
                   width={1024}
                   height={1024}
                   loading="lazy"
-                  className="w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-4 left-4 bg-charcoal text-white text-xs font-semibold px-3 py-1 rounded-full">
                   {p.tag}
