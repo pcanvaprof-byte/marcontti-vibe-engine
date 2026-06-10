@@ -78,7 +78,8 @@ export const Route = createFileRoute("/modelos/$slug")({
 });
 
 function ModelPage() {
-  const { model: m } = Route.useLoaderData();
+  const data = Route.useLoaderData() as { model: import("@/lib/models").Model };
+  const m = data.model;
   const [selected, setSelected] = useState(0);
   const variant = m.colors[selected];
 
