@@ -18,6 +18,9 @@ import {
 import { models, type Model } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 import heroScooter from "@/assets/hero-scooter.jpg";
+import heroAvif from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=avif&as=srcset";
+import heroWebp from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=webp&as=srcset";
+import heroJpg from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=jpg&as=srcset";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
 import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
 
@@ -168,16 +171,22 @@ function Hero() {
   return (
     <section className="relative pt-16 overflow-hidden bg-charcoal text-white">
       <div className="absolute inset-0">
-        <img
-          src={heroScooter}
-          alt="Scooter elétrica Marcontti em ambiente urbano"
-          width={1920}
-          height={1080}
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-          className="w-full h-full object-cover opacity-70"
-        />
+        <picture>
+          <source type="image/avif" srcSet={heroAvif} sizes="100vw" />
+          <source type="image/webp" srcSet={heroWebp} sizes="100vw" />
+          <img
+            src={heroScooter}
+            srcSet={heroJpg}
+            sizes="100vw"
+            alt="Scooter elétrica Marcontti em ambiente urbano"
+            width={1920}
+            height={1080}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="w-full h-full object-cover opacity-70"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
       </div>
