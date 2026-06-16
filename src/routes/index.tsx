@@ -18,6 +18,9 @@ import {
 import { models, type Model } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 import heroScooter from "@/assets/hero-scooter.jpg";
+import heroAvif from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=avif&as=srcset";
+import heroWebp from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=webp&as=srcset";
+import heroJpg from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=jpg&as=srcset";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
 import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
 
