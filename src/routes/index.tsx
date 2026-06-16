@@ -34,7 +34,10 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:url", content: `${BASE_URL}/` },
     ],
-    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
+    links: [
+      { rel: "canonical", href: `${BASE_URL}/` },
+      { rel: "preload", as: "image", href: heroScooter, fetchpriority: "high" },
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -170,6 +173,9 @@ function Hero() {
           alt="Scooter elétrica Marcontti em ambiente urbano"
           width={1920}
           height={1080}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           className="w-full h-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
