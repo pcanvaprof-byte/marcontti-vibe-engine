@@ -13,9 +13,9 @@ export const Route = createFileRoute("/modelos/$slug")({
     return { model };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData) return { meta: [{ title: "Modelo — Marcontti Garage" }] };
+    if (!loaderData) return { meta: [{ title: "Modelo — Infinda Digital" }] };
     const m = loaderData.model;
-    const title = `${m.name} — Scooter Elétrica ${m.tag} | Marcontti Garage`;
+    const title = `${m.name} — Scooter Elétrica ${m.tag} | Infinda Digital`;
     const desc = `${m.short} A partir de ${m.price}. Autonomia ${m.range}, ${m.speed}. Test-ride em Joinville/SC.`;
     const img = m.colors[0]?.image;
     return {
@@ -35,9 +35,9 @@ export const Route = createFileRoute("/modelos/$slug")({
           children: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: `${m.name} — Marcontti Garage`,
+            name: `${m.name} — Infinda Digital`,
             description: m.description,
-            brand: { "@type": "Brand", name: "Marcontti" },
+            brand: { "@type": "Brand", name: "Infinda" },
             category: m.tag,
             image: img ? `${BASE_URL}${img}` : undefined,
             offers: {
@@ -46,7 +46,7 @@ export const Route = createFileRoute("/modelos/$slug")({
               priceCurrency: "BRL",
               availability: "https://schema.org/InStock",
               url: `${BASE_URL}/modelos/${params.slug}`,
-              seller: { "@type": "Organization", name: "Marcontti Garage" },
+              seller: { "@type": "Organization", name: "Infinda Digital" },
             },
           }),
         },
@@ -94,7 +94,7 @@ function ModelPage() {
             <ArrowLeft size={18} /> Voltar
           </Link>
           <Link to="/" className="font-display font-black tracking-tight">
-            MARCONTTI
+            INFINDA
           </Link>
           <a
             href={whatsappUrl}
@@ -228,7 +228,7 @@ function ModelPage() {
             </h2>
             <p className="text-muted-foreground mt-4 leading-relaxed">
               Preencha o formulário e enviaremos sua solicitação direto para o WhatsApp da
-              Marcontti Garage com todas as informações pré-preenchidas.
+              Infinda Digital com todas as informações pré-preenchidas.
             </p>
           </div>
           <TestRideForm defaultModel={m.name} />
@@ -266,7 +266,7 @@ function ModelPage() {
 
       <footer className="bg-charcoal text-white/70 py-10 mt-20">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 text-sm text-center">
-          © {new Date().getFullYear()} Marcontti Garage · Joinville/SC
+          © {new Date().getFullYear()} Infinda Digital · Joinville/SC
         </div>
       </footer>
     </div>
