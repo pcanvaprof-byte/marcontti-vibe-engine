@@ -15,7 +15,7 @@ import {
   MessageCircle,
   ChevronRight,
 } from "lucide-react";
-import { models, type Model } from "@/lib/models";
+import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback, models, type Model } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 import heroScooter from "@/assets/hero-scooter.jpg";
 import heroAvif from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=avif&as=srcset";
@@ -532,11 +532,14 @@ function Footer() {
 }
 
 function WhatsAppFab() {
+  const message = "Olá! Tenho interesse em conhecer os modelos Marcontti.";
   return (
     <a
-      href="https://wa.me/5547989019584?text=Ol%C3%A1!%20Tenho%20interesse%20em%20conhecer%20os%20modelos%20Marcontti."
-      target="_blank"
-      rel="noopener"
+      href={buildWhatsAppFallbackUrl(message)}
+      onClick={(event) => {
+        event.preventDefault();
+        openWhatsAppWithFallback(message);
+      }}
       aria-label="Falar no WhatsApp"
       className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform animate-float"
     >

@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { ArrowLeft, Check, MessageCircle, Zap } from "lucide-react";
-import { getModel, models, buildWhatsAppUrl } from "@/lib/models";
+import { getModel, models, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 
 const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
@@ -84,7 +84,11 @@ function ModelPage() {
   const variant = m.colors[selected];
 
   const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* (${variant.name}) — ${m.price}. Pode me passar mais informações?`;
-  const whatsappUrl = buildWhatsAppUrl(whatsappMsg);
+  const whatsappUrl = buildWhatsAppFallbackUrl(whatsappMsg);
+  const handleWhatsAppClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    openWhatsAppWithFallback(whatsappMsg);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -98,8 +102,7 @@ function ModelPage() {
           </Link>
           <a
             href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={handleWhatsAppClick}
             className="hidden sm:inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-full text-sm font-semibold"
           >
             <MessageCircle size={16} fill="white" strokeWidth={0} /> WhatsApp
@@ -180,8 +183,7 @@ function ModelPage() {
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <a
                 href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                onClick={handleWhatsAppClick}
                 className="flex-1 bg-[#25D366] hover:opacity-90 text-white font-semibold py-4 rounded-full inline-flex items-center justify-center gap-2 transition-all"
               >
                 <MessageCircle size={18} fill="white" strokeWidth={0} />
