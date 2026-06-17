@@ -237,11 +237,35 @@ export const models: Model[] = [
 ];
 
 export const WHATSAPP_NUMBER = "5547989019584";
+const WHATSAPP_FALLBACK_DELAY = 1800;
 
 export function getModel(slug: string): Model | undefined {
   return models.find((m) => m.slug === slug);
 }
 
-export function buildWhatsAppUrl(message: string): string {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+export function buildWhatsAppUrl(message: string, phone = WHATSAPP_NUMBER): string {
+  return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+}
+
+export function buildWhatsAppFallbackUrl(message: string, phone = WHATSAPP_NUMBER): string {
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+export function openWhatsAppWithFallback(message: string, phone = WHATSAPP_NUMBER): void {
+  if (typeof window === "undefined") return;
+
+  const primaryUrl = buildWhatsAppUrl(message, phone);
+  const fallbackUrl = buildWhatsAppFallbackUrl(message, phone);
+  let fallbackTimer = window.setTimeout(() => {
+    if (document.visibilityState === "visible") window.location.assign(fallbackUrl);
+  }, WHATSAPP_FALLBACK_DELAY);
+
+  const clearFallback = () => {
+    window.clearTimeout(fallbackTimer);
+    fallbackTimer = 0;
+  };
+
+  window.addEventListener("pagehide", clearFallback, { once: true });
+  window.addEventListener("blur", clearFallback, { once: true });
+  window.location.assign(primaryUrl);
 }
