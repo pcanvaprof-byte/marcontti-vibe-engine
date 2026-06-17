@@ -22,7 +22,7 @@ import heroAvif from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=avif
 import heroWebp from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=webp&as=srcset";
 import heroJpg from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=jpg&as=srcset";
 import garageExterior from "@/assets/garage-exterior.png.asset.json";
-import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
+import infindaLogo from "@/assets/infinda-logo.png.asset.json";
 
 const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
 
@@ -124,7 +124,7 @@ function Header() {
     <header className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/60">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 font-display font-black text-xl tracking-tight">
-          <img src={marconttiLogo.url} alt="Infinda Digital" width={36} height={36} className="w-9 h-9 rounded-full" />
+          <img src={infindaLogo.url} alt="Infinda Digital" width={36} height={36} className="w-9 h-9 rounded-full" />
           INFINDA
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-foreground/80">
@@ -512,7 +512,7 @@ function Footer() {
     <footer className="bg-charcoal text-white/70 py-12">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col md:flex-row justify-between gap-6 items-center">
         <div className="flex items-center gap-2 font-display font-black text-white">
-          <img src={marconttiLogo.url} alt="Infinda Digital" width={28} height={28} className="w-7 h-7 rounded-full" />
+          <img src={infindaLogo.url} alt="Infinda Digital" width={28} height={28} className="w-7 h-7 rounded-full" />
           INFINDA DIGITAL
         </div>
         <div className="text-sm">
