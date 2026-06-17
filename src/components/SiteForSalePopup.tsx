@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { X, Zap, Clock, CheckCircle2, Globe } from "lucide-react";
+import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 
 const PHONE = "5547996535134";
 const SITE_PRICE = "R$ 997,90";
 const DOMAIN_PRICE = "R$ 130,98";
 const STORAGE_KEY = "site-sale-popup-dismissed";
 
-function buildWhatsAppLink() {
-  const msg = encodeURIComponent(
-    `Olá! Tenho interesse em adquirir um site como este por ${SITE_PRICE} (+ domínio por ${DOMAIN_PRICE}). Pode me passar mais informações?`,
-  );
-  return `https://wa.me/${PHONE}?text=${msg}`;
-}
+const siteSaleMessage = `Olá! Tenho interesse em adquirir um site como este por ${SITE_PRICE} (+ domínio por ${DOMAIN_PRICE}). Pode me passar mais informações?`;
 
 export function SiteForSalePopup() {
   const [open, setOpen] = useState(false);
@@ -115,10 +111,12 @@ export function SiteForSalePopup() {
 
           {/* Action */}
           <a
-            href={buildWhatsAppLink()}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={close}
+            href={buildWhatsAppFallbackUrl(siteSaleMessage, PHONE)}
+            onClick={(event) => {
+              event.preventDefault();
+              close();
+              openWhatsAppWithFallback(siteSaleMessage, PHONE);
+            }}
             className="mt-4 flex w-full items-center justify-center rounded-xl bg-primary px-6 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-primary/30 transition hover:-translate-y-0.5 hover:bg-primary/90"
           >
             QUERO MEU SITE AGORA →
