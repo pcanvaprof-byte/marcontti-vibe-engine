@@ -236,7 +236,7 @@ export const models: Model[] = [
   },
 ];
 
-export const WHATSAPP_NUMBER = "5547900000000";
+export const WHATSAPP_NUMBER = "5547989019584";
 
 export function getModel(slug: string): Model | undefined {
   return models.find((m) => m.slug === slug);
