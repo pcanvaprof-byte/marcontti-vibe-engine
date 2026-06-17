@@ -109,7 +109,7 @@ export const models: Model[] = [
     power: "1.000W",
     short: "Estabilidade de 3 rodas com conforto e capacidade de carga.",
     description:
-      "O Triciclo elétrico Infinda combina estabilidade, conforto e capacidade de carga — ideal para entregas, trabalho e mobilidade segura.",
+      "O Triciclo elétrico Marcontti combina estabilidade, conforto e capacidade de carga — ideal para entregas, trabalho e mobilidade segura.",
     colors: [
       { name: "Vermelho", hex: "#c8242b", image: tricicloVermelho },
       { name: "Branco", hex: "#f5f5f5", image: tricicloBranco },
@@ -164,7 +164,7 @@ export const models: Model[] = [
     power: "1.000W",
     short: "Postura chopper com a alma silenciosa de uma elétrica.",
     description:
-      "A Harley elétrica Infinda traduz a postura chopper em silêncio total, autonomia urbana e zero combustível.",
+      "A Harley elétrica Marcontti traduz a postura chopper em silêncio total, autonomia urbana e zero combustível.",
     colors: [
       { name: "Preto Fosco", hex: "#1a1a1a", image: harleyPreto },
       { name: "Azul Australiana", hex: "#1e3a8a", image: harleyAzul },

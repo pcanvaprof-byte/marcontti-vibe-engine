@@ -56,7 +56,7 @@ export function TestRideForm({
     setSubmitting(true);
     const d = parsed.data;
     const text = [
-      `Olá! Quero agendar um test-ride na Infinda Digital.`,
+      `Olá! Quero agendar um test-ride na Marcontti Garage.`,
       ``,
       `*Nome:* ${d.name}`,
       `*Telefone:* ${d.phone}`,
