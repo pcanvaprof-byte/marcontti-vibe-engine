@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { z } from "zod";
-import { models, buildWhatsAppUrl } from "@/lib/models";
+import { models, openWhatsAppWithFallback } from "@/lib/models";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
@@ -66,7 +66,7 @@ export function TestRideForm({
     ]
       .filter(Boolean)
       .join("\n");
-    window.location.href = buildWhatsAppUrl(text);
+    openWhatsAppWithFallback(text);
     setSubmitting(false);
   }
 
