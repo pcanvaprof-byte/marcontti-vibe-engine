@@ -29,11 +29,11 @@ const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Marcontti Garage — A Nova Era da Mobilidade em Joinville" },
+      { title: "Infinda Digital — A Nova Era da Mobilidade em Joinville" },
       {
         name: "description",
         content:
-          "Concessionária de scooters e motos elétricas em Joinville/SC. Agende seu test-ride na Marcontti Garage.",
+          "Concessionária de scooters e motos elétricas em Joinville/SC. Agende seu test-ride na Infinda Digital.",
       },
       { property: "og:url", content: `${BASE_URL}/` },
     ],
@@ -47,7 +47,7 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "AutomotiveBusiness",
-          name: "Marcontti Garage",
+          name: "Infinda Digital",
           description:
             "Concessionária de scooters e motos elétricas em Joinville/SC.",
           url: BASE_URL,
@@ -124,8 +124,8 @@ function Header() {
     <header className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/60">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 font-display font-black text-xl tracking-tight">
-          <img src={marconttiLogo.url} alt="Marcontti Garage" width={36} height={36} className="w-9 h-9 rounded-full" />
-          MARCONTTI
+          <img src={marconttiLogo.url} alt="Infinda Digital" width={36} height={36} className="w-9 h-9 rounded-full" />
+          INFINDA
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-foreground/80">
           {links.map((l) => (
@@ -178,7 +178,7 @@ function Hero() {
             src={heroScooter}
             srcSet={heroJpg}
             sizes="100vw"
-            alt="Scooter elétrica Marcontti em ambiente urbano"
+            alt="Scooter elétrica Infinda em ambiente urbano"
             width={1920}
             height={1080}
             loading="eager"
@@ -206,7 +206,7 @@ function Hero() {
           </h1>
           <p className="text-lg sm:text-xl text-white/75 max-w-xl mb-10 leading-relaxed">
             Estilo, economia e sustentabilidade sobre duas rodas. Conheça a linha completa de
-            scooters elétricas da Marcontti Garage.
+            scooters elétricas da Infinda Digital.
           </p>
           <div className="flex flex-wrap gap-4">
             <a
@@ -475,7 +475,7 @@ function Contact() {
           <div className="rounded-3xl overflow-hidden mb-8 shadow-[var(--shadow-card)]">
             <img
               src={garageExterior.url}
-              alt="Loja Marcontti Garage em Joinville"
+              alt="Loja Infinda Digital em Joinville"
               width={1600}
               height={1024}
               loading="lazy"
@@ -512,11 +512,11 @@ function Footer() {
     <footer className="bg-charcoal text-white/70 py-12">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col md:flex-row justify-between gap-6 items-center">
         <div className="flex items-center gap-2 font-display font-black text-white">
-          <img src={marconttiLogo.url} alt="Marcontti Garage" width={28} height={28} className="w-7 h-7 rounded-full" />
-          MARCONTTI GARAGE
+          <img src={marconttiLogo.url} alt="Infinda Digital" width={28} height={28} className="w-7 h-7 rounded-full" />
+          INFINDA DIGITAL
         </div>
         <div className="text-sm">
-          © {new Date().getFullYear()} Marcontti Garage · Joinville/SC · Todos os direitos reservados.
+          © {new Date().getFullYear()} Infinda Digital · Joinville/SC · Todos os direitos reservados.
         </div>
         <a
           href="https://instagram.com/marcontti.garage"
@@ -534,7 +534,7 @@ function Footer() {
 function WhatsAppFab() {
   return (
     <a
-      href="https://wa.me/5547900000000?text=Ol%C3%A1!%20Tenho%20interesse%20em%20conhecer%20os%20modelos%20Marcontti."
+      href="https://wa.me/5547900000000?text=Ol%C3%A1!%20Tenho%20interesse%20em%20conhecer%20os%20modelos%20Infinda."
       target="_blank"
       rel="noopener"
       aria-label="Falar no WhatsApp"
