@@ -244,11 +244,11 @@ export function getModel(slug: string): Model | undefined {
 }
 
 export function buildWhatsAppUrl(message: string, phone = WHATSAPP_NUMBER): string {
-  return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
 
 export function buildWhatsAppFallbackUrl(message: string, phone = WHATSAPP_NUMBER): string {
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
 }
 
 export function openWhatsAppWithFallback(message: string, phone = WHATSAPP_NUMBER): void {
