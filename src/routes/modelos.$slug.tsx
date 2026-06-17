@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type MouseEvent } from "react";
 import { ArrowLeft, Check, MessageCircle, Zap } from "lucide-react";
 import { getModel, models, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
@@ -85,7 +85,7 @@ function ModelPage() {
 
   const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* (${variant.name}) — ${m.price}. Pode me passar mais informações?`;
   const whatsappUrl = buildWhatsAppFallbackUrl(whatsappMsg);
-  const handleWhatsAppClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleWhatsAppClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     openWhatsAppWithFallback(whatsappMsg);
   };
