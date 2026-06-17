@@ -66,7 +66,7 @@ export function TestRideForm({
     ]
       .filter(Boolean)
       .join("\n");
-    window.open(buildWhatsAppUrl(text), "_blank", "noopener,noreferrer");
+    window.location.href = buildWhatsAppUrl(text);
     setSubmitting(false);
   }
 
