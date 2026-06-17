@@ -11,6 +11,22 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import infindaLogo from "../assets/infinda-logo.png.asset.json";
+
+function InfindaCredit() {
+  return (
+    <a
+      href="https://infindadigital.store"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-2 left-2 z-50 flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm transition hover:bg-black/90"
+      aria-label="Criado por Infinda Digital — infindadigital.store"
+    >
+      <img src={infindaLogo.url} alt="Infinda Digital" className="h-4 w-4 rounded-full object-contain" />
+      <span>Criado por infindadigital.store</span>
+    </a>
+  );
+}
 
 function NotFoundComponent() {
   return (
@@ -128,6 +144,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <InfindaCredit />
     </QueryClientProvider>
   );
 }
