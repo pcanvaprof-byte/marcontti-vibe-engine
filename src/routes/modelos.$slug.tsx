@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState, type MouseEvent } from "react";
-import { ArrowLeft, Check, MessageCircle, Zap, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
+import { ArrowLeft, Check, MessageCircle, Zap, ChevronRight, ChevronLeft, X, Expand } from "lucide-react";
 import {
   getModel,
+  getGallery,
   models,
   buildWhatsAppFallbackUrl,
   openWhatsAppWithFallback,
