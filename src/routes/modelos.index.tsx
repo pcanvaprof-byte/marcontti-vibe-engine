@@ -179,49 +179,10 @@ function CatalogPage() {
           </div>
 
         ) : (
-          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((m) => (
-              <Link
-                key={m.slug}
-                to="/modelos/$slug"
-                params={{ slug: m.slug }}
-                className="group bg-card border border-border rounded-2xl overflow-hidden hover-ember transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
-              >
-                <div className="relative aspect-[4/3] p-3">
-                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
-                    <img
-                      src={m.colors[0]?.image}
-                      alt={`${m.name} — ${m.tag}`}
-                      loading="lazy"
-                      className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
-                      <Zap size={10} className="text-primary" /> {m.power}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6 pt-4">
-                  <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-2">
-                    {m.tag}
-                  </p>
-                  <h2 className="font-display font-black uppercase text-xl tracking-tight">
-                    {m.name}
-                  </h2>
-                  <p className="mt-2 text-sm text-white/60 line-clamp-2">{m.short}</p>
-                  <div className="mt-5 pt-5 border-t border-border flex items-center justify-between">
-                    <div>
-                      <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
-                        A partir de
-                      </span>
-                      <span className="font-display font-black text-lg">{m.price}</span>
-                    </div>
-                    <span className="inline-flex items-center gap-1 text-[10px] font-display font-black uppercase tracking-widest text-primary group-hover:gap-2 transition-all">
-                      Ver <ChevronRight size={14} />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+          <CatalogGrid items={filtered} />
+        )}
+
+
 
           </div>
         )}
