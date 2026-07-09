@@ -1609,17 +1609,7 @@ function WhatsAppFab() {
 // ScrollTopFab removido — BackToTop global vive em src/components/BackToTop.tsx
 
 function Index() {
-  const featuredProducts: Product[] = FEATURED_SLUGS
-    .map((s) => models.find((m) => m.slug === s))
-    .filter((m): m is Model => Boolean(m))
-    .map((m) => ({
-      id: m.slug,
-      slug: m.slug,
-      nome: m.name.split(" ")[0],
-      potencia: m.power.replace(/[.\s]/g, ""), // strip ponto de milhar e espaços
-      imagem: m.colors[0]?.image ?? "",
-      preco: m.price,
-    }));
+
 
 
   return (
