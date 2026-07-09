@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { models } from "@/lib/models";
 
-const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
+const BASE_URL = "https://proototipomotos.lovable.app";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
