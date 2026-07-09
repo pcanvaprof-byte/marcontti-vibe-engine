@@ -1111,27 +1111,29 @@ function ContactRow({
 /* ---------------------------- Footer ---------------------------- */
 
 function Footer() {
+  const iconProps = { size: 14, strokeWidth: 1.5 } as const;
   return (
-    <footer className="bg-card border-t border-border pt-20 pb-10">
+    <footer className="bg-card border-t border-border pt-16 sm:pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid md:grid-cols-4 gap-12 mb-16">
-          <div className="md:col-span-1">
-            <a href="#" className="flex items-center gap-2 mb-6" aria-label="Klug Motors">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 mb-12 sm:mb-14">
+          {/* Brand */}
+          <div className="lg:col-span-4 lg:pr-8">
+            <a href="#" className="inline-flex items-center gap-2 mb-5" aria-label="Klug Motors">
               <KlugWordmark />
             </a>
             <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-xs">
               A revolução da mobilidade elétrica em Joinville. Qualidade,
               tecnologia e o melhor pós-venda da região.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <a
                 href="https://www.instagram.com/klugmotors/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-11 h-11 border border-border grid place-items-center hover:bg-primary hover:border-primary transition-colors"
+                className="w-10 h-10 rounded-full border border-white/15 grid place-items-center text-white/80 hover:bg-primary hover:border-primary hover:text-black transition-colors"
                 aria-label="Instagram @klugmotors"
               >
-                <Instagram size={16} />
+                <Instagram size={15} strokeWidth={1.5} />
               </a>
               <a
                 href={buildWhatsAppFallbackUrl(
@@ -1143,47 +1145,67 @@ function Footer() {
                     "Olá! Tenho interesse em conhecer os modelos da Klug Motors.",
                   );
                 }}
-                className="w-11 h-11 border border-border grid place-items-center hover:bg-primary hover:border-primary transition-colors"
+                className="w-10 h-10 rounded-full border border-white/15 grid place-items-center text-white/80 hover:bg-primary hover:border-primary hover:text-black transition-colors"
                 aria-label="Falar no WhatsApp"
               >
-                <MessageCircle size={16} />
+                <MessageCircle size={15} strokeWidth={1.5} />
               </a>
             </div>
           </div>
 
-          <div>
-            <h4 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-6">
+          {/* Visit */}
+          <div className="lg:col-span-3 lg:pl-8 lg:border-l lg:border-white/10">
+            <h4 className="inline-flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-5">
+              <span className="h-px w-6 bg-primary/60" aria-hidden="true" />
               Visite-nos
             </h4>
-            <address className="not-italic text-white/70 text-sm leading-loose">
-              Rua Albano Schimidt, 1882
-              <br />
-              Joinville — SC
+            <address className="not-italic text-white/70 text-sm leading-relaxed flex items-start gap-2">
+              <MapPin {...iconProps} className="mt-1 shrink-0 text-white/40" />
+              <span>
+                Rua Albano Schimidt, 1882
+                <br />
+                Joinville — SC
+              </span>
             </address>
           </div>
 
-          <div>
-            <h4 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-6">
+          {/* Contact */}
+          <div className="lg:col-span-3 lg:pl-8 lg:border-l lg:border-white/10">
+            <h4 className="inline-flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-5">
+              <span className="h-px w-6 bg-primary/60" aria-hidden="true" />
               Contato
             </h4>
-            <p className="font-display font-black text-lg mb-1">(47) 3429-3200</p>
-            <a
-              href="mailto:klugmotors@gmail.com"
-              className="text-white/70 text-sm hover:text-primary story-link"
-            >
-              klugmotors@gmail.com
-            </a>
-            <div className="mt-5">
-              <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mb-1">
-                Horários
-              </p>
-              <p className="text-white/70 text-xs">Seg–Sex: 08:30 às 18:30</p>
-              <p className="text-white/70 text-xs">Sábado: 08:30 às 13:00</p>
-            </div>
+            <ul className="space-y-3 text-sm text-white/70">
+              <li className="flex items-center gap-2">
+                <Phone {...iconProps} className="shrink-0 text-white/40" />
+                <a href="tel:+554734293200" className="font-display font-black text-base text-white hover:text-primary transition-colors">
+                  (47) 3429-3200
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail {...iconProps} className="shrink-0 text-white/40" />
+                <a
+                  href="mailto:klugmotors@gmail.com"
+                  className="hover:text-primary story-link"
+                >
+                  klugmotors@gmail.com
+                </a>
+              </li>
+              <li className="flex items-start gap-2 pt-1">
+                <Clock {...iconProps} className="mt-0.5 shrink-0 text-white/40" />
+                <span className="text-xs leading-relaxed">
+                  Seg–Sex: 08:30 às 18:30
+                  <br />
+                  Sábado: 08:30 às 13:00
+                </span>
+              </li>
+            </ul>
           </div>
 
-          <div>
-            <h4 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-6">
+          {/* Nav */}
+          <div className="lg:col-span-2 lg:pl-8 lg:border-l lg:border-white/10">
+            <h4 className="inline-flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-5">
+              <span className="h-px w-6 bg-primary/60" aria-hidden="true" />
               Navegação
             </h4>
             <ul className="space-y-3 text-sm text-white/70">
@@ -1195,8 +1217,8 @@ function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">
+        <div className="pt-6 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] text-center md:text-left">
             © {new Date().getFullYear()} Klug Motors · Revenda Autorizada · Joinville / SC
           </p>
           <img
