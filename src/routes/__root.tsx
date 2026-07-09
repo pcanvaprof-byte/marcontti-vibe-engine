@@ -12,8 +12,10 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import infindaLogo from "../assets/infinda-logo.png.asset.json";
+import klugSymbol from "../assets/klug/klug-symbol.png.asset.json";
 
-const INFINDA_LOGO_URL = `https://marcontti-vibe-engine.lovable.app${infindaLogo.url}`;
+const PUBLIC_ORIGIN = "https://proototipomotos.lovable.app";
+const INFINDA_LOGO_URL = `${PUBLIC_ORIGIN}${infindaLogo.url}`;
 
 function InfindaCredit() {
   return (
@@ -41,16 +43,16 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Página não encontrada</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          A página que você procura não existe ou foi movida.
         </p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            Voltar para o início
           </Link>
         </div>
       </div>
@@ -69,10 +71,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          Esta página não carregou
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Algo deu errado. Você pode tentar novamente ou voltar para o início.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -82,13 +84,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Try again
+            Tentar novamente
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
-            Go home
+            Início
           </a>
         </div>
       </div>
@@ -101,25 +103,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Marcontti Garage — Mobilidade Elétrica em Joinville" },
-      { name: "description", content: "Concessionária de scooters e motos elétricas em Joinville/SC. Estilo, economia e sustentabilidade sobre duas rodas." },
-      { name: "author", content: "Marcontti Garage" },
-      { property: "og:site_name", content: "Marcontti Garage" },
+      { title: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
+      { name: "description", content: "Klug Motors: motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. Rua Albano Schimidt, 1882." },
+      { name: "author", content: "Klug Motors" },
+      { property: "og:site_name", content: "Klug Motors" },
       { property: "og:locale", content: "pt_BR" },
-      { property: "og:title", content: "Marcontti Garage — Mobilidade Elétrica em Joinville" },
-      { property: "og:description", content: "Concessionária de scooters e motos elétricas em Joinville/SC. Estilo, economia e sustentabilidade sobre duas rodas." },
+      { property: "og:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
+      { property: "og:description", content: "Motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://marcontti-vibe-engine.lovable.app/__l5e/assets-v1/857e50cf-feab-400c-bc88-ff9ab3556bdb/garage-exterior.png" },
-      { property: "og:image:width", content: "1600" },
-      { property: "og:image:height", content: "1024" },
-      { property: "og:image:alt", content: "Loja Marcontti Garage em Joinville" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Marcontti Garage — Mobilidade Elétrica em Joinville" },
-      { name: "twitter:description", content: "Concessionária de scooters e motos elétricas em Joinville/SC. Estilo, economia e sustentabilidade sobre duas rodas." },
-      { name: "twitter:image", content: "https://marcontti-vibe-engine.lovable.app/__l5e/assets-v1/857e50cf-feab-400c-bc88-ff9ab3556bdb/garage-exterior.png" },
+      { name: "twitter:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
+      { name: "twitter:description", content: "Motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/png", href: klugSymbol.url },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" },
@@ -133,7 +131,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
@@ -150,7 +148,6 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <InfindaCredit />
     </QueryClientProvider>
