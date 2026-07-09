@@ -25,8 +25,10 @@ export function ProductCard({ product }: { product: Product }) {
         group relative w-full h-full
         bg-black overflow-hidden
         rounded-[18px]
-        transition-transform duration-300 ease-out
-        motion-safe:hover:-translate-y-0.5
+        shadow-[0_10px_30px_-15px_rgba(0,0,0,0.6)]
+        transition-[transform,box-shadow] duration-500 ease-out
+        motion-safe:hover:-translate-y-2
+        hover:shadow-[0_25px_60px_-20px_rgba(248,96,0,0.45),0_0_0_1px_rgba(248,96,0,0.35)]
       "
     >
 
