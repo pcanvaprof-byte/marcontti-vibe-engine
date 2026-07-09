@@ -1610,7 +1610,9 @@ function Index() {
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
+      <PromoStrip />
       <Header />
+      <CategoryNav />
       <main>
         <Hero />
         <BenefitsBar />
