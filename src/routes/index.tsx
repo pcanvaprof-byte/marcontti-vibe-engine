@@ -529,37 +529,100 @@ function AnimatedCount({ target, suffix = "" }: { target: number; suffix?: strin
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border">
-      <div className="absolute inset-0 ember-spotlight pointer-events-none" />
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28 grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-        {/* Left */}
+    <section className="relative overflow-hidden border-b border-border bg-background">
+      <div className="absolute inset-0 ember-spotlight pointer-events-none opacity-70" />
+      {/* subtle radial vignette on the right */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 right-0 w-1/2 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 60% at 70% 50%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%)",
+        }}
+      />
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-14 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Left column */}
         <div className="lg:col-span-7 relative z-10 animate-fade-up">
-          <span className="inline-flex items-center gap-2 px-3 py-1 border border-primary text-primary text-[10px] font-display font-extrabold uppercase tracking-[0.3em] mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-ring" />
-            Joinville · SC · Albano Schimidt
-          </span>
+          {/* Brand · localização + socials */}
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <span className="inline-flex items-center gap-2 text-white/90">
+              <Zap size={16} className="text-primary" strokeWidth={2.4} />
+              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em]">
+                Klug Motors
+              </span>
+              <span className="w-px h-3 bg-white/25" />
+              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-white/60">
+                Joinville
+              </span>
+            </span>
 
-          <h1 className="font-display font-black uppercase text-5xl sm:text-6xl lg:text-8xl leading-[0.9] tracking-tighter mb-8">
-            Sua próxima{" "}
-            <span
-              className="text-transparent"
-              style={{ WebkitTextStroke: "1.5px white" }}
+            <a
+              href="https://www.instagram.com/klugmotors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
             >
-              moto
-            </span>{" "}
-            é <span className="text-primary">elétrica</span>
-          </h1>
+              <Instagram size={14} /> @klugmotors
+            </a>
+            <a
+              href="https://www.youtube.com/@klugmotors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
+            >
+              <Youtube size={14} /> klugmotors
+            </a>
+          </div>
 
-          <p className="text-base sm:text-lg text-white/70 max-w-lg mb-10 leading-relaxed">
-            Performance silenciosa, zero combustível e a maioria dos modelos{" "}
-            <strong className="text-white">sem CNH</strong>. Venha conhecer a
-            revolução da mobilidade elétrica na Klug Motors.
+          {/* Kicker */}
+          <p className="text-white text-sm sm:text-base font-display font-black uppercase tracking-[0.2em] mb-4">
+            + de <span className="text-primary">{models.length}</span> modelos elétricos
           </p>
 
-          <div className="flex flex-wrap gap-4 mb-14">
+          {/* Big yellow-style headline (using Klug orange) */}
+          <h1 className="font-display font-black uppercase text-primary text-[2.75rem] sm:text-6xl lg:text-[5.25rem] leading-[0.95] tracking-tighter mb-8">
+            A maior loja
+            <br />
+            em mobilidade
+            <br />
+            elétrica de Joinville!
+          </h1>
+
+          {/* Numbered features */}
+          <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-5 max-w-2xl mb-10">
+            {[
+              {
+                n: "1",
+                title: "Líderes no mercado",
+                desc: "Referência regional em mobilidade elétrica, com atendimento consultivo.",
+              },
+              {
+                n: "2",
+                title: "A maioria sem CNH",
+                desc: "Modelos até 1000W liberados sem CNH — praticidade para o dia a dia.",
+              },
+            ].map((f) => (
+              <li key={f.n} className="flex gap-4">
+                <span className="font-display font-black text-primary text-5xl leading-none tracking-tighter">
+                  {f.n}
+                </span>
+                <div>
+                  <p className="text-white font-display font-black uppercase tracking-wider text-sm mb-1">
+                    {f.title}
+                  </p>
+                  <p className="text-white/60 text-[13px] leading-relaxed">
+                    {f.desc}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-3">
             <a
               href="#modelos"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
             >
               Ver Modelos
               <ArrowRight size={18} />
@@ -570,65 +633,102 @@ function Hero() {
                 e.preventDefault();
                 openWhatsAppWithFallback(TEST_RIDE_MSG);
               }}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
               aria-label="Agendar test-ride no WhatsApp"
             >
               <MessageCircle size={18} fill="white" strokeWidth={0} />
               Agendar Test-Ride
             </a>
           </div>
-
-          {/* Stats strip */}
-          <dl className="grid grid-cols-3 gap-6 max-w-lg border-t border-border pt-6">
-            {[
-              { n: models.length, s: "+", l: "Modelos" },
-              { n: 100, s: "%", l: "Elétrico" },
-              { n: 0, s: "", l: "Combustível" },
-            ].map((it) => (
-              <div key={it.l}>
-                <dt className="sr-only">{it.l}</dt>
-                <dd className="font-display text-3xl sm:text-4xl font-black text-white tracking-tight">
-                  <AnimatedCount target={it.n} suffix={it.s} />
-                </dd>
-                <p className="text-[10px] text-white/50 uppercase tracking-[0.25em] font-bold mt-1">
-                  {it.l}
-                </p>
-              </div>
-            ))}
-          </dl>
         </div>
 
-        {/* Right — hero image + big watermark */}
+        {/* Right — lightning-bolt mask with hero image */}
         <div className="lg:col-span-5 relative">
-          <div className="relative z-10 aspect-[4/5] bg-card border border-border overflow-hidden">
-            <img
-              src={x12Img.url}
-              alt="Scooter elétrica Klug Motors — X12"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/95 via-black/50 to-transparent">
-              <p className="text-[10px] font-display font-black text-primary uppercase tracking-[0.3em] mb-1">
-                Destaque
-              </p>
-              <p className="font-display font-black uppercase text-2xl leading-none">
-                X12 1000W
-              </p>
-            </div>
-          </div>
-          <div
-            aria-hidden="true"
-            className="hidden md:block absolute -bottom-16 -right-8 font-display font-black uppercase text-[14rem] leading-none opacity-[0.04] select-none pointer-events-none tracking-tighter"
-          >
-            KLUG
-          </div>
+          <HeroBolt />
         </div>
       </div>
     </section>
   );
 }
+
+/**
+ * Lightning-bolt shaped image frame, MotoChefe-style.
+ * Uses SVG clip-path so the hero image fills the bolt silhouette and
+ * decorative bolts float around it.
+ */
+function HeroBolt() {
+  return (
+    <div className="relative w-full aspect-[4/5] max-w-md mx-auto">
+      <svg width="0" height="0" className="absolute" aria-hidden="true">
+        <defs>
+          <clipPath id="klug-bolt" clipPathUnits="objectBoundingBox">
+            {/* stylised lightning bolt normalized 0..1 */}
+            <path d="M0.58 0 L0.05 0.55 L0.42 0.55 L0.28 1 L0.95 0.4 L0.55 0.4 L0.78 0 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      {/* Glow behind bolt */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 blur-3xl opacity-60"
+        style={{
+          background:
+            "radial-gradient(50% 50% at 55% 50%, color-mix(in oklab, var(--primary) 55%, transparent), transparent 70%)",
+        }}
+      />
+
+      {/* Bolt image */}
+      <div
+        className="relative w-full h-full"
+        style={{ clipPath: "url(#klug-bolt)", WebkitClipPath: "url(#klug-bolt)" }}
+      >
+        <img
+          src={x12Img.url}
+          alt="Scooter elétrica Klug Motors — X12"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Floating mini bolts */}
+      <Zap
+        aria-hidden="true"
+        className="absolute -top-2 left-6 text-primary drop-shadow-[0_0_12px_rgba(232,93,58,0.6)]"
+        size={38}
+        strokeWidth={2.4}
+        fill="currentColor"
+      />
+      <Zap
+        aria-hidden="true"
+        className="absolute top-1/3 -right-2 text-primary/90 drop-shadow-[0_0_10px_rgba(232,93,58,0.5)]"
+        size={28}
+        strokeWidth={2.4}
+        fill="currentColor"
+      />
+      <Zap
+        aria-hidden="true"
+        className="absolute bottom-4 left-2 text-primary/80"
+        size={22}
+        strokeWidth={2.4}
+        fill="currentColor"
+      />
+
+      {/* Destaque badge */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-background/85 backdrop-blur border border-border rounded-full px-4 py-1.5 flex items-center gap-2">
+        <span className="text-[9px] font-display font-black text-primary uppercase tracking-[0.3em]">
+          Destaque
+        </span>
+        <span className="text-white text-xs font-display font-black tracking-wider">
+          X12 1000W
+        </span>
+      </div>
+    </div>
+  );
+}
+
 
 /* ---------------------------- Perks strip ---------------------------- */
 
