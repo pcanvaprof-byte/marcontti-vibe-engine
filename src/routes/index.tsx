@@ -15,6 +15,11 @@ import {
   MessageCircle,
   ChevronRight,
   BadgeCheck,
+  CreditCard,
+  Wallet,
+  BadgePercent,
+  Store,
+  ShieldCheck,
 } from "lucide-react";
 import {
   buildWhatsAppFallbackUrl,
