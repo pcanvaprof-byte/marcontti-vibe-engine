@@ -166,7 +166,7 @@ function ModelPage() {
           <a
             href={whatsappUrl}
             onClick={handleWhatsAppClick}
-            className="hidden sm:inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 text-[11px] font-display font-black uppercase tracking-widest"
+            className="hidden sm:inline-flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-full text-[11px] font-display font-black uppercase tracking-widest hover:brightness-110 transition-all"
           >
             <MessageCircle size={14} fill="white" strokeWidth={0} /> WhatsApp
           </a>
