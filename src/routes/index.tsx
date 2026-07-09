@@ -1339,6 +1339,20 @@ function Contact() {
               external
             />
           </div>
+
+          {/* Google Maps embed */}
+          <div className="mt-6 border border-border bg-card rounded-2xl overflow-hidden">
+            <iframe
+              title="Localização da Klug Motors em Joinville — Rua Albano Schimidt, 1882"
+              src="https://www.google.com/maps?q=Rua+Albano+Schimidt+1882+Joinville+SC&output=embed"
+              width="100%"
+              height="320"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
         </div>
 
         <div>
