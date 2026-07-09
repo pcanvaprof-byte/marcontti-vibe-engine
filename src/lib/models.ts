@@ -8,6 +8,7 @@ import jetmaxImg from "@/assets/motos/jetmax.jpg.asset.json";
 import bigtriImg from "@/assets/motos/bigtri.jpg.asset.json";
 import joysuperImg from "@/assets/motos/joysuper.jpg.asset.json";
 import sofiaImg from "@/assets/motos/sofia.jpg.asset.json";
+import miatriImg from "@/assets/motos/miatri.jpg.asset.json";
 
 export type ColorVariant = { name: string; hex: string; image: string };
 
