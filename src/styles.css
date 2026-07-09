@@ -56,9 +56,9 @@
   --card-foreground: oklch(1 0 0);
   --popover: oklch(0.22 0 0);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.65 0.18 34);           /* #e85d3a ember */
+  --primary: oklch(0.685 0.203 44);         /* #f86000 Klug logo orange */
   --primary-foreground: oklch(1 0 0);
-  --primary-glow: oklch(0.72 0.19 36);
+  --primary-glow: oklch(0.75 0.205 46);
   --secondary: oklch(0.27 0 0);
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.27 0 0);
