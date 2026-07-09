@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import {
   ArrowRight,
-
   Zap,
   Wrench,
   Leaf,
@@ -13,13 +12,19 @@ import {
   Instagram,
   MessageCircle,
   ChevronRight,
+  ChevronDown,
   BadgeCheck,
   CreditCard,
   Wallet,
   BadgePercent,
   Store,
   ShieldCheck,
-  
+  Search,
+  HeadphonesIcon,
+  Truck,
+  Flame,
+  Youtube,
+  User,
 } from "lucide-react";
 import {
   buildWhatsAppFallbackUrl,
