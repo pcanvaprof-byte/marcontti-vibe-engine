@@ -493,12 +493,14 @@ function ModelPage() {
             {models
               .filter((x) => x.slug !== m.slug)
               .slice(0, 6)
-              .map((x) => (
+              .map((x, i) => (
                 <Link
                   key={x.slug}
                   to="/modelos/$slug"
                   params={{ slug: x.slug }}
-                  className="group block bg-card border border-border hover-ember overflow-hidden"
+                  className={`group block bg-card border border-white/5 rounded-[18px] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:border-primary/40 ${
+                    i % 2 === 1 ? "lg:translate-y-3" : ""
+                  }`}
                 >
                   <div className="aspect-square bg-charcoal overflow-hidden p-3">
                     <img
@@ -508,7 +510,7 @@ function ModelPage() {
                       className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
                     />
                   </div>
-                  <div className="p-3 border-t border-border">
+                  <div className="p-3 border-t border-white/5">
                     <div className="font-display font-black uppercase text-xs tracking-tight truncate">
                       {x.name}
                     </div>
@@ -519,6 +521,7 @@ function ModelPage() {
                 </Link>
               ))}
           </div>
+
         </section>
       </main>
 
