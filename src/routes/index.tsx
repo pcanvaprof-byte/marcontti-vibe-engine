@@ -692,7 +692,6 @@ function HeroBolt() {
           loop
           playsInline
           preload="auto"
-          poster={x12Img.url}
           aria-label="Vídeo de destaque da scooter elétrica Klug Motors X12"
           className="w-full h-full object-cover"
         />
