@@ -3,8 +3,9 @@ import { useState, type MouseEvent } from "react";
 import { ArrowLeft, Check, MessageCircle, Zap } from "lucide-react";
 import { getModel, models, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
+import klugHorizontalWhite from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
-const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
+const BASE_URL = "https://proototipomotos.lovable.app";
 
 export const Route = createFileRoute("/modelos/$slug")({
   loader: ({ params }) => {
@@ -13,9 +14,9 @@ export const Route = createFileRoute("/modelos/$slug")({
     return { model };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData) return { meta: [{ title: "Modelo — Marcontti Garage" }] };
+    if (!loaderData) return { meta: [{ title: "Modelo — Klug Motors" }] };
     const m = loaderData.model;
-    const title = `${m.name} — Scooter Elétrica ${m.tag} | Marcontti Garage`;
+    const title = `${m.name} — ${m.tag} | Klug Motors`;
     const desc = `${m.short} A partir de ${m.price}. Autonomia ${m.range}, ${m.speed}. Test-ride em Joinville/SC.`;
     const img = m.colors[0]?.image;
     return {
@@ -35,9 +36,9 @@ export const Route = createFileRoute("/modelos/$slug")({
           children: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: `${m.name} — Marcontti Garage`,
+            name: `${m.name} — Klug Motors`,
             description: m.description,
-            brand: { "@type": "Brand", name: "Marcontti" },
+            brand: { "@type": "Brand", name: "Klug Motors" },
             category: m.tag,
             image: img ? `${BASE_URL}${img}` : undefined,
             offers: {
@@ -46,7 +47,7 @@ export const Route = createFileRoute("/modelos/$slug")({
               priceCurrency: "BRL",
               availability: "https://schema.org/InStock",
               url: `${BASE_URL}/modelos/${params.slug}`,
-              seller: { "@type": "Organization", name: "Marcontti Garage" },
+              seller: { "@type": "Organization", name: "Klug Motors" },
             },
           }),
         },
@@ -83,7 +84,7 @@ function ModelPage() {
   const [selected, setSelected] = useState(0);
   const variant = m.colors[selected];
 
-  const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* (${variant.name}) — ${m.price}. Pode me passar mais informações?`;
+  const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* — ${m.price}. Pode me passar mais informações?`;
   const whatsappUrl = buildWhatsAppFallbackUrl(whatsappMsg);
   const handleWhatsAppClick = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -97,8 +98,8 @@ function ModelPage() {
           <Link to="/" className="inline-flex items-center gap-2 font-semibold text-sm">
             <ArrowLeft size={18} /> Voltar
           </Link>
-          <Link to="/" className="font-display font-black tracking-tight">
-            MARCONTTI
+          <Link to="/" aria-label="Klug Motors">
+            <img src={klugHorizontalWhite.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
           </Link>
           <a
             href={whatsappUrl}
@@ -120,30 +121,13 @@ function ModelPage() {
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
-            <div className="aspect-square bg-[oklch(0.96_0_0)] rounded-3xl overflow-hidden border border-border">
+            <div className="aspect-square bg-white rounded-3xl overflow-hidden border border-border p-6">
               <img
                 src={variant.image}
                 alt={`${m.name} ${variant.name}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
-            {m.colors.length > 1 && (
-              <div className="grid grid-cols-5 gap-3 mt-4">
-                {m.colors.map((c, i) => (
-                  <button
-                    key={c.name}
-                    type="button"
-                    onClick={() => setSelected(i)}
-                    aria-label={c.name}
-                    className={`aspect-square rounded-xl overflow-hidden border-2 transition-all ${
-                      i === selected ? "border-primary" : "border-border hover:border-primary/40"
-                    }`}
-                  >
-                    <img src={c.image} alt={c.name} className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
           <div>
@@ -156,28 +140,6 @@ function ModelPage() {
             <div className="mt-6 flex items-baseline gap-3">
               <span className="text-sm text-muted-foreground">a partir de</span>
               <span className="text-4xl font-black text-primary">{m.price}</span>
-            </div>
-
-            <div className="mt-6">
-              <div className="text-sm text-muted-foreground mb-2">
-                Cor selecionada:{" "}
-                <strong className="text-foreground">{variant.name}</strong>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {m.colors.map((c, i) => (
-                  <button
-                    key={c.name}
-                    type="button"
-                    onClick={() => setSelected(i)}
-                    title={c.name}
-                    aria-label={c.name}
-                    className={`w-9 h-9 rounded-full border-2 transition-all ${
-                      i === selected ? "border-primary scale-110" : "border-border"
-                    }`}
-                    style={{ backgroundColor: c.hex }}
-                  />
-                ))}
-              </div>
             </div>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -230,7 +192,7 @@ function ModelPage() {
             </h2>
             <p className="text-muted-foreground mt-4 leading-relaxed">
               Preencha o formulário e enviaremos sua solicitação direto para o WhatsApp da
-              Marcontti Garage com todas as informações pré-preenchidas.
+              Klug Motors com todas as informações pré-preenchidas.
             </p>
           </div>
           <TestRideForm defaultModel={m.name} />
@@ -248,12 +210,12 @@ function ModelPage() {
                   params={{ slug: x.slug }}
                   className="group block bg-card border border-border rounded-2xl overflow-hidden hover:border-primary/40 hover:-translate-y-1 transition-all"
                 >
-                  <div className="aspect-square bg-[oklch(0.96_0_0)] overflow-hidden">
+                  <div className="aspect-square bg-white overflow-hidden p-2">
                     <img
                       src={x.colors[0].image}
                       alt={x.name}
                       loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform"
                     />
                   </div>
                   <div className="p-3">
@@ -268,7 +230,7 @@ function ModelPage() {
 
       <footer className="bg-charcoal text-white/70 py-10 mt-20">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 text-sm text-center">
-          © {new Date().getFullYear()} Marcontti Garage · Joinville/SC
+          © {new Date().getFullYear()} Klug Motors · Joinville/SC
         </div>
       </footer>
     </div>

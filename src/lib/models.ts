@@ -1,27 +1,13 @@
-import x13Vermelho from "@/assets/x13-vermelho.jpg";
-import x13Cinza from "@/assets/x13-cinza.jpg";
-import x13Preto from "@/assets/x13-preto.jpg";
-import harleyPreto from "@/assets/harley-preto.jpg";
-import harleyAzul from "@/assets/harley-azul.jpg";
-import m4Branco from "@/assets/m4-branco.jpg";
-import m4Cinza from "@/assets/m4-cinza.jpg";
-import m4Preto from "@/assets/m4-preto.jpg";
-import etrekPreto from "@/assets/etrek-preto.jpg";
-import etrekAzul from "@/assets/etrek-azul.jpg";
-import etrekVermelho from "@/assets/etrek-vermelho.jpg";
-import etrekVerde from "@/assets/etrek-verde.jpg";
-import fontainePreto from "@/assets/fontaine-preto.jpg";
-import fontaineBranco from "@/assets/fontaine-branco.jpg";
-import fontaineRose from "@/assets/fontaine-rose.jpg";
-import eko7Vermelho from "@/assets/eko7-vermelho.jpg";
-import eko7Preto from "@/assets/eko7-preto.jpg";
-import eko7Branco from "@/assets/eko7-branco.jpg";
-import eko7Verde from "@/assets/eko7-verde.jpg";
-import eko7Cinza from "@/assets/eko7-cinza.jpg";
-import tricicloVermelho from "@/assets/triciclo-vermelho.jpg";
-import tricicloBranco from "@/assets/triciclo-branco.jpg";
-import tricicloCinza from "@/assets/triciclo-cinza.jpg";
-import tricicloPreto from "@/assets/triciclo-preto.jpg";
+import x12Img from "@/assets/motos/x12.jpg.asset.json";
+import miaImg from "@/assets/motos/mia.jpg.asset.json";
+import gigaImg from "@/assets/motos/giga.jpg.asset.json";
+import retImg from "@/assets/motos/ret.jpg.asset.json";
+import somaImg from "@/assets/motos/soma.jpg.asset.json";
+import jetImg from "@/assets/motos/jet.jpg.asset.json";
+import jetmaxImg from "@/assets/motos/jetmax.jpg.asset.json";
+import bigtriImg from "@/assets/motos/bigtri.jpg.asset.json";
+import joysuperImg from "@/assets/motos/joysuper.jpg.asset.json";
+import sofiaImg from "@/assets/motos/sofia.jpg.asset.json";
 
 export type ColorVariant = { name: string; hex: string; image: string };
 
@@ -43,200 +29,239 @@ export type Model = {
 
 export const models: Model[] = [
   {
-    slug: "fontaine",
-    name: "Fontaine",
-    tag: "Compacto",
-    price: "R$ 5.290",
-    priceNumber: 5290,
-    range: "até 40 km",
+    slug: "mia",
+    name: "MIA 1000W",
+    tag: "Scooter · Sem CNH",
+    price: "R$ 7.990,00",
+    priceNumber: 7990,
+    range: "até 50 km",
     speed: "32 km/h",
     power: "1.000W",
-    short: "A scooter compacta e elegante para o dia a dia urbano.",
+    short: "Scooter compacta e estilosa para o dia a dia urbano — sem CNH.",
     description:
-      "Compacta, leve e silenciosa, a Fontaine é a escolha ideal para quem busca praticidade no trânsito urbano sem abrir mão do estilo.",
-    colors: [
-      { name: "Preto", hex: "#1a1a1a", image: fontainePreto },
-      { name: "Branco", hex: "#f5f5f5", image: fontaineBranco },
-      { name: "Rosé", hex: "#f4a8a8", image: fontaineRose },
-    ],
+      "A MIA é a escolha certa para quem busca praticidade, economia e estilo no dia a dia. Autopropelida (não exige CNH), leve e silenciosa.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: miaImg.url }],
     specs: [
-      { label: "Autonomia", value: "até 40 km" },
+      { label: "Autonomia", value: "até 50 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
       { label: "Potência", value: "1.000W" },
-      { label: "Bateria", value: "Lítio removível 48V" },
-      { label: "Tempo de carga", value: "4–6 horas" },
+      { label: "Bateria", value: "Lítio 60V removível" },
       { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Autopropelido" },
     ],
-    features: ["Bateria removível", "Cesto frontal", "Painel digital", "Freios a disco"],
+    features: ["Bateria removível", "Painel digital", "Freios a disco", "LED full"],
   },
   {
-    slug: "eko7",
-    name: "EKO-7",
-    tag: "Autopropelido",
-    price: "R$ 6.790",
-    priceNumber: 6790,
-    range: "até 80 km",
-    speed: "32 km/h",
-    power: "800W",
-    short: "Autonomia estendida com design urbano contemporâneo.",
-    description:
-      "A EKO-7 entrega autonomia de até 80 km com performance silenciosa, perfeita para deslocamentos longos no dia a dia.",
-    colors: [
-      { name: "Vermelho", hex: "#c8242b", image: eko7Vermelho },
-      { name: "Preto", hex: "#1a1a1a", image: eko7Preto },
-      { name: "Branco", hex: "#f5f5f5", image: eko7Branco },
-      { name: "Verde Água", hex: "#9adfd4", image: eko7Verde },
-      { name: "Cinza", hex: "#7a7a7a", image: eko7Cinza },
-    ],
-    specs: [
-      { label: "Autonomia", value: "até 80 km" },
-      { label: "Velocidade máx.", value: "32 km/h" },
-      { label: "Potência", value: "800W" },
-      { label: "Bateria", value: "Lítio dupla 48V" },
-      { label: "Tempo de carga", value: "5–7 horas" },
-      { label: "Habilitação", value: "Não exige CNH" },
-    ],
-    features: ["Dupla bateria", "Cesto frontal", "Painel LCD", "Alarme antifurto"],
-  },
-  {
-    slug: "triciclo",
-    name: "Triciclo",
-    tag: "3 Rodas",
-    price: "R$ 9.990",
-    priceNumber: 9990,
-    range: "até 80 km",
-    speed: "32 km/h",
-    power: "1.000W",
-    short: "Estabilidade de 3 rodas com conforto e capacidade de carga.",
-    description:
-      "O Triciclo elétrico Marcontti combina estabilidade, conforto e capacidade de carga — ideal para entregas, trabalho e mobilidade segura.",
-    colors: [
-      { name: "Vermelho", hex: "#c8242b", image: tricicloVermelho },
-      { name: "Branco", hex: "#f5f5f5", image: tricicloBranco },
-      { name: "Cinza", hex: "#7a7a7a", image: tricicloCinza },
-      { name: "Preto", hex: "#1a1a1a", image: tricicloPreto },
-    ],
-    specs: [
-      { label: "Autonomia", value: "até 80 km" },
-      { label: "Velocidade máx.", value: "32 km/h" },
-      { label: "Potência", value: "1.000W" },
-      { label: "Bateria", value: "Lítio 60V" },
-      { label: "Capacidade", value: "Bi-place com encosto" },
-      { label: "Habilitação", value: "Não exige CNH" },
-    ],
-    features: ["3 rodas estáveis", "Banco com encosto", "Cesto frontal", "Ré elétrica"],
-  },
-  {
-    slug: "x13",
-    name: "X-13",
-    tag: "Citycoco",
-    price: "R$ 10.490",
-    priceNumber: 10490,
+    slug: "x12",
+    name: "X12 1000W",
+    tag: "Scooter Citycoco · Sem CNH",
+    price: "R$ 10.490,40",
+    priceNumber: 10490.4,
     range: "60–80 km",
-    speed: "50 km/h",
+    speed: "32 km/h",
     power: "1.000W",
-    short: "Estilo citycoco com pneus largos e presença na rua.",
+    short: "A citycoco mais vendida — potência, pneus largos e presença.",
     description:
-      "A X-13 é a citycoco que une visual robusto, pneus largos e potência de 1.000W para encarar a cidade com personalidade.",
-    colors: [
-      { name: "Vermelho", hex: "#a8201c", image: x13Vermelho },
-      { name: "Cinza Brilhoso", hex: "#7a7a7a", image: x13Cinza },
-      { name: "Preto", hex: "#1a1a1a", image: x13Preto },
-    ],
+      "A X12 une visual citycoco robusto, pneus largos e potência de 1.000W. Sem CNH, ideal para trabalho, entregas e uso urbano diário.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: x12Img.url }],
     specs: [
       { label: "Autonomia", value: "60–80 km" },
-      { label: "Velocidade máx.", value: "50 km/h" },
+      { label: "Velocidade máx.", value: "32 km/h" },
       { label: "Potência", value: "1.000W" },
       { label: "Bateria", value: "Lítio 60V removível" },
       { label: "Pneus", value: "Largos off-road" },
-      { label: "Habilitação", value: "Categoria A" },
+      { label: "Habilitação", value: "Não exige CNH" },
     ],
-    features: ["Pneus largos", "Som Bluetooth", "Painel digital", "Alarme com chave"],
+    features: ["Pneus largos", "Som Bluetooth", "Alarme com chave", "Bateria removível"],
   },
   {
-    slug: "harley",
-    name: "Harley",
-    tag: "Chopper",
-    price: "R$ 10.990",
-    priceNumber: 10990,
+    slug: "giga",
+    name: "GIGA 1000W",
+    tag: "Scooter · Sem CNH",
+    price: "R$ 10.490,40",
+    priceNumber: 10490.4,
     range: "60–80 km",
-    speed: "50 km/h",
+    speed: "32 km/h",
     power: "1.000W",
-    short: "Postura chopper com a alma silenciosa de uma elétrica.",
+    short: "Scooter robusta com autonomia estendida para uso diário.",
     description:
-      "A Harley elétrica Marcontti traduz a postura chopper em silêncio total, autonomia urbana e zero combustível.",
-    colors: [
-      { name: "Preto Fosco", hex: "#1a1a1a", image: harleyPreto },
-      { name: "Azul Australiana", hex: "#1e3a8a", image: harleyAzul },
-    ],
+      "A GIGA entrega performance urbana com autonomia estendida e conforto. Autopropelida, não exige CNH.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: gigaImg.url }],
     specs: [
       { label: "Autonomia", value: "60–80 km" },
-      { label: "Velocidade máx.", value: "50 km/h" },
+      { label: "Velocidade máx.", value: "32 km/h" },
       { label: "Potência", value: "1.000W" },
       { label: "Bateria", value: "Lítio 60V" },
-      { label: "Postura", value: "Chopper / pés à frente" },
-      { label: "Habilitação", value: "Categoria A" },
+      { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Autopropelido" },
     ],
-    features: ["Design chopper", "Painel digital", "Farol de LED", "Pneus largos"],
+    features: ["Painel digital", "Bagageiro", "LED full", "Alarme"],
   },
   {
-    slug: "m4",
-    name: "M4",
-    tag: "Urbano",
-    price: "R$ 10.990",
-    priceNumber: 10990,
+    slug: "ret",
+    name: "RET 1000W",
+    tag: "Moto Elétrica · Sem CNH",
+    price: "R$ 8.990,10",
+    priceNumber: 8990.1,
     range: "60–80 km",
-    speed: "50 km/h",
+    speed: "32 km/h",
     power: "1.000W",
-    short: "Motocicleta urbana elétrica para o dia a dia da cidade.",
+    short: "Moto elétrica retrô urbana — estilo e economia.",
     description:
-      "A M4 é a motocicleta elétrica ideal para a cidade — ágil, silenciosa e econômica, com performance para o uso diário.",
-    colors: [
-      { name: "Branco", hex: "#f5f5f5", image: m4Branco },
-      { name: "Cinza", hex: "#7a7a7a", image: m4Cinza },
-      { name: "Preto", hex: "#1a1a1a", image: m4Preto },
-    ],
+      "A RET traz um design retrô moderno com a economia da tração elétrica. Autopropelida, para uso urbano diário sem CNH.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: retImg.url }],
     specs: [
       { label: "Autonomia", value: "60–80 km" },
-      { label: "Velocidade máx.", value: "50 km/h" },
+      { label: "Velocidade máx.", value: "32 km/h" },
       { label: "Potência", value: "1.000W" },
       { label: "Bateria", value: "Lítio 60V" },
-      { label: "Freios", value: "Disco dianteiro e traseiro" },
-      { label: "Habilitação", value: "Categoria A" },
+      { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Autopropelido" },
     ],
-    features: ["Painel digital", "LED full", "Alarme", "Porta-objetos"],
+    features: ["Design retrô", "Painel digital", "Alarme", "Farol LED"],
   },
   {
-    slug: "etrek",
-    name: "E-Trek",
-    tag: "Trabalho",
-    price: "R$ 8.990",
-    priceNumber: 8990,
-    range: "até 60 km",
-    speed: "50 km/h",
+    slug: "soma",
+    name: "SOMA 1000W",
+    tag: "Moto Elétrica · Sem CNH",
+    price: "R$ 8.540,00",
+    priceNumber: 8540,
+    range: "60–80 km",
+    speed: "32 km/h",
     power: "1.000W",
-    short: "Robusta para trabalho urbano e entregas leves.",
+    short: "Moto elétrica compacta, ágil e econômica.",
     description:
-      "A E-Trek foi desenhada para quem trabalha em movimento — robusta, com autonomia confiável e baixíssimo custo por km rodado.",
-    colors: [
-      { name: "Azul Metálico", hex: "#1e4a8a", image: etrekAzul },
-      { name: "Preto", hex: "#1a1a1a", image: etrekPreto },
-      { name: "Vermelho", hex: "#c81e1e", image: etrekVermelho },
-      { name: "Verde", hex: "#3d5c3a", image: etrekVerde },
-    ],
+      "A SOMA é ideal para quem quer trocar o combustível pela economia elétrica sem abrir mão do design de moto. Sem CNH.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: somaImg.url }],
     specs: [
-      { label: "Autonomia", value: "até 60 km" },
-      { label: "Velocidade máx.", value: "50 km/h" },
+      { label: "Autonomia", value: "60–80 km" },
+      { label: "Velocidade máx.", value: "32 km/h" },
       { label: "Potência", value: "1.000W" },
       { label: "Bateria", value: "Lítio 60V" },
-      { label: "Uso", value: "Trabalho / entregas" },
-      { label: "Habilitação", value: "Categoria A" },
+      { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Autopropelido" },
     ],
-    features: ["Estrutura reforçada", "Bagageiro", "Painel digital", "Alarme"],
+    features: ["Painel digital", "Freios a disco", "LED full", "Alarme"],
+  },
+  {
+    slug: "jet",
+    name: "JET 1000W",
+    tag: "Moto Elétrica · Sem CNH",
+    price: "R$ 10.490,40",
+    priceNumber: 10490.4,
+    range: "60–80 km",
+    speed: "32 km/h",
+    power: "1.000W",
+    short: "Moto elétrica esportiva com performance urbana.",
+    description:
+      "A JET combina design esportivo, performance e a economia total da tração 100% elétrica. Autopropelida, sem CNH.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: jetImg.url }],
+    specs: [
+      { label: "Autonomia", value: "60–80 km" },
+      { label: "Velocidade máx.", value: "32 km/h" },
+      { label: "Potência", value: "1.000W" },
+      { label: "Bateria", value: "Lítio 60V" },
+      { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Autopropelido" },
+    ],
+    features: ["Design esportivo", "Painel digital", "Alarme", "LED full"],
+  },
+  {
+    slug: "jet-max",
+    name: "JET MAX 1000W",
+    tag: "Moto Elétrica · Sem CNH",
+    price: "R$ 12.340,00",
+    priceNumber: 12340,
+    range: "80–100 km",
+    speed: "32 km/h",
+    power: "1.000W",
+    short: "Top de linha: mais autonomia, mais conforto, mais estilo.",
+    description:
+      "A JET MAX é o topo da linha: autonomia estendida, acabamento premium e o silêncio total do motor elétrico. Sem CNH.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: jetmaxImg.url }],
+    specs: [
+      { label: "Autonomia", value: "80–100 km" },
+      { label: "Velocidade máx.", value: "32 km/h" },
+      { label: "Potência", value: "1.000W" },
+      { label: "Bateria", value: "Lítio 60V dupla" },
+      { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Autopropelido" },
+    ],
+    features: ["Dupla bateria", "Painel digital", "Alarme premium", "LED full"],
+  },
+  {
+    slug: "big-tri",
+    name: "BIG TRI 1000W",
+    tag: "Triciclo · Sem CNH",
+    price: "R$ 12.490,02",
+    priceNumber: 12490.02,
+    range: "60–80 km",
+    speed: "32 km/h",
+    power: "1.000W",
+    short: "Triciclo elétrico de 3 lugares — estabilidade e capacidade.",
+    description:
+      "O BIG TRI oferece estabilidade de três rodas, capacidade para até 3 pessoas e ré elétrica. Ideal para famílias, entregas e mobilidade segura.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: bigtriImg.url }],
+    specs: [
+      { label: "Autonomia", value: "60–80 km" },
+      { label: "Velocidade máx.", value: "32 km/h" },
+      { label: "Potência", value: "1.000W" },
+      { label: "Bateria", value: "Lítio 60V" },
+      { label: "Capacidade", value: "3 lugares" },
+      { label: "Habilitação", value: "Não exige CNH" },
+    ],
+    features: ["3 rodas estáveis", "Ré elétrica", "Bagageiro", "Painel digital"],
+  },
+  {
+    slug: "joy-super",
+    name: "JOY SUPER 800W",
+    tag: "Bicicleta Elétrica · Sem CNH",
+    price: "R$ 7.210,00",
+    priceNumber: 7210,
+    range: "40–60 km",
+    speed: "32 km/h",
+    power: "800W",
+    short: "Bicicleta elétrica leve e prática para o dia a dia.",
+    description:
+      "A JOY SUPER une design de bicicleta com a assistência de um motor de 800W. Leve, econômica e sem exigência de CNH.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: joysuperImg.url }],
+    specs: [
+      { label: "Autonomia", value: "40–60 km" },
+      { label: "Velocidade máx.", value: "32 km/h" },
+      { label: "Potência", value: "800W" },
+      { label: "Bateria", value: "Lítio 48V" },
+      { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Bicicleta Elétrica" },
+    ],
+    features: ["Leve", "Bateria removível", "Painel LCD", "Pedal assistido"],
+  },
+  {
+    slug: "sofia",
+    name: "SOFIA 1000W",
+    tag: "Scooter · Sem CNH",
+    price: "Sob consulta",
+    priceNumber: 0,
+    range: "50–70 km",
+    speed: "32 km/h",
+    power: "1.000W",
+    short: "Design feminino e delicado, sem abrir mão da potência.",
+    description:
+      "A SOFIA tem design pensado no público feminino, combinando delicadeza, conforto e potência de 1.000W. Consulte disponibilidade.",
+    colors: [{ name: "Padrão", hex: "#f4a8a8", image: sofiaImg.url }],
+    specs: [
+      { label: "Autonomia", value: "50–70 km" },
+      { label: "Velocidade máx.", value: "32 km/h" },
+      { label: "Potência", value: "1.000W" },
+      { label: "Bateria", value: "Lítio 60V" },
+      { label: "Habilitação", value: "Não exige CNH" },
+      { label: "Categoria", value: "Autopropelido" },
+    ],
+    features: ["Design feminino", "Painel digital", "Cesto frontal", "LED full"],
   },
 ];
 
-export const WHATSAPP_NUMBER = "5547989019584";
+// Klug Motors - Joinville
+export const WHATSAPP_NUMBER = "554734293200";
 const WHATSAPP_FALLBACK_DELAY = 1800;
 
 export function getModel(slug: string): Model | undefined {

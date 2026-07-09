@@ -17,29 +17,27 @@ import {
 } from "lucide-react";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback, models, type Model } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
-import heroScooter from "@/assets/hero-scooter.jpg";
-import heroAvif from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=avif&as=srcset";
-import heroWebp from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=webp&as=srcset";
-import heroJpg from "@/assets/hero-scooter.jpg?w=640;1024;1600;1920&format=jpg&as=srcset";
-import garageExterior from "@/assets/garage-exterior.png.asset.json";
-import marconttiLogo from "@/assets/marcontti-logo.png.asset.json";
+import klugHorizontalWhite from "@/assets/klug/klug-horizontal-white.png.asset.json";
+import klugHorizontal from "@/assets/klug/klug-horizontal.png.asset.json";
+import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import x12Img from "@/assets/motos/x12.jpg.asset.json";
 
-const BASE_URL = "https://marcontti-vibe-engine.lovable.app";
+const BASE_URL = "https://proototipomotos.lovable.app";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Marcontti Garage — A Nova Era da Mobilidade em Joinville" },
+      { title: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
       {
         name: "description",
         content:
-          "Concessionária de scooters e motos elétricas em Joinville/SC. Agende seu test-ride na Marcontti Garage.",
+          "Klug Motors: motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. Rua Albano Schimidt, 1882.",
       },
       { property: "og:url", content: `${BASE_URL}/` },
+      { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
     ],
     links: [
       { rel: "canonical", href: `${BASE_URL}/` },
-      { rel: "preload", as: "image", href: heroScooter, fetchpriority: "high" },
     ],
     scripts: [
       {
@@ -47,13 +45,15 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "AutomotiveBusiness",
-          name: "Marcontti Garage",
+          name: "Klug Motors",
           description:
-            "Concessionária de scooters e motos elétricas em Joinville/SC.",
+            "Concessionária de motos, scooters, triciclos e bicicletas elétricas em Joinville/SC.",
           url: BASE_URL,
-          telephone: "+554790000000",
+          telephone: "+554734293200",
+          email: "klugmotors@gmail.com",
           address: {
             "@type": "PostalAddress",
+            streetAddress: "Rua Albano Schimidt, 1882",
             addressLocality: "Joinville",
             addressRegion: "SC",
             addressCountry: "BR",
@@ -62,22 +62,17 @@ export const Route = createFileRoute("/")({
             {
               "@type": "OpeningHoursSpecification",
               dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-              opens: "09:00",
-              closes: "18:00",
+              opens: "08:30",
+              closes: "18:30",
             },
             {
               "@type": "OpeningHoursSpecification",
               dayOfWeek: "Saturday",
-              opens: "09:00",
+              opens: "08:30",
               closes: "13:00",
             },
           ],
-          sameAs: ["https://instagram.com/marcontti.garage"],
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "4.9",
-            reviewCount: "87",
-          },
+          sameAs: ["https://www.instagram.com/klugmotors/"],
         }),
       },
     ],
@@ -98,34 +93,23 @@ const benefits = [
   },
   {
     icon: Leaf,
-    title: "Silenciosa e Ecológica",
-    desc: "Zero emissão de poluentes. Joinville pede mais mobilidade limpa.",
+    title: "Sem CNH · Silenciosa",
+    desc: "A maioria dos modelos é autopropelida — não exige habilitação. E é 100% silenciosa.",
   },
 ];
-
-import ig0 from "@/assets/ig/ig-0.jpg.asset.json";
-import ig1 from "@/assets/ig/ig-1.jpg.asset.json";
-import ig4 from "@/assets/ig/ig-4.jpg.asset.json";
-import ig7 from "@/assets/ig/ig-7.jpg.asset.json";
-import ig10 from "@/assets/ig/ig-10.jpg.asset.json";
-import ig11 from "@/assets/ig/ig-11.jpg.asset.json";
-
-const gallery = [ig0.url, ig1.url, ig4.url, ig7.url, ig10.url, ig11.url];
 
 function Header() {
   const [open, setOpen] = useState(false);
   const links = [
     { href: "#modelos", label: "Modelos" },
-    { href: "#sobre", label: "Sobre Nós" },
-    { href: "#joinville", label: "Joinville" },
+    { href: "#sobre", label: "Sobre" },
     { href: "#contato", label: "Contato" },
   ];
   return (
     <header className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/60">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2 font-display font-black text-xl tracking-tight">
-          <img src={marconttiLogo.url} alt="Marcontti Garage" width={36} height={36} className="w-9 h-9 rounded-full" />
-          MARCONTTI
+        <a href="#" className="flex items-center gap-2" aria-label="Klug Motors">
+          <img src={klugHorizontalWhite.url} alt="Klug Motors" className="h-9 w-auto object-contain" />
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-foreground/80">
           {links.map((l) => (
@@ -171,23 +155,15 @@ function Hero() {
   return (
     <section className="relative pt-16 overflow-hidden bg-charcoal text-white">
       <div className="absolute inset-0">
-        <picture>
-          <source type="image/avif" srcSet={heroAvif} sizes="100vw" />
-          <source type="image/webp" srcSet={heroWebp} sizes="100vw" />
-          <img
-            src={heroScooter}
-            srcSet={heroJpg}
-            sizes="100vw"
-            alt="Scooter elétrica Marcontti em ambiente urbano"
-            width={1920}
-            height={1080}
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="w-full h-full object-cover opacity-70"
-          />
-        </picture>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+        <img
+          src={x12Img.url}
+          alt="Moto elétrica Klug Motors"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          className="w-full h-full object-cover opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
       </div>
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 min-h-[88vh] flex flex-col justify-center py-24">
@@ -197,16 +173,16 @@ function Hero() {
             Joinville · SC
           </span>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.95] mb-6 uppercase">
-            A Revolução
+            Sua próxima moto
             <br />
             é{" "}
-            <span className="bg-gradient-to-r from-[oklch(0.96_0.22_124)] to-[oklch(0.93_0.24_122)] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
               Elétrica
             </span>
           </h1>
-          <p className="text-lg sm:text-xl text-white/75 max-w-xl mb-10 leading-relaxed">
-            Estilo, economia e sustentabilidade sobre duas rodas. Conheça a linha completa de
-            scooters elétricas da Marcontti Garage.
+          <p className="text-lg sm:text-xl text-white/80 max-w-xl mb-10 leading-relaxed">
+            Motos, scooters, triciclos e bicicletas elétricas — a maioria <strong>sem CNH</strong>.
+            Economia, silêncio e sustentabilidade na Klug Motors.
           </p>
           <div className="flex flex-wrap gap-4">
             <a
@@ -226,8 +202,8 @@ function Hero() {
         </div>
         <div className="hidden lg:grid grid-cols-3 gap-8 mt-20 max-w-2xl border-t border-white/15 pt-8">
           {[
-            ["311", "Posts no Insta"],
-            ["3.8k+", "Seguidores"],
+            ["10+", "Modelos"],
+            ["0", "Combustível"],
             ["100%", "Elétrico"],
           ].map(([n, l]) => (
             <div key={l}>
@@ -248,15 +224,15 @@ function Products() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
           <div>
             <span className="text-primary text-sm font-semibold uppercase tracking-widest">
-              Linha 2026
+              Catálogo Klug
             </span>
             <h2 className="text-4xl sm:text-5xl font-black mt-3 max-w-xl">
               Modelos feitos para a cidade.
             </h2>
           </div>
           <p className="text-muted-foreground max-w-md">
-            Cada scooter combina design contemporâneo, autonomia urbana e a melhor relação
-            custo-benefício do mercado.
+            Scooters, motos, triciclos e bicicletas elétricas — a maioria <strong>sem CNH</strong>,
+            com a melhor relação custo-benefício do mercado.
           </p>
         </div>
 
@@ -278,16 +254,14 @@ function ProductCard({ product: p }: { product: Model }) {
       <Link
         to="/modelos/$slug"
         params={{ slug: p.slug }}
-        className="block aspect-[5/4] bg-[oklch(0.96_0_0)] overflow-hidden relative cursor-pointer"
+        className="block aspect-[5/4] bg-white overflow-hidden relative cursor-pointer"
         aria-label={`Ver detalhes do ${p.name}`}
       >
         <img
           src={variant.image}
           alt={`${p.name} ${variant.name}`}
-          width={1024}
-          height={1024}
           loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
         />
         <span className="absolute top-4 left-4 bg-charcoal text-white text-xs font-semibold px-3 py-1 rounded-full">
           {p.tag}
@@ -306,7 +280,7 @@ function ProductCard({ product: p }: { product: Model }) {
             >
               {p.name}
             </Link>
-            <div className="text-xs text-muted-foreground mt-1">Cor: {variant.name}</div>
+            <div className="text-xs text-muted-foreground mt-1">{p.tag}</div>
           </div>
           <div className="text-right">
             <div className="text-xs text-muted-foreground">a partir de</div>
@@ -336,7 +310,7 @@ function ProductCard({ product: p }: { product: Model }) {
           </span>
           <span className="w-px bg-border" />
           <span>
-            <strong className="text-foreground">{p.speed}</strong> vel. máx.
+            <strong className="text-foreground">{p.power}</strong>
           </span>
         </div>
         <Link
@@ -357,7 +331,7 @@ function Benefits() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="max-w-2xl mb-16">
           <span className="text-primary text-sm font-semibold uppercase tracking-widest">
-            Por que elétrica
+            Por que Klug Motors
           </span>
           <h2 className="text-4xl sm:text-5xl font-black mt-3">
             Mais liberdade. Menos custo. Zero ruído.
@@ -382,126 +356,71 @@ function Benefits() {
   );
 }
 
-function InstagramTile({ src, index }: { src: string; index: number }) {
-  const [loaded, setLoaded] = useState(false);
-  return (
-    <a
-      href="https://instagram.com/marcontti.garage"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Abrir perfil @marcontti.garage no Instagram"
-      className="group aspect-square overflow-hidden rounded-xl bg-white/5 relative block"
-    >
-      {!loaded && (
-        <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-white/5 via-white/10 to-white/5" />
-      )}
-      <img
-        src={src}
-        alt={`Post ${index + 1} do Instagram @marcontti.garage`}
-        loading="lazy"
-        decoding="async"
-        onLoad={() => setLoaded(true)}
-        className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-      />
-      <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/60 grid place-items-center transition-all">
-        <Instagram size={22} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-      </div>
-    </a>
-  );
-}
-
-function InstagramSection() {
-  return (
-    <section className="py-24 sm:py-32 bg-charcoal text-white">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-4 sm:gap-6 mb-10 sm:mb-12 md:flex md:flex-row md:items-end md:justify-between">
-          <div className="min-w-0">
-            <span className="text-primary text-xs sm:text-sm font-semibold uppercase tracking-widest">
-              @marcontti.garage
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mt-3 max-w-xl leading-tight">
-              Siga a nossa garagem.
-            </h2>
-          </div>
-          <a
-            href="https://instagram.com/marcontti.garage"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-semibold px-6 py-3 rounded-full transition-all hover:-translate-y-0.5 shrink-0"
-          >
-            <Instagram size={18} />
-            Seguir no Instagram
-          </a>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
-          {gallery.map((src, i) => (
-            <InstagramTile key={i} src={src} index={i} />
-          ))}
-        </div>
-        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
-          <a
-            href="https://instagram.com/marcontti.garage"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-semibold px-6 py-3 rounded-full transition-all hover:-translate-y-0.5"
-          >
-            <Instagram size={18} />
-            Ver no Instagram
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Contact() {
   return (
     <section id="contato" className="py-24 sm:py-32 bg-surface">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-        <div id="joinville">
+        <div>
           <span className="text-primary text-sm font-semibold uppercase tracking-widest">
-            Visite nossa loja
+            Visite a Klug Motors
           </span>
           <h2 className="text-4xl sm:text-5xl font-black mt-3 mb-6">
-            Estamos no coração de Joinville.
+            Estamos em Joinville · Albano Schimidt.
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-md">
-            Venha conhecer nossos modelos pessoalmente, fazer um test-ride e conversar com nosso
-            time. O melhor negócio é feito olho no olho.
+            Venha conhecer os modelos pessoalmente, fazer um test-ride e conversar com nosso
+            time. Atendemos direto, sem fechar para o almoço.
           </p>
 
-          <div className="rounded-3xl overflow-hidden mb-8 shadow-[var(--shadow-card)]">
+          <div className="rounded-3xl overflow-hidden mb-8 shadow-[var(--shadow-card)] bg-white p-8 grid place-items-center">
             <img
-              src={garageExterior.url}
-              alt="Loja Marcontti Garage em Joinville"
-              width={1600}
-              height={1024}
+              src={klugHorizontal.url}
+              alt="Klug Motors"
+              className="w-full max-w-xs object-contain"
               loading="lazy"
-              className="w-full h-72 object-cover"
             />
           </div>
 
           <div className="space-y-4">
             {[
-              { icon: MapPin, label: "Joinville · SC, Brasil" },
-              { icon: Clock, label: "Seg–Sex 9h–18h · Sáb 9h–13h" },
-              { icon: Phone, label: "(47) 9 0000-0000" },
-              { icon: Mail, label: "contato@marcontti.garage" },
-            ].map((i) => (
-              <div key={i.label} className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 grid place-items-center shrink-0">
-                  <i.icon className="text-primary" size={18} />
+              { icon: MapPin, label: "Rua Albano Schimidt, 1882 — Joinville/SC" },
+              { icon: Clock, label: "Seg–Sex 08h30–18h30 (sem fechar para almoço) · Sáb 08h30–13h00" },
+              { icon: Phone, label: "(47) 3429-3200", href: "tel:+554734293200" },
+              { icon: Mail, label: "klugmotors@gmail.com", href: "mailto:klugmotors@gmail.com" },
+              {
+                icon: Instagram,
+                label: "@klugmotors",
+                href: "https://www.instagram.com/klugmotors/",
+              },
+            ].map((i) => {
+              const content = (
+                <>
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 grid place-items-center shrink-0">
+                    <i.icon className="text-primary" size={18} />
+                  </div>
+                  <span className="text-foreground/85 font-medium">{i.label}</span>
+                </>
+              );
+              return i.href ? (
+                <a
+                  key={i.label}
+                  href={i.href}
+                  target={i.href.startsWith("http") ? "_blank" : undefined}
+                  rel={i.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="flex items-center gap-4 hover:text-primary transition-colors"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div key={i.label} className="flex items-center gap-4">
+                  {content}
                 </div>
-                <span className="text-foreground/85 font-medium">{i.label}</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         <TestRideForm />
-
       </div>
     </section>
   );
@@ -511,18 +430,19 @@ function Footer() {
   return (
     <footer className="bg-charcoal text-white/70 py-12">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col md:flex-row justify-between gap-6 items-center">
-        <div className="flex items-center gap-2 font-display font-black text-white">
-          <img src={marconttiLogo.url} alt="Marcontti Garage" width={28} height={28} className="w-7 h-7 rounded-full" />
-          MARCONTTI GARAGE
+        <div className="flex items-center gap-3">
+          <img src={klugSymbol.url} alt="Klug Motors" className="w-9 h-9 object-contain" />
+          <img src={klugHorizontalWhite.url} alt="Klug Motors" className="h-6 w-auto object-contain hidden sm:block" />
         </div>
-        <div className="text-sm">
-          © {new Date().getFullYear()} Marcontti Garage · Joinville/SC · Todos os direitos reservados.
+        <div className="text-sm text-center">
+          © {new Date().getFullYear()} Klug Motors · Joinville/SC · Todos os direitos reservados.
         </div>
         <a
-          href="https://instagram.com/marcontti.garage"
+          href="https://www.instagram.com/klugmotors/"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           className="text-white/70 hover:text-primary transition-colors"
+          aria-label="Instagram @klugmotors"
         >
           <Instagram size={20} />
         </a>
@@ -532,7 +452,7 @@ function Footer() {
 }
 
 function WhatsAppFab() {
-  const message = "Olá! Tenho interesse em conhecer os modelos Marcontti.";
+  const message = "Olá! Tenho interesse em conhecer os modelos da Klug Motors.";
   return (
     <a
       href={buildWhatsAppFallbackUrl(message)}
@@ -556,7 +476,6 @@ function Index() {
         <Hero />
         <Products />
         <Benefits />
-        <InstagramSection />
         <Contact />
       </main>
       <Footer />
