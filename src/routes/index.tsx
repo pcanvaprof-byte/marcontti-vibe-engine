@@ -41,7 +41,7 @@ import type { Product } from "@/components/ProductCard";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
-import heroBoltVideo from "@/assets/videos/hero-bolt.mp4.asset.json";
+import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 const FINANCE_MSG =
