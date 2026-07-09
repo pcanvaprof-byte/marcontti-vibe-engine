@@ -1371,7 +1371,7 @@ function RevealGrid({
   children,
   className,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
   const ref = useReveal<HTMLDivElement>();
