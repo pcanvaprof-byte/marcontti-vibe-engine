@@ -13,6 +13,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import infindaLogo from "../assets/infinda-logo.png.asset.json";
 import klugSymbol from "../assets/klug/klug-symbol.png.asset.json";
+import { BackToTop } from "../components/BackToTop";
+import { CookieConsent } from "../components/CookieConsent";
 
 const PUBLIC_ORIGIN = "https://proototipomotos.lovable.app";
 const INFINDA_LOGO_URL = `${PUBLIC_ORIGIN}${infindaLogo.url}`;
