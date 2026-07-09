@@ -1,6 +1,23 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
-import { ArrowLeft, Check, MessageCircle, Zap, ChevronRight, ChevronLeft, X, Expand } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  MessageCircle,
+  ChevronRight,
+  ChevronLeft,
+  X,
+  Expand,
+  Truck,
+  CreditCard,
+  Percent,
+  ShieldCheck,
+  Store,
+  ShoppingCart,
+  MapPin,
+  Play,
+  Star,
+} from "lucide-react";
 import {
   getModel,
   getGallery,
@@ -98,18 +115,29 @@ export const Route = createFileRoute("/modelos/$slug")({
   component: ModelPage,
 });
 
+const TABS = [
+  "Descrição Geral",
+  "Itens Inclusos",
+  "Características",
+  "Garantia",
+  "Formas de Pagamento",
+  "Avaliações",
+] as const;
+type Tab = (typeof TABS)[number];
+
 function ModelPage() {
   const data = Route.useLoaderData() as { model: import("@/lib/models").Model };
   const m = data.model;
   const [selected, setSelected] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+  const [tab, setTab] = useState<Tab>("Descrição Geral");
+  const [cep, setCep] = useState("");
   const variant = m.colors[selected] ?? m.colors[0];
 
   const gallery = useMemo(() => getGallery(m), [m]);
   const [imgIndex, setImgIndex] = useState(0);
   const activeImage = gallery[imgIndex] ?? variant?.image;
 
-  // When the user picks a color variant, jump the gallery to that image if present.
   useEffect(() => {
     if (!variant) return;
     const idx = gallery.indexOf(variant.image);
@@ -125,7 +153,6 @@ function ModelPage() {
     [gallery.length],
   );
 
-  // Keyboard navigation inside the lightbox.
   useEffect(() => {
     if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => {
@@ -148,6 +175,13 @@ function ModelPage() {
     event.preventDefault();
     openWhatsAppWithFallback(whatsappMsg);
   };
+
+  // Derived pricing to mimic reference (PIX 10% off).
+  const pixPrice = m.priceNumber * 0.9;
+  const fmtBRL = (n: number) =>
+    n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+  const related = models.filter((x) => x.slug !== m.slug).slice(0, 4);
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
@@ -173,9 +207,20 @@ function ModelPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
+      {/* Benefits strip */}
+      <div className="border-b border-border bg-card/40">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-3 grid grid-cols-2 md:grid-cols-5 gap-3 text-[10px] sm:text-[11px] font-display font-black uppercase tracking-widest text-white/70">
+          <BenefitPill icon={CreditCard} title="Financiamento" hint="18x sem juros" />
+          <BenefitPill icon={ShieldCheck} title="Pagamento facilitado" />
+          <BenefitPill icon={Percent} title="10% OFF no PIX" highlight />
+          <BenefitPill icon={Truck} title="Frete a partir R$ 8.000" />
+          <BenefitPill icon={Store} title="Loja física" hint="Joinville / SC" />
+        </div>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-5 sm:px-8 py-6 sm:py-10">
         {/* Breadcrumb */}
-        <nav className="text-[10px] uppercase tracking-widest text-white/40 mb-10 font-bold" aria-label="Breadcrumb">
+        <nav className="text-[10px] uppercase tracking-widest text-white/40 mb-6 font-bold" aria-label="Breadcrumb">
           <Link to="/" className="hover:text-primary">Home</Link>
           <span className="mx-2">/</span>
           <Link to="/modelos" className="hover:text-primary">Catálogo</Link>
@@ -183,278 +228,439 @@ function ModelPage() {
           <span className="text-white">{m.name}</span>
         </nav>
 
-        {/* HERO — Kinetic broken frame */}
-        <section className="relative isolate">
-          {/* Giant faded model name behind everything */}
-          <div className="absolute -top-10 -left-6 sm:-left-16 select-none opacity-[0.05] pointer-events-none overflow-hidden max-w-full">
-            <h1
-              aria-hidden
-              className="leading-[0.8] tracking-tighter italic uppercase text-white whitespace-nowrap"
-              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "28vw" }}
+        {/* PRODUCT — 3 columns: thumbs | main image | buybox */}
+        <section className="grid lg:grid-cols-[80px_minmax(0,1fr)_360px] gap-4 lg:gap-6 items-start">
+          {/* Thumbnails column */}
+          {gallery.length > 1 ? (
+            <div
+              role="tablist"
+              aria-label="Galeria"
+              className="hidden lg:flex flex-col gap-2 max-h-[520px] overflow-auto pr-1"
             >
-              {m.name.split(" ")[0]}
-            </h1>
-          </div>
+              {gallery.map((src, i) => (
+                <button
+                  key={src + i}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === imgIndex}
+                  onClick={() => setImgIndex(i)}
+                  className={`aspect-square w-full bg-white rounded-md overflow-hidden border-2 transition-all ${
+                    i === imgIndex ? "border-primary" : "border-transparent hover:border-primary/50"
+                  }`}
+                >
+                  <img src={src} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="hidden lg:block" />
+          )}
 
-          <div className="relative grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-            {/* LEFT — gallery with broken frame */}
-            <div className="lg:col-span-7 relative">
-              <div className="relative z-10">
-                {/* Offset orange frame */}
-                <div
-                  aria-hidden
-                  className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 w-full h-full border-2 border-primary rounded-[22px] opacity-30 pointer-events-none"
-                />
+          {/* Main image */}
+          <div className="relative bg-white rounded-lg border border-border overflow-hidden">
+            <div className="relative aspect-square">
+              <img
+                src={activeImage}
+                alt={`${m.name} — imagem ${imgIndex + 1} de ${gallery.length}`}
+                className="absolute inset-0 w-full h-full object-contain p-6"
+              />
 
-                {/* Gallery — slight rotation */}
-                <div className="relative group aspect-square bg-card border border-white/10 rounded-[22px] overflow-hidden shadow-2xl transform rotate-[-1deg] transition-transform duration-500 hover:rotate-0">
-                  <img
-                    src={activeImage}
-                    alt={`${m.name} — imagem ${imgIndex + 1} de ${gallery.length}`}
-                    className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <span className="absolute top-5 left-5 bg-primary text-black text-[10px] font-display font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
-                    {m.tag}
-                  </span>
+              {/* Badge — Novidade */}
+              <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] font-display font-black uppercase tracking-widest px-3 py-1 rounded-sm shadow">
+                Novidade
+              </span>
 
+              {/* Video icon */}
+              <button
+                type="button"
+                aria-label="Vídeo do produto"
+                className="absolute top-3 right-3 bg-black/70 text-white p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                <Play size={14} fill="currentColor" />
+              </button>
+
+              {/* Expand */}
+              <button
+                type="button"
+                onClick={() => setLightbox(true)}
+                aria-label="Ampliar imagem"
+                className="absolute bottom-3 right-3 bg-black/70 text-white p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                <Expand size={14} />
+              </button>
+
+              {gallery.length > 1 && (
+                <>
                   <button
                     type="button"
-                    onClick={() => setLightbox(true)}
-                    aria-label="Ampliar imagem"
-                    className="absolute top-5 right-5 bg-black/60 backdrop-blur border border-white/10 text-white p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                    onClick={prevImage}
+                    aria-label="Imagem anterior"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
                   >
-                    <Expand size={14} />
+                    <ChevronLeft size={18} />
                   </button>
+                  <button
+                    type="button"
+                    onClick={nextImage}
+                    aria-label="Próxima imagem"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                </>
+              )}
+            </div>
 
-                  {gallery.length > 1 && (
-                    <>
-                      <button
-                        type="button"
-                        onClick={prevImage}
-                        aria-label="Imagem anterior"
-                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 backdrop-blur border border-white/10 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
-                      >
-                        <ChevronLeft size={18} />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={nextImage}
-                        aria-label="Próxima imagem"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 backdrop-blur border border-white/10 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
-                      >
-                        <ChevronRight size={18} />
-                      </button>
-                      <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur border border-white/10 text-white text-[10px] font-bold px-2 py-1 rounded-full tabular-nums">
-                        {imgIndex + 1} / {gallery.length}
-                      </div>
-                    </>
-                  )}
-                </div>
-
-                {/* Floating spec cards — breaking the grid */}
-                <div className="absolute -right-2 -bottom-8 sm:-right-6 sm:bottom-6 z-20 flex flex-col gap-3 sm:gap-4">
-                  <div className="bg-[oklch(0.27_0_0)] border-l-4 border-primary p-4 pr-6 rounded-r-[18px] rounded-tl-[18px] shadow-2xl transform translate-x-2 sm:translate-x-4 hover:translate-x-0 transition-transform duration-500">
-                    <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Autonomia</p>
-                    <p className="text-3xl sm:text-4xl text-white leading-none mt-1" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>
-                      {m.range}
-                    </p>
-                  </div>
-                  <div className="bg-primary p-4 pr-6 rounded-[18px] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                    <p className="text-black/60 text-[10px] uppercase font-bold tracking-widest">Potência</p>
-                    <p className="text-3xl sm:text-4xl text-black leading-none mt-1" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>
-                      {m.power}
-                    </p>
-                  </div>
-                </div>
+            {/* Mobile thumbnails strip */}
+            {gallery.length > 1 && (
+              <div className="lg:hidden flex gap-2 p-3 border-t border-border overflow-auto">
+                {gallery.map((src, i) => (
+                  <button
+                    key={src + i}
+                    type="button"
+                    onClick={() => setImgIndex(i)}
+                    className={`shrink-0 w-14 h-14 bg-white rounded-md overflow-hidden border-2 ${
+                      i === imgIndex ? "border-primary" : "border-transparent"
+                    }`}
+                  >
+                    <img src={src} alt="" className="w-full h-full object-contain p-1" />
+                  </button>
+                ))}
               </div>
+            )}
+          </div>
 
-              {/* Thumbnails */}
-              {gallery.length > 1 && (
-                <div className="mt-16 sm:mt-14 grid grid-cols-5 sm:grid-cols-6 gap-2" role="tablist" aria-label="Galeria">
-                  {gallery.map((src, i) => (
+          {/* Buybox */}
+          <aside className="space-y-4">
+            <div>
+              <p className="text-primary text-[10px] font-display font-black uppercase tracking-[0.25em]">
+                {m.tag}
+              </p>
+              <h1 className="mt-1 font-display font-black uppercase text-xl sm:text-2xl leading-tight tracking-tight text-white">
+                {m.name} — Klug Motors
+              </h1>
+            </div>
+
+            {/* Stars + code */}
+            <div className="flex items-center gap-3 text-[11px] text-white/50">
+              <span className="flex items-center gap-0.5 text-primary">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} size={12} fill="currentColor" strokeWidth={0} />
+                ))}
+              </span>
+              <span>Cód: {m.slug.toUpperCase()}</span>
+            </div>
+
+            {/* Color variants */}
+            {m.colors.length > 1 && (
+              <div>
+                <div className="text-[10px] uppercase tracking-widest text-white/50 font-bold mb-2">
+                  Cor: <span className="text-white">{variant?.name}</span>
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  {m.colors.map((c, i) => (
                     <button
-                      key={src + i}
+                      key={c.name}
                       type="button"
-                      role="tab"
-                      aria-selected={i === imgIndex}
-                      aria-label={`Imagem ${i + 1}`}
-                      onClick={() => setImgIndex(i)}
-                      className={`aspect-square bg-card border-2 rounded-[12px] transition-all overflow-hidden ${
-                        i === imgIndex ? "border-primary" : "border-white/10 hover:border-primary/60"
+                      onClick={() => setSelected(i)}
+                      aria-label={c.name}
+                      title={c.name}
+                      className={`w-9 h-9 rounded-full border-2 transition-all ${
+                        i === selected
+                          ? "border-primary scale-110"
+                          : "border-white/15 hover:border-primary/60"
                       }`}
-                    >
-                      <img src={src} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
-                    </button>
+                      style={{ backgroundColor: c.hex }}
+                    />
                   ))}
                 </div>
-              )}
-
-              {m.colors.length > 1 && (
-                <div className="mt-6">
-                  <div className="text-[9px] uppercase tracking-widest text-white/40 font-bold mb-2">
-                    Cor: <span className="text-white">{variant?.name}</span>
-                  </div>
-                  <div className="flex gap-2 flex-wrap">
-                    {m.colors.map((c, i) => (
-                      <button
-                        key={c.name}
-                        type="button"
-                        onClick={() => setSelected(i)}
-                        aria-label={c.name}
-                        title={c.name}
-                        className={`w-10 h-10 rounded-full border-2 transition-all ${
-                          i === selected
-                            ? "border-primary scale-110"
-                            : "border-white/15 hover:border-primary/60"
-                        }`}
-                        style={{ backgroundColor: c.hex }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* RIGHT — Details */}
-            <div className="lg:col-span-5 relative z-20">
-              <div className="space-y-8">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <span className="h-[2px] w-8 bg-primary" />
-                    <span className="text-primary text-[10px] font-black uppercase tracking-[0.3em]">
-                      Performance
-                    </span>
-                  </div>
-                  <h1
-                    className="text-white uppercase leading-[0.8] tracking-tighter"
-                    style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "clamp(64px, 9vw, 128px)" }}
-                  >
-                    KLUG <br />
-                    <span
-                      className="text-primary"
-                      style={{ filter: "drop-shadow(3px 3px 0 rgba(255,255,255,0.08))" }}
-                    >
-                      {m.name.split(" ")[0]}
-                    </span>
-                  </h1>
-                </div>
-
-                <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-md">
-                  {m.description}
-                </p>
-
-                <div className="flex flex-col sm:flex-row sm:items-center gap-6 pt-2">
-                  <a
-                    href={whatsappUrl}
-                    onClick={handleWhatsAppClick}
-                    className="relative group inline-block self-start"
-                  >
-                    <div className="absolute inset-0 bg-primary rounded-[18px] translate-x-1.5 translate-y-1.5 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300" />
-                    <div className="relative px-8 py-4 bg-white text-black font-display font-black uppercase tracking-tighter text-lg sm:text-xl rounded-[18px] border-2 border-white inline-flex items-center gap-2">
-                      <MessageCircle size={18} strokeWidth={0} fill="currentColor" />
-                      Tenho interesse
-                    </div>
-                  </a>
-
-                  <div className="flex flex-col">
-                    <span className="text-white/30 text-[10px] uppercase font-bold tracking-widest">
-                      A partir de
-                    </span>
-                    <span
-                      className="text-3xl text-white italic leading-none mt-1"
-                      style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
-                    >
-                      {m.price}
-                    </span>
-                  </div>
-                </div>
-
-                <a
-                  href="#financiamento"
-                  className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors text-[11px] font-display font-black uppercase tracking-widest"
-                >
-                  <Zap size={14} /> Simule o financiamento
-                </a>
-
-                {/* Secondary micro-specs */}
-                <div className="pt-6 flex gap-10 border-t border-white/5">
-                  <div>
-                    <span className="block text-white/30 text-[10px] uppercase font-bold mb-1 tracking-widest">
-                      Velocidade
-                    </span>
-                    <span className="text-white font-semibold text-sm">{m.speed}</span>
-                  </div>
-                  <div>
-                    <span className="block text-white/30 text-[10px] uppercase font-bold mb-1 tracking-widest">
-                      Bateria
-                    </span>
-                    <span className="text-white font-semibold text-sm">
-                      {m.specs.find((s) => s.label.toLowerCase().includes("bateria"))?.value ?? "—"}
-                    </span>
-                  </div>
-                </div>
               </div>
+            )}
+
+            {/* Price block */}
+            <div className="rounded-lg border border-border bg-card p-4 space-y-3">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+                  À vista no PIX com 10% OFF
+                </p>
+                <p
+                  className="text-primary leading-none mt-1"
+                  style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "40px" }}
+                >
+                  {fmtBRL(pixPrice)}
+                </p>
+                <p className="text-white/50 text-xs mt-1">
+                  ou <span className="text-white font-semibold">{m.price}</span> em outras formas
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => openWhatsAppWithFallback(whatsappMsg)}
+                className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm py-3 rounded-md hover:brightness-110 transition-all"
+              >
+                <ShoppingCart size={16} /> Comprar
+              </button>
+
+              <a
+                href={whatsappUrl}
+                onClick={handleWhatsAppClick}
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm py-3 rounded-md hover:brightness-110 transition-all"
+              >
+                <MessageCircle size={16} fill="white" strokeWidth={0} /> WhatsApp
+              </a>
             </div>
-          </div>
+
+            {/* Shipping estimator */}
+            <div className="rounded-lg border border-border bg-card p-4">
+              <p className="text-[10px] uppercase tracking-widest text-white/50 font-bold mb-2 inline-flex items-center gap-1">
+                <MapPin size={12} /> Simule o prazo de entrega
+              </p>
+              <div className="flex gap-2">
+                <input
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                  inputMode="numeric"
+                  maxLength={9}
+                  placeholder="Informe seu CEP"
+                  className="flex-1 bg-background border border-border rounded-md px-3 py-2 text-sm text-white placeholder:text-white/30 focus:border-primary focus:outline-none"
+                />
+                <button
+                  type="button"
+                  className="bg-primary text-primary-foreground font-display font-black uppercase text-[11px] tracking-widest px-4 rounded-md hover:brightness-110"
+                >
+                  Calcular
+                </button>
+              </div>
+              <a
+                href="https://buscacepinter.correios.com.br/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[10px] text-primary hover:underline mt-2 inline-block"
+              >
+                Não sei meu CEP
+              </a>
+            </div>
+          </aside>
         </section>
 
-        {/* Ficha técnica completa */}
-        <section className="mt-24 sm:mt-32">
-          <div className="flex items-end justify-between mb-6">
-            <div>
-              <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
-                Especificações
-              </p>
-              <h2 className="font-display font-black uppercase text-3xl sm:text-4xl tracking-tight leading-none">
-                Ficha técnica
-              </h2>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {m.specs.map((s, i) => (
-              <div
-                key={s.label}
-                className={`bg-card border border-white/5 p-5 rounded-[18px] transition-transform duration-500 hover:-translate-y-1 hover:border-primary/40 ${
-                  i % 3 === 1 ? "sm:translate-y-3" : i % 3 === 2 ? "sm:-translate-y-2" : ""
+        {/* Tabs */}
+        <section className="mt-12 border-t border-border">
+          <div
+            role="tablist"
+            aria-label="Informações do produto"
+            className="flex flex-wrap gap-x-6 gap-y-2 -mb-px overflow-x-auto"
+          >
+            {TABS.map((t) => (
+              <button
+                key={t}
+                role="tab"
+                aria-selected={tab === t}
+                onClick={() => setTab(t)}
+                className={`py-4 text-[11px] font-display font-black uppercase tracking-widest whitespace-nowrap border-b-2 transition-colors ${
+                  tab === t
+                    ? "text-primary border-primary"
+                    : "text-white/50 hover:text-white border-transparent"
                 }`}
               >
-                <div className="text-[9px] uppercase tracking-widest text-white/40 font-bold mb-2">
-                  {s.label}
-                </div>
-                <div className="font-display font-black text-base uppercase tracking-tight leading-tight">
-                  {s.value}
-                </div>
-              </div>
+                {t}
+              </button>
             ))}
+          </div>
+
+          <div className="border-t border-border pt-8">
+            {tab === "Descrição Geral" && (
+              <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-10">
+                <div>
+                  <p className="text-white/70 leading-relaxed text-base">{m.description}</p>
+                  <p className="text-white/60 leading-relaxed text-base mt-4">
+                    Com potência de <strong className="text-white">{m.power}</strong>, autonomia
+                    de <strong className="text-white">{m.range}</strong> e velocidade máxima de{" "}
+                    <strong className="text-white">{m.speed}</strong>, a {m.name} entrega uma
+                    experiência de condução única. Ideal para o dia a dia urbano, econômica,
+                    silenciosa e resistente.
+                  </p>
+
+                  <h3 className="mt-8 font-display font-black uppercase text-lg tracking-tight text-primary">
+                    Ficha técnica
+                  </h3>
+                  <dl className="mt-4 grid sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                    {m.specs.map((s) => (
+                      <div key={s.label} className="flex justify-between gap-4 border-b border-border py-2">
+                        <dt className="text-white/50">{s.label}</dt>
+                        <dd className="text-white font-semibold text-right">{s.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
+                <aside className="space-y-4">
+                  <div className="rounded-lg border border-border bg-card p-5">
+                    <h4 className="font-display font-black uppercase text-sm tracking-widest text-primary mb-3">
+                      Recomendações
+                    </h4>
+                    <ul className="space-y-2 text-sm text-white/70">
+                      <li className="flex gap-2"><Check size={14} className="text-primary mt-0.5 shrink-0" />Uso urbano até 180 kg — respeite o limite de velocidade e a legislação.</li>
+                      <li className="flex gap-2"><Check size={14} className="text-primary mt-0.5 shrink-0" />Sempre use capacete e conforme o Código de Trânsito.</li>
+                      <li className="flex gap-2"><Check size={14} className="text-primary mt-0.5 shrink-0" />Consulte exclusivas condições de financiamento.</li>
+                    </ul>
+                  </div>
+
+                  <div className="rounded-lg border border-border bg-card p-5">
+                    <h4 className="font-display font-black uppercase text-sm tracking-widest text-primary mb-3">
+                      Sobre a montagem
+                    </h4>
+                    <p className="text-sm text-white/70 leading-relaxed">
+                      Recomendamos que a montagem final do produto seja feita em uma oficina
+                      especializada, garantindo a melhor experiência e segurança. Nossa equipe
+                      te orienta em todo o processo.
+                    </p>
+                  </div>
+                </aside>
+              </div>
+            )}
+
+            {tab === "Itens Inclusos" && (
+              <ul className="grid sm:grid-cols-2 gap-3 max-w-3xl">
+                {m.features.map((f) => (
+                  <li
+                    key={f}
+                    className="flex items-start gap-3 bg-card border border-border p-4 rounded-md text-sm text-white/85"
+                  >
+                    <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {tab === "Características" && (
+              <dl className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-5xl">
+                {m.specs.map((s) => (
+                  <div key={s.label} className="bg-card border border-border p-4 rounded-md">
+                    <dt className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+                      {s.label}
+                    </dt>
+                    <dd className="mt-1 font-semibold text-white text-sm">{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+
+            {tab === "Garantia" && (
+              <div className="max-w-3xl space-y-4 text-sm text-white/70 leading-relaxed">
+                <p>
+                  Garantia legal de 90 dias contra defeitos (vícios não aparentes) e mais 9 meses
+                  de garantia contratual da Klug Motors, conforme legislação vigente.
+                </p>
+                <p>
+                  Bateria e componentes eletrônicos possuem garantia de 6 meses. Consulte os
+                  Artigos 26, 34 e 50 do Código de Defesa do Consumidor.
+                </p>
+                <p className="text-white font-semibold">Não estão cobertos danos por mau uso.</p>
+              </div>
+            )}
+
+            {tab === "Formas de Pagamento" && (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-4xl text-sm">
+                {["PIX (10% OFF)", "Cartão de crédito em até 18x", "Boleto bancário", "Financiamento em até 48x", "Transferência bancária", "Dinheiro na loja"].map((p) => (
+                  <div key={p} className="bg-card border border-border p-4 rounded-md flex items-center gap-3">
+                    <CreditCard size={16} className="text-primary" />
+                    <span className="text-white/85">{p}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {tab === "Avaliações" && (
+              <div className="max-w-3xl text-sm text-white/60">
+                <p>Ainda não há avaliações públicas para este modelo.</p>
+              </div>
+            )}
           </div>
         </section>
 
-        {/* Destaques */}
-        <section className="mt-20 sm:mt-24">
-          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
-            Destaques
+        {/* Warranty/Assembly promo block */}
+        <section className="mt-16 rounded-lg border border-border bg-card p-6 sm:p-8">
+          <h3 className="font-display font-black uppercase text-xl tracking-tight text-primary">
+            Sobre a Garantia
+          </h3>
+          <p className="mt-3 text-white/70 text-sm leading-relaxed max-w-3xl">
+            Respeito às normas de trânsito, uso responsável, respeito ao limite de velocidade e
+            do peso indicado, seguindo a legislação de veículos vigente.
           </p>
-          <h2 className="font-display font-black uppercase text-3xl sm:text-4xl tracking-tight leading-none mb-6">
-            O que torna a <span className="text-primary">{m.name}</span> única
-          </h2>
-          <ul className="grid sm:grid-cols-2 gap-3">
-            {m.features.map((f) => (
-              <li
-                key={f}
-                className="flex items-start gap-3 bg-card border border-white/5 p-4 rounded-[18px] text-sm text-white/85 hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <Check size={16} className="text-primary shrink-0 mt-0.5" />
-                <span>{f}</span>
-              </li>
-            ))}
-          </ul>
+          <h3 className="mt-6 font-display font-black uppercase text-xl tracking-tight text-primary">
+            Sobre a Montagem
+          </h3>
+          <p className="mt-3 text-white/70 text-sm leading-relaxed max-w-3xl">
+            Recomendamos que a montagem final do produto seja feita em uma oficina especializada,
+            para garantir a melhor experiência e segurança. Caso opte por realizar a montagem em
+            casa, o produto é enviado parcialmente montado e a finalização é simples e está
+            detalhada no manual que acompanha.
+          </p>
         </section>
 
+        {/* Quem somos */}
+        <section className="mt-12">
+          <h3 className="font-display font-black uppercase text-xl tracking-tight text-primary">
+            Quem somos
+          </h3>
+          <p className="mt-3 text-white/70 text-sm leading-relaxed max-w-3xl">
+            A Klug Motors é a maior loja de mobilidade elétrica do Sul, referência regional no
+            estilo de vida sobre duas rodas elétricas.
+          </p>
+        </section>
+
+        {/* Related — Produtos relacionados */}
+        <section className="mt-16">
+          <h2 className="text-center font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-8">
+            Produtos <span className="text-primary">relacionados</span>
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {related.map((x) => {
+              const xPix = x.priceNumber * 0.9;
+              return (
+                <Link
+                  key={x.slug}
+                  to="/modelos/$slug"
+                  params={{ slug: x.slug }}
+                  className="group block bg-card border border-border rounded-lg overflow-hidden hover:border-primary/50 transition-colors"
+                >
+                  <div className="aspect-square bg-white">
+                    <img
+                      src={x.colors[0].image}
+                      alt={x.name}
+                      loading="lazy"
+                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-display font-black uppercase text-sm tracking-tight text-white truncate">
+                      {x.name}
+                    </h3>
+                    <p
+                      className="text-primary leading-none mt-2"
+                      style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "24px" }}
+                    >
+                      {fmtBRL(xPix)}
+                    </p>
+                    <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">
+                      À vista no PIX
+                    </p>
+                    <span className="mt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md">
+                      Ver produto
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
 
         {/* Financiamento */}
         <section
           id="financiamento"
-          className="mt-24 sm:mt-32 pt-16 border-t border-border grid lg:grid-cols-2 gap-10 items-start"
+          className="mt-20 pt-12 border-t border-border grid lg:grid-cols-2 gap-10 items-start"
         >
           <div>
             <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
@@ -464,67 +670,11 @@ function ModelPage() {
               Simule o financiamento da <span className="text-primary">{m.name}</span>.
             </h2>
             <p className="text-white/60 mt-5 leading-relaxed max-w-md">
-              Preencha o formulário e enviaremos sua solicitação direto para o
-              WhatsApp da Klug Motors com as informações da simulação.
+              Preencha o formulário e enviaremos sua solicitação direto para o WhatsApp da Klug
+              Motors com as informações da simulação.
             </p>
           </div>
           <FinanciamentoForm defaultModel={m.name} />
-        </section>
-
-        {/* Related */}
-        <section className="mt-24 sm:mt-32 pt-16 border-t border-border">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
-                Continue explorando
-              </p>
-              <h2 className="font-display font-black uppercase text-3xl tracking-tight">
-                Outros modelos
-              </h2>
-            </div>
-            <Link
-              to="/modelos"
-              className="hidden sm:inline-flex items-center gap-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
-            >
-              Ver todos <ChevronRight size={14} />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-            {models
-              .filter((x) => x.slug !== m.slug)
-              .slice(0, 6)
-              .map((x, i) => (
-                <Link
-                  key={x.slug}
-                  to="/modelos/$slug"
-                  params={{ slug: x.slug }}
-                  className={`group block bg-card border border-white/5 rounded-[18px] overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:border-primary/40 ${
-                    i % 2 === 1 ? "lg:translate-y-3" : ""
-                  }`}
-                >
-                  <div className="aspect-square p-2">
-                    <div className="w-full h-full bg-white rounded-xl overflow-hidden">
-                      <img
-                        src={x.colors[0].image}
-                        alt={x.name}
-                        loading="lazy"
-                        className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="p-3 border-t border-white/5">
-                    <div className="font-display font-black uppercase text-xs tracking-tight truncate">
-                      {x.name}
-                    </div>
-                    <div className="text-[10px] text-primary font-bold mt-0.5 truncate">
-                      {x.price}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-          </div>
-
         </section>
       </main>
 
@@ -610,6 +760,31 @@ function ModelPage() {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function BenefitPill({
+  icon: Icon,
+  title,
+  hint,
+  highlight,
+}: {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  title: string;
+  hint?: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <Icon
+        size={16}
+        className={highlight ? "text-primary" : "text-white/60"}
+      />
+      <div className="leading-tight">
+        <div className={highlight ? "text-primary" : "text-white"}>{title}</div>
+        {hint && <div className="text-white/40 text-[9px] normal-case tracking-wide">{hint}</div>}
+      </div>
     </div>
   );
 }
