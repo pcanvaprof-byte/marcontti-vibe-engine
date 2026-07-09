@@ -1,0 +1,132 @@
+import { Link } from "@tanstack/react-router";
+import { ArrowLeft, MapPin, Phone, Mail, Clock, Instagram, MessageCircle } from "lucide-react";
+import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
+import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
+
+export function PageLayout({
+  eyebrow,
+  title,
+  titleAccent,
+  intro,
+  children,
+  maxWidth = "max-w-4xl",
+}: {
+  eyebrow: string;
+  title: string;
+  titleAccent?: string;
+  intro?: string;
+  children: React.ReactNode;
+  maxWidth?: string;
+}) {
+  const FINANCE_MSG =
+    "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições. Podem me ajudar?";
+
+  return (
+    <div className="min-h-dvh bg-background text-foreground flex flex-col">
+      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors — início">
+            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
+          </Link>
+          <nav className="hidden lg:flex items-center gap-6 text-[11px] font-display font-black uppercase tracking-widest text-white/70">
+            <Link to="/modelos" className="hover:text-primary">Modelos</Link>
+            <Link to="/comparar" className="hover:text-primary">Comparar</Link>
+            <Link to="/financiamento" className="hover:text-primary">Financiamento</Link>
+            <Link to="/garantia" className="hover:text-primary">Garantia</Link>
+            <Link to="/sobre" className="hover:text-primary">Sobre</Link>
+            <Link to="/faq" className="hover:text-primary">FAQ</Link>
+            <Link to="/contato" className="hover:text-primary">Contato</Link>
+          </nav>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
+          >
+            <ArrowLeft className="w-4 h-4" /> Home
+          </Link>
+        </div>
+      </header>
+
+      <main className={`mx-auto w-full ${maxWidth} px-5 sm:px-8 py-14 sm:py-20 flex-1`}>
+        <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-display font-black mb-4">
+          {eyebrow}
+        </p>
+        <h1 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+          {title} {titleAccent && <span className="text-primary">{titleAccent}</span>}
+        </h1>
+        {intro && (
+          <p className="mt-5 text-lg text-white/70 max-w-2xl leading-relaxed">{intro}</p>
+        )}
+        <div className="mt-12 space-y-8">{children}</div>
+      </main>
+
+      <footer className="bg-card border-t border-border mt-auto">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 py-10 grid gap-8 md:grid-cols-3 text-sm text-white/70">
+          <div>
+            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain mb-3" />
+            <p className="text-xs leading-relaxed max-w-xs">
+              Motos, scooters, triciclos e bicicletas elétricas em Joinville/SC.
+            </p>
+          </div>
+          <div className="space-y-2 text-xs">
+            <p className="inline-flex items-center gap-2"><MapPin size={13} className="text-white/40" /> Rua Albano Schimidt, 1882 — Joinville/SC</p>
+            <p className="inline-flex items-center gap-2"><Phone size={13} className="text-white/40" /> <a href="tel:+554734293200" className="hover:text-primary">(47) 3429-3200</a></p>
+            <p className="inline-flex items-center gap-2"><Mail size={13} className="text-white/40" /> <a href="mailto:klugmotors@gmail.com" className="hover:text-primary">klugmotors@gmail.com</a></p>
+            <p className="inline-flex items-center gap-2"><Clock size={13} className="text-white/40" /> Seg–Sex 08:30–18:30 · Sáb 08:30–13:00</p>
+          </div>
+          <div className="flex flex-col gap-3 items-start md:items-end">
+            <div className="flex gap-2">
+              <a
+                href="https://www.instagram.com/klugmotors/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram @klugmotors"
+                className="w-9 h-9 rounded-full border border-white/15 grid place-items-center text-white/80 hover:bg-primary hover:border-primary hover:text-black transition-colors"
+              >
+                <Instagram size={14} />
+              </a>
+              <a
+                href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
+                onClick={(e) => { e.preventDefault(); openWhatsAppWithFallback(FINANCE_MSG); }}
+                aria-label="Falar no WhatsApp"
+                className="w-9 h-9 rounded-full border border-white/15 grid place-items-center text-white/80 hover:bg-primary hover:border-primary hover:text-black transition-colors"
+              >
+                <MessageCircle size={14} />
+              </a>
+            </div>
+            <Link to="/privacidade" className="text-[11px] uppercase tracking-widest hover:text-primary">
+              Política de Privacidade
+            </Link>
+          </div>
+        </div>
+        <div className="border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between gap-3">
+            <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">
+              © {new Date().getFullYear()} Klug Motors · CNPJ 51.728.597/0001-26
+            </p>
+            <img src={klugSymbol.url} alt="" aria-hidden="true" className="w-5 h-5 object-contain opacity-60" />
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export function SectionCard({
+  title,
+  children,
+}: {
+  title?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="border border-border bg-card rounded-2xl p-6 sm:p-8">
+      {title && (
+        <h2 className="font-display font-black uppercase text-xl sm:text-2xl tracking-tight mb-4">
+          {title}
+        </h2>
+      )}
+      <div className="text-white/80 leading-relaxed space-y-4 text-[15px]">{children}</div>
+    </section>
+  );
+}
