@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight } from "lucide-react";
 import { models, type Model } from "@/lib/models";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 
