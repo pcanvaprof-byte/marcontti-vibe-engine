@@ -9,6 +9,9 @@ import bigtriImg from "@/assets/motos/bigtri.jpg.asset.json";
 import joysuperImg from "@/assets/motos/joysuper.jpg.asset.json";
 import sofiaImg from "@/assets/motos/sofia.jpg.asset.json";
 import miatriImg from "@/assets/motos/miatri.jpg.asset.json";
+import p10Img from "@/assets/motos/p10.jpg.asset.json";
+import popImg from "@/assets/motos/pop.jpg.asset.json";
+import x15Img from "@/assets/motos/x15.jpg.asset.json";
 
 export type ColorVariant = { name: string; hex: string; image: string };
 
