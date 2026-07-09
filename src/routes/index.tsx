@@ -361,44 +361,233 @@ function Hero() {
 
 /* ---------------------------- Perks strip ---------------------------- */
 
-const PERKS = [
-  { icon: CreditCard, title: "Financiamento", desc: "em até 36x (WhatsApp)" },
-  { icon: Wallet, title: "Pagamento facilitado", desc: "em até 21x no cartão" },
-  { icon: BadgePercent, title: "10% OFF no PIX", desc: "desconto na hora" },
-  { icon: Store, title: "+ de 5.000", desc: "unidades vendidas" },
-  { icon: ShieldCheck, title: "Loja Oficial", desc: "Joinville / SC" },
-] as const;
+type Perk = {
+  icon: typeof CreditCard;
+  title: string;
+  desc: string;
+  count?: number; // enables count-up animation
+  countPrefix?: string;
+  countSuffix?: string;
+  message: string; // WhatsApp pre-filled message
+};
+
+const PERKS: Perk[] = [
+  {
+    icon: CreditCard,
+    title: "Financiamento",
+    desc: "em até 36x (WhatsApp)",
+    message:
+      "Olá, Klug Motors! Quero simular o financiamento em até 36x. Podem me passar as condições?",
+  },
+  {
+    icon: Wallet,
+    title: "Pagamento facilitado",
+    desc: "em até 21x no cartão",
+    message:
+      "Olá! Gostaria de saber sobre as opções de pagamento em até 21x no cartão.",
+  },
+  {
+    icon: BadgePercent,
+    title: "10% OFF no PIX",
+    desc: "desconto na hora",
+    message:
+      "Olá! Tenho interesse em aproveitar o desconto de 10% no PIX. Podem me atender?",
+  },
+  {
+    icon: Store,
+    title: "+ de",
+    desc: "unidades vendidas",
+    count: 5000,
+    countPrefix: "+",
+    message:
+      "Olá! Vi que a Klug já vendeu mais de 5 mil unidades — quero conhecer os modelos.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Loja Oficial",
+    desc: "Joinville / SC",
+    message:
+      "Olá! Vocês são a loja oficial em Joinville/SC? Quero passar aí para conhecer.",
+  },
+];
+
+/** Respect prefers-reduced-motion. Returns true when the user asked for less motion. */
+function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return reduced;
+}
+
+/** Fire once when the ref enters the viewport. */
+function useInViewOnce<T extends Element>(rootMargin = "0px 0px -10% 0px") {
+  const ref = useRef<T | null>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || inView) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setInView(true);
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      { rootMargin, threshold: 0.15 },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [inView, rootMargin]);
+  return { ref, inView };
+}
+
+/** Subtle count-up. Snaps to final value if `reduced` is true. */
+function useCountUp(target: number, active: boolean, reduced: boolean, duration = 1600) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    if (reduced) {
+      setValue(target);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      // easeOutCubic for a soft settle
+      const eased = 1 - Math.pow(1 - t, 3);
+      setValue(Math.round(target * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, active, reduced, duration]);
+  return value;
+}
+
+function PerkCountLabel({
+  perk,
+  active,
+  reduced,
+}: {
+  perk: Perk;
+  active: boolean;
+  reduced: boolean;
+}) {
+  const value = useCountUp(perk.count ?? 0, active, reduced);
+  const formatted = value.toLocaleString("pt-BR");
+  return (
+    <p
+      className="font-display font-black uppercase text-[12px] tracking-wider leading-none tabular-nums"
+      aria-label={`${perk.countPrefix ?? ""}${(perk.count ?? 0).toLocaleString("pt-BR")} ${perk.desc}`}
+    >
+      <span aria-hidden="true">
+        {perk.title}{" "}
+        <span className="text-primary">
+          {perk.countPrefix}
+          {formatted}
+        </span>
+      </span>
+    </p>
+  );
+}
 
 function PerksBar() {
+  const reduced = useReducedMotion();
+  const { ref, inView } = useInViewOnce<HTMLUListElement>();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), reduced ? 0 : 350);
+    return () => clearTimeout(t);
+  }, [reduced]);
+
   return (
     <section
       aria-label="Benefícios e condições"
       className="border-b border-border bg-card"
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {PERKS.map((p, i) => (
-            <li
-              key={p.title}
-              className={`flex items-center gap-3 py-5 px-4 sm:px-5 border-border ${
-                i > 0 ? "md:border-l" : ""
-              } ${i >= 2 ? "border-t md:border-t-0" : ""} ${
-                i === 1 ? "border-l md:border-l" : ""
-              } ${i === 3 ? "border-l md:border-l" : ""} group hover:bg-background transition-colors`}
-            >
-              <span className="w-10 h-10 shrink-0 border border-border grid place-items-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground transition-colors">
-                <p.icon size={18} strokeWidth={2.2} />
-              </span>
-              <div className="min-w-0">
-                <p className="font-display font-black uppercase text-[12px] tracking-wider leading-none">
-                  {p.title}
-                </p>
-                <p className="text-white/55 text-[11px] mt-1 leading-tight">
-                  {p.desc}
-                </p>
-              </div>
-            </li>
-          ))}
+        <ul
+          ref={ref}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+          aria-busy={!loaded}
+        >
+          {PERKS.map((p, i) => {
+            const borderClasses = [
+              i > 0 ? "md:border-l" : "",
+              i >= 2 ? "border-t md:border-t-0" : "",
+              i === 1 ? "border-l md:border-l" : "",
+              i === 3 ? "border-l md:border-l" : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
+
+            if (!loaded) {
+              return (
+                <li
+                  key={p.title}
+                  aria-hidden="true"
+                  className={`flex items-center gap-3 py-5 px-4 sm:px-5 border-border ${borderClasses}`}
+                >
+                  <span className="w-10 h-10 shrink-0 border border-border bg-background/40 animate-pulse" />
+                  <div className="min-w-0 flex-1 space-y-2">
+                    <span className="block h-3 w-24 bg-background/40 animate-pulse" />
+                    <span className="block h-2.5 w-32 bg-background/30 animate-pulse" />
+                  </div>
+                </li>
+              );
+            }
+
+            const enterStyle =
+              !reduced && inView
+                ? {
+                    animation: `fade-in 0.5s ease-out ${i * 80}ms both`,
+                  }
+                : undefined;
+
+            return (
+              <li
+                key={p.title}
+                style={enterStyle}
+                className={`border-border ${borderClasses} ${
+                  !reduced && !inView ? "opacity-0" : ""
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => openWhatsAppWithFallback(p.message)}
+                  aria-label={`${p.title} ${p.desc} — falar no WhatsApp`}
+                  className="group w-full h-full text-left flex items-center gap-3 py-5 px-4 sm:px-5 transition-colors motion-safe:transition-all motion-safe:duration-300 hover:bg-background focus-visible:bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset motion-safe:hover:-translate-y-0.5"
+                >
+                  <span className="w-10 h-10 shrink-0 border border-border grid place-items-center text-primary transition-colors motion-safe:transition-transform motion-safe:duration-300 group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground group-focus-visible:bg-primary group-focus-visible:border-primary group-focus-visible:text-primary-foreground motion-safe:group-hover:scale-110 motion-safe:group-focus-visible:scale-110">
+                    <p.icon size={18} strokeWidth={2.2} />
+                  </span>
+                  <div className="min-w-0">
+                    {p.count ? (
+                      <PerkCountLabel perk={p} active={inView} reduced={reduced} />
+                    ) : (
+                      <p className="font-display font-black uppercase text-[12px] tracking-wider leading-none">
+                        {p.title}
+                      </p>
+                    )}
+                    <p className="text-white/55 text-[11px] mt-1 leading-tight group-hover:text-white/80 group-focus-visible:text-white/80 transition-colors">
+                      {p.desc}
+                    </p>
+                  </div>
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
