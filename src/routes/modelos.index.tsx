@@ -1,21 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, Filter, Zap } from "lucide-react";
+import { ArrowLeft, ArrowRight, Zap, ChevronRight } from "lucide-react";
 import { models, type Model } from "@/lib/models";
-import klugHorizontalWhite from "@/assets/klug/klug-horizontal-white.png.asset.json";
+import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 
 export const Route = createFileRoute("/modelos/")({
   head: () => ({
     meta: [
-      { title: "Catálogo de Modelos — Klug Motors" },
+      { title: "Catálogo — Klug Motors" },
       {
         name: "description",
         content:
-          "Explore todos os modelos elétricos da Klug Motors: scooters, motos, triciclos e bicicletas. Filtre por tipo e faixa de preço.",
+          "Explore todos os modelos elétricos da Klug Motors: scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo e faixa de preço.",
       },
-      { property: "og:title", content: "Catálogo de Modelos — Klug Motors" },
+      { property: "og:title", content: "Catálogo — Klug Motors" },
       {
         property: "og:description",
         content: "Todos os modelos elétricos da Klug — filtre por tipo e preço.",
@@ -68,16 +68,19 @@ function CatalogPage() {
   }, [type, priceId, sort]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors — Home">
-            <img src={klugHorizontalWhite.url} alt="Klug Motors" className="h-8 w-auto" />
+      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors — início">
+            <span className="klug-mark" aria-hidden="true" />
+            <span className="font-display font-black text-xl tracking-tighter uppercase leading-none">
+              Klug<span className="text-primary">Motors</span>
+            </span>
           </Link>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
           >
             <ArrowLeft className="w-4 h-4" /> Home
           </Link>
@@ -85,33 +88,41 @@ function CatalogPage() {
       </header>
 
       {/* Hero */}
-      <section className="border-b border-border/60 bg-surface">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold mb-3">
-            Catálogo Klug
+      <section className="relative border-b border-border overflow-hidden">
+        <div className="absolute inset-0 ember-spotlight pointer-events-none" />
+        <div className="relative mx-auto max-w-7xl px-5 sm:px-8 py-16 sm:py-24">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-display font-black mb-4">
+            Catálogo completo
           </p>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight">
-            Todos os modelos elétricos
+          <h1 className="font-display font-black uppercase text-5xl sm:text-6xl tracking-tighter leading-none">
+            Todos os <span className="text-primary">modelos</span>
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-            {models.length} modelos disponíveis — scooters, motos, triciclos e bicicletas.
-            Filtre por tipo e faixa de preço para encontrar o seu.
+          <p className="mt-6 text-white/60 max-w-xl leading-relaxed">
+            <strong className="text-white">{models.length} modelos</strong> disponíveis —
+            scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo e preço
+            para encontrar o seu.
           </p>
         </div>
       </section>
 
       {/* Filters + Grid */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-8">
-          <div className="flex flex-wrap gap-2">
+      <section className="mx-auto max-w-7xl px-5 sm:px-8 py-12 sm:py-16">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+          <div
+            role="tablist"
+            aria-label="Filtrar por tipo"
+            className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-display font-black uppercase tracking-widest"
+          >
             {TYPES.map((t) => (
               <button
                 key={t}
+                role="tab"
+                aria-selected={type === t}
                 onClick={() => setType(t)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold border transition ${
+                className={`pb-1 transition-colors border-b-2 ${
                   type === t
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-foreground border-border hover:border-primary/60"
+                    ? "text-primary border-primary"
+                    : "text-white/40 hover:text-white border-transparent"
                 }`}
               >
                 {t}
@@ -120,26 +131,20 @@ function CatalogPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <label className="flex items-center gap-2 text-sm">
-              <Filter className="w-4 h-4 text-muted-foreground" />
-              <select
-                value={priceId}
-                onChange={(e) => setPriceId(e.target.value as typeof priceId)}
-                className="bg-background border border-border rounded-md px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
-                aria-label="Faixa de preço"
-              >
-                {PRICE_RANGES.map((r) => (
-                  <option key={r.id} value={r.id}>
-                    {r.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
+            <select
+              value={priceId}
+              onChange={(e) => setPriceId(e.target.value as typeof priceId)}
+              className="bg-card border border-border px-3 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
+              aria-label="Faixa de preço"
+            >
+              {PRICE_RANGES.map((r) => (
+                <option key={r.id} value={r.id}>{r.label}</option>
+              ))}
+            </select>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="bg-background border border-border rounded-md px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
+              className="bg-card border border-border px-3 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
               aria-label="Ordenar por"
             >
               <option value="relevance">Relevância</option>
@@ -149,45 +154,68 @@ function CatalogPage() {
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground mb-6">
-          Mostrando <strong className="text-foreground">{filtered.length}</strong> de{" "}
+        <p className="text-[11px] uppercase tracking-widest font-bold text-white/50 mb-6">
+          Mostrando <strong className="text-white">{filtered.length}</strong> de{" "}
           {models.length} modelos
         </p>
 
         {filtered.length === 0 ? (
-          <div className="text-center py-20 border border-dashed border-border rounded-xl">
-            <p className="text-lg font-semibold mb-2">Nenhum modelo encontrado</p>
-            <p className="text-muted-foreground text-sm">
+          <div className="border border-dashed border-border p-16 text-center bg-card">
+            <p className="font-display font-black uppercase tracking-wider text-lg mb-2">
+              Nenhum modelo encontrado
+            </p>
+            <p className="text-white/50 text-sm mb-6">
               Ajuste os filtros para ver mais opções.
             </p>
+            <button
+              onClick={() => {
+                setType("Todos");
+                setPriceId("all");
+              }}
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3"
+            >
+              Limpar filtros <ArrowRight size={14} />
+            </button>
           </div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((m) => (
               <Link
                 key={m.slug}
                 to="/modelos/$slug"
                 params={{ slug: m.slug }}
-                className="group rounded-2xl overflow-hidden border border-border bg-surface hover:border-primary/60 transition"
+                className="group bg-card border border-border hover-ember overflow-hidden"
               >
-                <div className="aspect-[4/3] overflow-hidden bg-background">
+                <div className="relative aspect-[4/3] overflow-hidden bg-charcoal">
                   <img
                     src={m.colors[0]?.image}
-                    alt={m.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                    alt={`${m.name} — ${m.tag}`}
                     loading="lazy"
+                    className="w-full h-full object-contain p-6 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
                   />
+                  <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
+                    <span className="bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
+                      <Zap size={10} className="text-primary" /> {m.power}
+                    </span>
+                  </div>
                 </div>
-                <div className="p-5">
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">
+                <div className="p-6">
+                  <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-2">
                     {m.tag}
                   </p>
-                  <h2 className="text-xl font-black">{m.name}</h2>
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{m.short}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-lg font-bold text-primary">{m.price}</span>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground">
-                      <Zap className="w-3.5 h-3.5" /> {m.power}
+                  <h2 className="font-display font-black uppercase text-xl tracking-tight">
+                    {m.name}
+                  </h2>
+                  <p className="mt-2 text-sm text-white/60 line-clamp-2">{m.short}</p>
+                  <div className="mt-5 pt-5 border-t border-border flex items-center justify-between">
+                    <div>
+                      <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
+                        A partir de
+                      </span>
+                      <span className="font-display font-black text-lg">{m.price}</span>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-display font-black uppercase tracking-widest text-primary group-hover:gap-2 transition-all">
+                      Ver <ChevronRight size={14} />
                     </span>
                   </div>
                 </div>
@@ -197,8 +225,21 @@ function CatalogPage() {
         )}
       </section>
 
-      <footer className="border-t border-border/60 py-8 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Klug Motors — Joinville/SC
+      <footer className="bg-card border-t border-border py-10">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <img src={klugSymbol.url} alt="" aria-hidden="true" className="w-6 h-6 object-contain opacity-70" />
+            <span className="text-[10px] text-white/40 uppercase tracking-[0.2em] font-bold">
+              © {new Date().getFullYear()} Klug Motors · Joinville / SC
+            </span>
+          </div>
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
+          >
+            <ArrowLeft className="w-4 h-4" /> Voltar para a home
+          </Link>
+        </div>
       </footer>
     </div>
   );
