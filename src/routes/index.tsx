@@ -874,6 +874,7 @@ function Index() {
       <Header />
       <main>
         <Hero />
+        <PerksBar />
         <Products />
         <Benefits />
         <Contact />
