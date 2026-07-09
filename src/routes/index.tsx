@@ -413,6 +413,91 @@ function matchCategory(m: Model, cat: Category) {
   return true;
 }
 
+/* ------------------------- Nossa Linha (featured) ------------------------- */
+
+const FEATURED_SLUGS = ["p10", "pop", "x12", "x15"] as const;
+
+function Featured() {
+  const featured = FEATURED_SLUGS
+    .map((s) => models.find((m) => m.slug === s))
+    .filter((m): m is Model => Boolean(m));
+
+  return (
+    <section id="nossa-linha" className="py-24 sm:py-32 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+          <div className="max-w-xl">
+            <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
+              Destaques
+            </p>
+            <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+              Nossa <span className="text-primary">Linha</span>
+            </h2>
+            <p className="text-white/60 mt-4 text-sm leading-relaxed max-w-md">
+              Os quatro modelos mais procurados — do patinete urbano ao triciclo top de linha.
+            </p>
+          </div>
+          <Link
+            to="/modelos"
+            className="inline-flex items-center gap-2 self-start md:self-auto text-[10px] font-display font-black uppercase tracking-widest text-primary hover:gap-3 transition-all"
+          >
+            Ver catálogo completo <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {featured.map((m) => (
+            <article key={m.slug} className="group bg-card border border-border hover-ember flex flex-col">
+              <Link
+                to="/modelos/$slug"
+                params={{ slug: m.slug }}
+                className="block relative aspect-[4/3] overflow-hidden bg-charcoal"
+                aria-label={`Ver detalhes de ${m.name}`}
+              >
+                <img
+                  src={m.colors[0]?.image}
+                  alt={`${m.name} — ${m.tag}`}
+                  loading="lazy"
+                  className="w-full h-full object-contain p-5 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                />
+                <span className="absolute top-3 left-3 bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
+                  <Zap size={10} className="text-primary" /> {m.power}
+                </span>
+              </Link>
+              <div className="p-5 flex flex-col flex-1">
+                <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-1">
+                  {m.tag}
+                </p>
+                <h3 className="font-display font-black uppercase text-lg tracking-tight">
+                  {m.name}
+                </h3>
+                <p className="mt-2 text-xs text-white/55 line-clamp-2 flex-1">{m.short}</p>
+                <div className="mt-4 pt-4 border-t border-border flex items-center justify-between">
+                  <div>
+                    <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
+                      A partir de
+                    </span>
+                    <span className="font-display font-black text-base">{m.price}</span>
+                  </div>
+                </div>
+                <Link
+                  to="/modelos/$slug"
+                  params={{ slug: m.slug }}
+                  className="mt-4 inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] px-4 py-3 hover:opacity-90 transition-opacity"
+                >
+                  Ver detalhes <ChevronRight size={12} />
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
 function Products() {
   const [cat, setCat] = useState<Category>("Todos");
   const filtered = models.filter((m) => matchCategory(m, cat));
