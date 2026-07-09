@@ -1364,3 +1364,21 @@ function Index() {
     </div>
   );
 }
+
+/* ---------------------------- Reveal helper ---------------------------- */
+
+function RevealGrid({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const ref = useReveal<HTMLDivElement>();
+  return (
+    <div ref={ref} className={className}>
+      {children}
+    </div>
+  );
+}
+
