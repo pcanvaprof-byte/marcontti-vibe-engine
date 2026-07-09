@@ -265,16 +265,14 @@ export function TestRideForm({
 
         <button
           type="submit"
-          disabled={submitting || sent}
-          className="w-full bg-primary hover:bg-primary-glow disabled:opacity-70 text-primary-foreground font-display font-black uppercase text-sm tracking-widest py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-2"
+          disabled={submitting}
+          className="w-full bg-primary hover:bg-primary-glow disabled:opacity-70 disabled:cursor-not-allowed text-primary-foreground font-display font-black uppercase text-sm tracking-widest py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
-          {sent ? (
+          {submitting ? (
             <>
-              <CheckCircle2 size={18} /> Enviado
-            </>
-          ) : submitting ? (
-            <>
-              <Loader2 size={18} className="animate-spin" /> Enviando…
+              <Loader2 size={18} className="animate-spin" aria-hidden="true" />
+              <span>Enviando…</span>
+              <span className="sr-only">Aguarde, enviando sua solicitação</span>
             </>
           ) : (
             <>
@@ -282,7 +280,7 @@ export function TestRideForm({
             </>
           )}
         </button>
-        <p className="text-[10px] text-white/40 text-center uppercase tracking-widest">
+        <p className="text-[10px] text-white/60 text-center uppercase tracking-widest">
           Ao enviar, você será redirecionado para o WhatsApp
         </p>
       </div>
