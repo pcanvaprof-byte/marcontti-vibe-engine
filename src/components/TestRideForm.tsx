@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw } from "lucide-react";
 import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
 
@@ -33,6 +33,7 @@ export function TestRideForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
+  const [lastMessage, setLastMessage] = useState<string | null>(null);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,6 +52,12 @@ export function TestRideForm({
         errs[String(i.path[0])] = i.message;
       });
       setErrors(errs);
+      // Focus first invalid field for a11y
+      const firstKey = parsed.error.issues[0]?.path[0];
+      if (typeof firstKey === "string") {
+        const el = document.getElementById(`tr-${firstKey}`) as HTMLElement | null;
+        el?.focus();
+      }
       return;
     }
     setErrors({});
@@ -70,16 +77,72 @@ export function TestRideForm({
 
     setTimeout(() => {
       openWhatsAppWithFallback(text);
+      setLastMessage(text);
       setSubmitting(false);
       setSent(true);
-      setTimeout(() => setSent(false), 4000);
     }, 400);
   }
 
+  function reset() {
+    setSent(false);
+    setLastMessage(null);
+    setErrors({});
+  }
+
   const inputCls =
-    "w-full bg-background border border-border px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-primary focus:outline-none transition-colors";
+    "w-full bg-background border border-border px-4 py-3 text-sm text-white placeholder:text-white/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-0 transition-all";
   const labelCls =
-    "block text-[10px] uppercase font-display font-black text-white/50 tracking-widest mb-2";
+    "block text-[10px] uppercase font-display font-black text-white/70 tracking-widest mb-2";
+
+  // Success panel — persistent, actionable
+  if (sent) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        className={
+          compact
+            ? "space-y-4"
+            : "bg-card border border-border p-8 sm:p-10 animate-fade-up"
+        }
+      >
+        <div className="flex flex-col items-center text-center">
+          <div className="w-14 h-14 grid place-items-center border border-primary text-primary mb-5 animate-pulse-ring">
+            <CheckCircle2 size={26} />
+          </div>
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
+            Solicitação enviada
+          </p>
+          <h3 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-3">
+            Abrimos o WhatsApp pra você
+          </h3>
+          <p className="text-white/70 text-sm max-w-sm mb-6">
+            Confirme o envio da mensagem no WhatsApp. Se a janela não abriu,
+            clique em "Reabrir" abaixo.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => lastMessage && openWhatsAppWithFallback(lastMessage)}
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <MessageCircle size={16} fill="white" strokeWidth={0} />
+              Reabrir WhatsApp
+            </button>
+            <button
+              type="button"
+              onClick={reset}
+              className="inline-flex items-center gap-2 border border-border text-white/80 hover:border-primary hover:text-primary font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <RotateCcw size={14} />
+              Nova solicitação
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <form
@@ -202,16 +265,14 @@ export function TestRideForm({
 
         <button
           type="submit"
-          disabled={submitting || sent}
-          className="w-full bg-primary hover:bg-primary-glow disabled:opacity-70 text-primary-foreground font-display font-black uppercase text-sm tracking-widest py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-2"
+          disabled={submitting}
+          className="w-full bg-primary hover:bg-primary-glow disabled:opacity-70 disabled:cursor-not-allowed text-primary-foreground font-display font-black uppercase text-sm tracking-widest py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
-          {sent ? (
+          {submitting ? (
             <>
-              <CheckCircle2 size={18} /> Enviado
-            </>
-          ) : submitting ? (
-            <>
-              <Loader2 size={18} className="animate-spin" /> Enviando…
+              <Loader2 size={18} className="animate-spin" aria-hidden="true" />
+              <span>Enviando…</span>
+              <span className="sr-only">Aguarde, enviando sua solicitação</span>
             </>
           ) : (
             <>
@@ -219,7 +280,7 @@ export function TestRideForm({
             </>
           )}
         </button>
-        <p className="text-[10px] text-white/40 text-center uppercase tracking-widest">
+        <p className="text-[10px] text-white/60 text-center uppercase tracking-widest">
           Ao enviar, você será redirecionado para o WhatsApp
         </p>
       </div>
