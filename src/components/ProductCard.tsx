@@ -23,12 +23,13 @@ export function ProductCard({ product }: { product: Product }) {
     <article
       className="
         group relative w-full h-full
-        bg-white overflow-hidden
+        bg-black overflow-hidden
         rounded-[18px]
         transition-transform duration-300 ease-out
         motion-safe:hover:-translate-y-0.5
       "
     >
+
       {/* Canto preto superior esquerdo */}
       <span
         aria-hidden
