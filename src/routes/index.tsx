@@ -93,11 +93,11 @@ export const Route = createFileRoute("/")({
 
 function KlugWordmark({ className = "" }: { className?: string }) {
   return (
-    <span
-      className={`font-display font-black text-2xl tracking-tighter uppercase leading-none ${className}`}
-    >
-      Klug<span className="text-primary">Motors</span>
-    </span>
+    <img
+      src={klugLogo.url}
+      alt="Klug Motors"
+      className={`h-8 sm:h-9 w-auto object-contain ${className}`}
+    />
   );
 }
 
