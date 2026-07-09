@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import {
   Menu,
   X,
@@ -28,6 +28,8 @@ import {
   models,
   type Model,
 } from "@/lib/models";
+import { useReveal } from "@/hooks/use-reveal";
+
 import { TestRideForm } from "@/components/TestRideForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
 import { ProductCarousel } from "@/components/ProductCarousel";
@@ -829,12 +831,19 @@ function Products() {
             }
           />
         ) : (
-          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p) => (
-              <ProductCard key={p.slug} product={p} />
+          <RevealGrid className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((p, i) => (
+              <div
+                key={p.slug}
+                className="reveal card-shine rounded-2xl"
+                style={{ transitionDelay: `${Math.min(i, 5) * 70}ms` }}
+              >
+                <ProductCard product={p} />
+              </div>
             ))}
-          </div>
+          </RevealGrid>
         )}
+
       </div>
     </section>
   );
@@ -957,14 +966,15 @@ function Benefits() {
             Menos <span className="text-primary">custo</span>. Zero ruído.
           </h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {benefits.map((b) => (
+        <RevealGrid className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {benefits.map((b, i) => (
             <div
               key={b.title}
-              className="p-7 bg-card border border-border rounded-2xl group hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
+              className="reveal card-shine p-7 bg-card border border-border rounded-2xl group hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
+              style={{ transitionDelay: `${i * 80}ms` }}
             >
               <div className="flex items-start justify-between mb-8">
-                <div className="w-11 h-11 rounded-xl border border-border grid place-items-center group-hover:bg-primary group-hover:border-primary transition-colors">
+                <div className="w-11 h-11 rounded-xl border border-border grid place-items-center group-hover:bg-primary group-hover:border-primary group-hover:rotate-6 transition-all duration-300">
                   <b.icon
                     className="text-primary group-hover:text-primary-foreground transition-colors"
                     size={20}
@@ -981,7 +991,8 @@ function Benefits() {
               <p className="text-white/60 text-sm leading-relaxed">{b.desc}</p>
             </div>
           ))}
-        </div>
+        </RevealGrid>
+
 
       </div>
     </section>
@@ -1355,3 +1366,21 @@ function Index() {
     </div>
   );
 }
+
+/* ---------------------------- Reveal helper ---------------------------- */
+
+function RevealGrid({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  const ref = useReveal<HTMLDivElement>();
+  return (
+    <div ref={ref} className={className}>
+      {children}
+    </div>
+  );
+}
+

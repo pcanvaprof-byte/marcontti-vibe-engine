@@ -248,6 +248,86 @@ button:hover > .klug-mark {
     transparent 55%);
 }
 
+/* ------------------------------------------------------------------
+   Scroll reveal + card microinteractions
+   ------------------------------------------------------------------ */
+
+/* Base: any child with .reveal starts hidden until the ancestor
+   (or itself) gets `.is-visible`. Staggering handled via inline style. */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.is-visible.reveal,
+.is-visible .reveal {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Slight horizontal variant, for right-column details. */
+.reveal-x {
+  opacity: 0;
+  transform: translate3d(24px, 0, 0);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.is-visible.reveal-x,
+.is-visible .reveal-x {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-x {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Micro-shine on card hover — diagonal sweep across the surface.
+   Requires an overflow-hidden ancestor (cards already have it). */
+.card-shine {
+  position: relative;
+  isolation: isolate;
+}
+.card-shine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    color-mix(in oklab, var(--primary) 22%, transparent) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  mix-blend-mode: screen;
+  opacity: 0;
+  z-index: 1;
+}
+.card-shine:hover::before {
+  transform: translateX(120%);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-shine::before {
+    display: none;
+  }
+}
+
 #lovable-badge {
   display: none !important;
 }
+
