@@ -1004,7 +1004,7 @@ function Contact() {
           </p>
 
           {/* Cockpit panel */}
-          <div className="border border-border bg-card divide-y divide-border">
+          <div id="joinville" className="border border-border bg-card divide-y divide-border scroll-mt-24">
             <ContactRow
               icon={MapPin}
               label="Endereço"
