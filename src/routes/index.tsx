@@ -168,8 +168,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const reduced = useReducedMotion();
-  const activeIds = NAV_LINKS.map((l) => l.hash);
-  const active = useActiveSection(activeIds);
+  const active = useActiveSection(NAV_IDS);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
