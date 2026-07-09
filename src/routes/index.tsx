@@ -829,12 +829,19 @@ function Products() {
             }
           />
         ) : (
-          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((p) => (
-              <ProductCard key={p.slug} product={p} />
+          <RevealGrid className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((p, i) => (
+              <div
+                key={p.slug}
+                className="reveal card-shine rounded-2xl"
+                style={{ transitionDelay: `${Math.min(i, 5) * 70}ms` }}
+              >
+                <ProductCard product={p} />
+              </div>
             ))}
-          </div>
+          </RevealGrid>
         )}
+
       </div>
     </section>
   );
