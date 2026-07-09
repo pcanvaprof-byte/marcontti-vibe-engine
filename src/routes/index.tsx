@@ -1630,22 +1630,27 @@ function Index() {
       <main>
         <Hero />
         <BenefitsBar />
-        <WhatsAppCTA />
         <ProductCarousel
           items={featuredProducts}
           eyebrow="Destaques"
           title={<>Nossa <span className="text-primary">Linha</span></>}
         />
+        <CategoryCircles />
+        <DestaquesGrid />
+        <MaisVendidosGrid />
+        <YoutubeShowcase />
+        <InstagramRow />
+        <WhatsAppCTA />
         <Products />
         <Benefits />
         <Contact />
       </main>
       <Footer />
-      {/* Back-to-top é global (renderizado no __root) */}
       <WhatsAppFab />
     </div>
   );
 }
+
 
 /* ---------------------------- Reveal helper ---------------------------- */
 
