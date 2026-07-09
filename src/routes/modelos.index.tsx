@@ -181,12 +181,8 @@ function CatalogPage() {
         ) : (
           <CatalogGrid items={filtered} />
         )}
-
-
-
-          </div>
-        )}
       </section>
+
 
       <footer className="bg-card border-t border-border py-10">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
