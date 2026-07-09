@@ -113,6 +113,18 @@
     scroll-behavior: smooth;
   }
 
+  /* Offset in-page anchors so the sticky header doesn't cover them */
+  section[id],
+  [data-anchor] {
+    scroll-margin-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
