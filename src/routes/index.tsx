@@ -1317,6 +1317,7 @@ function Footer() {
               <li><Link to="/modelos" className="story-link hover:text-primary">Catálogo completo</Link></li>
               <li><a href="#sobre" className="story-link hover:text-primary">Sobre</a></li>
               <li><a href="#contato" className="story-link hover:text-primary">Test-Ride</a></li>
+              <li><Link to="/privacidade" className="story-link hover:text-primary">Privacidade</Link></li>
             </ul>
           </div>
         </div>
