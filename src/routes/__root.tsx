@@ -182,6 +182,8 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <ScrollProgress />
       <Outlet />
+      <BackToTop />
+      <CookieConsent />
       <InfindaCredit />
     </QueryClientProvider>
   );
