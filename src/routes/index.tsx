@@ -239,6 +239,33 @@ function CategoryNav() {
   );
 }
 
+function TrustItem({
+  icon: Icon,
+  label,
+  href,
+  external = false,
+}: {
+  icon: typeof MapPin;
+  label: string;
+  href: string;
+  external?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="flex items-center gap-2 text-white/85 hover:text-primary transition-colors group"
+    >
+      <span className="grid place-items-center h-9 w-9 rounded-full border border-white/15 text-primary group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+        <Icon size={16} strokeWidth={2} />
+      </span>
+      <span className="text-[12px] font-display font-bold uppercase tracking-widest whitespace-nowrap">
+        {label}
+      </span>
+    </a>
+  );
+}
+
 /* ------------------------------ Header ------------------------------ */
 
 function Header() {
