@@ -69,13 +69,13 @@ export function ProductCard({ product }: { product: Product }) {
         className="relative z-[2] block h-full"
       >
         {/* Imagem — domina o card */}
-        <div className="absolute inset-0 flex items-center justify-center px-4 pt-8 pb-14">
+        <div className="absolute inset-0 flex items-center justify-center px-4 pt-8 pb-14 bg-primary">
           <img
             src={product.imagem}
             alt={product.nome}
             loading="lazy"
             decoding="async"
-            className="max-h-full max-w-full w-auto object-contain transition-transform duration-500 motion-safe:group-hover:scale-105"
+            className="max-h-full max-w-full w-auto object-contain mix-blend-multiply transition-transform duration-500 motion-safe:group-hover:scale-105"
           />
         </div>
 
