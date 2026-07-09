@@ -284,7 +284,8 @@ function Header() {
           : "bg-background/70 border-border/60"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 md:h-20 flex items-center gap-4 md:gap-6">
+        {/* Logo */}
         <a
           href="#"
           onClick={(e) => {
@@ -292,41 +293,53 @@ function Header() {
             window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
             history.replaceState(null, "", " ");
           }}
-          className="flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="flex items-center gap-2 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           aria-label="Klug Motors — início"
         >
           <KlugWordmark />
         </a>
 
-        <nav
-          className="hidden md:flex items-center gap-8 font-display font-bold uppercase text-xs tracking-[0.2em]"
-          aria-label="Principal"
+        {/* Search bar */}
+        <form
+          role="search"
+          onSubmit={(e) => {
+            e.preventDefault();
+            window.location.href = "/modelos";
+          }}
+          className="hidden md:flex flex-1 max-w-xl h-11 items-center rounded-full bg-card border border-border focus-within:border-primary/60 transition-colors overflow-hidden"
         >
-          {NAV_LINKS.map((l) => {
-            const isActive = active === l.hash;
-            return (
-              <a
-                key={l.hash}
-                href={`#${l.hash}`}
-                onClick={handleAnchor(l.hash)}
-                aria-current={isActive ? "location" : undefined}
-                className={`story-link transition-colors focus:outline-none focus-visible:text-primary ${
-                  isActive
-                    ? "text-primary after:scale-x-100"
-                    : "text-white/80 hover:text-primary"
-                }`}
-              >
-                {l.label}
-              </a>
-            );
-          })}
-          <Link
-            to="/modelos"
-            className="story-link text-white/80 hover:text-primary transition-colors"
+          <input
+            type="search"
+            placeholder="O que deseja procurar?"
+            className="flex-1 bg-transparent px-5 text-sm text-white placeholder:text-white/40 focus:outline-none"
+            aria-label="Buscar modelos"
+          />
+          <button
+            type="submit"
+            aria-label="Buscar"
+            className="grid place-items-center h-full aspect-square text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
           >
-            Catálogo
-          </Link>
-        </nav>
+            <Search size={18} strokeWidth={2.4} />
+          </button>
+        </form>
+
+        {/* Trust items */}
+        <div className="hidden lg:flex items-center gap-6 ml-auto text-white">
+          <TrustItem icon={Headphones} label="Atendimento" href={buildWhatsAppFallbackUrl(TEST_RIDE_MSG)} external />
+          <TrustItem icon={MapPin} label="Localização" href="#joinville" />
+          <TrustItem icon={User} label="Contato" href="#contato" />
+        </div>
+
+        {/* Test-Ride pill (replaces the cart) */}
+        <a
+          href="#contato"
+          onClick={handleAnchor("contato")}
+          className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-display font-extrabold text-[11px] px-5 py-2.5 rounded-full uppercase tracking-widest transition-all hover:scale-[1.03] hover:shadow-[var(--shadow-ember)] active:scale-95"
+        >
+          Test-Ride
+          <ArrowRight size={14} />
+        </a>
+
 
         <a
           href="#contato"
