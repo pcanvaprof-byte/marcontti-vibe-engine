@@ -90,9 +90,59 @@ export function TestRideForm({
   }
 
   const inputCls =
-    "w-full bg-background border border-border px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-primary focus:outline-none transition-colors";
+    "w-full bg-background border border-border px-4 py-3 text-sm text-white placeholder:text-white/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-0 transition-all";
   const labelCls =
-    "block text-[10px] uppercase font-display font-black text-white/50 tracking-widest mb-2";
+    "block text-[10px] uppercase font-display font-black text-white/70 tracking-widest mb-2";
+
+  // Success panel — persistent, actionable
+  if (sent) {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        className={
+          compact
+            ? "space-y-4"
+            : "bg-card border border-border p-8 sm:p-10 animate-fade-up"
+        }
+      >
+        <div className="flex flex-col items-center text-center">
+          <div className="w-14 h-14 grid place-items-center border border-primary text-primary mb-5 animate-pulse-ring">
+            <CheckCircle2 size={26} />
+          </div>
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
+            Solicitação enviada
+          </p>
+          <h3 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-3">
+            Abrimos o WhatsApp pra você
+          </h3>
+          <p className="text-white/70 text-sm max-w-sm mb-6">
+            Confirme o envio da mensagem no WhatsApp. Se a janela não abriu,
+            clique em "Reabrir" abaixo.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => lastMessage && openWhatsAppWithFallback(lastMessage)}
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <MessageCircle size={16} fill="white" strokeWidth={0} />
+              Reabrir WhatsApp
+            </button>
+            <button
+              type="button"
+              onClick={reset}
+              className="inline-flex items-center gap-2 border border-border text-white/80 hover:border-primary hover:text-primary font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <RotateCcw size={14} />
+              Nova solicitação
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <form
