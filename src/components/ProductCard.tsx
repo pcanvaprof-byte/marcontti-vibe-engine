@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
     <article
       className="
         group relative w-full h-full
-        bg-primary/50 overflow-hidden
+        bg-black overflow-hidden
         rounded-[18px]
         transition-transform duration-300 ease-out
         motion-safe:hover:-translate-y-0.5
