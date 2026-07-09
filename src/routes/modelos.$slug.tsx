@@ -72,7 +72,7 @@ export const Route = createFileRoute("/modelos/$slug")({
         </h1>
         <Link
           to="/modelos"
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full"
         >
           Ver catálogo <ChevronRight size={14} />
         </Link>
@@ -88,7 +88,7 @@ export const Route = createFileRoute("/modelos/$slug")({
         <p className="text-white/60 mb-6 text-sm">{error.message}</p>
         <button
           onClick={reset}
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3"
+          className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full"
         >
           Tentar novamente
         </button>
