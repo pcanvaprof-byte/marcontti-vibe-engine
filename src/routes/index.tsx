@@ -266,24 +266,76 @@ function Header() {
           <ArrowRight size={14} />
         </a>
 
-        <button
-          onClick={() => setOpen((v) => !v)}
-          className="md:hidden p-2 min-h-11 min-w-11 grid place-items-center"
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        {/* Mobile — compact Test-Ride + burger */}
+        <div className="md:hidden flex items-center gap-2">
+          <a
+            href="#contato"
+            onClick={handleAnchor("contato")}
+            className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground font-display font-extrabold text-[10px] px-3.5 py-2 rounded-full uppercase tracking-widest active:scale-95 transition-transform"
+          >
+            Test-Ride
+            <ArrowRight size={12} />
+          </a>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="relative p-2 min-h-11 min-w-11 grid place-items-center rounded-full border border-white/10 hover:border-primary/50 transition-colors"
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+          >
+            <span className="sr-only">Menu</span>
+            <span className="relative w-5 h-4">
+              <span
+                className={`absolute left-0 right-0 h-[2px] bg-current rounded-full transition-all duration-300 ${
+                  open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
+                }`}
+              />
+              <span
+                className={`absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-current rounded-full transition-all duration-200 ${
+                  open ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute left-0 right-0 h-[2px] bg-current rounded-full transition-all duration-300 ${
+                  open ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
+                }`}
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
-      {open && (
+      {/* Mobile drawer + backdrop */}
+      <div
+        className={`md:hidden fixed inset-x-0 top-16 bottom-0 z-40 pointer-events-none ${
+          open ? "" : ""
+        }`}
+        aria-hidden={!open}
+      >
+        {/* Backdrop */}
+        <button
+          type="button"
+          aria-label="Fechar menu"
+          tabIndex={open ? 0 : -1}
+          onClick={() => setOpen(false)}
+          className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+            open ? "opacity-100 pointer-events-auto" : "opacity-0"
+          }`}
+        />
+        {/* Panel */}
         <div
           id="mobile-nav"
-          className="md:hidden border-t border-border bg-background animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu de navegação"
+          className={`absolute inset-x-0 top-0 bg-background border-b border-border shadow-2xl transition-all duration-300 ease-out ${
+            open
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 -translate-y-4"
+          }`}
         >
-          <div className="px-5 py-4 flex flex-col gap-1">
-            {NAV_LINKS.map((l) => {
+          <nav className="px-5 py-5 flex flex-col gap-1" aria-label="Principal">
+            {NAV_LINKS.map((l, i) => {
               const isActive = active === l.hash;
               return (
                 <a
@@ -291,8 +343,15 @@ function Header() {
                   href={`#${l.hash}`}
                   onClick={handleAnchor(l.hash)}
                   aria-current={isActive ? "location" : undefined}
-                  className={`py-3 font-display font-bold uppercase text-sm tracking-wider transition-colors ${
-                    isActive ? "text-primary" : "hover:text-primary"
+                  style={{
+                    transitionDelay: open ? `${80 + i * 40}ms` : "0ms",
+                  }}
+                  className={`py-3 px-2 rounded-lg font-display font-bold uppercase text-sm tracking-wider transition-all duration-300 border-l-2 ${
+                    open ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
+                  } ${
+                    isActive
+                      ? "text-primary border-primary bg-primary/5"
+                      : "text-white/85 border-transparent hover:text-primary hover:border-primary/40"
                   }`}
                 >
                   {l.label}
@@ -302,23 +361,35 @@ function Header() {
             <Link
               to="/modelos"
               onClick={() => setOpen(false)}
-              className="py-3 font-display font-bold uppercase text-sm tracking-wider hover:text-primary"
+              style={{
+                transitionDelay: open ? `${80 + NAV_LINKS.length * 40}ms` : "0ms",
+              }}
+              className={`py-3 px-2 rounded-lg font-display font-bold uppercase text-sm tracking-wider text-white/85 border-l-2 border-transparent hover:text-primary hover:border-primary/40 transition-all duration-300 ${
+                open ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-2"
+              }`}
             >
               Catálogo
             </Link>
             <a
               href="#contato"
               onClick={handleAnchor("contato")}
-              className="mt-2 bg-primary text-primary-foreground text-center font-display font-extrabold uppercase text-xs tracking-widest px-5 py-4 rounded-full"
+              style={{
+                transitionDelay: open ? `${140 + NAV_LINKS.length * 40}ms` : "0ms",
+              }}
+              className={`mt-4 inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-extrabold uppercase text-xs tracking-widest px-5 py-4 rounded-full transition-all duration-300 active:scale-95 ${
+                open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+              }`}
             >
               Agendar Test-Ride
+              <ArrowRight size={14} />
             </a>
-          </div>
+          </nav>
         </div>
-      )}
+      </div>
     </header>
   );
 }
+
 
 /* ------------------------------ Hero ------------------------------ */
 
