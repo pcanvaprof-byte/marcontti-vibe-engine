@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import {
-  Menu,
-  X,
   ArrowRight,
+
   Zap,
   Wrench,
   Leaf,
