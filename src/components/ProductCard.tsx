@@ -121,7 +121,6 @@ export function ProductCard({ product }: { product: Product }) {
           </p>
         </div>
 
-        </div>
       </Link>
 
     </article>
