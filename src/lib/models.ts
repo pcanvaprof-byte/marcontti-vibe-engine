@@ -8,6 +8,7 @@ import jetmaxImg from "@/assets/motos/jetmax.jpg.asset.json";
 import bigtriImg from "@/assets/motos/bigtri.jpg.asset.json";
 import joysuperImg from "@/assets/motos/joysuper.jpg.asset.json";
 import sofiaImg from "@/assets/motos/sofia.jpg.asset.json";
+import miatriImg from "@/assets/motos/miatri.jpg.asset.json";
 
 export type ColorVariant = { name: string; hex: string; image: string };
 
@@ -257,6 +258,29 @@ export const models: Model[] = [
       { label: "Categoria", value: "Autopropelido" },
     ],
     features: ["Design feminino", "Painel digital", "Cesto frontal", "LED full"],
+  },
+  {
+    slug: "mia-tri",
+    name: "MIA TRI 800W",
+    tag: "Triciclo · Sem CNH",
+    price: "R$ 11.990,80",
+    priceNumber: 11990.8,
+    range: "50–70 km",
+    speed: "25 km/h",
+    power: "800W",
+    short: "Triciclo compacto e estável — ideal para mobilidade reduzida e passeios.",
+    description:
+      "O MIA TRI une a estabilidade de três rodas ao design compacto da linha MIA. Perfeito para quem busca segurança extra, mobilidade e conforto no dia a dia — sem exigir CNH.",
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: miatriImg.url }],
+    specs: [
+      { label: "Autonomia", value: "50–70 km" },
+      { label: "Velocidade máx.", value: "25 km/h" },
+      { label: "Potência", value: "800W" },
+      { label: "Bateria", value: "Lítio 60V removível" },
+      { label: "Rodas", value: "3 rodas — estabilidade extra" },
+      { label: "Habilitação", value: "Não exige CNH" },
+    ],
+    features: ["3 rodas estáveis", "Bagageiro traseiro", "Painel digital", "Ré elétrica"],
   },
 ];
 
