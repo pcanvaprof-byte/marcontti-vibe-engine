@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
     <article
       className="
         group relative w-full h-full
-        bg-black overflow-hidden
+        bg-black overflow-visible
         rounded-[18px]
         shadow-[0_10px_30px_-15px_rgba(0,0,0,0.6)]
         transition-[transform,box-shadow] duration-500 ease-out
@@ -31,13 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
         hover:shadow-[0_25px_60px_-20px_rgba(248,96,0,0.45),0_0_0_1px_rgba(248,96,0,0.35)]
       "
     >
-
-      {/* Canto preto superior esquerdo */}
-      <span
-        aria-hidden
-        className="absolute top-0 left-0 w-11 h-11 sm:w-[52px] sm:h-[52px] bg-black rounded-br-[18px] z-[2]"
-      />
-      {/* Raio pequeno branco sobre o canto preto */}
+      {/* Raio pequeno branco no canto superior esquerdo */}
       <span
         aria-hidden
         className="absolute top-2 left-2 sm:top-[10px] sm:left-[10px] z-[3] text-white"
@@ -70,18 +64,25 @@ export function ProductCard({ product }: { product: Product }) {
         aria-label={`Ver detalhes de ${product.nome}`}
         className="relative z-[2] block h-full"
       >
-        {/* Palco da imagem — em mobile deixa mais espaço embaixo para o bloco central; desktop mantém overlay */}
-        <div className="absolute inset-x-3 top-12 bottom-[132px] sm:inset-x-4 sm:top-14 sm:bottom-28 rounded-[12px] bg-white overflow-hidden shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
-          <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-3">
+        {/* Palco branco — moto pode estourar as bordas para simular "saindo" do card */}
+        <div className="absolute inset-x-3 top-3 bottom-[132px] sm:inset-x-4 sm:top-4 sm:bottom-28 rounded-[12px] bg-white overflow-visible shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
+          <div className="absolute inset-0 flex items-end justify-center overflow-visible">
             <img
               src={product.imagem}
               alt={product.nome}
               loading="lazy"
               decoding="async"
-              className="max-h-full max-w-full w-auto h-auto object-contain transition-transform duration-500 motion-safe:group-hover:scale-105"
+              className="
+                w-auto object-contain pointer-events-none
+                h-[135%] sm:h-[145%]
+                -translate-y-[6%] sm:-translate-y-[8%]
+                drop-shadow-[0_20px_25px_rgba(0,0,0,0.35)]
+                transition-transform duration-500 motion-safe:group-hover:scale-[1.06] motion-safe:group-hover:-translate-y-[10%]
+              "
             />
           </div>
         </div>
+
 
         {/* MOBILE — bloco inferior com título, preço e CTA centralizados vertical e horizontalmente */}
         <div className="sm:hidden absolute inset-x-0 bottom-0 h-[128px] z-[4] px-4 pb-3 flex flex-col items-center justify-center gap-1.5 text-center">
