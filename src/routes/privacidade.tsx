@@ -59,10 +59,11 @@ function PrivacyPage() {
         <div className="prose prose-invert mt-10 max-w-none space-y-8 text-[15px] leading-relaxed text-white/80">
           <Section title="1. Quem somos">
             <p>
-              Klug Motors, localizada na Rua Albano Schimidt, 1882 — Joinville/SC,
-              é a controladora dos dados pessoais tratados por este site e
-              responsável por esta política, nos termos da Lei Geral de Proteção
-              de Dados (Lei nº 13.709/2018 — LGPD).
+              Klug Motors, inscrita no CNPJ 51.728.597/0001-26, localizada na
+              Rua Albano Schimidt, 1882 — Joinville/SC, é a controladora dos
+              dados pessoais tratados por este site e responsável por esta
+              política, nos termos da Lei Geral de Proteção de Dados
+              (Lei nº 13.709/2018 — LGPD).
             </p>
           </Section>
 

@@ -78,6 +78,8 @@ export const Route = createFileRoute("/")({
           url: BASE_URL,
           telephone: "+554734293200",
           email: "klugmotors@gmail.com",
+          taxID: "51.728.597/0001-26",
+          vatID: "51.728.597/0001-26",
           address: {
             "@type": "PostalAddress",
             streetAddress: "Rua Albano Schimidt, 1882",
@@ -1533,7 +1535,7 @@ function Footer() {
 
         <div className="pt-6 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] text-center md:text-left">
-            © {new Date().getFullYear()} Klug Motors · Revenda Autorizada · Joinville / SC
+            © {new Date().getFullYear()} Klug Motors · CNPJ 51.728.597/0001-26 · Rua Albano Schimidt, 1882 — Joinville/SC
           </p>
           <img
             src={klugSymbol.url}
