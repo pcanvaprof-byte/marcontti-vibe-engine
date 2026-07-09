@@ -1067,12 +1067,13 @@ function ContactRow({
 }) {
   const content = (
     <>
-      <div className="w-11 h-11 border border-border bg-background grid place-items-center shrink-0 group-hover:bg-primary group-hover:border-primary transition-colors">
+      <div className="w-11 h-11 rounded-xl border border-border bg-background grid place-items-center shrink-0 group-hover:bg-primary group-hover:border-primary transition-colors">
         <Icon
           size={18}
           className="text-primary group-hover:text-primary-foreground transition-colors"
         />
       </div>
+
       <div className="min-w-0">
         <p className="text-[9px] text-white/40 font-display font-black uppercase tracking-[0.25em] mb-1">
           {label}
