@@ -132,7 +132,7 @@ function CatalogPage() {
             <select
               value={priceId}
               onChange={(e) => setPriceId(e.target.value as typeof priceId)}
-              className="bg-card border border-border px-3 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
+              className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
               aria-label="Faixa de preço"
             >
               {PRICE_RANGES.map((r) => (
@@ -142,7 +142,7 @@ function CatalogPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="bg-card border border-border px-3 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
+              className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
               aria-label="Ordenar por"
             >
               <option value="relevance">Relevância</option>
@@ -158,7 +158,7 @@ function CatalogPage() {
         </p>
 
         {filtered.length === 0 ? (
-          <div className="border border-dashed border-border p-16 text-center bg-card">
+          <div className="border border-dashed border-border rounded-2xl p-16 text-center bg-card">
             <p className="font-display font-black uppercase tracking-wider text-lg mb-2">
               Nenhum modelo encontrado
             </p>
@@ -170,11 +170,12 @@ function CatalogPage() {
                 setType("Todos");
                 setPriceId("all");
               }}
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full"
             >
               Limpar filtros <ArrowRight size={14} />
             </button>
           </div>
+
         ) : (
           <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((m) => (
