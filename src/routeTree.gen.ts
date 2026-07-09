@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ModelosIndexRouteImport } from './routes/modelos.index'
 import { Route as ModelosSlugRouteImport } from './routes/modelos.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModelosIndexRoute = ModelosIndexRouteImport.update({
+  id: '/modelos/',
+  path: '/modelos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ModelosSlugRoute = ModelosSlugRouteImport.update({
   id: '/modelos/$slug',
   path: '/modelos/$slug',
@@ -33,30 +39,34 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/modelos/$slug': typeof ModelosSlugRoute
+  '/modelos/': typeof ModelosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/modelos/$slug': typeof ModelosSlugRoute
+  '/modelos': typeof ModelosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/modelos/$slug': typeof ModelosSlugRoute
+  '/modelos/': typeof ModelosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sitemap.xml' | '/modelos/$slug'
+  fullPaths: '/' | '/sitemap.xml' | '/modelos/$slug' | '/modelos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sitemap.xml' | '/modelos/$slug'
-  id: '__root__' | '/' | '/sitemap.xml' | '/modelos/$slug'
+  to: '/' | '/sitemap.xml' | '/modelos/$slug' | '/modelos'
+  id: '__root__' | '/' | '/sitemap.xml' | '/modelos/$slug' | '/modelos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ModelosSlugRoute: typeof ModelosSlugRoute
+  ModelosIndexRoute: typeof ModelosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/modelos/': {
+      id: '/modelos/'
+      path: '/modelos'
+      fullPath: '/modelos/'
+      preLoaderRoute: typeof ModelosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/modelos/$slug': {
       id: '/modelos/$slug'
       path: '/modelos/$slug'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ModelosSlugRoute: ModelosSlugRoute,
+  ModelosIndexRoute: ModelosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -117,6 +117,9 @@ function Header() {
               {l.label}
             </a>
           ))}
+          <Link to="/modelos" className="hover:text-primary transition-colors">
+            Catálogo
+          </Link>
         </nav>
         <a
           href="#contato"
@@ -137,6 +140,9 @@ function Header() {
                 {l.label}
               </a>
             ))}
+            <Link to="/modelos" onClick={() => setOpen(false)} className="py-2 font-medium">
+              Catálogo
+            </Link>
             <a
               href="#contato"
               onClick={() => setOpen(false)}
