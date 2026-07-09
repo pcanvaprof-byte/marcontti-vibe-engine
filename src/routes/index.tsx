@@ -29,6 +29,9 @@ import {
   type Model,
 } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
+import { BenefitsBar } from "@/components/BenefitsBar";
+import { ProductCarousel } from "@/components/ProductCarousel";
+import type { Product } from "@/components/ProductCard";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
