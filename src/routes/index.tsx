@@ -134,7 +134,6 @@ function Header() {
           className="flex items-center gap-2 focus:outline-none"
           aria-label="Klug Motors — início"
         >
-          <span className="klug-mark" aria-hidden="true" />
           <KlugWordmark />
         </a>
 
