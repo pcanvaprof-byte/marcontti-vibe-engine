@@ -1121,7 +1121,7 @@ function Products() {
 function ProductCard({ product: p }: { product: Model }) {
   const img = p.colors[0]?.image ?? "";
   return (
-    <article className="group bg-card border border-border hover-ember">
+    <article className="group bg-card hover:bg-black border border-border hover:border-black hover-ember transition-colors duration-300">
       <Link
         to="/modelos/$slug"
         params={{ slug: p.slug }}
