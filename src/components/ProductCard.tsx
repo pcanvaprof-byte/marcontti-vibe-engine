@@ -70,19 +70,23 @@ export function ProductCard({ product }: { product: Product }) {
         aria-label={`Ver detalhes de ${product.nome}`}
         className="relative z-[2] block h-full"
       >
-        {/* Imagem — domina o card */}
-        <div className="absolute inset-0 flex items-center justify-center px-3 pt-7 pb-24 sm:px-4 sm:pt-8 sm:pb-28">
-          <img
-            src={product.imagem}
-            alt={product.nome}
-            loading="lazy"
-            decoding="async"
-            className="max-h-full max-w-full w-auto object-contain transition-transform duration-500 motion-safe:group-hover:scale-105"
-          />
+        {/* Palco da imagem — proporção e recorte fixos, para alinhar entre motos de tamanhos diferentes */}
+        <div className="absolute inset-x-3 top-12 bottom-24 sm:inset-x-4 sm:top-14 sm:bottom-28 rounded-[12px] bg-white overflow-hidden shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
+          <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-3">
+            <img
+              src={product.imagem}
+              alt={product.nome}
+              loading="lazy"
+              decoding="async"
+              className="max-h-full max-w-full w-auto h-auto object-contain transition-transform duration-500 motion-safe:group-hover:scale-105"
+            />
+          </div>
         </div>
+
 
         {/* Nome + potência sobrepostos no canto inferior esquerdo */}
         <div className="absolute left-4 bottom-3 sm:left-5 sm:bottom-4 z-[4] pointer-events-none">
+
           <h3
             className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[40px] sm:text-[48px] lg:text-[56px]"
             style={{ fontFamily: displayFont, fontWeight: 400 }}
