@@ -100,13 +100,15 @@ export function ProductCarousel({
               key={p.id}
               data-card
               className="
-                snap-start shrink-0
+                snap-start shrink-0 flex
                 basis-[85%] sm:basis-[55%] md:basis-[calc((100%-3rem)/3)] lg:basis-[calc((100%-4.5rem)/4)]
+                min-h-[440px] sm:min-h-[480px] lg:min-h-[520px]
               "
               style={{ animation: `fade-in 0.5s ease-out ${i * 90}ms both` }}
             >
               <ProductCard product={p} />
             </div>
+
           ))}
         </div>
       </div>

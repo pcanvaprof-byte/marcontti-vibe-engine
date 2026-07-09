@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Zap, Sparkles, Flame, ArrowRight } from "lucide-react";
+import { Zap } from "lucide-react";
 
 export type Product = {
   id: string;
@@ -19,54 +19,48 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <article
       className="
-        group relative w-full h-full
-        bg-white rounded-3xl overflow-hidden
-        shadow-[0_10px_30px_-12px_rgba(0,0,0,0.35)]
-        transition-all duration-300 ease-out
-        motion-safe:hover:-translate-y-1 motion-safe:hover:scale-[1.02]
-        hover:shadow-[0_20px_45px_-15px_rgba(0,0,0,0.55)]
+        group relative w-full h-full flex flex-col
+        bg-[#fafafa] rounded-2xl overflow-hidden
+        border border-black/5
+        transition-transform duration-300 ease-out
+        motion-safe:hover:-translate-y-0.5
       "
     >
-      {/* decorative corners */}
+      {/* small black corner (top-left) */}
       <span
         aria-hidden
-        className="absolute top-0 left-0 w-16 h-16 bg-black rounded-br-[28px]"
-      />
-      <span
-        aria-hidden
-        className="absolute top-2 left-2 text-primary"
-      >
-        <ArrowRight size={18} strokeWidth={3} />
-      </span>
-      <span
-        aria-hidden
-        className="absolute top-4 right-4 text-primary drop-shadow"
-      >
-        <Zap size={26} strokeWidth={2.5} fill="currentColor" />
-      </span>
-      <span
-        aria-hidden
-        className="absolute -bottom-8 -left-6 w-28 h-28 rounded-full bg-primary/80 blur-sm"
-      />
-      <span
-        aria-hidden
-        className="absolute -bottom-10 right-8 w-24 h-24 rounded-full bg-black/90"
+        className="absolute top-0 left-0 w-8 h-8 bg-black rounded-br-2xl z-[2]"
       />
 
-      {/* badges */}
-      <div className="absolute top-3 right-14 z-10 flex flex-col gap-1 items-end">
+      {/* subtle decorative circles */}
+      <span
+        aria-hidden
+        className="absolute -bottom-4 -left-3 w-10 h-10 rounded-full bg-primary/70 z-[1]"
+      />
+      <span
+        aria-hidden
+        className="absolute -bottom-5 right-6 w-9 h-9 rounded-full bg-black/85 z-[1]"
+      />
+
+      {/* small bolt */}
+      <span aria-hidden className="absolute top-3 right-3 text-primary z-[3]">
+        <Zap size={14} strokeWidth={2.5} fill="currentColor" />
+      </span>
+
+      {/* badges — small, top */}
+      <div className="absolute top-2.5 left-10 z-[3] flex gap-1">
         {product.novo && (
-          <span className="flex items-center gap-1 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">
-            <Sparkles size={10} /> Novo
+          <span className="bg-primary text-primary-foreground text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full">
+            Novo
           </span>
         )}
         {product.maisVendido && (
-          <span className="flex items-center gap-1 bg-black text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">
-            <Flame size={10} className="text-primary" /> Mais vendido
+          <span className="bg-black text-white text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full">
+            Mais vendido
           </span>
         )}
         {product.promocao && (
-          <span className="bg-red-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full">
+          <span className="bg-red-500 text-white text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full">
             Promoção
           </span>
         )}
@@ -75,39 +69,40 @@ export function ProductCard({ product }: { product: Product }) {
       <Link
         to={href}
         aria-label={`Ver detalhes de ${product.nome}`}
-        className="relative z-[5] flex flex-col h-full"
+        className="relative z-[2] flex flex-col h-full"
       >
-        {/* image */}
-        <div className="relative aspect-[4/3] flex items-center justify-center px-6 pt-10 pb-4 overflow-hidden">
+        {/* image — ~65% of card height, centered */}
+        <div className="relative flex-[0_0_65%] flex items-center justify-center px-8 pt-10 pb-6">
           <img
             src={product.imagem}
             alt={product.nome}
             loading="lazy"
             decoding="async"
-            className="max-h-full w-auto object-contain drop-shadow-2xl transition-transform duration-500 motion-safe:group-hover:scale-110"
+            className="max-h-full max-w-full w-auto object-contain transition-transform duration-500 motion-safe:group-hover:scale-105"
           />
         </div>
 
-        {/* name / power */}
-        <div className="relative z-10 px-5 pb-5 pt-2 flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <h3 className="text-primary font-black uppercase leading-none text-4xl sm:text-5xl tracking-tight drop-shadow-[0_2px_0_rgba(0,0,0,0.15)]">
-              {product.nome}
-            </h3>
-            <p className="text-white font-black uppercase leading-none text-3xl sm:text-4xl tracking-tight mt-1 [-webkit-text-stroke:1px_black]">
-              {product.potencia}
-            </p>
-          </div>
-        </div>
+        {/* text block — generous spacing, 8px scale */}
+        <div className="relative z-[2] flex-1 flex flex-col justify-end px-6 pb-8 pt-2">
+          <h3 className="text-primary font-black uppercase leading-[0.9] text-5xl sm:text-6xl tracking-tight">
+            {product.nome}
+          </h3>
+          <p
+            className="mt-3 text-white font-black uppercase leading-none text-2xl sm:text-3xl tracking-tight"
+            style={{ WebkitTextStroke: "1px #4b4b4b" }}
+          >
+            {product.potencia}
+          </p>
 
-        {product.preco && (
-          <div className="relative z-10 px-5 pb-5 -mt-2">
-            <p className="text-black/60 text-[10px] uppercase font-bold tracking-widest">
-              A partir de
-            </p>
-            <p className="text-black font-black text-lg">{product.preco}</p>
-          </div>
-        )}
+          {product.preco && (
+            <div className="mt-6">
+              <p className="text-black/40 text-[9px] uppercase font-semibold tracking-widest">
+                A partir de
+              </p>
+              <p className="text-black/70 font-semibold text-xs mt-1">{product.preco}</p>
+            </div>
+          )}
+        </div>
       </Link>
     </article>
   );
