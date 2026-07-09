@@ -38,6 +38,36 @@ function InfindaCredit() {
   );
 }
 
+/** Slim top progress bar that reflects vertical scroll position. */
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const compute = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      setProgress(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+    };
+    compute();
+    window.addEventListener("scroll", compute, { passive: true });
+    window.addEventListener("resize", compute);
+    return () => {
+      window.removeEventListener("scroll", compute);
+      window.removeEventListener("resize", compute);
+    };
+  }, []);
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed top-0 left-0 right-0 z-[60] h-[2px] bg-transparent"
+    >
+      <div
+        className="h-full bg-primary origin-left transition-transform duration-150 ease-out motion-reduce:transition-none"
+        style={{ transform: `scaleX(${progress})`, width: "100%" }}
+      />
+    </div>
+  );
+}
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
