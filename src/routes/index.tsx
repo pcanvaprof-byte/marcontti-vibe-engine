@@ -351,6 +351,52 @@ function Hero() {
   );
 }
 
+/* ---------------------------- Perks strip ---------------------------- */
+
+const PERKS = [
+  { icon: CreditCard, title: "Financiamento", desc: "em até 36x (WhatsApp)" },
+  { icon: Wallet, title: "Pagamento facilitado", desc: "em até 21x no cartão" },
+  { icon: BadgePercent, title: "10% OFF no PIX", desc: "desconto na hora" },
+  { icon: Store, title: "+ de 5.000", desc: "unidades vendidas" },
+  { icon: ShieldCheck, title: "Loja Oficial", desc: "Joinville / SC" },
+] as const;
+
+function PerksBar() {
+  return (
+    <section
+      aria-label="Benefícios e condições"
+      className="border-b border-border bg-card"
+    >
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          {PERKS.map((p, i) => (
+            <li
+              key={p.title}
+              className={`flex items-center gap-3 py-5 px-4 sm:px-5 border-border ${
+                i > 0 ? "md:border-l" : ""
+              } ${i >= 2 ? "border-t md:border-t-0" : ""} ${
+                i === 1 ? "border-l md:border-l" : ""
+              } ${i === 3 ? "border-l md:border-l" : ""} group hover:bg-background transition-colors`}
+            >
+              <span className="w-10 h-10 shrink-0 border border-border grid place-items-center text-primary group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground transition-colors">
+                <p.icon size={18} strokeWidth={2.2} />
+              </span>
+              <div className="min-w-0">
+                <p className="font-display font-black uppercase text-[12px] tracking-wider leading-none">
+                  {p.title}
+                </p>
+                <p className="text-white/55 text-[11px] mt-1 leading-tight">
+                  {p.desc}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------------------- Products grid ---------------------------- */
 
 const CATEGORIES = ["Todos", "Motos", "Scooters", "Triciclos", "Bicicletas", "Patinetes"] as const;
