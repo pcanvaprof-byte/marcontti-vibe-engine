@@ -177,7 +177,7 @@ function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleAnchor = (hash: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleAnchor = (hash: string) => (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setOpen(false);
     scrollToHash(hash, reduced);
