@@ -655,9 +655,8 @@ function Hero() {
 }
 
 /**
- * Lightning-bolt shaped image frame, MotoChefe-style.
- * Uses SVG clip-path so the hero image fills the bolt silhouette and
- * decorative bolts float around it.
+ * Lightning-bolt shaped video frame, MotoChefe-style.
+ * Uses SVG clip-path so the animated hero video fills the bolt silhouette.
  */
 function HeroBolt() {
   return (
@@ -681,43 +680,23 @@ function HeroBolt() {
         }}
       />
 
-      {/* Bolt image */}
+      {/* Bolt video */}
       <div
         className="relative w-full h-full"
         style={{ clipPath: "url(#klug-bolt)", WebkitClipPath: "url(#klug-bolt)" }}
       >
-        <img
-          src={x12Img.url}
-          alt="Scooter elétrica Klug Motors — X12"
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
+        <video
+          src={heroBoltVideo.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={x12Img.url}
+          aria-label="Vídeo de destaque da scooter elétrica Klug Motors X12"
           className="w-full h-full object-cover"
         />
       </div>
-
-      {/* Floating mini bolts */}
-      <Zap
-        aria-hidden="true"
-        className="absolute -top-2 left-6 text-primary drop-shadow-[0_0_12px_rgba(232,93,58,0.6)]"
-        size={38}
-        strokeWidth={2.4}
-        fill="currentColor"
-      />
-      <Zap
-        aria-hidden="true"
-        className="absolute top-1/3 -right-2 text-primary/90 drop-shadow-[0_0_10px_rgba(232,93,58,0.5)]"
-        size={28}
-        strokeWidth={2.4}
-        fill="currentColor"
-      />
-      <Zap
-        aria-hidden="true"
-        className="absolute bottom-4 left-2 text-primary/80"
-        size={22}
-        strokeWidth={2.4}
-        fill="currentColor"
-      />
 
       {/* Destaque badge */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-background/85 backdrop-blur border border-border rounded-full px-4 py-1.5 flex items-center gap-2">
