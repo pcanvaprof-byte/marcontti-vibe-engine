@@ -1742,14 +1742,16 @@ function RefProductCard({ m }: { m: Model }) {
             fontSize: "26px",
           }}
         >
-          {fmtBRL(pix)}
+          {m.priceNumber > 0 ? fmtBRL(pix) : "Sob consulta"}
         </p>
         <p className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">
-          À vista no PIX
+          {m.priceNumber > 0 ? "À vista no PIX" : "Fale com um consultor"}
         </p>
-        <p className="text-[10px] text-white/40 mt-0.5">
-          ou <span className="text-white/70">{m.price}</span>
-        </p>
+        {m.priceNumber > 0 && (
+          <p className="text-[10px] text-white/40 mt-0.5">
+            ou <span className="text-white/70">{m.price}</span>
+          </p>
+        )}
         <span className="mt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md group-hover:brightness-110">
           Ver produto
         </span>
