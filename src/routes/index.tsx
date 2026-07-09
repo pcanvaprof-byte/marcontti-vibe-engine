@@ -179,6 +179,66 @@ function scrollToHash(hash: string, reduced: boolean) {
   }
 }
 
+/* --------------------------- Promo strip (topo) --------------------------- */
+
+function PromoStrip() {
+  return (
+    <div className="w-full bg-primary text-primary-foreground text-[11px] sm:text-xs font-display font-black uppercase tracking-[0.18em]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-8 flex items-center justify-center gap-3">
+        <Flame size={14} className="shrink-0" />
+        <span className="truncate">A maior loja de mobilidade elétrica de Joinville</span>
+        <Link
+          to="/modelos"
+          className="hidden sm:inline-flex items-center gap-1 border border-primary-foreground/60 px-2.5 py-0.5 rounded-full hover:bg-primary-foreground hover:text-primary transition-colors"
+        >
+          Saiba Mais <ChevronRight size={12} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------- Category nav (barra) --------------------------- */
+
+const CATEGORY_LINKS = [
+  { label: "Todos", href: "/modelos" },
+  { label: "Patinetes", href: "/modelos" },
+  { label: "Bicicletas", href: "/modelos" },
+  { label: "Scooters", href: "/modelos" },
+  { label: "Motos", href: "/modelos" },
+  { label: "Triciclos", href: "/modelos" },
+  { label: "Acessórios", href: "/modelos" },
+] as const;
+
+function CategoryNav() {
+  return (
+    <div className="hidden md:block w-full bg-card/60 backdrop-blur-md border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
+        <nav
+          aria-label="Categorias"
+          className="flex items-center gap-7 text-[12px] font-display font-bold uppercase tracking-[0.15em] text-white/80 overflow-x-auto scrollbar-none"
+        >
+          {CATEGORY_LINKS.map((c) => (
+            <Link
+              key={c.label}
+              to={c.href}
+              className="whitespace-nowrap hover:text-primary transition-colors story-link"
+            >
+              {c.label}
+            </Link>
+          ))}
+        </nav>
+        <Link
+          to="/modelos"
+          className="inline-flex items-center gap-2 bg-primary/15 border border-primary/40 text-primary rounded-xl px-4 py-1.5 text-[11px] font-display font-black uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors"
+        >
+          <Flame size={13} /> Promoção <ChevronDown size={12} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 /* ------------------------------ Header ------------------------------ */
 
 function Header() {
