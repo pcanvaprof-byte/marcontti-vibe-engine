@@ -1679,7 +1679,7 @@ const CIRCLE_CATS = [
 
 function CategoryCircles() {
   return (
-    <section className="py-14 sm:py-20 bg-background border-b border-border">
+    <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <h2 className="text-center font-display font-black uppercase text-white text-xl sm:text-2xl tracking-widest mb-10">
           Escolha por <span className="text-primary">categoria</span>
@@ -1771,7 +1771,7 @@ function RefProductCard({ m }: { m: Model }) {
 function DestaquesGrid() {
   const items = models.slice(0, 4);
   return (
-    <section className="py-14 sm:py-20 bg-background border-b border-border">
+    <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <h2 className="text-center font-display font-black uppercase text-2xl sm:text-3xl tracking-widest mb-10">
           Destaques <span className="text-primary">Klug</span>
@@ -1790,7 +1790,7 @@ function MaisVendidosGrid() {
   const items = models.slice(4, 12);
   if (items.length === 0) return null;
   return (
-    <section className="py-14 sm:py-20 bg-background border-b border-border">
+    <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <h2 className="text-center font-display font-black uppercase text-2xl sm:text-3xl tracking-widest mb-10">
           Mais <span className="text-primary">Vendidos</span>
@@ -1809,7 +1809,7 @@ function YoutubeShowcase() {
   const highlight = models[1] ?? models[0];
   const pix = highlight.priceNumber * 0.9;
   return (
-    <section className="py-14 sm:py-20 bg-background border-b border-border">
+    <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
         <div className="rounded-lg overflow-hidden border border-border bg-card">
           <div className="flex items-center gap-3 p-4 bg-black border-b border-border">
@@ -1878,7 +1878,7 @@ function YoutubeShowcase() {
 function InstagramRow() {
   const shots = models.slice(0, 6);
   return (
-    <section className="py-14 sm:py-20 bg-background border-b border-border">
+    <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <h2 className="text-center font-display font-black uppercase text-white text-lg sm:text-xl tracking-widest mb-8">
           Siga nosso Instagram{" "}
