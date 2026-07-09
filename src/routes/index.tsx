@@ -29,6 +29,9 @@ import {
   type Model,
 } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
+import { BenefitsBar } from "@/components/BenefitsBar";
+import { ProductCarousel } from "@/components/ProductCarousel";
+import type { Product } from "@/components/ProductCard";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
@@ -1295,14 +1298,32 @@ function ScrollTopFab() {
 }
 
 function Index() {
+  const featuredProducts: Product[] = FEATURED_SLUGS
+    .map((s) => models.find((m) => m.slug === s))
+    .filter((m): m is Model => Boolean(m))
+    .map((m, i) => ({
+      id: m.slug,
+      slug: m.slug,
+      nome: m.name.split(" ")[0],
+      potencia: m.power.replace(/\s+/g, ""),
+      imagem: m.colors[0]?.image ?? "",
+      preco: m.price,
+      maisVendido: i === 2,
+      novo: i === 3,
+    }));
+
   return (
     <div className="min-h-dvh bg-background text-foreground">
       <Header />
       <main>
         <Hero />
-        <PerksBar />
+        <BenefitsBar />
         <WhatsAppCTA />
-        <Featured />
+        <ProductCarousel
+          items={featuredProducts}
+          eyebrow="Destaques"
+          title={<>Nossa <span className="text-primary">Linha</span></>}
+        />
         <Products />
         <Benefits />
         <Contact />
