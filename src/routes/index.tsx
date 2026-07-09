@@ -340,16 +340,6 @@ function Header() {
           <ArrowRight size={14} />
         </a>
 
-
-        <a
-          href="#contato"
-          onClick={handleAnchor("contato")}
-          className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-display font-extrabold text-[11px] px-5 py-2.5 rounded-full uppercase tracking-widest transition-all hover:scale-[1.03] hover:shadow-[var(--shadow-ember)] active:scale-95"
-        >
-          Test-Ride
-          <ArrowRight size={14} />
-        </a>
-
         {/* Mobile — compact Test-Ride + burger */}
         <div className="md:hidden flex items-center gap-2">
           <a
