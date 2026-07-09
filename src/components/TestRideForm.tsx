@@ -33,6 +33,7 @@ export function TestRideForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
+  const [lastMessage, setLastMessage] = useState<string | null>(null);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,6 +52,12 @@ export function TestRideForm({
         errs[String(i.path[0])] = i.message;
       });
       setErrors(errs);
+      // Focus first invalid field for a11y
+      const firstKey = parsed.error.issues[0]?.path[0];
+      if (typeof firstKey === "string") {
+        const el = document.getElementById(`tr-${firstKey}`) as HTMLElement | null;
+        el?.focus();
+      }
       return;
     }
     setErrors({});
@@ -70,10 +77,16 @@ export function TestRideForm({
 
     setTimeout(() => {
       openWhatsAppWithFallback(text);
+      setLastMessage(text);
       setSubmitting(false);
       setSent(true);
-      setTimeout(() => setSent(false), 4000);
     }, 400);
+  }
+
+  function reset() {
+    setSent(false);
+    setLastMessage(null);
+    setErrors({});
   }
 
   const inputCls =
