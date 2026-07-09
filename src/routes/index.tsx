@@ -20,7 +20,7 @@ import {
   Store,
   ShieldCheck,
   Search,
-  HeadphonesIcon,
+  Headphones,
   Truck,
   Flame,
   Youtube,
