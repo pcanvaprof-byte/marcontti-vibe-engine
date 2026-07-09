@@ -966,14 +966,15 @@ function Benefits() {
             Menos <span className="text-primary">custo</span>. Zero ruído.
           </h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {benefits.map((b) => (
+        <RevealGrid className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {benefits.map((b, i) => (
             <div
               key={b.title}
-              className="p-7 bg-card border border-border rounded-2xl group hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
+              className="reveal card-shine p-7 bg-card border border-border rounded-2xl group hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
+              style={{ transitionDelay: `${i * 80}ms` }}
             >
               <div className="flex items-start justify-between mb-8">
-                <div className="w-11 h-11 rounded-xl border border-border grid place-items-center group-hover:bg-primary group-hover:border-primary transition-colors">
+                <div className="w-11 h-11 rounded-xl border border-border grid place-items-center group-hover:bg-primary group-hover:border-primary group-hover:rotate-6 transition-all duration-300">
                   <b.icon
                     className="text-primary group-hover:text-primary-foreground transition-colors"
                     size={20}
@@ -990,7 +991,8 @@ function Benefits() {
               <p className="text-white/60 text-sm leading-relaxed">{b.desc}</p>
             </div>
           ))}
-        </div>
+        </RevealGrid>
+
 
       </div>
     </section>
