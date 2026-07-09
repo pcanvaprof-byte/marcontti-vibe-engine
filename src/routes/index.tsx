@@ -1005,6 +1005,7 @@ function Index() {
       <main>
         <Hero />
         <PerksBar />
+        <WhatsAppCTA />
         <Featured />
         <Products />
         <Benefits />
