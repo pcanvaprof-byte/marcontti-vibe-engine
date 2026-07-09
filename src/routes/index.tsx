@@ -1397,32 +1397,7 @@ function WhatsAppFab() {
 
 /* ---------------------------- Scroll to top ---------------------------- */
 
-function ScrollTopFab() {
-  const [visible, setVisible] = useState(false);
-  const reduced = useReducedMotion();
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 600);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return (
-    <button
-      type="button"
-      onClick={() =>
-        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" })
-      }
-      aria-label="Voltar ao topo"
-      className={`fixed bottom-6 right-24 z-40 w-12 h-12 grid place-items-center border border-border bg-card/95 backdrop-blur text-white transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border-primary hover:text-primary ${
-        visible
-          ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 translate-y-2 pointer-events-none"
-      }`}
-    >
-      <ArrowUp size={18} strokeWidth={2.2} />
-    </button>
-  );
-}
+// ScrollTopFab removido — BackToTop global vive em src/components/BackToTop.tsx
 
 function Index() {
   const featuredProducts: Product[] = FEATURED_SLUGS
