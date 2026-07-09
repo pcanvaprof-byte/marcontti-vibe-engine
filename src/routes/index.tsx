@@ -28,6 +28,8 @@ import {
   models,
   type Model,
 } from "@/lib/models";
+import { useReveal } from "@/hooks/use-reveal";
+
 import { TestRideForm } from "@/components/TestRideForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
 import { ProductCarousel } from "@/components/ProductCarousel";
