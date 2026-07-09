@@ -1354,6 +1354,22 @@ function Contact() {
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border-t border-border bg-background/50">
+              <p className="text-xs text-white/60 leading-relaxed">
+                Rua Albano Schimidt, 1882 — Joinville/SC
+              </p>
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Rua+Albano+Schimidt+1882+Joinville+SC"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Abrir rota até a Klug Motors no Google Maps"
+                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-display font-black uppercase text-[11px] tracking-widest px-5 py-3 rounded-full transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-ember)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <MapPin size={14} strokeWidth={2.4} />
+                Como chegar
+                <ArrowRight size={14} />
+              </a>
+            </div>
           </div>
         </div>
 
