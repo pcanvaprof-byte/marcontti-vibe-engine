@@ -140,6 +140,9 @@ function Header() {
                 {l.label}
               </a>
             ))}
+            <Link to="/modelos" onClick={() => setOpen(false)} className="py-2 font-medium">
+              Catálogo
+            </Link>
             <a
               href="#contato"
               onClick={() => setOpen(false)}
