@@ -1540,10 +1540,13 @@ function Footer() {
               Navegação
             </h4>
             <ul className="space-y-3 text-sm text-white/70">
-              <li><a href="#modelos" className="story-link hover:text-primary">Modelos</a></li>
-              <li><Link to="/modelos" className="story-link hover:text-primary">Catálogo completo</Link></li>
-              <li><a href="#sobre" className="story-link hover:text-primary">Sobre</a></li>
-              <li><a href="#contato" className="story-link hover:text-primary">Financiamento</a></li>
+              <li><Link to="/modelos" className="story-link hover:text-primary">Catálogo</Link></li>
+              <li><Link to="/comparar" className="story-link hover:text-primary">Comparar</Link></li>
+              <li><Link to="/financiamento" className="story-link hover:text-primary">Financiamento</Link></li>
+              <li><Link to="/garantia" className="story-link hover:text-primary">Garantia</Link></li>
+              <li><Link to="/sobre" className="story-link hover:text-primary">Sobre</Link></li>
+              <li><Link to="/faq" className="story-link hover:text-primary">FAQ</Link></li>
+              <li><Link to="/contato" className="story-link hover:text-primary">Contato</Link></li>
               <li><Link to="/privacidade" className="story-link hover:text-primary">Privacidade</Link></li>
             </ul>
           </div>
