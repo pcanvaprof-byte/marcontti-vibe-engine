@@ -1125,14 +1125,14 @@ function ProductCard({ product: p }: { product: Model }) {
       <Link
         to="/modelos/$slug"
         params={{ slug: p.slug }}
-        className="block relative aspect-[4/3] overflow-hidden bg-charcoal"
+        className="block relative aspect-[4/3] overflow-hidden bg-black"
         aria-label={`Ver detalhes de ${p.name}`}
       >
         <img
           src={img}
           alt={`${p.name} — ${p.tag}`}
           loading="lazy"
-          className="w-full h-full object-contain p-6 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+          className="absolute inset-0 w-full h-full object-contain scale-125 sm:scale-[1.35] drop-shadow-[0_20px_35px_rgba(0,0,0,0.55)] group-hover:scale-[1.45] transition-transform duration-700"
         />
         <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
           <span className="bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
