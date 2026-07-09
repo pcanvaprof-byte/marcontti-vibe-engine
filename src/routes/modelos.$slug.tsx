@@ -10,6 +10,7 @@ import {
 } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 
@@ -160,10 +161,7 @@ function ModelPage() {
             <ArrowLeft size={16} /> Catálogo
           </Link>
           <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors">
-            <span className="klug-mark" aria-hidden="true" />
-            <span className="font-display font-black text-xl tracking-tighter uppercase leading-none">
-              Klug<span className="text-primary">Motors</span>
-            </span>
+            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
           </Link>
           <a
             href={whatsappUrl}

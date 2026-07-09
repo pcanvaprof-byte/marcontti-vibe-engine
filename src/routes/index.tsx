@@ -24,6 +24,7 @@ import {
 } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
@@ -92,11 +93,11 @@ export const Route = createFileRoute("/")({
 
 function KlugWordmark({ className = "" }: { className?: string }) {
   return (
-    <span
-      className={`font-display font-black text-2xl tracking-tighter uppercase leading-none ${className}`}
-    >
-      Klug<span className="text-primary">Motors</span>
-    </span>
+    <img
+      src={klugLogo.url}
+      alt="Klug Motors"
+      className={`h-8 sm:h-9 w-auto object-contain ${className}`}
+    />
   );
 }
 
@@ -133,7 +134,6 @@ function Header() {
           className="flex items-center gap-2 focus:outline-none"
           aria-label="Klug Motors — início"
         >
-          <span className="klug-mark" aria-hidden="true" />
           <KlugWordmark />
         </a>
 
@@ -703,7 +703,6 @@ function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
             <a href="#" className="flex items-center gap-2 mb-6" aria-label="Klug Motors">
-              <span className="klug-mark" aria-hidden="true" />
               <KlugWordmark />
             </a>
             <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-xs">

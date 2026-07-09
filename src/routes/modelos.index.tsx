@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight } from "lucide-react";
 import { models, type Model } from "@/lib/models";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 
@@ -73,10 +74,7 @@ function CatalogPage() {
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors — início">
-            <span className="klug-mark" aria-hidden="true" />
-            <span className="font-display font-black text-xl tracking-tighter uppercase leading-none">
-              Klug<span className="text-primary">Motors</span>
-            </span>
+            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
           </Link>
           <Link
             to="/"
