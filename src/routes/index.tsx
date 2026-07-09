@@ -941,6 +941,43 @@ function Footer() {
   );
 }
 
+/* ---------------------------- WhatsApp CTA banner ---------------------------- */
+
+function WhatsAppCTA() {
+  return (
+    <section aria-label="Agendar test-ride via WhatsApp" className="border-b border-border bg-background">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8 sm:py-10">
+        <div className="relative overflow-hidden border border-border bg-card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div className="absolute inset-0 pointer-events-none ember-spotlight opacity-60" />
+          <div className="relative">
+            <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-2">
+              Test-ride grátis
+            </p>
+            <h2 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tighter leading-none">
+              Experimente antes de <span className="text-primary">decidir</span>
+            </h2>
+            <p className="text-white/60 text-sm mt-3 max-w-md">
+              Agende seu test-ride pelo WhatsApp — respondemos na hora e reservamos o modelo pra você.
+            </p>
+          </div>
+          <a
+            href={buildWhatsAppFallbackUrl(TEST_RIDE_MSG)}
+            onClick={(e) => {
+              e.preventDefault();
+              openWhatsAppWithFallback(TEST_RIDE_MSG);
+            }}
+            aria-label="Agendar test-ride no WhatsApp"
+            className="relative inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] shrink-0"
+          >
+            <MessageCircle size={18} fill="white" strokeWidth={0} />
+            Agendar Test-Ride
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------------------------- WhatsApp FAB ---------------------------- */
 
 function WhatsAppFab() {
