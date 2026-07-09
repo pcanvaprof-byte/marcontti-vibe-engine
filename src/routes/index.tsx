@@ -703,7 +703,6 @@ function Footer() {
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
             <a href="#" className="flex items-center gap-2 mb-6" aria-label="Klug Motors">
-              <span className="klug-mark" aria-hidden="true" />
               <KlugWordmark />
             </a>
             <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-xs">
