@@ -183,22 +183,22 @@ function CatalogPage() {
                 key={m.slug}
                 to="/modelos/$slug"
                 params={{ slug: m.slug }}
-                className="group bg-card border border-border hover-ember overflow-hidden"
+                className="group bg-card border border-border rounded-2xl overflow-hidden hover-ember transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-charcoal">
-                  <img
-                    src={m.colors[0]?.image}
-                    alt={`${m.name} — ${m.tag}`}
-                    loading="lazy"
-                    className="w-full h-full object-contain p-6 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                  />
-                  <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
-                    <span className="bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
+                <div className="relative aspect-[4/3] p-3">
+                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
+                    <img
+                      src={m.colors[0]?.image}
+                      alt={`${m.name} — ${m.tag}`}
+                      loading="lazy"
+                      className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
                       <Zap size={10} className="text-primary" /> {m.power}
                     </span>
                   </div>
                 </div>
-                <div className="p-6">
+                <div className="p-6 pt-4">
                   <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-2">
                     {m.tag}
                   </p>
@@ -220,6 +220,7 @@ function CatalogPage() {
                 </div>
               </Link>
             ))}
+
           </div>
         )}
       </section>
