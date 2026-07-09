@@ -116,6 +116,7 @@ const NAV_LINKS = [
   { hash: "joinville", label: "Joinville" },
   { hash: "contato", label: "Contato" },
 ] as const;
+const NAV_IDS = NAV_LINKS.map((l) => l.hash);
 
 /** Track which section is currently in view for nav highlighting. */
 function useActiveSection(ids: readonly string[]): string | null {
