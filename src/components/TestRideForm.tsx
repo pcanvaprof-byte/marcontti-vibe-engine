@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
 
@@ -32,6 +32,7 @@ export function TestRideForm({
 }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -66,93 +67,161 @@ export function TestRideForm({
     ]
       .filter(Boolean)
       .join("\n");
-    openWhatsAppWithFallback(text);
-    setSubmitting(false);
+
+    setTimeout(() => {
+      openWhatsAppWithFallback(text);
+      setSubmitting(false);
+      setSent(true);
+      setTimeout(() => setSent(false), 4000);
+    }, 400);
   }
 
   const inputCls =
-    "w-full px-5 py-4 rounded-2xl bg-surface border border-border focus:border-primary outline-none transition-colors";
+    "w-full bg-background border border-border px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-primary focus:outline-none transition-colors";
+  const labelCls =
+    "block text-[10px] uppercase font-display font-black text-white/50 tracking-widest mb-2";
 
   return (
     <form
       onSubmit={onSubmit}
+      noValidate
+      aria-label="Agendar test-ride"
       className={
         compact
-          ? "space-y-3"
-          : "bg-card rounded-3xl p-8 sm:p-10 border border-border shadow-[var(--shadow-card)]"
+          ? "space-y-4"
+          : "bg-card border border-border p-8 sm:p-10"
       }
     >
       {!compact && (
-        <>
-          <h3 className="text-2xl font-bold mb-2">Agende seu test-ride</h3>
-          <p className="text-muted-foreground mb-8">
+        <div className="mb-8">
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
+            Solicite agora
+          </p>
+          <h3 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-2">
+            Agende um Test-Ride
+          </h3>
+          <p className="text-white/60 text-sm">
             Preencha o formulário — enviaremos direto para o WhatsApp da loja.
           </p>
-        </>
-      )}
-      <div className="space-y-4">
-        <div>
-          <input name="name" maxLength={100} placeholder="Seu nome" className={inputCls} />
-          {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
         </div>
+      )}
+
+      <div className="space-y-5">
         <div>
+          <label htmlFor="tr-name" className={labelCls}>Nome completo</label>
           <input
+            id="tr-name"
+            name="name"
+            maxLength={100}
+            placeholder="Como podemos te chamar?"
+            className={inputCls}
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? "tr-name-err" : undefined}
+          />
+          {errors.name && (
+            <p id="tr-name-err" role="alert" className="text-xs text-destructive mt-1.5">
+              {errors.name}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="tr-phone" className={labelCls}>WhatsApp</label>
+          <input
+            id="tr-phone"
             name="phone"
             type="tel"
             maxLength={20}
-            placeholder="WhatsApp (DDD + número)"
+            placeholder="(DDD) + número"
             className={inputCls}
+            aria-invalid={!!errors.phone}
+            aria-describedby={errors.phone ? "tr-phone-err" : undefined}
           />
-          {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone}</p>}
+          {errors.phone && (
+            <p id="tr-phone-err" role="alert" className="text-xs text-destructive mt-1.5">
+              {errors.phone}
+            </p>
+          )}
         </div>
-        <div className="grid sm:grid-cols-2 gap-4">
+
+        <div className="grid sm:grid-cols-2 gap-5">
           <div>
+            <label htmlFor="tr-model" className={labelCls}>Modelo de interesse</label>
             <select
+              id="tr-model"
               name="model"
               defaultValue={defaultModel ?? ""}
               className={inputCls}
+              aria-invalid={!!errors.model}
             >
-              <option value="" disabled>
-                Modelo de interesse
-              </option>
+              <option value="" disabled>Selecione um modelo</option>
               {models.map((m) => (
-                <option key={m.slug} value={m.name}>
-                  {m.name}
-                </option>
+                <option key={m.slug} value={m.name}>{m.name}</option>
               ))}
               <option>Outro / Catálogo completo</option>
             </select>
-            {errors.model && <p className="text-sm text-destructive mt-1">{errors.model}</p>}
+            {errors.model && (
+              <p role="alert" className="text-xs text-destructive mt-1.5">
+                {errors.model}
+              </p>
+            )}
           </div>
           <div>
-            <select name="schedule" defaultValue="" className={inputCls}>
-              <option value="" disabled>
-                Horário preferido
-              </option>
+            <label htmlFor="tr-schedule" className={labelCls}>Horário preferido</label>
+            <select
+              id="tr-schedule"
+              name="schedule"
+              defaultValue=""
+              className={inputCls}
+              aria-invalid={!!errors.schedule}
+            >
+              <option value="" disabled>Selecione um horário</option>
               {schedules.map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>
             {errors.schedule && (
-              <p className="text-sm text-destructive mt-1">{errors.schedule}</p>
+              <p role="alert" className="text-xs text-destructive mt-1.5">
+                {errors.schedule}
+              </p>
             )}
           </div>
         </div>
-        <textarea
-          name="message"
-          rows={3}
-          maxLength={500}
-          placeholder="Mensagem (opcional)"
-          className={`${inputCls} resize-none`}
-        />
+
+        <div>
+          <label htmlFor="tr-msg" className={labelCls}>Mensagem (opcional)</label>
+          <textarea
+            id="tr-msg"
+            name="message"
+            rows={3}
+            maxLength={500}
+            placeholder="Conte-nos mais sobre o que você procura"
+            className={`${inputCls} resize-none`}
+          />
+        </div>
+
         <button
           type="submit"
-          disabled={submitting}
-          className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold py-4 rounded-full transition-all hover:shadow-[var(--shadow-elegant)] hover:-translate-y-0.5 inline-flex items-center justify-center gap-2 disabled:opacity-60"
+          disabled={submitting || sent}
+          className="w-full bg-primary hover:bg-primary-glow disabled:opacity-70 text-primary-foreground font-display font-black uppercase text-sm tracking-widest py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 inline-flex items-center justify-center gap-2"
         >
-          Enviar via WhatsApp
-          <ArrowRight size={18} />
+          {sent ? (
+            <>
+              <CheckCircle2 size={18} /> Enviado
+            </>
+          ) : submitting ? (
+            <>
+              <Loader2 size={18} className="animate-spin" /> Enviando…
+            </>
+          ) : (
+            <>
+              Confirmar Agendamento <ArrowRight size={18} />
+            </>
+          )}
         </button>
+        <p className="text-[10px] text-white/40 text-center uppercase tracking-widest">
+          Ao enviar, você será redirecionado para o WhatsApp
+        </p>
       </div>
     </form>
   );
