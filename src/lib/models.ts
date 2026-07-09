@@ -29,7 +29,15 @@ export type Model = {
   colors: ColorVariant[];
   specs: { label: string; value: string }[];
   features: string[];
+  gallery?: string[];
 };
+
+/** Build a gallery for a model: explicit gallery > color variants > single image. */
+export function getGallery(m: Model): string[] {
+  if (m.gallery && m.gallery.length > 0) return m.gallery;
+  const fromColors = m.colors.map((c) => c.image).filter(Boolean);
+  return fromColors.length > 0 ? fromColors : [];
+}
 
 export const models: Model[] = [
   {
