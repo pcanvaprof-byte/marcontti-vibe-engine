@@ -175,7 +175,7 @@ function ModelPage() {
 
       <main className="max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
         {/* Breadcrumb */}
-        <nav className="text-[10px] uppercase tracking-widest text-white/40 mb-8 font-bold" aria-label="Breadcrumb">
+        <nav className="text-[10px] uppercase tracking-widest text-white/40 mb-10 font-bold" aria-label="Breadcrumb">
           <Link to="/" className="hover:text-primary">Home</Link>
           <span className="mx-2">/</span>
           <Link to="/modelos" className="hover:text-primary">Catálogo</Link>
@@ -183,173 +183,273 @@ function ModelPage() {
           <span className="text-white">{m.name}</span>
         </nav>
 
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          {/* Gallery */}
-          <div className="lg:col-span-6">
-            <div className="relative group aspect-square bg-card border border-border overflow-hidden">
-              <img
-                src={activeImage}
-                alt={`${m.name} — imagem ${imgIndex + 1} de ${gallery.length}`}
-                className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-105"
-              />
-              <span className="absolute top-4 left-4 bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
-                <Zap size={10} className="text-primary" /> {m.power}
-              </span>
+        {/* HERO — Kinetic broken frame */}
+        <section className="relative isolate">
+          {/* Giant faded model name behind everything */}
+          <div className="absolute -top-10 -left-6 sm:-left-16 select-none opacity-[0.05] pointer-events-none overflow-hidden max-w-full">
+            <h1
+              aria-hidden
+              className="leading-[0.8] tracking-tighter italic uppercase text-white whitespace-nowrap"
+              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "28vw" }}
+            >
+              {m.name.split(" ")[0]}
+            </h1>
+          </div>
 
-              <button
-                type="button"
-                onClick={() => setLightbox(true)}
-                aria-label="Ampliar imagem"
-                className="absolute top-4 right-4 bg-charcoal/80 backdrop-blur border border-border text-white p-2 hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                <Expand size={14} />
-              </button>
+          <div className="relative grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+            {/* LEFT — gallery with broken frame */}
+            <div className="lg:col-span-7 relative">
+              <div className="relative z-10">
+                {/* Offset orange frame */}
+                <div
+                  aria-hidden
+                  className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 w-full h-full border-2 border-primary rounded-[22px] opacity-30 pointer-events-none"
+                />
 
-              {gallery.length > 1 && (
-                <>
+                {/* Gallery — slight rotation */}
+                <div className="relative group aspect-square bg-card border border-white/10 rounded-[22px] overflow-hidden shadow-2xl transform rotate-[-1deg] transition-transform duration-500 hover:rotate-0">
+                  <img
+                    src={activeImage}
+                    alt={`${m.name} — imagem ${imgIndex + 1} de ${gallery.length}`}
+                    className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute top-5 left-5 bg-primary text-black text-[10px] font-display font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
+                    {m.tag}
+                  </span>
+
                   <button
                     type="button"
-                    onClick={prevImage}
-                    aria-label="Imagem anterior"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-charcoal/80 backdrop-blur border border-border text-white p-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
+                    onClick={() => setLightbox(true)}
+                    aria-label="Ampliar imagem"
+                    className="absolute top-5 right-5 bg-black/60 backdrop-blur border border-white/10 text-white p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
                   >
-                    <ChevronLeft size={18} />
+                    <Expand size={14} />
                   </button>
-                  <button
-                    type="button"
-                    onClick={nextImage}
-                    aria-label="Próxima imagem"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-charcoal/80 backdrop-blur border border-border text-white p-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
-                  >
-                    <ChevronRight size={18} />
-                  </button>
-                  <div className="absolute bottom-3 right-3 bg-charcoal/80 backdrop-blur border border-border text-white text-[10px] font-bold px-2 py-1 tabular-nums">
-                    {imgIndex + 1} / {gallery.length}
+
+                  {gallery.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={prevImage}
+                        aria-label="Imagem anterior"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 backdrop-blur border border-white/10 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={nextImage}
+                        aria-label="Próxima imagem"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 backdrop-blur border border-white/10 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                      <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur border border-white/10 text-white text-[10px] font-bold px-2 py-1 rounded-full tabular-nums">
+                        {imgIndex + 1} / {gallery.length}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Floating spec cards — breaking the grid */}
+                <div className="absolute -right-2 -bottom-8 sm:-right-6 sm:bottom-6 z-20 flex flex-col gap-3 sm:gap-4">
+                  <div className="bg-[oklch(0.27_0_0)] border-l-4 border-primary p-4 pr-6 rounded-r-[18px] rounded-tl-[18px] shadow-2xl transform translate-x-2 sm:translate-x-4 hover:translate-x-0 transition-transform duration-500">
+                    <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest">Autonomia</p>
+                    <p className="text-3xl sm:text-4xl text-white leading-none mt-1" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>
+                      {m.range}
+                    </p>
                   </div>
-                </>
+                  <div className="bg-primary p-4 pr-6 rounded-[18px] shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <p className="text-black/60 text-[10px] uppercase font-bold tracking-widest">Potência</p>
+                    <p className="text-3xl sm:text-4xl text-black leading-none mt-1" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>
+                      {m.power}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Thumbnails */}
+              {gallery.length > 1 && (
+                <div className="mt-16 sm:mt-14 grid grid-cols-5 sm:grid-cols-6 gap-2" role="tablist" aria-label="Galeria">
+                  {gallery.map((src, i) => (
+                    <button
+                      key={src + i}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === imgIndex}
+                      aria-label={`Imagem ${i + 1}`}
+                      onClick={() => setImgIndex(i)}
+                      className={`aspect-square bg-card border-2 rounded-[12px] transition-all overflow-hidden ${
+                        i === imgIndex ? "border-primary" : "border-white/10 hover:border-primary/60"
+                      }`}
+                    >
+                      <img src={src} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {m.colors.length > 1 && (
+                <div className="mt-6">
+                  <div className="text-[9px] uppercase tracking-widest text-white/40 font-bold mb-2">
+                    Cor: <span className="text-white">{variant?.name}</span>
+                  </div>
+                  <div className="flex gap-2 flex-wrap">
+                    {m.colors.map((c, i) => (
+                      <button
+                        key={c.name}
+                        type="button"
+                        onClick={() => setSelected(i)}
+                        aria-label={c.name}
+                        title={c.name}
+                        className={`w-10 h-10 rounded-full border-2 transition-all ${
+                          i === selected
+                            ? "border-primary scale-110"
+                            : "border-white/15 hover:border-primary/60"
+                        }`}
+                        style={{ backgroundColor: c.hex }}
+                      />
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 
-            {gallery.length > 1 && (
-              <div className="mt-4 grid grid-cols-5 sm:grid-cols-6 gap-2" role="tablist" aria-label="Galeria">
-                {gallery.map((src, i) => (
-                  <button
-                    key={src + i}
-                    type="button"
-                    role="tab"
-                    aria-selected={i === imgIndex}
-                    aria-label={`Imagem ${i + 1}`}
-                    onClick={() => setImgIndex(i)}
-                    className={`aspect-square bg-card border-2 transition-all overflow-hidden ${
-                      i === imgIndex ? "border-primary" : "border-border hover:border-primary/60"
-                    }`}
+            {/* RIGHT — Details */}
+            <div className="lg:col-span-5 relative z-20">
+              <div className="space-y-8">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <span className="h-[2px] w-8 bg-primary" />
+                    <span className="text-primary text-[10px] font-black uppercase tracking-[0.3em]">
+                      Performance
+                    </span>
+                  </div>
+                  <h1
+                    className="text-white uppercase leading-[0.8] tracking-tighter"
+                    style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "clamp(64px, 9vw, 128px)" }}
                   >
-                    <img src={src} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
-                  </button>
-                ))}
-              </div>
-            )}
+                    KLUG <br />
+                    <span
+                      className="text-primary"
+                      style={{ filter: "drop-shadow(3px 3px 0 rgba(255,255,255,0.08))" }}
+                    >
+                      {m.name.split(" ")[0]}
+                    </span>
+                  </h1>
+                </div>
 
-            {m.colors.length > 1 && (
-              <div className="mt-6">
-                <div className="text-[9px] uppercase tracking-widest text-white/40 font-bold mb-2">
-                  Cor: <span className="text-white">{variant?.name}</span>
+                <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-md">
+                  {m.description}
+                </p>
+
+                <div className="flex flex-col sm:flex-row sm:items-center gap-6 pt-2">
+                  <a
+                    href={whatsappUrl}
+                    onClick={handleWhatsAppClick}
+                    className="relative group inline-block self-start"
+                  >
+                    <div className="absolute inset-0 bg-primary rounded-[18px] translate-x-1.5 translate-y-1.5 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-300" />
+                    <div className="relative px-8 py-4 bg-white text-black font-display font-black uppercase tracking-tighter text-lg sm:text-xl rounded-[18px] border-2 border-white inline-flex items-center gap-2">
+                      <MessageCircle size={18} strokeWidth={0} fill="currentColor" />
+                      Tenho interesse
+                    </div>
+                  </a>
+
+                  <div className="flex flex-col">
+                    <span className="text-white/30 text-[10px] uppercase font-bold tracking-widest">
+                      A partir de
+                    </span>
+                    <span
+                      className="text-3xl text-white italic leading-none mt-1"
+                      style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
+                    >
+                      {m.price}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex gap-2 flex-wrap">
-                  {m.colors.map((c, i) => (
-                    <button
-                      key={c.name}
-                      type="button"
-                      onClick={() => setSelected(i)}
-                      aria-label={c.name}
-                      title={c.name}
-                      className={`w-9 h-9 border-2 transition-all min-h-11 min-w-11 sm:min-h-9 sm:min-w-9 ${
-                        i === selected
-                          ? "border-primary scale-110"
-                          : "border-border hover:border-primary/60"
-                      }`}
-                      style={{ backgroundColor: c.hex }}
-                    />
-                  ))}
+
+                <a
+                  href="#test-ride"
+                  className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors text-[11px] font-display font-black uppercase tracking-widest"
+                >
+                  <Zap size={14} /> Agende um test-ride grátis
+                </a>
+
+                {/* Secondary micro-specs */}
+                <div className="pt-6 flex gap-10 border-t border-white/5">
+                  <div>
+                    <span className="block text-white/30 text-[10px] uppercase font-bold mb-1 tracking-widest">
+                      Velocidade
+                    </span>
+                    <span className="text-white font-semibold text-sm">{m.speed}</span>
+                  </div>
+                  <div>
+                    <span className="block text-white/30 text-[10px] uppercase font-bold mb-1 tracking-widest">
+                      Bateria
+                    </span>
+                    <span className="text-white font-semibold text-sm">
+                      {m.specs.find((s) => s.label.toLowerCase().includes("bateria"))?.value ?? "—"}
+                    </span>
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
           </div>
+        </section>
 
-          {/* Details */}
-          <div className="lg:col-span-6">
-            <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
-              {m.tag}
-            </p>
-            <h1 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
-              {m.name}
-            </h1>
-            <p className="text-white/60 mt-5 leading-relaxed">{m.description}</p>
-
-            <div className="mt-8 flex items-baseline gap-3 border-t border-border pt-6">
-              <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
-                A partir de
-              </span>
-              <span className="font-display font-black text-4xl text-primary">
-                {m.price}
-              </span>
-            </div>
-
-            <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <a
-                href={whatsappUrl}
-                onClick={handleWhatsAppClick}
-                className="flex-1 bg-[#25D366] hover:brightness-110 text-white font-display font-black uppercase text-sm tracking-widest py-4 inline-flex items-center justify-center gap-2 transition-all"
-              >
-                <MessageCircle size={18} fill="white" strokeWidth={0} />
-                Tenho interesse
-              </a>
-              <a
-                href="#test-ride"
-                className="flex-1 border border-primary text-primary hover:bg-primary hover:text-primary-foreground font-display font-black uppercase text-sm tracking-widest py-4 inline-flex items-center justify-center gap-2 transition-all"
-              >
-                <Zap size={18} /> Test-Ride
-              </a>
-            </div>
-
-            {/* Specs grid */}
-            <div className="mt-10">
-              <h2 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-4">
+        {/* Ficha técnica completa */}
+        <section className="mt-24 sm:mt-32">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
+                Especificações
+              </p>
+              <h2 className="font-display font-black uppercase text-3xl sm:text-4xl tracking-tight leading-none">
                 Ficha técnica
               </h2>
-              <div className="grid grid-cols-2 gap-px bg-border border border-border">
-                {m.specs.map((s) => (
-                  <div key={s.label} className="bg-card p-4">
-                    <div className="text-[9px] uppercase tracking-widest text-white/40 font-bold mb-1">
-                      {s.label}
-                    </div>
-                    <div className="font-display font-black text-sm uppercase tracking-tight">
-                      {s.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Features */}
-            <div className="mt-10">
-              <h2 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-4">
-                Destaques
-              </h2>
-              <ul className="grid sm:grid-cols-2 gap-3">
-                {m.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-start gap-3 bg-card border border-border p-3 text-sm text-white/85"
-                  >
-                    <Check size={16} className="text-primary shrink-0 mt-0.5" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
-        </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            {m.specs.map((s, i) => (
+              <div
+                key={s.label}
+                className={`bg-card border border-white/5 p-5 rounded-[18px] transition-transform duration-500 hover:-translate-y-1 hover:border-primary/40 ${
+                  i % 3 === 1 ? "sm:translate-y-3" : i % 3 === 2 ? "sm:-translate-y-2" : ""
+                }`}
+              >
+                <div className="text-[9px] uppercase tracking-widest text-white/40 font-bold mb-2">
+                  {s.label}
+                </div>
+                <div className="font-display font-black text-base uppercase tracking-tight leading-tight">
+                  {s.value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Destaques */}
+        <section className="mt-20 sm:mt-24">
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
+            Destaques
+          </p>
+          <h2 className="font-display font-black uppercase text-3xl sm:text-4xl tracking-tight leading-none mb-6">
+            O que torna a <span className="text-primary">{m.name}</span> única
+          </h2>
+          <ul className="grid sm:grid-cols-2 gap-3">
+            {m.features.map((f) => (
+              <li
+                key={f}
+                className="flex items-start gap-3 bg-card border border-white/5 p-4 rounded-[18px] text-sm text-white/85 hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-300"
+              >
+                <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                <span>{f}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
 
         {/* Test ride */}
         <section
