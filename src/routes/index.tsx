@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import {
   Menu,
   X,
@@ -110,9 +110,65 @@ function KlugWordmark({ className = "" }: { className?: string }) {
 
 /* ------------------------------ Header ------------------------------ */
 
+const NAV_LINKS = [
+  { hash: "modelos", label: "Modelos" },
+  { hash: "sobre", label: "Sobre Nós" },
+  { hash: "joinville", label: "Joinville" },
+  { hash: "contato", label: "Contato" },
+] as const;
+const NAV_IDS = NAV_LINKS.map((l) => l.hash);
+
+/** Track which section is currently in view for nav highlighting. */
+function useActiveSection(ids: readonly string[]): string | null {
+  const [active, setActive] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const targets = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (targets.length === 0) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        // Pick the visible entry closest to the top of the viewport.
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: 0 },
+    );
+    targets.forEach((t) => io.observe(t));
+    return () => io.disconnect();
+  }, [ids]);
+  return active;
+}
+
+/** Smooth scroll to a page anchor, honoring reduced-motion + updating the hash. */
+function scrollToHash(hash: string, reduced: boolean) {
+  if (typeof window === "undefined") return;
+  const el = document.getElementById(hash);
+  if (!el) return;
+  el.scrollIntoView({
+    behavior: reduced ? "auto" : "smooth",
+    block: "start",
+  });
+  history.replaceState(null, "", `#${hash}`);
+  // Move focus for a11y without stealing scroll.
+  const prevTabIndex = el.getAttribute("tabindex");
+  el.setAttribute("tabindex", "-1");
+  el.focus({ preventScroll: true });
+  if (prevTabIndex === null) {
+    setTimeout(() => el.removeAttribute("tabindex"), 500);
+  }
+}
+
+/* ------------------------------ Header ------------------------------ */
+
 function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const reduced = useReducedMotion();
+  const active = useActiveSection(NAV_IDS);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -121,11 +177,11 @@ function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const links = [
-    { href: "#modelos", label: "Modelos" },
-    { href: "#sobre", label: "Sobre" },
-    { href: "#contato", label: "Contato" },
-  ];
+  const handleAnchor = (hash: string) => (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setOpen(false);
+    scrollToHash(hash, reduced);
+  };
 
   return (
     <header
@@ -138,7 +194,12 @@ function Header() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
         <a
           href="#"
-          className="flex items-center gap-2 focus:outline-none"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+            history.replaceState(null, "", " ");
+          }}
+          className="flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           aria-label="Klug Motors — início"
         >
           <KlugWordmark />
@@ -148,15 +209,24 @@ function Header() {
           className="hidden md:flex items-center gap-8 font-display font-bold uppercase text-xs tracking-[0.2em]"
           aria-label="Principal"
         >
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="story-link text-white/80 hover:text-primary transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((l) => {
+            const isActive = active === l.hash;
+            return (
+              <a
+                key={l.hash}
+                href={`#${l.hash}`}
+                onClick={handleAnchor(l.hash)}
+                aria-current={isActive ? "location" : undefined}
+                className={`story-link transition-colors focus:outline-none focus-visible:text-primary ${
+                  isActive
+                    ? "text-primary after:scale-x-100"
+                    : "text-white/80 hover:text-primary"
+                }`}
+              >
+                {l.label}
+              </a>
+            );
+          })}
           <Link
             to="/modelos"
             className="story-link text-white/80 hover:text-primary transition-colors"
@@ -167,6 +237,7 @@ function Header() {
 
         <a
           href="#contato"
+          onClick={handleAnchor("contato")}
           className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-display font-extrabold text-[11px] px-5 py-2.5 rounded-full uppercase tracking-widest transition-all hover:scale-[1.03] hover:shadow-[var(--shadow-ember)] active:scale-95"
         >
           Test-Ride
@@ -190,16 +261,22 @@ function Header() {
           className="md:hidden border-t border-border bg-background animate-fade-in"
         >
           <div className="px-5 py-4 flex flex-col gap-1">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="py-3 font-display font-bold uppercase text-sm tracking-wider hover:text-primary"
-              >
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) => {
+              const isActive = active === l.hash;
+              return (
+                <a
+                  key={l.hash}
+                  href={`#${l.hash}`}
+                  onClick={handleAnchor(l.hash)}
+                  aria-current={isActive ? "location" : undefined}
+                  className={`py-3 font-display font-bold uppercase text-sm tracking-wider transition-colors ${
+                    isActive ? "text-primary" : "hover:text-primary"
+                  }`}
+                >
+                  {l.label}
+                </a>
+              );
+            })}
             <Link
               to="/modelos"
               onClick={() => setOpen(false)}
@@ -209,7 +286,7 @@ function Header() {
             </Link>
             <a
               href="#contato"
-              onClick={() => setOpen(false)}
+              onClick={handleAnchor("contato")}
               className="mt-2 bg-primary text-primary-foreground text-center font-display font-extrabold uppercase text-xs tracking-widest px-5 py-4 rounded-full"
             >
               Agendar Test-Ride
@@ -927,7 +1004,7 @@ function Contact() {
           </p>
 
           {/* Cockpit panel */}
-          <div className="border border-border bg-card divide-y divide-border">
+          <div id="joinville" className="border border-border bg-card divide-y divide-border scroll-mt-24">
             <ContactRow
               icon={MapPin}
               label="Endereço"
