@@ -1455,7 +1455,7 @@ function Index() {
         <Contact />
       </main>
       <Footer />
-      <ScrollTopFab />
+      {/* Back-to-top é global (renderizado no __root) */}
       <WhatsAppFab />
     </div>
   );

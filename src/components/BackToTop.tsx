@@ -27,7 +27,7 @@ export function BackToTop() {
       type="button"
       onClick={scrollUp}
       aria-label="Voltar ao topo"
-      className={`fixed bottom-5 right-5 z-40 grid place-items-center h-11 w-11 rounded-full bg-primary text-primary-foreground shadow-lg shadow-black/40 border border-primary/40 transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${
+      className={`fixed bottom-24 right-5 sm:right-6 z-40 grid place-items-center h-11 w-11 rounded-full bg-primary text-primary-foreground shadow-lg shadow-black/40 border border-primary/40 transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${
         visible
           ? "opacity-100 translate-y-0 pointer-events-auto"
           : "opacity-0 translate-y-2 pointer-events-none"
