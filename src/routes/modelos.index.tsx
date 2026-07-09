@@ -132,7 +132,7 @@ function CatalogPage() {
             <select
               value={priceId}
               onChange={(e) => setPriceId(e.target.value as typeof priceId)}
-              className="bg-card border border-border px-3 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
+              className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
               aria-label="Faixa de preço"
             >
               {PRICE_RANGES.map((r) => (
@@ -142,7 +142,7 @@ function CatalogPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="bg-card border border-border px-3 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
+              className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
               aria-label="Ordenar por"
             >
               <option value="relevance">Relevância</option>
@@ -158,7 +158,7 @@ function CatalogPage() {
         </p>
 
         {filtered.length === 0 ? (
-          <div className="border border-dashed border-border p-16 text-center bg-card">
+          <div className="border border-dashed border-border rounded-2xl p-16 text-center bg-card">
             <p className="font-display font-black uppercase tracking-wider text-lg mb-2">
               Nenhum modelo encontrado
             </p>
@@ -170,11 +170,12 @@ function CatalogPage() {
                 setType("Todos");
                 setPriceId("all");
               }}
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full"
             >
               Limpar filtros <ArrowRight size={14} />
             </button>
           </div>
+
         ) : (
           <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((m) => (
@@ -182,22 +183,22 @@ function CatalogPage() {
                 key={m.slug}
                 to="/modelos/$slug"
                 params={{ slug: m.slug }}
-                className="group bg-card border border-border hover-ember overflow-hidden"
+                className="group bg-card border border-border rounded-2xl overflow-hidden hover-ember transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
               >
-                <div className="relative aspect-[4/3] overflow-hidden bg-charcoal">
-                  <img
-                    src={m.colors[0]?.image}
-                    alt={`${m.name} — ${m.tag}`}
-                    loading="lazy"
-                    className="w-full h-full object-contain p-6 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                  />
-                  <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
-                    <span className="bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
+                <div className="relative aspect-[4/3] p-3">
+                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
+                    <img
+                      src={m.colors[0]?.image}
+                      alt={`${m.name} — ${m.tag}`}
+                      loading="lazy"
+                      className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
                       <Zap size={10} className="text-primary" /> {m.power}
                     </span>
                   </div>
                 </div>
-                <div className="p-6">
+                <div className="p-6 pt-4">
                   <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-2">
                     {m.tag}
                   </p>
@@ -219,6 +220,7 @@ function CatalogPage() {
                 </div>
               </Link>
             ))}
+
           </div>
         )}
       </section>

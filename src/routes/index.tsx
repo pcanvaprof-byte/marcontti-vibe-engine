@@ -957,16 +957,14 @@ function Benefits() {
             Menos <span className="text-primary">custo</span>. Zero ruído.
           </h2>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4">
-          {benefits.map((b, i) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {benefits.map((b) => (
             <div
               key={b.title}
-              className={`p-8 border-t border-l border-border ${
-                i === benefits.length - 1 ? "sm:border-r" : ""
-              } ${i >= benefits.length - 2 ? "lg:border-b-0" : ""} lg:border-b border-b group hover:bg-background transition-colors`}
+              className="p-7 bg-card border border-border rounded-2xl group hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
             >
               <div className="flex items-start justify-between mb-8">
-                <div className="w-11 h-11 border border-border grid place-items-center group-hover:bg-primary group-hover:border-primary transition-colors">
+                <div className="w-11 h-11 rounded-xl border border-border grid place-items-center group-hover:bg-primary group-hover:border-primary transition-colors">
                   <b.icon
                     className="text-primary group-hover:text-primary-foreground transition-colors"
                     size={20}
@@ -984,6 +982,7 @@ function Benefits() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
@@ -1008,7 +1007,7 @@ function Contact() {
           </p>
 
           {/* Cockpit panel */}
-          <div id="joinville" className="border border-border bg-card divide-y divide-border scroll-mt-24">
+          <div id="joinville" className="border border-border bg-card rounded-2xl overflow-hidden divide-y divide-border scroll-mt-24">
             <ContactRow
               icon={MapPin}
               label="Endereço"
@@ -1068,12 +1067,13 @@ function ContactRow({
 }) {
   const content = (
     <>
-      <div className="w-11 h-11 border border-border bg-background grid place-items-center shrink-0 group-hover:bg-primary group-hover:border-primary transition-colors">
+      <div className="w-11 h-11 rounded-xl border border-border bg-background grid place-items-center shrink-0 group-hover:bg-primary group-hover:border-primary transition-colors">
         <Icon
           size={18}
           className="text-primary group-hover:text-primary-foreground transition-colors"
         />
       </div>
+
       <div className="min-w-0">
         <p className="text-[9px] text-white/40 font-display font-black uppercase tracking-[0.25em] mb-1">
           {label}
