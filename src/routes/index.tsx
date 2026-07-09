@@ -183,11 +183,27 @@ function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Body scroll lock + ESC when the mobile drawer is open.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   const handleAnchor = (hash: string) => (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setOpen(false);
     scrollToHash(hash, reduced);
   };
+
 
   return (
     <header
