@@ -33,6 +33,8 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
+const TEST_RIDE_MSG =
+  "Olá, Klug Motors! Quero agendar um test-ride e conhecer os modelos elétricos. Podem me ajudar?";
 
 export const Route = createFileRoute("/")({
   head: () => ({
