@@ -9,12 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as GarantiaRouteImport } from './routes/garantia'
+import { Route as FinanciamentoRouteImport } from './routes/financiamento'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as CompararRouteImport } from './routes/comparar'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ModelosIndexRouteImport } from './routes/modelos.index'
 import { Route as ModelosSlugRouteImport } from './routes/modelos.$slug'
 
+const SobreRoute = SobreRouteImport.update({
+  id: '/sobre',
+  path: '/sobre',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -23,6 +34,31 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GarantiaRoute = GarantiaRouteImport.update({
+  id: '/garantia',
+  path: '/garantia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FinanciamentoRoute = FinanciamentoRouteImport.update({
+  id: '/financiamento',
+  path: '/financiamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContatoRoute = ContatoRouteImport.update({
+  id: '/contato',
+  path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompararRoute = CompararRouteImport.update({
+  id: '/comparar',
+  path: '/comparar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,23 +79,41 @@ const ModelosSlugRoute = ModelosSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/comparar': typeof CompararRoute
+  '/contato': typeof ContatoRoute
+  '/faq': typeof FaqRoute
+  '/financiamento': typeof FinanciamentoRoute
+  '/garantia': typeof GarantiaRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sobre': typeof SobreRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/': typeof ModelosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/comparar': typeof CompararRoute
+  '/contato': typeof ContatoRoute
+  '/faq': typeof FaqRoute
+  '/financiamento': typeof FinanciamentoRoute
+  '/garantia': typeof GarantiaRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sobre': typeof SobreRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos': typeof ModelosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/comparar': typeof CompararRoute
+  '/contato': typeof ContatoRoute
+  '/faq': typeof FaqRoute
+  '/financiamento': typeof FinanciamentoRoute
+  '/garantia': typeof GarantiaRoute
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/sobre': typeof SobreRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/': typeof ModelosIndexRoute
 }
@@ -67,31 +121,67 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/comparar'
+    | '/contato'
+    | '/faq'
+    | '/financiamento'
+    | '/garantia'
     | '/privacidade'
     | '/sitemap.xml'
+    | '/sobre'
     | '/modelos/$slug'
     | '/modelos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/privacidade' | '/sitemap.xml' | '/modelos/$slug' | '/modelos'
+  to:
+    | '/'
+    | '/comparar'
+    | '/contato'
+    | '/faq'
+    | '/financiamento'
+    | '/garantia'
+    | '/privacidade'
+    | '/sitemap.xml'
+    | '/sobre'
+    | '/modelos/$slug'
+    | '/modelos'
   id:
     | '__root__'
     | '/'
+    | '/comparar'
+    | '/contato'
+    | '/faq'
+    | '/financiamento'
+    | '/garantia'
     | '/privacidade'
     | '/sitemap.xml'
+    | '/sobre'
     | '/modelos/$slug'
     | '/modelos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompararRoute: typeof CompararRoute
+  ContatoRoute: typeof ContatoRoute
+  FaqRoute: typeof FaqRoute
+  FinanciamentoRoute: typeof FinanciamentoRoute
+  GarantiaRoute: typeof GarantiaRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  SobreRoute: typeof SobreRoute
   ModelosSlugRoute: typeof ModelosSlugRoute
   ModelosIndexRoute: typeof ModelosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sobre': {
+      id: '/sobre'
+      path: '/sobre'
+      fullPath: '/sobre'
+      preLoaderRoute: typeof SobreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -104,6 +194,41 @@ declare module '@tanstack/react-router' {
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/garantia': {
+      id: '/garantia'
+      path: '/garantia'
+      fullPath: '/garantia'
+      preLoaderRoute: typeof GarantiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/financiamento': {
+      id: '/financiamento'
+      path: '/financiamento'
+      fullPath: '/financiamento'
+      preLoaderRoute: typeof FinanciamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contato': {
+      id: '/contato'
+      path: '/contato'
+      fullPath: '/contato'
+      preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comparar': {
+      id: '/comparar'
+      path: '/comparar'
+      fullPath: '/comparar'
+      preLoaderRoute: typeof CompararRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -132,8 +257,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompararRoute: CompararRoute,
+  ContatoRoute: ContatoRoute,
+  FaqRoute: FaqRoute,
+  FinanciamentoRoute: FinanciamentoRoute,
+  GarantiaRoute: GarantiaRoute,
   PrivacidadeRoute: PrivacidadeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  SobreRoute: SobreRoute,
   ModelosSlugRoute: ModelosSlugRoute,
   ModelosIndexRoute: ModelosIndexRoute,
 }

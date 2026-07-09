@@ -11,6 +11,12 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/modelos", changefreq: "weekly", priority: "0.9" },
+          { path: "/comparar", changefreq: "monthly", priority: "0.7" },
+          { path: "/financiamento", changefreq: "monthly", priority: "0.8" },
+          { path: "/garantia", changefreq: "yearly", priority: "0.5" },
+          { path: "/sobre", changefreq: "yearly", priority: "0.6" },
+          { path: "/faq", changefreq: "monthly", priority: "0.7" },
+          { path: "/contato", changefreq: "monthly", priority: "0.8" },
           { path: "/privacidade", changefreq: "yearly", priority: "0.3" },
           ...models.map((m) => ({
             path: `/modelos/${m.slug}`,
