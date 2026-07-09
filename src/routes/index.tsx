@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Menu,
   X,
@@ -14,11 +14,15 @@ import {
   Instagram,
   MessageCircle,
   ChevronRight,
+  BadgeCheck,
 } from "lucide-react";
-import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback, models, type Model } from "@/lib/models";
+import {
+  buildWhatsAppFallbackUrl,
+  openWhatsAppWithFallback,
+  models,
+  type Model,
+} from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
-import klugHorizontalWhite from "@/assets/klug/klug-horizontal-white.png.asset.json";
-import klugHorizontal from "@/assets/klug/klug-horizontal.png.asset.json";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 
@@ -36,9 +40,7 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: `${BASE_URL}/` },
       { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
     ],
-    links: [
-      { rel: "canonical", href: `${BASE_URL}/` },
-    ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
     scripts: [
       {
         type: "application/ld+json",
@@ -61,7 +63,13 @@ export const Route = createFileRoute("/")({
           openingHoursSpecification: [
             {
               "@type": "OpeningHoursSpecification",
-              dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              dayOfWeek: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+              ],
               opens: "08:30",
               closes: "18:30",
             },
@@ -80,73 +88,122 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const benefits = [
-  {
-    icon: Zap,
-    title: "Zero Combustível",
-    desc: "Recarregue em qualquer tomada. Custo até 10x menor que motos a gasolina.",
-  },
-  {
-    icon: Wrench,
-    title: "Manutenção Mínima",
-    desc: "Sem óleo, sem correia, sem velas. Mais tempo na estrada, menos na oficina.",
-  },
-  {
-    icon: Leaf,
-    title: "Sem CNH · Silenciosa",
-    desc: "A maioria dos modelos é autopropelida — não exige habilitação. E é 100% silenciosa.",
-  },
-];
+/* ------------------------------ Brand mark ------------------------------ */
+
+function KlugWordmark({ className = "" }: { className?: string }) {
+  return (
+    <span
+      className={`font-display font-black text-2xl tracking-tighter uppercase leading-none ${className}`}
+    >
+      Klug<span className="text-primary">Motors</span>
+    </span>
+  );
+}
+
+/* ------------------------------ Header ------------------------------ */
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const links = [
     { href: "#modelos", label: "Modelos" },
     { href: "#sobre", label: "Sobre" },
     { href: "#contato", label: "Contato" },
   ];
+
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/60">
+    <header
+      className={`sticky top-0 z-50 border-b backdrop-blur-md transition-colors ${
+        scrolled
+          ? "bg-background/95 border-border"
+          : "bg-background/70 border-border/60"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2" aria-label="Klug Motors">
-          <img src={klugHorizontalWhite.url} alt="Klug Motors" className="h-9 w-auto object-contain" />
+        <a
+          href="#"
+          className="flex items-center gap-2 focus:outline-none"
+          aria-label="Klug Motors — início"
+        >
+          <span className="klug-mark" aria-hidden="true" />
+          <KlugWordmark />
         </a>
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-foreground/80">
+
+        <nav
+          className="hidden md:flex items-center gap-8 font-display font-bold uppercase text-xs tracking-[0.2em]"
+          aria-label="Principal"
+        >
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="hover:text-primary transition-colors">
+            <a
+              key={l.href}
+              href={l.href}
+              className="story-link text-white/80 hover:text-primary transition-colors"
+            >
               {l.label}
             </a>
           ))}
-          <Link to="/modelos" className="hover:text-primary transition-colors">
+          <Link
+            to="/modelos"
+            className="story-link text-white/80 hover:text-primary transition-colors"
+          >
             Catálogo
           </Link>
         </nav>
+
         <a
           href="#contato"
-          className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground text-sm font-semibold px-5 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-elegant)] hover:-translate-y-0.5"
+          className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-display font-extrabold text-[11px] px-5 py-2.5 rounded-full uppercase tracking-widest transition-all hover:scale-[1.03] hover:shadow-[var(--shadow-ember)] active:scale-95"
         >
-          Agendar Test-Ride
-          <ArrowRight size={16} />
+          Test-Ride
+          <ArrowRight size={14} />
         </a>
-        <button onClick={() => setOpen(!open)} className="md:hidden p-2" aria-label="Menu">
+
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="md:hidden p-2 min-h-11 min-w-11 grid place-items-center"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={open}
+          aria-controls="mobile-nav"
+        >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
+
       {open && (
-        <div className="md:hidden border-t border-border bg-background">
-          <div className="px-5 py-4 flex flex-col gap-3">
+        <div
+          id="mobile-nav"
+          className="md:hidden border-t border-border bg-background animate-fade-in"
+        >
+          <div className="px-5 py-4 flex flex-col gap-1">
             {links.map((l) => (
-              <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="py-2 font-medium">
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="py-3 font-display font-bold uppercase text-sm tracking-wider hover:text-primary"
+              >
                 {l.label}
               </a>
             ))}
-            <Link to="/modelos" onClick={() => setOpen(false)} className="py-2 font-medium">
+            <Link
+              to="/modelos"
+              onClick={() => setOpen(false)}
+              className="py-3 font-display font-bold uppercase text-sm tracking-wider hover:text-primary"
+            >
               Catálogo
             </Link>
             <a
               href="#contato"
               onClick={() => setOpen(false)}
-              className="bg-primary text-primary-foreground text-center font-semibold px-5 py-3 rounded-full"
+              className="mt-2 bg-primary text-primary-foreground text-center font-display font-extrabold uppercase text-xs tracking-widest px-5 py-4 rounded-full"
             >
               Agendar Test-Ride
             </a>
@@ -157,203 +214,359 @@ function Header() {
   );
 }
 
+/* ------------------------------ Hero ------------------------------ */
+
+function AnimatedCount({ target, suffix = "" }: { target: number; suffix?: string }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLSpanElement | null>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    const el = ref.current;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          const start = performance.now();
+          const duration = 900;
+          const step = (t: number) => {
+            const p = Math.min(1, (t - start) / duration);
+            setValue(Math.round(target * (1 - Math.pow(1 - p, 3))));
+            if (p < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [target]);
+  return (
+    <span ref={ref}>
+      {value}
+      {suffix}
+    </span>
+  );
+}
+
 function Hero() {
   return (
-    <section className="relative pt-16 overflow-hidden bg-charcoal text-white">
-      <div className="absolute inset-0">
-        <img
-          src={x12Img.url}
-          alt="Moto elétrica Klug Motors"
-          loading="eager"
-          decoding="async"
-          fetchPriority="high"
-          className="w-full h-full object-cover opacity-60"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-      </div>
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 min-h-[88vh] flex flex-col justify-center py-24">
-        <div className="max-w-2xl animate-fade-up">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-semibold uppercase tracking-widest mb-6">
+    <section className="relative overflow-hidden border-b border-border">
+      <div className="absolute inset-0 ember-spotlight pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28 grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+        {/* Left */}
+        <div className="lg:col-span-7 relative z-10 animate-fade-up">
+          <span className="inline-flex items-center gap-2 px-3 py-1 border border-primary text-primary text-[10px] font-display font-extrabold uppercase tracking-[0.3em] mb-8">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-ring" />
-            Joinville · SC
+            Joinville · SC · Albano Schimidt
           </span>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.95] mb-6 uppercase">
-            Sua próxima moto
-            <br />
-            é{" "}
-            <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-              Elétrica
-            </span>
+
+          <h1 className="font-display font-black uppercase text-5xl sm:text-6xl lg:text-8xl leading-[0.9] tracking-tighter mb-8">
+            Sua próxima{" "}
+            <span
+              className="text-transparent"
+              style={{ WebkitTextStroke: "1.5px white" }}
+            >
+              moto
+            </span>{" "}
+            é <span className="text-primary">elétrica</span>
           </h1>
-          <p className="text-lg sm:text-xl text-white/80 max-w-xl mb-10 leading-relaxed">
-            Motos, scooters, triciclos e bicicletas elétricas — a maioria <strong>sem CNH</strong>.
-            Economia, silêncio e sustentabilidade na Klug Motors.
+
+          <p className="text-base sm:text-lg text-white/70 max-w-lg mb-10 leading-relaxed">
+            Performance silenciosa, zero combustível e a maioria dos modelos{" "}
+            <strong className="text-white">sem CNH</strong>. Venha conhecer a
+            revolução da mobilidade elétrica na Klug Motors.
           </p>
-          <div className="flex flex-wrap gap-4">
+
+          <div className="flex flex-wrap gap-4 mb-14">
             <a
               href="#modelos"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-semibold px-7 py-4 rounded-full transition-all hover:shadow-[var(--shadow-elegant)] hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
             >
-              Ver Modelos
+              Explorar Catálogo
               <ArrowRight size={18} />
             </a>
             <a
               href="#contato"
-              className="inline-flex items-center gap-2 border border-white/30 hover:border-white text-white font-semibold px-7 py-4 rounded-full backdrop-blur transition-all"
+              className="inline-flex items-center gap-2 border border-border hover:border-white text-white font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all"
             >
-              Agendar Test-Ride
+              Ver Unidade
             </a>
           </div>
+
+          {/* Stats strip */}
+          <dl className="grid grid-cols-3 gap-6 max-w-lg border-t border-border pt-6">
+            {[
+              { n: models.length, s: "+", l: "Modelos" },
+              { n: 100, s: "%", l: "Elétrico" },
+              { n: 0, s: "", l: "Combustível" },
+            ].map((it) => (
+              <div key={it.l}>
+                <dt className="sr-only">{it.l}</dt>
+                <dd className="font-display text-3xl sm:text-4xl font-black text-white tracking-tight">
+                  <AnimatedCount target={it.n} suffix={it.s} />
+                </dd>
+                <p className="text-[10px] text-white/50 uppercase tracking-[0.25em] font-bold mt-1">
+                  {it.l}
+                </p>
+              </div>
+            ))}
+          </dl>
         </div>
-        <div className="hidden lg:grid grid-cols-3 gap-8 mt-20 max-w-2xl border-t border-white/15 pt-8">
-          {[
-            ["10+", "Modelos"],
-            ["0", "Combustível"],
-            ["100%", "Elétrico"],
-          ].map(([n, l]) => (
-            <div key={l}>
-              <div className="text-3xl font-black text-primary">{n}</div>
-              <div className="text-sm text-white/60 mt-1">{l}</div>
+
+        {/* Right — hero image + big watermark */}
+        <div className="lg:col-span-5 relative">
+          <div className="relative z-10 aspect-[4/5] bg-card border border-border overflow-hidden">
+            <img
+              src={x12Img.url}
+              alt="Scooter elétrica Klug Motors — X12"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/95 via-black/50 to-transparent">
+              <p className="text-[10px] font-display font-black text-primary uppercase tracking-[0.3em] mb-1">
+                Destaque
+              </p>
+              <p className="font-display font-black uppercase text-2xl leading-none">
+                X12 1000W
+              </p>
             </div>
-          ))}
+          </div>
+          <div
+            aria-hidden="true"
+            className="hidden md:block absolute -bottom-16 -right-8 font-display font-black uppercase text-[14rem] leading-none opacity-[0.04] select-none pointer-events-none tracking-tighter"
+          >
+            KLUG
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
+/* ---------------------------- Products grid ---------------------------- */
+
+const CATEGORIES = ["Todos", "Motos", "Scooters", "Triciclos", "Bicicletas", "Patinetes"] as const;
+type Category = (typeof CATEGORIES)[number];
+
+function matchCategory(m: Model, cat: Category) {
+  if (cat === "Todos") return true;
+  const t = m.tag.toLowerCase();
+  if (cat === "Patinetes") return t.includes("patinete");
+  if (cat === "Bicicletas") return t.includes("bicicleta");
+  if (cat === "Triciclos") return t.includes("triciclo");
+  if (cat === "Scooters") return t.includes("scooter");
+  if (cat === "Motos") return t.includes("moto elétrica") || t.startsWith("moto");
+  return true;
+}
+
 function Products() {
+  const [cat, setCat] = useState<Category>("Todos");
+  const filtered = models.filter((m) => matchCategory(m, cat));
+
   return (
-    <section id="modelos" className="py-24 sm:py-32 bg-surface">
+    <section id="modelos" className="py-24 sm:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
-          <div>
-            <span className="text-primary text-sm font-semibold uppercase tracking-widest">
-              Catálogo Klug
-            </span>
-            <h2 className="text-4xl sm:text-5xl font-black mt-3 max-w-xl">
-              Modelos feitos para a cidade.
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
+          <div className="max-w-xl">
+            <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+              Nossa <span className="text-primary">Linha</span>
             </h2>
+            <p className="text-white/50 font-bold uppercase text-[11px] tracking-[0.25em] mt-4">
+              {models.length} modelos disponíveis · Pronta entrega
+            </p>
           </div>
-          <p className="text-muted-foreground max-w-md">
-            Scooters, motos, triciclos e bicicletas elétricas — a maioria <strong>sem CNH</strong>,
-            com a melhor relação custo-benefício do mercado.
-          </p>
+          <div
+            role="tablist"
+            aria-label="Filtrar por categoria"
+            className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-display font-black uppercase tracking-widest"
+          >
+            {CATEGORIES.map((c) => (
+              <button
+                key={c}
+                role="tab"
+                aria-selected={cat === c}
+                onClick={() => setCat(c)}
+                className={`pb-1 transition-colors ${
+                  cat === c
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-white/40 hover:text-white border-b-2 border-transparent"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {models.map((p) => (
-            <ProductCard key={p.name} product={p} />
-          ))}
-        </div>
+        {filtered.length === 0 ? (
+          <EmptyState
+            title="Nenhum modelo nesta categoria"
+            hint="Selecione outra categoria acima ou veja o catálogo completo."
+            action={
+              <button
+                onClick={() => setCat("Todos")}
+                className="mt-6 inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3"
+              >
+                Ver Todos <ArrowRight size={14} />
+              </button>
+            }
+          />
+        ) : (
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
 function ProductCard({ product: p }: { product: Model }) {
-  const [selected, setSelected] = useState(0);
-  const variant = p.colors[selected];
+  const img = p.colors[0]?.image ?? "";
   return (
-    <article className="group bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 transition-all hover:-translate-y-2 hover:shadow-[var(--shadow-card)]">
+    <article className="group bg-card border border-border hover-ember">
       <Link
         to="/modelos/$slug"
         params={{ slug: p.slug }}
-        className="block aspect-[5/4] bg-white overflow-hidden relative cursor-pointer"
-        aria-label={`Ver detalhes do ${p.name}`}
+        className="block relative aspect-[4/3] overflow-hidden bg-charcoal"
+        aria-label={`Ver detalhes de ${p.name}`}
       >
         <img
-          src={variant.image}
-          alt={`${p.name} ${variant.name}`}
+          src={img}
+          alt={`${p.name} — ${p.tag}`}
           loading="lazy"
-          className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-contain p-6 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
         />
-        <span className="absolute top-4 left-4 bg-charcoal text-white text-xs font-semibold px-3 py-1 rounded-full">
-          {p.tag}
-        </span>
-        <span className="absolute bottom-4 right-4 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity inline-flex items-center gap-1">
-          Ver detalhes <ChevronRight size={14} />
-        </span>
-      </Link>
-      <div className="p-6">
-        <div className="flex items-start justify-between gap-3 mb-4">
-          <div>
-            <Link
-              to="/modelos/$slug"
-              params={{ slug: p.slug }}
-              className="text-xl font-bold hover:text-primary transition-colors"
-            >
-              {p.name}
-            </Link>
-            <div className="text-xs text-muted-foreground mt-1">{p.tag}</div>
-          </div>
-          <div className="text-right">
-            <div className="text-xs text-muted-foreground">a partir de</div>
-            <div className="text-lg font-black text-primary">{p.price}</div>
-          </div>
+        <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
+          <span className="bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
+            <Zap size={10} className="text-primary" /> {p.power}
+          </span>
+          <span className="bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1">
+            {p.range}
+          </span>
         </div>
-        {p.colors.length > 1 && (
-          <div className="flex gap-2 mb-4 flex-wrap">
-            {p.colors.map((c, i) => (
-              <button
-                key={c.name}
-                type="button"
-                onClick={() => setSelected(i)}
-                aria-label={c.name}
-                title={c.name}
-                className={`w-6 h-6 rounded-full border-2 transition-all ${
-                  i === selected ? "border-primary scale-110" : "border-border hover:border-primary/60"
-                }`}
-                style={{ backgroundColor: c.hex }}
-              />
-            ))}
+      </Link>
+      <div className="p-6 sm:p-7">
+        <div className="flex justify-between items-start gap-4 mb-5">
+          <div className="min-w-0">
+            <h3 className="font-display font-black uppercase text-xl tracking-tight truncate">
+              {p.name}
+            </h3>
+            <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mt-1">
+              {p.tag}
+            </p>
           </div>
-        )}
-        <div className="flex gap-4 text-sm text-muted-foreground border-t border-border pt-4 mb-5">
-          <span>
-            <strong className="text-foreground">{p.range}</strong> autonomia
-          </span>
-          <span className="w-px bg-border" />
-          <span>
-            <strong className="text-foreground">{p.power}</strong>
-          </span>
+          <div className="text-right shrink-0">
+            <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
+              A partir de
+            </span>
+            <span className="font-display font-black text-lg">{p.price}</span>
+          </div>
         </div>
         <Link
           to="/modelos/$slug"
           params={{ slug: p.slug }}
-          className="inline-flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2 transition-all"
+          className="w-full py-3 flex items-center justify-center gap-2 border border-border group-hover:bg-primary group-hover:border-primary text-white font-display font-black uppercase text-[11px] tracking-widest transition-all"
         >
-          Ver mais informações <ChevronRight size={16} />
+          Ver Detalhes <ChevronRight size={14} />
         </Link>
       </div>
     </article>
   );
 }
 
+function EmptyState({
+  title,
+  hint,
+  action,
+}: {
+  title: string;
+  hint: string;
+  action?: React.ReactNode;
+}) {
+  return (
+    <div className="border border-dashed border-border p-16 text-center bg-card">
+      <p className="font-display font-black uppercase tracking-wider text-lg mb-2">
+        {title}
+      </p>
+      <p className="text-white/50 text-sm">{hint}</p>
+      {action}
+    </div>
+  );
+}
+
+/* ---------------------------- Benefits strip ---------------------------- */
+
+const benefits = [
+  {
+    icon: Zap,
+    kicker: "01",
+    title: "Zero Combustível",
+    desc: "Recarregue em qualquer tomada. Custo por km até 10× menor que a gasolina.",
+  },
+  {
+    icon: Wrench,
+    kicker: "02",
+    title: "Manutenção Mínima",
+    desc: "Sem óleo, sem correia, sem velas. Mais tempo na estrada, menos na oficina.",
+  },
+  {
+    icon: BadgeCheck,
+    kicker: "03",
+    title: "Sem CNH",
+    desc: "A maioria dos modelos é autopropelida (CONTRAN 996/23) — não exige habilitação.",
+  },
+  {
+    icon: Leaf,
+    kicker: "04",
+    title: "100% Silenciosa",
+    desc: "Zero ruído, zero emissão. A mobilidade urbana que respeita a cidade.",
+  },
+];
+
 function Benefits() {
   return (
-    <section id="sobre" className="py-24 sm:py-32 bg-background">
+    <section id="sobre" className="py-24 sm:py-32 bg-card border-y border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="max-w-2xl mb-16">
-          <span className="text-primary text-sm font-semibold uppercase tracking-widest">
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
             Por que Klug Motors
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-black mt-3">
-            Mais liberdade. Menos custo. Zero ruído.
+          </p>
+          <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+            Mais liberdade.
+            <br />
+            Menos <span className="text-primary">custo</span>. Zero ruído.
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
-          {benefits.map((b) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4">
+          {benefits.map((b, i) => (
             <div
               key={b.title}
-              className="p-8 rounded-3xl bg-surface border border-border hover:border-primary/40 hover:-translate-y-1 transition-all"
+              className={`p-8 border-t border-l border-border ${
+                i === benefits.length - 1 ? "sm:border-r" : ""
+              } ${i >= benefits.length - 2 ? "lg:border-b-0" : ""} lg:border-b border-b group hover:bg-background transition-colors`}
             >
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 grid place-items-center mb-6">
-                <b.icon className="text-primary" size={26} strokeWidth={2.2} />
+              <div className="flex items-start justify-between mb-8">
+                <div className="w-11 h-11 border border-border grid place-items-center group-hover:bg-primary group-hover:border-primary transition-colors">
+                  <b.icon
+                    className="text-primary group-hover:text-primary-foreground transition-colors"
+                    size={20}
+                    strokeWidth={2.2}
+                  />
+                </div>
+                <span className="font-display text-xs text-white/30 font-black tracking-widest">
+                  {b.kicker}
+                </span>
               </div>
-              <h3 className="text-xl font-bold mb-3">{b.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{b.desc}</p>
+              <h3 className="font-display font-black uppercase text-lg tracking-tight mb-3">
+                {b.title}
+              </h3>
+              <p className="text-white/60 text-sm leading-relaxed">{b.desc}</p>
             </div>
           ))}
         </div>
@@ -362,103 +575,234 @@ function Benefits() {
   );
 }
 
+/* ---------------------------- Contact ---------------------------- */
+
 function Contact() {
   return (
-    <section id="contato" className="py-24 sm:py-32 bg-surface">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+    <section id="contato" className="py-24 sm:py-32 bg-background">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16">
         <div>
-          <span className="text-primary text-sm font-semibold uppercase tracking-widest">
-            Visite a Klug Motors
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-black mt-3 mb-6">
-            Estamos em Joinville · Albano Schimidt.
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
+            Visite a unidade
+          </p>
+          <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none mb-6">
+            Estamos em <span className="text-primary">Joinville</span>.
           </h2>
-          <p className="text-muted-foreground text-lg leading-relaxed mb-8 max-w-md">
-            Venha conhecer os modelos pessoalmente, fazer um test-ride e conversar com nosso
+          <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-md">
+            Venha conhecer os modelos, fazer um test-ride e conversar com o
             time. Atendemos direto, sem fechar para o almoço.
           </p>
 
-          <div className="rounded-3xl overflow-hidden mb-8 shadow-[var(--shadow-card)] bg-white p-8 grid place-items-center">
-            <img
-              src={klugHorizontal.url}
-              alt="Klug Motors"
-              className="w-full max-w-xs object-contain"
-              loading="lazy"
+          {/* Cockpit panel */}
+          <div className="border border-border bg-card divide-y divide-border">
+            <ContactRow
+              icon={MapPin}
+              label="Endereço"
+              value="Rua Albano Schimidt, 1882 · Joinville / SC"
+              href="https://maps.google.com/?q=Rua+Albano+Schimidt+1882+Joinville"
             />
-          </div>
-
-          <div className="space-y-4">
-            {[
-              { icon: MapPin, label: "Rua Albano Schimidt, 1882 — Joinville/SC" },
-              { icon: Clock, label: "Seg–Sex 08h30–18h30 (sem fechar para almoço) · Sáb 08h30–13h00" },
-              { icon: Phone, label: "(47) 3429-3200", href: "tel:+554734293200" },
-              { icon: Mail, label: "klugmotors@gmail.com", href: "mailto:klugmotors@gmail.com" },
-              {
-                icon: Instagram,
-                label: "@klugmotors",
-                href: "https://www.instagram.com/klugmotors/",
-              },
-            ].map((i) => {
-              const content = (
-                <>
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 grid place-items-center shrink-0">
-                    <i.icon className="text-primary" size={18} />
-                  </div>
-                  <span className="text-foreground/85 font-medium">{i.label}</span>
-                </>
-              );
-              return i.href ? (
-                <a
-                  key={i.label}
-                  href={i.href}
-                  target={i.href.startsWith("http") ? "_blank" : undefined}
-                  rel={i.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="flex items-center gap-4 hover:text-primary transition-colors"
-                >
-                  {content}
-                </a>
-              ) : (
-                <div key={i.label} className="flex items-center gap-4">
-                  {content}
-                </div>
-              );
-            })}
+            <ContactRow
+              icon={Phone}
+              label="Central de vendas"
+              value="(47) 3429-3200"
+              href="tel:+554734293200"
+              highlight
+            />
+            <ContactRow
+              icon={Clock}
+              label="Horários"
+              value="Seg–Sex 08:30–18:30 (sem fechar p/ almoço) · Sáb 08:30–13:00"
+            />
+            <ContactRow
+              icon={Mail}
+              label="E-mail"
+              value="klugmotors@gmail.com"
+              href="mailto:klugmotors@gmail.com"
+            />
+            <ContactRow
+              icon={Instagram}
+              label="Instagram"
+              value="@klugmotors"
+              href="https://www.instagram.com/klugmotors/"
+              external
+            />
           </div>
         </div>
 
-        <TestRideForm />
+        <div>
+          <TestRideForm />
+        </div>
       </div>
     </section>
   );
 }
 
+function ContactRow({
+  icon: Icon,
+  label,
+  value,
+  href,
+  external,
+  highlight,
+}: {
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+  label: string;
+  value: string;
+  href?: string;
+  external?: boolean;
+  highlight?: boolean;
+}) {
+  const content = (
+    <>
+      <div className="w-11 h-11 border border-border bg-background grid place-items-center shrink-0 group-hover:bg-primary group-hover:border-primary transition-colors">
+        <Icon
+          size={18}
+          className="text-primary group-hover:text-primary-foreground transition-colors"
+        />
+      </div>
+      <div className="min-w-0">
+        <p className="text-[9px] text-white/40 font-display font-black uppercase tracking-[0.25em] mb-1">
+          {label}
+        </p>
+        <p
+          className={`font-medium truncate ${
+            highlight
+              ? "text-primary font-display font-black text-xl tracking-tight"
+              : "text-white/90"
+          }`}
+        >
+          {value}
+        </p>
+      </div>
+    </>
+  );
+
+  const cls =
+    "group flex items-center gap-5 p-5 sm:p-6 transition-colors hover:bg-background";
+
+  return href ? (
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className={cls}
+    >
+      {content}
+    </a>
+  ) : (
+    <div className={`${cls} cursor-default`}>{content}</div>
+  );
+}
+
+/* ---------------------------- Footer ---------------------------- */
+
 function Footer() {
   return (
-    <footer className="bg-charcoal text-white/70 py-12">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col md:flex-row justify-between gap-6 items-center">
-        <div className="flex items-center gap-3">
-          <img src={klugSymbol.url} alt="Klug Motors" className="w-9 h-9 object-contain" />
-          <img src={klugHorizontalWhite.url} alt="Klug Motors" className="h-6 w-auto object-contain hidden sm:block" />
+    <footer className="bg-card border-t border-border pt-20 pb-10">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="grid md:grid-cols-4 gap-12 mb-16">
+          <div className="md:col-span-1">
+            <a href="#" className="flex items-center gap-2 mb-6" aria-label="Klug Motors">
+              <span className="klug-mark" aria-hidden="true" />
+              <KlugWordmark />
+            </a>
+            <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-xs">
+              A revolução da mobilidade elétrica em Joinville. Qualidade,
+              tecnologia e o melhor pós-venda da região.
+            </p>
+            <div className="flex gap-3">
+              <a
+                href="https://www.instagram.com/klugmotors/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 border border-border grid place-items-center hover:bg-primary hover:border-primary transition-colors"
+                aria-label="Instagram @klugmotors"
+              >
+                <Instagram size={16} />
+              </a>
+              <a
+                href={buildWhatsAppFallbackUrl(
+                  "Olá! Tenho interesse em conhecer os modelos da Klug Motors.",
+                )}
+                onClick={(e) => {
+                  e.preventDefault();
+                  openWhatsAppWithFallback(
+                    "Olá! Tenho interesse em conhecer os modelos da Klug Motors.",
+                  );
+                }}
+                className="w-11 h-11 border border-border grid place-items-center hover:bg-primary hover:border-primary transition-colors"
+                aria-label="Falar no WhatsApp"
+              >
+                <MessageCircle size={16} />
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-6">
+              Visite-nos
+            </h4>
+            <address className="not-italic text-white/70 text-sm leading-loose">
+              Rua Albano Schimidt, 1882
+              <br />
+              Joinville — SC
+            </address>
+          </div>
+
+          <div>
+            <h4 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-6">
+              Contato
+            </h4>
+            <p className="font-display font-black text-lg mb-1">(47) 3429-3200</p>
+            <a
+              href="mailto:klugmotors@gmail.com"
+              className="text-white/70 text-sm hover:text-primary story-link"
+            >
+              klugmotors@gmail.com
+            </a>
+            <div className="mt-5">
+              <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mb-1">
+                Horários
+              </p>
+              <p className="text-white/70 text-xs">Seg–Sex: 08:30 às 18:30</p>
+              <p className="text-white/70 text-xs">Sábado: 08:30 às 13:00</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-6">
+              Navegação
+            </h4>
+            <ul className="space-y-3 text-sm text-white/70">
+              <li><a href="#modelos" className="story-link hover:text-primary">Modelos</a></li>
+              <li><Link to="/modelos" className="story-link hover:text-primary">Catálogo completo</Link></li>
+              <li><a href="#sobre" className="story-link hover:text-primary">Sobre</a></li>
+              <li><a href="#contato" className="story-link hover:text-primary">Test-Ride</a></li>
+            </ul>
+          </div>
         </div>
-        <div className="text-sm text-center">
-          © {new Date().getFullYear()} Klug Motors · Joinville/SC · Todos os direitos reservados.
+
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">
+            © {new Date().getFullYear()} Klug Motors · Revenda Autorizada · Joinville / SC
+          </p>
+          <img
+            src={klugSymbol.url}
+            alt=""
+            aria-hidden="true"
+            className="w-6 h-6 object-contain opacity-60"
+          />
         </div>
-        <a
-          href="https://www.instagram.com/klugmotors/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white/70 hover:text-primary transition-colors"
-          aria-label="Instagram @klugmotors"
-        >
-          <Instagram size={20} />
-        </a>
       </div>
     </footer>
   );
 }
 
+/* ---------------------------- WhatsApp FAB ---------------------------- */
+
 function WhatsAppFab() {
-  const message = "Olá! Tenho interesse em conhecer os modelos da Klug Motors.";
+  const message =
+    "Olá! Tenho interesse em conhecer os modelos da Klug Motors.";
   return (
     <a
       href={buildWhatsAppFallbackUrl(message)}
@@ -467,7 +811,7 @@ function WhatsAppFab() {
         openWhatsAppWithFallback(message);
       }}
       aria-label="Falar no WhatsApp"
-      className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform animate-float"
+      className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform animate-float"
     >
       <MessageCircle size={26} fill="white" strokeWidth={0} />
     </a>
@@ -476,7 +820,7 @@ function WhatsAppFab() {
 
 function Index() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-dvh bg-background text-foreground">
       <Header />
       <main>
         <Hero />
