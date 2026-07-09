@@ -29,7 +29,7 @@ export const Route = createFileRoute("/modelos/")({
   component: CatalogPage,
 });
 
-const TYPES = ["Todos", "Scooter", "Moto", "Triciclo", "Bicicleta"] as const;
+const TYPES = ["Todos", "Scooter", "Moto", "Triciclo", "Bicicleta", "Patinete"] as const;
 type TypeFilter = (typeof TYPES)[number];
 
 const PRICE_RANGES = [
@@ -42,6 +42,7 @@ const PRICE_RANGES = [
 
 function typeOf(m: Model): TypeFilter {
   const t = m.tag.toLowerCase();
+  if (t.includes("patinete")) return "Patinete";
   if (t.includes("bicicleta")) return "Bicicleta";
   if (t.includes("triciclo")) return "Triciclo";
   if (t.includes("scooter")) return "Scooter";
