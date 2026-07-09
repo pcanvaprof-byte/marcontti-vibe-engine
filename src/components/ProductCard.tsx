@@ -35,34 +35,34 @@ export function ProductCard({ product }: { product: Product }) {
       {/* Canto preto superior esquerdo */}
       <span
         aria-hidden
-        className="absolute top-0 left-0 w-[52px] h-[52px] bg-black rounded-br-[18px] z-[2]"
+        className="absolute top-0 left-0 w-11 h-11 sm:w-[52px] sm:h-[52px] bg-black rounded-br-[18px] z-[2]"
       />
       {/* Raio pequeno branco sobre o canto preto */}
       <span
         aria-hidden
-        className="absolute top-[10px] left-[10px] z-[3] text-white"
+        className="absolute top-2 left-2 sm:top-[10px] sm:left-[10px] z-[3] text-white"
       >
-        <Zap size={18} strokeWidth={2.5} fill="currentColor" />
+        <Zap className="w-4 h-4 sm:w-[18px] sm:h-[18px]" strokeWidth={2.5} fill="currentColor" />
       </span>
 
       {/* Raio grande superior direito (laranja Klug) */}
       <span
         aria-hidden
-        className="absolute top-3 right-3 z-[3] text-primary"
+        className="absolute top-2 right-2 sm:top-3 sm:right-3 z-[3] text-primary"
         style={{ filter: "drop-shadow(0 1px 0 rgba(0,0,0,0.35))" }}
       >
-        <Zap size={32} strokeWidth={2.2} fill="currentColor" />
+        <Zap className="w-7 h-7 sm:w-8 sm:h-8" strokeWidth={2.2} fill="currentColor" />
       </span>
 
       {/* Pastilha vertical arredondada — borda ESQUERDA */}
       <span
         aria-hidden
-        className="absolute left-0 top-[46%] -translate-y-1/2 -translate-x-1/2 w-[38px] h-[64px] rounded-full bg-primary z-[1]"
+        className="absolute left-0 top-[46%] -translate-y-1/2 -translate-x-1/2 w-8 h-14 sm:w-[38px] sm:h-[64px] rounded-full bg-primary z-[1]"
       />
       {/* Pastilha vertical arredondada — borda DIREITA */}
       <span
         aria-hidden
-        className="absolute right-0 top-[54%] -translate-y-1/2 translate-x-1/2 w-[38px] h-[64px] rounded-full bg-primary z-[1]"
+        className="absolute right-0 top-[54%] -translate-y-1/2 translate-x-1/2 w-8 h-14 sm:w-[38px] sm:h-[64px] rounded-full bg-primary z-[1]"
       />
 
       <Link
@@ -71,7 +71,7 @@ export function ProductCard({ product }: { product: Product }) {
         className="relative z-[2] block h-full"
       >
         {/* Imagem — domina o card */}
-        <div className="absolute inset-0 flex items-center justify-center px-4 pt-8 pb-14">
+        <div className="absolute inset-0 flex items-center justify-center px-3 pt-7 pb-24 sm:px-4 sm:pt-8 sm:pb-28">
           <img
             src={product.imagem}
             alt={product.nome}
@@ -82,15 +82,15 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Nome + potência sobrepostos no canto inferior esquerdo */}
-        <div className="absolute left-5 bottom-4 z-[4] pointer-events-none">
+        <div className="absolute left-4 bottom-3 sm:left-5 sm:bottom-4 z-[4] pointer-events-none">
           <h3
-            className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[56px]"
+            className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[40px] sm:text-[48px] lg:text-[56px]"
             style={{ fontFamily: displayFont, fontWeight: 400 }}
           >
             {product.nome}
           </h3>
           <p
-            className="mt-1 text-white italic uppercase leading-[0.85] tracking-[-0.01em] text-[52px]"
+            className="mt-1 text-white italic uppercase leading-[0.85] tracking-[-0.01em] text-[36px] sm:text-[44px] lg:text-[52px]"
             style={{
               fontFamily: displayFont,
               fontWeight: 400,
@@ -101,6 +101,7 @@ export function ProductCard({ product }: { product: Product }) {
           </p>
         </div>
       </Link>
+
     </article>
   );
 }
