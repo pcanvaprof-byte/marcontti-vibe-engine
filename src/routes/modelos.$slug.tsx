@@ -502,14 +502,17 @@ function ModelPage() {
                     i % 2 === 1 ? "lg:translate-y-3" : ""
                   }`}
                 >
-                  <div className="aspect-square bg-charcoal overflow-hidden p-3">
-                    <img
-                      src={x.colors[0].image}
-                      alt={x.name}
-                      loading="lazy"
-                      className="w-full h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
-                    />
+                  <div className="aspect-square p-2">
+                    <div className="w-full h-full bg-white rounded-xl overflow-hidden">
+                      <img
+                        src={x.colors[0].image}
+                        alt={x.name}
+                        loading="lazy"
+                        className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
                   </div>
+
                   <div className="p-3 border-t border-white/5">
                     <div className="font-display font-black uppercase text-xs tracking-tight truncate">
                       {x.name}
