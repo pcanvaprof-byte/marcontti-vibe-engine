@@ -24,6 +24,7 @@ import {
 } from "@/lib/models";
 import { TestRideForm } from "@/components/TestRideForm";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
