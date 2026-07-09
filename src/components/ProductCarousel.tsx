@@ -87,7 +87,7 @@ export function ProductCarousel({
         <div
           ref={trackRef}
           className="
-            flex gap-5 sm:gap-6
+            flex gap-2 sm:gap-3
             overflow-x-auto
             snap-x snap-mandatory
             scroll-px-4 sm:scroll-px-8
@@ -95,13 +95,14 @@ export function ProductCarousel({
             [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
           "
         >
+
           {items.map((p, i) => (
             <div
               key={p.id}
               data-card
               className="
                 snap-start shrink-0 flex
-                basis-[85%] sm:basis-[55%] md:basis-[calc((100%-3rem)/3)] lg:basis-[calc((100%-4.5rem)/4)]
+                basis-[85%] sm:basis-[55%] md:basis-[calc((100%-1.5rem)/3)] lg:basis-[calc((100%-2.25rem)/4)]
                 aspect-[290/420]
               "
               style={{ animation: `fade-in 0.5s ease-out ${i * 90}ms both` }}
@@ -109,6 +110,7 @@ export function ProductCarousel({
               <ProductCard product={p} />
             </div>
           ))}
+
 
         </div>
       </div>
