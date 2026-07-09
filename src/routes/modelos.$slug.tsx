@@ -8,7 +8,7 @@ import {
   buildWhatsAppFallbackUrl,
   openWhatsAppWithFallback,
 } from "@/lib/models";
-import { TestRideForm } from "@/components/TestRideForm";
+import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/modelos/$slug")({
     if (!loaderData) return { meta: [{ title: "Modelo — Klug Motors" }] };
     const m = loaderData.model;
     const title = `${m.name} — ${m.tag} | Klug Motors`;
-    const desc = `${m.short} A partir de ${m.price}. Autonomia ${m.range}, ${m.speed}. Test-ride em Joinville/SC.`;
+    const desc = `${m.short} A partir de ${m.price}. Autonomia ${m.range}, ${m.speed}. Financiamento facilitado em Joinville/SC.`;
     const img = m.colors[0]?.image;
     return {
       meta: [
@@ -370,10 +370,10 @@ function ModelPage() {
                 </div>
 
                 <a
-                  href="#test-ride"
+                  href="#financiamento"
                   className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors text-[11px] font-display font-black uppercase tracking-widest"
                 >
-                  <Zap size={14} /> Agende um test-ride grátis
+                  <Zap size={14} /> Simule o financiamento
                 </a>
 
                 {/* Secondary micro-specs */}
@@ -451,24 +451,24 @@ function ModelPage() {
         </section>
 
 
-        {/* Test ride */}
+        {/* Financiamento */}
         <section
-          id="test-ride"
+          id="financiamento"
           className="mt-24 sm:mt-32 pt-16 border-t border-border grid lg:grid-cols-2 gap-10 items-start"
         >
           <div>
             <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
-              Agende grátis
+              Consulta rápida
             </p>
             <h2 className="font-display font-black uppercase text-3xl sm:text-4xl tracking-tight leading-none">
-              Faça o test-ride da <span className="text-primary">{m.name}</span>.
+              Simule o financiamento da <span className="text-primary">{m.name}</span>.
             </h2>
             <p className="text-white/60 mt-5 leading-relaxed max-w-md">
               Preencha o formulário e enviaremos sua solicitação direto para o
-              WhatsApp da Klug Motors com todas as informações preenchidas.
+              WhatsApp da Klug Motors com as informações da simulação.
             </p>
           </div>
-          <TestRideForm defaultModel={m.name} />
+          <FinanciamentoForm defaultModel={m.name} />
         </section>
 
         {/* Related */}
