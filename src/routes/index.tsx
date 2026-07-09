@@ -1630,19 +1630,12 @@ function Index() {
       <main>
         <Hero />
         <BenefitsBar />
-        <ProductCarousel
-          items={featuredProducts}
-          eyebrow="Destaques"
-          title={<>Nossa <span className="text-primary">Linha</span></>}
-        />
-        <CategoryCircles />
         <DestaquesGrid />
+        <CategoryCircles />
         <MaisVendidosGrid />
         <YoutubeShowcase />
         <InstagramRow />
-        <WhatsAppCTA />
-        <Products />
-        <Benefits />
+        {/* Blocos de suporte (financiamento + contato) mantidos como no Moto Chefe: rodapé estendido */}
         <Contact />
       </main>
       <Footer />
@@ -1650,6 +1643,7 @@ function Index() {
     </div>
   );
 }
+
 
 
 /* ---------------------------- Reveal helper ---------------------------- */
