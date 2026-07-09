@@ -20,6 +20,7 @@ import {
   BadgePercent,
   Store,
   ShieldCheck,
+  ArrowUp,
 } from "lucide-react";
 import {
   buildWhatsAppFallbackUrl,
