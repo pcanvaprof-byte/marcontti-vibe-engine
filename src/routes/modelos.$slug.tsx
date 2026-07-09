@@ -439,6 +439,67 @@ function ModelPage() {
           </div>
         </div>
       </footer>
+
+      {/* Floating WhatsApp (mobile) */}
+      <a
+        href={whatsappUrl}
+        onClick={handleWhatsAppClick}
+        aria-label="Falar no WhatsApp"
+        className="sm:hidden fixed bottom-5 right-5 z-40 bg-[#25D366] text-white shadow-2xl rounded-full w-14 h-14 grid place-items-center hover:brightness-110 active:scale-95 transition-all"
+      >
+        <MessageCircle size={26} fill="white" strokeWidth={0} />
+      </a>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Galeria — ${m.name}`}
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur flex items-center justify-center p-4 animate-in fade-in duration-200"
+          onClick={() => setLightbox(false)}
+        >
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox(false); }}
+            aria-label="Fechar"
+            className="absolute top-4 right-4 text-white/80 hover:text-primary p-2"
+          >
+            <X size={28} />
+          </button>
+          {gallery.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                aria-label="Imagem anterior"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-primary p-2"
+              >
+                <ChevronLeft size={36} />
+              </button>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                aria-label="Próxima imagem"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-primary p-2"
+              >
+                <ChevronRight size={36} />
+              </button>
+            </>
+          )}
+          <img
+            src={activeImage}
+            alt={`${m.name} — imagem ${imgIndex + 1}`}
+            onClick={(e) => e.stopPropagation()}
+            className="max-w-full max-h-[85vh] object-contain"
+          />
+          {gallery.length > 1 && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-xs font-bold tabular-nums tracking-widest">
+              {imgIndex + 1} / {gallery.length}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
