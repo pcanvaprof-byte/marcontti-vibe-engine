@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import {
   ArrowRight,
-
   Zap,
   Wrench,
   Leaf,
@@ -13,13 +12,19 @@ import {
   Instagram,
   MessageCircle,
   ChevronRight,
+  ChevronDown,
   BadgeCheck,
   CreditCard,
   Wallet,
   BadgePercent,
   Store,
   ShieldCheck,
-  
+  Search,
+  Headphones,
+  Truck,
+  Flame,
+  Youtube,
+  User,
 } from "lucide-react";
 import {
   buildWhatsAppFallbackUrl,
@@ -174,6 +179,93 @@ function scrollToHash(hash: string, reduced: boolean) {
   }
 }
 
+/* --------------------------- Promo strip (topo) --------------------------- */
+
+function PromoStrip() {
+  return (
+    <div className="w-full bg-primary text-primary-foreground text-[11px] sm:text-xs font-display font-black uppercase tracking-[0.18em]">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-8 flex items-center justify-center gap-3">
+        <Flame size={14} className="shrink-0" />
+        <span className="truncate">A maior loja de mobilidade elétrica de Joinville</span>
+        <Link
+          to="/modelos"
+          className="hidden sm:inline-flex items-center gap-1 border border-primary-foreground/60 px-2.5 py-0.5 rounded-full hover:bg-primary-foreground hover:text-primary transition-colors"
+        >
+          Saiba Mais <ChevronRight size={12} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------- Category nav (barra) --------------------------- */
+
+const CATEGORY_LINKS = [
+  { label: "Todos", href: "/modelos" },
+  { label: "Patinetes", href: "/modelos" },
+  { label: "Bicicletas", href: "/modelos" },
+  { label: "Scooters", href: "/modelos" },
+  { label: "Motos", href: "/modelos" },
+  { label: "Triciclos", href: "/modelos" },
+  { label: "Acessórios", href: "/modelos" },
+] as const;
+
+function CategoryNav() {
+  return (
+    <div className="hidden md:block w-full bg-card/60 backdrop-blur-md border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
+        <nav
+          aria-label="Categorias"
+          className="flex items-center gap-7 text-[12px] font-display font-bold uppercase tracking-[0.15em] text-white/80 overflow-x-auto scrollbar-none"
+        >
+          {CATEGORY_LINKS.map((c) => (
+            <Link
+              key={c.label}
+              to={c.href}
+              className="whitespace-nowrap hover:text-primary transition-colors story-link"
+            >
+              {c.label}
+            </Link>
+          ))}
+        </nav>
+        <Link
+          to="/modelos"
+          className="inline-flex items-center gap-2 bg-primary/15 border border-primary/40 text-primary rounded-xl px-4 py-1.5 text-[11px] font-display font-black uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors"
+        >
+          <Flame size={13} /> Promoção <ChevronDown size={12} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function TrustItem({
+  icon: Icon,
+  label,
+  href,
+  external = false,
+}: {
+  icon: typeof MapPin;
+  label: string;
+  href: string;
+  external?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      className="flex items-center gap-2 text-white/85 hover:text-primary transition-colors group"
+    >
+      <span className="grid place-items-center h-9 w-9 rounded-full border border-white/15 text-primary group-hover:border-primary group-hover:bg-primary/10 transition-colors">
+        <Icon size={16} strokeWidth={2} />
+      </span>
+      <span className="text-[12px] font-display font-bold uppercase tracking-widest whitespace-nowrap">
+        {label}
+      </span>
+    </a>
+  );
+}
+
 /* ------------------------------ Header ------------------------------ */
 
 function Header() {
@@ -219,7 +311,8 @@ function Header() {
           : "bg-background/70 border-border/60"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 md:h-20 flex items-center gap-4 md:gap-6">
+        {/* Logo */}
         <a
           href="#"
           onClick={(e) => {
@@ -227,42 +320,44 @@ function Header() {
             window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
             history.replaceState(null, "", " ");
           }}
-          className="flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="flex items-center gap-2 shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           aria-label="Klug Motors — início"
         >
           <KlugWordmark />
         </a>
 
-        <nav
-          className="hidden md:flex items-center gap-8 font-display font-bold uppercase text-xs tracking-[0.2em]"
-          aria-label="Principal"
+        {/* Search bar */}
+        <form
+          role="search"
+          onSubmit={(e) => {
+            e.preventDefault();
+            window.location.href = "/modelos";
+          }}
+          className="hidden md:flex flex-1 max-w-xl h-11 items-center rounded-full bg-card border border-border focus-within:border-primary/60 transition-colors overflow-hidden"
         >
-          {NAV_LINKS.map((l) => {
-            const isActive = active === l.hash;
-            return (
-              <a
-                key={l.hash}
-                href={`#${l.hash}`}
-                onClick={handleAnchor(l.hash)}
-                aria-current={isActive ? "location" : undefined}
-                className={`story-link transition-colors focus:outline-none focus-visible:text-primary ${
-                  isActive
-                    ? "text-primary after:scale-x-100"
-                    : "text-white/80 hover:text-primary"
-                }`}
-              >
-                {l.label}
-              </a>
-            );
-          })}
-          <Link
-            to="/modelos"
-            className="story-link text-white/80 hover:text-primary transition-colors"
+          <input
+            type="search"
+            placeholder="O que deseja procurar?"
+            className="flex-1 bg-transparent px-5 text-sm text-white placeholder:text-white/40 focus:outline-none"
+            aria-label="Buscar modelos"
+          />
+          <button
+            type="submit"
+            aria-label="Buscar"
+            className="grid place-items-center h-full aspect-square text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
           >
-            Catálogo
-          </Link>
-        </nav>
+            <Search size={18} strokeWidth={2.4} />
+          </button>
+        </form>
 
+        {/* Trust items */}
+        <div className="hidden lg:flex items-center gap-6 ml-auto text-white">
+          <TrustItem icon={Headphones} label="Atendimento" href={buildWhatsAppFallbackUrl(TEST_RIDE_MSG)} external />
+          <TrustItem icon={MapPin} label="Localização" href="#joinville" />
+          <TrustItem icon={User} label="Contato" href="#contato" />
+        </div>
+
+        {/* Test-Ride pill (replaces the cart) */}
         <a
           href="#contato"
           onClick={handleAnchor("contato")}
@@ -434,37 +529,100 @@ function AnimatedCount({ target, suffix = "" }: { target: number; suffix?: strin
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border">
-      <div className="absolute inset-0 ember-spotlight pointer-events-none" />
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-20 sm:py-28 grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-        {/* Left */}
+    <section className="relative overflow-hidden border-b border-border bg-background">
+      <div className="absolute inset-0 ember-spotlight pointer-events-none opacity-70" />
+      {/* subtle radial vignette on the right */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 right-0 w-1/2 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 60% at 70% 50%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%)",
+        }}
+      />
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-14 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Left column */}
         <div className="lg:col-span-7 relative z-10 animate-fade-up">
-          <span className="inline-flex items-center gap-2 px-3 py-1 border border-primary text-primary text-[10px] font-display font-extrabold uppercase tracking-[0.3em] mb-8">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-ring" />
-            Joinville · SC · Albano Schimidt
-          </span>
+          {/* Brand · localização + socials */}
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <span className="inline-flex items-center gap-2 text-white/90">
+              <Zap size={16} className="text-primary" strokeWidth={2.4} />
+              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em]">
+                Klug Motors
+              </span>
+              <span className="w-px h-3 bg-white/25" />
+              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-white/60">
+                Joinville
+              </span>
+            </span>
 
-          <h1 className="font-display font-black uppercase text-5xl sm:text-6xl lg:text-8xl leading-[0.9] tracking-tighter mb-8">
-            Sua próxima{" "}
-            <span
-              className="text-transparent"
-              style={{ WebkitTextStroke: "1.5px white" }}
+            <a
+              href="https://www.instagram.com/klugmotors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
             >
-              moto
-            </span>{" "}
-            é <span className="text-primary">elétrica</span>
-          </h1>
+              <Instagram size={14} /> @klugmotors
+            </a>
+            <a
+              href="https://www.youtube.com/@klugmotors"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
+            >
+              <Youtube size={14} /> klugmotors
+            </a>
+          </div>
 
-          <p className="text-base sm:text-lg text-white/70 max-w-lg mb-10 leading-relaxed">
-            Performance silenciosa, zero combustível e a maioria dos modelos{" "}
-            <strong className="text-white">sem CNH</strong>. Venha conhecer a
-            revolução da mobilidade elétrica na Klug Motors.
+          {/* Kicker */}
+          <p className="text-white text-sm sm:text-base font-display font-black uppercase tracking-[0.2em] mb-4">
+            + de <span className="text-primary">{models.length}</span> modelos elétricos
           </p>
 
-          <div className="flex flex-wrap gap-4 mb-14">
+          {/* Big yellow-style headline (using Klug orange) */}
+          <h1 className="font-display font-black uppercase text-primary text-[2.75rem] sm:text-6xl lg:text-[5.25rem] leading-[0.95] tracking-tighter mb-8">
+            A maior loja
+            <br />
+            em mobilidade
+            <br />
+            elétrica de Joinville!
+          </h1>
+
+          {/* Numbered features */}
+          <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-5 max-w-2xl mb-10">
+            {[
+              {
+                n: "1",
+                title: "Líderes no mercado",
+                desc: "Referência regional em mobilidade elétrica, com atendimento consultivo.",
+              },
+              {
+                n: "2",
+                title: "A maioria sem CNH",
+                desc: "Modelos até 1000W liberados sem CNH — praticidade para o dia a dia.",
+              },
+            ].map((f) => (
+              <li key={f.n} className="flex gap-4">
+                <span className="font-display font-black text-primary text-5xl leading-none tracking-tighter">
+                  {f.n}
+                </span>
+                <div>
+                  <p className="text-white font-display font-black uppercase tracking-wider text-sm mb-1">
+                    {f.title}
+                  </p>
+                  <p className="text-white/60 text-[13px] leading-relaxed">
+                    {f.desc}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap gap-3">
             <a
               href="#modelos"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
             >
               Ver Modelos
               <ArrowRight size={18} />
@@ -475,65 +633,102 @@ function Hero() {
                 e.preventDefault();
                 openWhatsAppWithFallback(TEST_RIDE_MSG);
               }}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
               aria-label="Agendar test-ride no WhatsApp"
             >
               <MessageCircle size={18} fill="white" strokeWidth={0} />
               Agendar Test-Ride
             </a>
           </div>
-
-          {/* Stats strip */}
-          <dl className="grid grid-cols-3 gap-6 max-w-lg border-t border-border pt-6">
-            {[
-              { n: models.length, s: "+", l: "Modelos" },
-              { n: 100, s: "%", l: "Elétrico" },
-              { n: 0, s: "", l: "Combustível" },
-            ].map((it) => (
-              <div key={it.l}>
-                <dt className="sr-only">{it.l}</dt>
-                <dd className="font-display text-3xl sm:text-4xl font-black text-white tracking-tight">
-                  <AnimatedCount target={it.n} suffix={it.s} />
-                </dd>
-                <p className="text-[10px] text-white/50 uppercase tracking-[0.25em] font-bold mt-1">
-                  {it.l}
-                </p>
-              </div>
-            ))}
-          </dl>
         </div>
 
-        {/* Right — hero image + big watermark */}
+        {/* Right — lightning-bolt mask with hero image */}
         <div className="lg:col-span-5 relative">
-          <div className="relative z-10 aspect-[4/5] bg-card border border-border overflow-hidden">
-            <img
-              src={x12Img.url}
-              alt="Scooter elétrica Klug Motors — X12"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/95 via-black/50 to-transparent">
-              <p className="text-[10px] font-display font-black text-primary uppercase tracking-[0.3em] mb-1">
-                Destaque
-              </p>
-              <p className="font-display font-black uppercase text-2xl leading-none">
-                X12 1000W
-              </p>
-            </div>
-          </div>
-          <div
-            aria-hidden="true"
-            className="hidden md:block absolute -bottom-16 -right-8 font-display font-black uppercase text-[14rem] leading-none opacity-[0.04] select-none pointer-events-none tracking-tighter"
-          >
-            KLUG
-          </div>
+          <HeroBolt />
         </div>
       </div>
     </section>
   );
 }
+
+/**
+ * Lightning-bolt shaped image frame, MotoChefe-style.
+ * Uses SVG clip-path so the hero image fills the bolt silhouette and
+ * decorative bolts float around it.
+ */
+function HeroBolt() {
+  return (
+    <div className="relative w-full aspect-[4/5] max-w-md mx-auto">
+      <svg width="0" height="0" className="absolute" aria-hidden="true">
+        <defs>
+          <clipPath id="klug-bolt" clipPathUnits="objectBoundingBox">
+            {/* stylised lightning bolt normalized 0..1 */}
+            <path d="M0.58 0 L0.05 0.55 L0.42 0.55 L0.28 1 L0.95 0.4 L0.55 0.4 L0.78 0 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      {/* Glow behind bolt */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 blur-3xl opacity-60"
+        style={{
+          background:
+            "radial-gradient(50% 50% at 55% 50%, color-mix(in oklab, var(--primary) 55%, transparent), transparent 70%)",
+        }}
+      />
+
+      {/* Bolt image */}
+      <div
+        className="relative w-full h-full"
+        style={{ clipPath: "url(#klug-bolt)", WebkitClipPath: "url(#klug-bolt)" }}
+      >
+        <img
+          src={x12Img.url}
+          alt="Scooter elétrica Klug Motors — X12"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      {/* Floating mini bolts */}
+      <Zap
+        aria-hidden="true"
+        className="absolute -top-2 left-6 text-primary drop-shadow-[0_0_12px_rgba(232,93,58,0.6)]"
+        size={38}
+        strokeWidth={2.4}
+        fill="currentColor"
+      />
+      <Zap
+        aria-hidden="true"
+        className="absolute top-1/3 -right-2 text-primary/90 drop-shadow-[0_0_10px_rgba(232,93,58,0.5)]"
+        size={28}
+        strokeWidth={2.4}
+        fill="currentColor"
+      />
+      <Zap
+        aria-hidden="true"
+        className="absolute bottom-4 left-2 text-primary/80"
+        size={22}
+        strokeWidth={2.4}
+        fill="currentColor"
+      />
+
+      {/* Destaque badge */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-background/85 backdrop-blur border border-border rounded-full px-4 py-1.5 flex items-center gap-2">
+        <span className="text-[9px] font-display font-black text-primary uppercase tracking-[0.3em]">
+          Destaque
+        </span>
+        <span className="text-white text-xs font-display font-black tracking-wider">
+          X12 1000W
+        </span>
+      </div>
+    </div>
+  );
+}
+
 
 /* ---------------------------- Perks strip ---------------------------- */
 
@@ -1415,7 +1610,9 @@ function Index() {
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
+      <PromoStrip />
       <Header />
+      <CategoryNav />
       <main>
         <Hero />
         <BenefitsBar />
