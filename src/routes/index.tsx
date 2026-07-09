@@ -960,6 +960,7 @@ function Index() {
       <main>
         <Hero />
         <PerksBar />
+        <Featured />
         <Products />
         <Benefits />
         <Contact />
