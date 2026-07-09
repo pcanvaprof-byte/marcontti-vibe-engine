@@ -12,18 +12,28 @@ const schema = z.object({
     .max(20)
     .regex(/^[0-9()\s+-]+$/, "Use apenas números"),
   model: z.string().min(1, "Escolha um modelo"),
-  schedule: z.string().min(1, "Escolha um horário"),
+  entry: z.string().min(1, "Selecione uma entrada"),
+  term: z.string().min(1, "Selecione um prazo"),
   message: z.string().trim().max(500).optional(),
 });
 
-const schedules = [
-  "Manhã (9h–12h)",
-  "Tarde (13h–18h)",
-  "Sábado pela manhã",
+const entries = [
+  "Sem entrada",
+  "Até R$ 1.500",
+  "R$ 1.500 – R$ 3.000",
+  "R$ 3.000 – R$ 5.000",
+  "Acima de R$ 5.000",
+];
+
+const terms = [
+  "12x",
+  "18x",
+  "24x",
+  "36x",
   "A combinar",
 ];
 
-export function TestRideForm({
+export function FinanciamentoForm({
   defaultModel,
   compact = false,
 }: {
@@ -42,7 +52,8 @@ export function TestRideForm({
       name: String(fd.get("name") ?? ""),
       phone: String(fd.get("phone") ?? ""),
       model: String(fd.get("model") ?? ""),
-      schedule: String(fd.get("schedule") ?? ""),
+      entry: String(fd.get("entry") ?? ""),
+      term: String(fd.get("term") ?? ""),
       message: String(fd.get("message") ?? ""),
     };
     const parsed = schema.safeParse(raw);
@@ -52,10 +63,9 @@ export function TestRideForm({
         errs[String(i.path[0])] = i.message;
       });
       setErrors(errs);
-      // Focus first invalid field for a11y
       const firstKey = parsed.error.issues[0]?.path[0];
       if (typeof firstKey === "string") {
-        const el = document.getElementById(`tr-${firstKey}`) as HTMLElement | null;
+        const el = document.getElementById(`fin-${firstKey}`) as HTMLElement | null;
         el?.focus();
       }
       return;
@@ -64,13 +74,14 @@ export function TestRideForm({
     setSubmitting(true);
     const d = parsed.data;
     const text = [
-      `Olá! Quero agendar um test-ride na Klug Motors.`,
+      `Olá! Quero simular o financiamento de uma moto elétrica da Klug Motors.`,
       ``,
       `*Nome:* ${d.name}`,
       `*Telefone:* ${d.phone}`,
       `*Modelo:* ${d.model}`,
-      `*Horário preferido:* ${d.schedule}`,
-      d.message ? `*Mensagem:* ${d.message}` : null,
+      `*Entrada estimada:* ${d.entry}`,
+      `*Prazo desejado:* ${d.term}`,
+      d.message ? `*Observações:* ${d.message}` : null,
     ]
       .filter(Boolean)
       .join("\n");
@@ -94,7 +105,6 @@ export function TestRideForm({
   const labelCls =
     "block text-[10px] uppercase font-display font-black text-white/70 tracking-widest mb-2";
 
-  // Success panel — persistent, actionable
   if (sent) {
     return (
       <div
@@ -135,7 +145,7 @@ export function TestRideForm({
               className="inline-flex items-center gap-2 border border-border text-white/80 hover:border-primary hover:text-primary font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <RotateCcw size={14} />
-              Nova solicitação
+              Nova simulação
             </button>
           </div>
         </div>
@@ -143,12 +153,11 @@ export function TestRideForm({
     );
   }
 
-
   return (
     <form
       onSubmit={onSubmit}
       noValidate
-      aria-label="Agendar test-ride"
+      aria-label="Simular financiamento"
       className={
         compact
           ? "space-y-4"
@@ -158,103 +167,124 @@ export function TestRideForm({
       {!compact && (
         <div className="mb-8">
           <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
-            Solicite agora
+            Consulte agora
           </p>
           <h3 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-2">
-            Agende um Test-Ride
+            Simule seu financiamento
           </h3>
           <p className="text-white/60 text-sm">
-            Preencha o formulário — enviaremos direto para o WhatsApp da loja.
+            Preencha para receber as condições diretamente no WhatsApp da loja.
           </p>
         </div>
       )}
 
       <div className="space-y-5">
         <div>
-          <label htmlFor="tr-name" className={labelCls}>Nome completo</label>
+          <label htmlFor="fin-name" className={labelCls}>Nome completo</label>
           <input
-            id="tr-name"
+            id="fin-name"
             name="name"
             maxLength={100}
             placeholder="Como podemos te chamar?"
             className={inputCls}
             aria-invalid={!!errors.name}
-            aria-describedby={errors.name ? "tr-name-err" : undefined}
+            aria-describedby={errors.name ? "fin-name-err" : undefined}
           />
           {errors.name && (
-            <p id="tr-name-err" role="alert" className="text-xs text-destructive mt-1.5">
+            <p id="fin-name-err" role="alert" className="text-xs text-destructive mt-1.5">
               {errors.name}
             </p>
           )}
         </div>
 
         <div>
-          <label htmlFor="tr-phone" className={labelCls}>WhatsApp</label>
+          <label htmlFor="fin-phone" className={labelCls}>WhatsApp</label>
           <input
-            id="tr-phone"
+            id="fin-phone"
             name="phone"
             type="tel"
             maxLength={20}
             placeholder="(DDD) + número"
             className={inputCls}
             aria-invalid={!!errors.phone}
-            aria-describedby={errors.phone ? "tr-phone-err" : undefined}
+            aria-describedby={errors.phone ? "fin-phone-err" : undefined}
           />
           {errors.phone && (
-            <p id="tr-phone-err" role="alert" className="text-xs text-destructive mt-1.5">
+            <p id="fin-phone-err" role="alert" className="text-xs text-destructive mt-1.5">
               {errors.phone}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="fin-model" className={labelCls}>Modelo de interesse</label>
+          <select
+            id="fin-model"
+            name="model"
+            defaultValue={defaultModel ?? ""}
+            className={inputCls}
+            aria-invalid={!!errors.model}
+          >
+            <option value="" disabled>Selecione um modelo</option>
+            {models.map((m) => (
+              <option key={m.slug} value={m.name}>{m.name}</option>
+            ))}
+            <option>Outro / Catálogo completo</option>
+          </select>
+          {errors.model && (
+            <p role="alert" className="text-xs text-destructive mt-1.5">
+              {errors.model}
             </p>
           )}
         </div>
 
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label htmlFor="tr-model" className={labelCls}>Modelo de interesse</label>
+            <label htmlFor="fin-entry" className={labelCls}>Entrada estimada</label>
             <select
-              id="tr-model"
-              name="model"
-              defaultValue={defaultModel ?? ""}
+              id="fin-entry"
+              name="entry"
+              defaultValue=""
               className={inputCls}
-              aria-invalid={!!errors.model}
+              aria-invalid={!!errors.entry}
             >
-              <option value="" disabled>Selecione um modelo</option>
-              {models.map((m) => (
-                <option key={m.slug} value={m.name}>{m.name}</option>
+              <option value="" disabled>Selecione</option>
+              {entries.map((s) => (
+                <option key={s}>{s}</option>
               ))}
-              <option>Outro / Catálogo completo</option>
             </select>
-            {errors.model && (
+            {errors.entry && (
               <p role="alert" className="text-xs text-destructive mt-1.5">
-                {errors.model}
+                {errors.entry}
               </p>
             )}
           </div>
           <div>
-            <label htmlFor="tr-schedule" className={labelCls}>Horário preferido</label>
+            <label htmlFor="fin-term" className={labelCls}>Prazo desejado</label>
             <select
-              id="tr-schedule"
-              name="schedule"
+              id="fin-term"
+              name="term"
               defaultValue=""
               className={inputCls}
-              aria-invalid={!!errors.schedule}
+              aria-invalid={!!errors.term}
             >
-              <option value="" disabled>Selecione um horário</option>
-              {schedules.map((s) => (
+              <option value="" disabled>Selecione</option>
+              {terms.map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>
-            {errors.schedule && (
+            {errors.term && (
               <p role="alert" className="text-xs text-destructive mt-1.5">
-                {errors.schedule}
+                {errors.term}
               </p>
             )}
           </div>
         </div>
 
         <div>
-          <label htmlFor="tr-msg" className={labelCls}>Mensagem (opcional)</label>
+          <label htmlFor="fin-msg" className={labelCls}>Observações (opcional)</label>
           <textarea
-            id="tr-msg"
+            id="fin-msg"
             name="message"
             rows={3}
             maxLength={500}
@@ -276,7 +306,7 @@ export function TestRideForm({
             </>
           ) : (
             <>
-              Confirmar Agendamento <ArrowRight size={18} />
+              Solicitar Simulação <ArrowRight size={18} />
             </>
           )}
         </button>
