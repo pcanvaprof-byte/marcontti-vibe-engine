@@ -70,8 +70,8 @@ function PrivacyPage() {
             <ul className="list-disc pl-5 space-y-2">
               <li>
                 <strong>Dados fornecidos por você:</strong> nome, telefone,
-                e-mail e mensagens ao preencher o formulário de test-ride ou nos
-                contatar por WhatsApp.
+                e-mail e mensagens ao preencher o formulário de simulação de
+                financiamento ou nos contatar por WhatsApp.
               </li>
               <li>
                 <strong>Dados de navegação:</strong> endereço IP, tipo de
@@ -83,7 +83,7 @@ function PrivacyPage() {
 
           <Section title="3. Como usamos">
             <ul className="list-disc pl-5 space-y-2">
-              <li>Responder a solicitações de test-ride e atendimento comercial.</li>
+              <li>Responder a solicitações de simulação de financiamento e atendimento comercial.</li>
               <li>Enviar informações sobre modelos, condições e novidades.</li>
               <li>Medir o desempenho do site e melhorar a experiência.</li>
               <li>Cumprir obrigações legais e regulatórias.</li>
