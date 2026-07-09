@@ -288,14 +288,20 @@ function Hero() {
               href="#modelos"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
             >
-              Explorar Catálogo
+              Ver Modelos
               <ArrowRight size={18} />
             </a>
             <a
-              href="#contato"
-              className="inline-flex items-center gap-2 border border-border hover:border-white text-white font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all"
+              href={buildWhatsAppFallbackUrl(TEST_RIDE_MSG)}
+              onClick={(e) => {
+                e.preventDefault();
+                openWhatsAppWithFallback(TEST_RIDE_MSG);
+              }}
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:-translate-y-0.5 active:translate-y-0"
+              aria-label="Agendar test-ride no WhatsApp"
             >
-              Ver Unidade
+              <MessageCircle size={18} fill="white" strokeWidth={0} />
+              Agendar Test-Ride
             </a>
           </div>
 
