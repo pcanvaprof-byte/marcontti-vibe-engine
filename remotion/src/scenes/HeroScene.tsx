@@ -42,7 +42,7 @@ export function HeroScene() {
   return (
     <AbsoluteFill
       style={{
-        background: "transparent",
+        background: "#0F172A",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
