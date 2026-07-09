@@ -3,9 +3,9 @@ import { MainVideo } from "./MainVideo";
 
 const calculateMetadata: CalculateMetadataFunction = async () => {
   return {
-    defaultCodec: "vp9",
-    defaultVideoImageFormat: "png",
-    defaultPixelFormat: "yuva420p",
+    defaultCodec: "h264",
+    defaultVideoImageFormat: "jpeg",
+    defaultPixelFormat: "yuv420p",
   };
 };
 
