@@ -101,7 +101,45 @@ function ModelPage() {
   const data = Route.useLoaderData() as { model: import("@/lib/models").Model };
   const m = data.model;
   const [selected, setSelected] = useState(0);
-  const variant = m.colors[selected];
+  const [lightbox, setLightbox] = useState(false);
+  const variant = m.colors[selected] ?? m.colors[0];
+
+  const gallery = useMemo(() => getGallery(m), [m]);
+  const [imgIndex, setImgIndex] = useState(0);
+  const activeImage = gallery[imgIndex] ?? variant?.image;
+
+  // When the user picks a color variant, jump the gallery to that image if present.
+  useEffect(() => {
+    if (!variant) return;
+    const idx = gallery.indexOf(variant.image);
+    if (idx >= 0) setImgIndex(idx);
+  }, [selected, variant, gallery]);
+
+  const prevImage = useCallback(
+    () => setImgIndex((i) => (gallery.length ? (i - 1 + gallery.length) % gallery.length : 0)),
+    [gallery.length],
+  );
+  const nextImage = useCallback(
+    () => setImgIndex((i) => (gallery.length ? (i + 1) % gallery.length : 0)),
+    [gallery.length],
+  );
+
+  // Keyboard navigation inside the lightbox.
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(false);
+      if (e.key === "ArrowLeft") prevImage();
+      if (e.key === "ArrowRight") nextImage();
+    };
+    window.addEventListener("keydown", onKey);
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [lightbox, prevImage, nextImage]);
 
   const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* — ${m.price}. Pode me passar mais informações?`;
   const whatsappUrl = buildWhatsAppFallbackUrl(whatsappMsg);
@@ -148,35 +186,94 @@ function ModelPage() {
         </nav>
 
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          {/* Image */}
+          {/* Gallery */}
           <div className="lg:col-span-6">
-            <div className="relative aspect-square bg-card border border-border overflow-hidden">
+            <div className="relative group aspect-square bg-card border border-border overflow-hidden">
               <img
-                src={variant.image}
-                alt={`${m.name} — ${variant.name}`}
-                className="w-full h-full object-contain p-8"
+                src={activeImage}
+                alt={`${m.name} — imagem ${imgIndex + 1} de ${gallery.length}`}
+                className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-105"
               />
               <span className="absolute top-4 left-4 bg-charcoal/80 backdrop-blur border border-border text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 inline-flex items-center gap-1">
                 <Zap size={10} className="text-primary" /> {m.power}
               </span>
-            </div>
-            {m.colors.length > 1 && (
-              <div className="mt-4 flex gap-2 flex-wrap">
-                {m.colors.map((c, i) => (
+
+              <button
+                type="button"
+                onClick={() => setLightbox(true)}
+                aria-label="Ampliar imagem"
+                className="absolute top-4 right-4 bg-charcoal/80 backdrop-blur border border-border text-white p-2 hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                <Expand size={14} />
+              </button>
+
+              {gallery.length > 1 && (
+                <>
                   <button
-                    key={c.name}
                     type="button"
-                    onClick={() => setSelected(i)}
-                    aria-label={c.name}
-                    title={c.name}
-                    className={`w-9 h-9 border-2 transition-all min-h-11 min-w-11 sm:min-h-9 sm:min-w-9 ${
-                      i === selected
-                        ? "border-primary scale-110"
-                        : "border-border hover:border-primary/60"
+                    onClick={prevImage}
+                    aria-label="Imagem anterior"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-charcoal/80 backdrop-blur border border-border text-white p-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={nextImage}
+                    aria-label="Próxima imagem"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-charcoal/80 backdrop-blur border border-border text-white p-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 hover:bg-primary hover:text-primary-foreground transition-all"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                  <div className="absolute bottom-3 right-3 bg-charcoal/80 backdrop-blur border border-border text-white text-[10px] font-bold px-2 py-1 tabular-nums">
+                    {imgIndex + 1} / {gallery.length}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {gallery.length > 1 && (
+              <div className="mt-4 grid grid-cols-5 sm:grid-cols-6 gap-2" role="tablist" aria-label="Galeria">
+                {gallery.map((src, i) => (
+                  <button
+                    key={src + i}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === imgIndex}
+                    aria-label={`Imagem ${i + 1}`}
+                    onClick={() => setImgIndex(i)}
+                    className={`aspect-square bg-card border-2 transition-all overflow-hidden ${
+                      i === imgIndex ? "border-primary" : "border-border hover:border-primary/60"
                     }`}
-                    style={{ backgroundColor: c.hex }}
-                  />
+                  >
+                    <img src={src} alt="" className="w-full h-full object-contain p-1" loading="lazy" />
+                  </button>
                 ))}
+              </div>
+            )}
+
+            {m.colors.length > 1 && (
+              <div className="mt-6">
+                <div className="text-[9px] uppercase tracking-widest text-white/40 font-bold mb-2">
+                  Cor: <span className="text-white">{variant?.name}</span>
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  {m.colors.map((c, i) => (
+                    <button
+                      key={c.name}
+                      type="button"
+                      onClick={() => setSelected(i)}
+                      aria-label={c.name}
+                      title={c.name}
+                      className={`w-9 h-9 border-2 transition-all min-h-11 min-w-11 sm:min-h-9 sm:min-w-9 ${
+                        i === selected
+                          ? "border-primary scale-110"
+                          : "border-border hover:border-primary/60"
+                      }`}
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
+                </div>
               </div>
             )}
           </div>
