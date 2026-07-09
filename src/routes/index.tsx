@@ -508,7 +508,7 @@ function Products() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
           <div className="max-w-xl">
             <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
-              Nossa <span className="text-primary">Linha</span>
+              Catálogo <span className="text-primary">Completo</span>
             </h2>
             <p className="text-white/50 font-bold uppercase text-[11px] tracking-[0.25em] mt-4">
               {models.length} modelos disponíveis · Pronta entrega
