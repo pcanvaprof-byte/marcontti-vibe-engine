@@ -1669,3 +1669,259 @@ function RevealGrid({
   );
 }
 
+
+/* ============================================================
+ * Reference-style home sections (Klug identity)
+ * ============================================================ */
+
+const CIRCLE_CATS = [
+  { label: "Autopropelidos", to: "/modelos", filter: "autopropelido" },
+  { label: "Motos", to: "/modelos", filter: "moto" },
+  { label: "Patinetes", to: "/modelos", filter: "patinete" },
+  { label: "Scooters", to: "/modelos", filter: "scooter" },
+  { label: "Triciclos", to: "/modelos", filter: "triciclo" },
+  { label: "Todas Cat.", to: "/modelos", filter: "todos" },
+] as const;
+
+function CategoryCircles() {
+  return (
+    <section className="py-14 sm:py-20 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <h2 className="text-center font-display font-black uppercase text-white text-xl sm:text-2xl tracking-widest mb-10">
+          Escolha por <span className="text-primary">categoria</span>
+        </h2>
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 sm:gap-6">
+          {CIRCLE_CATS.map((c) => (
+            <Link
+              key={c.label}
+              to={c.to}
+              className="group flex flex-col items-center gap-3"
+            >
+              <span
+                className="grid place-items-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-card border border-border text-primary transition-all group-hover:border-primary group-hover:bg-primary/10 group-hover:scale-105"
+                style={{
+                  backgroundImage:
+                    "radial-gradient(60% 60% at 30% 30%, color-mix(in oklab, var(--primary) 12%, transparent), transparent 70%)",
+                }}
+              >
+                <Zap size={28} strokeWidth={2.2} />
+              </span>
+              <span className="text-[11px] font-display font-black uppercase tracking-widest text-white/80 group-hover:text-primary transition-colors text-center">
+                {c.label}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------- Product grid card in the Moto Chefe reference style --------- */
+
+function fmtBRL(n: number) {
+  return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function RefProductCard({ m }: { m: Model }) {
+  const pix = m.priceNumber * 0.9;
+  return (
+    <Link
+      to="/modelos/$slug"
+      params={{ slug: m.slug }}
+      className="group block bg-black border border-border rounded-lg overflow-hidden hover:border-primary/60 transition-all hover:-translate-y-1"
+    >
+      <div className="relative aspect-square bg-white overflow-hidden">
+        <img
+          src={m.colors[0]?.image}
+          alt={m.name}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+        />
+        <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-[9px] font-display font-black uppercase tracking-widest px-2 py-1 rounded-sm">
+          <Zap size={10} className="inline -mt-0.5" /> {m.power}
+        </span>
+      </div>
+      <div className="p-4 text-center">
+        <h3 className="font-display font-black uppercase text-xs sm:text-sm tracking-tight text-white truncate">
+          {m.name} | Klug
+        </h3>
+        <div className="flex items-center justify-center gap-0.5 text-primary mt-1.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span key={i} className="text-[10px]">★</span>
+          ))}
+        </div>
+        <p
+          className="text-primary leading-none mt-3"
+          style={{
+            fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+            fontSize: "26px",
+          }}
+        >
+          {fmtBRL(pix)}
+        </p>
+        <p className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">
+          À vista no PIX
+        </p>
+        <p className="text-[10px] text-white/40 mt-0.5">
+          ou <span className="text-white/70">{m.price}</span>
+        </p>
+        <span className="mt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md group-hover:brightness-110">
+          Ver produto
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+function DestaquesGrid() {
+  const items = models.slice(0, 4);
+  return (
+    <section className="py-14 sm:py-20 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <h2 className="text-center font-display font-black uppercase text-2xl sm:text-3xl tracking-widest mb-10">
+          Destaques <span className="text-primary">Klug</span>
+        </h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {items.map((m) => (
+            <RefProductCard key={m.slug} m={m} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MaisVendidosGrid() {
+  const items = models.slice(4, 12);
+  if (items.length === 0) return null;
+  return (
+    <section className="py-14 sm:py-20 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <h2 className="text-center font-display font-black uppercase text-2xl sm:text-3xl tracking-widest mb-10">
+          Mais <span className="text-primary">Vendidos</span>
+        </h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {items.map((m) => (
+            <RefProductCard key={m.slug} m={m} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function YoutubeShowcase() {
+  const highlight = models[1] ?? models[0];
+  const pix = highlight.priceNumber * 0.9;
+  return (
+    <section className="py-14 sm:py-20 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
+        <div className="rounded-lg overflow-hidden border border-border bg-card">
+          <div className="flex items-center gap-3 p-4 bg-black border-b border-border">
+            <span className="grid place-items-center w-10 h-10 rounded-full bg-red-600 text-white">
+              <Youtube size={20} fill="white" strokeWidth={0} />
+            </span>
+            <div>
+              <p className="font-display font-black uppercase text-white text-sm tracking-widest">
+                Klug Motors | Joinville
+              </p>
+              <p className="text-white/50 text-[11px]">
+                Referência nacional em mobilidade elétrica
+              </p>
+            </div>
+          </div>
+          <div className="relative aspect-video bg-black">
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
+              title="Klug Motors — showroom"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+        </div>
+
+        <aside className="bg-black border border-border rounded-lg overflow-hidden">
+          <div className="aspect-square bg-white">
+            <img
+              src={highlight.colors[0]?.image}
+              alt={highlight.name}
+              className="w-full h-full object-contain p-4"
+              loading="lazy"
+            />
+          </div>
+          <div className="p-4 text-center">
+            <h3 className="font-display font-black uppercase text-sm text-white tracking-tight">
+              {highlight.name} | Klug
+            </h3>
+            <p
+              className="text-primary mt-2 leading-none"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "28px",
+              }}
+            >
+              {fmtBRL(pix)}
+            </p>
+            <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">
+              À vista no PIX (10% OFF)
+            </p>
+            <Link
+              to="/modelos/$slug"
+              params={{ slug: highlight.slug }}
+              className="mt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md hover:brightness-110"
+            >
+              Ver produto
+            </Link>
+          </div>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
+function InstagramRow() {
+  const shots = models.slice(0, 6);
+  return (
+    <section className="py-14 sm:py-20 bg-background border-b border-border">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <h2 className="text-center font-display font-black uppercase text-white text-lg sm:text-xl tracking-widest mb-8">
+          Siga nosso Instagram{" "}
+          <a
+            href="https://www.instagram.com/klugmotors"
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary hover:underline"
+          >
+            @klugmotors
+          </a>
+        </h2>
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+          {shots.map((m) => (
+            <a
+              key={m.slug}
+              href="https://www.instagram.com/klugmotors"
+              target="_blank"
+              rel="noreferrer"
+              className="group relative aspect-square bg-white rounded-md overflow-hidden border border-border hover:border-primary/60 transition-colors"
+            >
+              <img
+                src={m.colors[0]?.image}
+                alt=""
+                className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+              />
+              <span className="absolute inset-0 grid place-items-center bg-black/0 group-hover:bg-black/40 transition-colors">
+                <Instagram
+                  size={22}
+                  className="text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                />
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
