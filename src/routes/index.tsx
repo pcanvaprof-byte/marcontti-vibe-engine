@@ -34,7 +34,7 @@ import {
 } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
 
-import { TestRideForm } from "@/components/TestRideForm";
+import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import type { Product } from "@/components/ProductCard";
@@ -43,8 +43,8 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
-const TEST_RIDE_MSG =
-  "Olá, Klug Motors! Quero agendar um test-ride e conhecer os modelos elétricos. Podem me ajudar?";
+const FINANCE_MSG =
+  "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições para as motos elétricas. Podem me ajudar?";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -352,29 +352,29 @@ function Header() {
 
         {/* Trust items */}
         <div className="hidden lg:flex items-center gap-6 ml-auto text-white">
-          <TrustItem icon={Headphones} label="Atendimento" href={buildWhatsAppFallbackUrl(TEST_RIDE_MSG)} external />
+          <TrustItem icon={Headphones} label="Atendimento" href={buildWhatsAppFallbackUrl(FINANCE_MSG)} external />
           <TrustItem icon={MapPin} label="Localização" href="#joinville" />
           <TrustItem icon={User} label="Contato" href="#contato" />
         </div>
 
-        {/* Test-Ride pill (replaces the cart) */}
+        {/* Financiamento pill (replaces the cart) */}
         <a
           href="#contato"
           onClick={handleAnchor("contato")}
           className="hidden md:inline-flex items-center gap-2 bg-primary hover:bg-primary-glow text-primary-foreground font-display font-extrabold text-[11px] px-5 py-2.5 rounded-full uppercase tracking-widest transition-all hover:scale-[1.03] hover:shadow-[var(--shadow-ember)] active:scale-95"
         >
-          Test-Ride
+          Simular Financiamento
           <ArrowRight size={14} />
         </a>
 
-        {/* Mobile — compact Test-Ride + burger */}
+        {/* Mobile — compact CTA + burger */}
         <div className="md:hidden flex items-center gap-2">
           <a
             href="#contato"
             onClick={handleAnchor("contato")}
             className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground font-display font-extrabold text-[10px] px-3.5 py-2 rounded-full uppercase tracking-widest active:scale-95 transition-transform"
           >
-            Test-Ride
+            Financiar
             <ArrowRight size={12} />
           </a>
           <button
@@ -481,7 +481,7 @@ function Header() {
                 open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
               }`}
             >
-              Agendar Test-Ride
+              Simular Financiamento
               <ArrowRight size={14} />
             </a>
           </nav>
@@ -628,16 +628,16 @@ function Hero() {
               <ArrowRight size={18} />
             </a>
             <a
-              href={buildWhatsAppFallbackUrl(TEST_RIDE_MSG)}
+              href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
               onClick={(e) => {
                 e.preventDefault();
-                openWhatsAppWithFallback(TEST_RIDE_MSG);
+                openWhatsAppWithFallback(FINANCE_MSG);
               }}
               className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
-              aria-label="Agendar test-ride no WhatsApp"
+              aria-label="Simular financiamento no WhatsApp"
             >
               <MessageCircle size={18} fill="white" strokeWidth={0} />
-              Agendar Test-Ride
+              Simular Financiamento
             </a>
           </div>
         </div>
@@ -1301,8 +1301,8 @@ function Contact() {
             Estamos em <span className="text-primary">Joinville</span>.
           </h2>
           <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-md">
-            Venha conhecer os modelos, fazer um test-ride e conversar com o
-            time. Atendemos direto, sem fechar para o almoço.
+            Venha conhecer os modelos, simular o financiamento e conversar com
+            o time. Atendemos direto, sem fechar para o almoço.
           </p>
 
           {/* Cockpit panel */}
@@ -1342,7 +1342,7 @@ function Contact() {
         </div>
 
         <div>
-          <TestRideForm />
+          <FinanciamentoForm />
         </div>
       </div>
     </section>
@@ -1511,7 +1511,7 @@ function Footer() {
               <li><a href="#modelos" className="story-link hover:text-primary">Modelos</a></li>
               <li><Link to="/modelos" className="story-link hover:text-primary">Catálogo completo</Link></li>
               <li><a href="#sobre" className="story-link hover:text-primary">Sobre</a></li>
-              <li><a href="#contato" className="story-link hover:text-primary">Test-Ride</a></li>
+              <li><a href="#contato" className="story-link hover:text-primary">Financiamento</a></li>
               <li><Link to="/privacidade" className="story-link hover:text-primary">Privacidade</Link></li>
             </ul>
           </div>
@@ -1537,32 +1537,32 @@ function Footer() {
 
 function WhatsAppCTA() {
   return (
-    <section aria-label="Agendar test-ride via WhatsApp" className="border-b border-border bg-background">
+    <section aria-label="Simular financiamento via WhatsApp" className="border-b border-border bg-background">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 py-8 sm:py-10">
         <div className="relative overflow-hidden border border-border bg-card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div className="absolute inset-0 pointer-events-none ember-spotlight opacity-60" />
           <div className="relative">
             <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-2">
-              Test-ride grátis
+              Consulta rápida
             </p>
             <h2 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tighter leading-none">
-              Experimente antes de <span className="text-primary">decidir</span>
+              Simule seu <span className="text-primary">financiamento</span>
             </h2>
             <p className="text-white/60 text-sm mt-3 max-w-md">
-              Agende seu test-ride pelo WhatsApp — respondemos na hora e reservamos o modelo pra você.
+              Fale no WhatsApp e receba as condições para a moto que você quer — entrada, parcelas e prazos.
             </p>
           </div>
           <a
-            href={buildWhatsAppFallbackUrl(TEST_RIDE_MSG)}
+            href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
             onClick={(e) => {
               e.preventDefault();
-              openWhatsAppWithFallback(TEST_RIDE_MSG);
+              openWhatsAppWithFallback(FINANCE_MSG);
             }}
-            aria-label="Agendar test-ride no WhatsApp"
+            aria-label="Simular financiamento no WhatsApp"
             className="relative inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-8 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] shrink-0"
           >
             <MessageCircle size={18} fill="white" strokeWidth={0} />
-            Agendar Test-Ride
+            Simular Financiamento
           </a>
         </div>
       </div>
