@@ -32,10 +32,10 @@ const composition = await selectComposition({
 await renderMedia({
   composition,
   serveUrl: bundled,
-  codec: "vp8",
-  pixelFormat: "yuva420p",
-  imageFormat: "png",
-  outputLocation: "/mnt/documents/hero-bolt.webm",
+  codec: "h264",
+  pixelFormat: "yuv420p",
+  imageFormat: "jpeg",
+  outputLocation: "/mnt/documents/hero-bolt.mp4",
   puppeteerInstance: browser,
   muted: true,
   concurrency: 1,
@@ -43,4 +43,4 @@ await renderMedia({
 
 await browser.close({ silent: false });
 
-console.log("Rendered:", "/mnt/documents/hero-bolt.webm");
+console.log("Rendered:", "/mnt/documents/hero-bolt.mp4");
