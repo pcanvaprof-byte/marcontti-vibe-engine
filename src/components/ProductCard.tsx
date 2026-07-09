@@ -70,8 +70,8 @@ export function ProductCard({ product }: { product: Product }) {
         aria-label={`Ver detalhes de ${product.nome}`}
         className="relative z-[2] block h-full"
       >
-        {/* Palco da imagem — proporção e recorte fixos, para alinhar entre motos de tamanhos diferentes */}
-        <div className="absolute inset-x-3 top-12 bottom-24 sm:inset-x-4 sm:top-14 sm:bottom-28 rounded-[12px] bg-white overflow-hidden shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
+        {/* Palco da imagem — em mobile deixa mais espaço embaixo para o bloco central; desktop mantém overlay */}
+        <div className="absolute inset-x-3 top-12 bottom-[132px] sm:inset-x-4 sm:top-14 sm:bottom-28 rounded-[12px] bg-white overflow-hidden shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
           <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-3">
             <img
               src={product.imagem}
@@ -83,18 +83,34 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
         </div>
 
-
-        {/* Nome + potência sobrepostos no canto inferior esquerdo */}
-        <div className="absolute left-4 bottom-3 sm:left-5 sm:bottom-4 z-[4] pointer-events-none">
-
+        {/* MOBILE — bloco inferior com título, preço e CTA centralizados vertical e horizontalmente */}
+        <div className="sm:hidden absolute inset-x-0 bottom-0 h-[128px] z-[4] px-4 pb-3 flex flex-col items-center justify-center gap-1.5 text-center">
           <h3
-            className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[40px] sm:text-[48px] lg:text-[56px]"
+            className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[34px]"
+            style={{ fontFamily: displayFont, fontWeight: 400 }}
+          >
+            {product.nome} <span className="text-white/90 text-[24px] not-italic ml-1">{product.potencia}</span>
+          </h3>
+          {product.preco && (
+            <p className="text-white/80 text-[12px] font-semibold tracking-wide">
+              {product.preco}
+            </p>
+          )}
+          <span className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)]">
+            Saiba mais
+          </span>
+        </div>
+
+        {/* DESKTOP — sobreposição no canto inferior esquerdo (mantido) */}
+        <div className="hidden sm:block absolute left-5 bottom-4 z-[4] pointer-events-none">
+          <h3
+            className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[48px] lg:text-[56px]"
             style={{ fontFamily: displayFont, fontWeight: 400 }}
           >
             {product.nome}
           </h3>
           <p
-            className="mt-1 text-white italic uppercase leading-[0.85] tracking-[-0.01em] text-[36px] sm:text-[44px] lg:text-[52px]"
+            className="mt-1 text-white italic uppercase leading-[0.85] tracking-[-0.01em] text-[44px] lg:text-[52px]"
             style={{
               fontFamily: displayFont,
               fontWeight: 400,
@@ -103,6 +119,8 @@ export function ProductCard({ product }: { product: Product }) {
           >
             {product.potencia}
           </p>
+        </div>
+
         </div>
       </Link>
 
