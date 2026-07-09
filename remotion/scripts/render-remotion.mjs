@@ -32,7 +32,7 @@ const composition = await selectComposition({
 await renderMedia({
   composition,
   serveUrl: bundled,
-  codec: "vp9",
+  codec: "vp8",
   pixelFormat: "yuva420p",
   imageFormat: "png",
   outputLocation: "/mnt/documents/hero-bolt.webm",
