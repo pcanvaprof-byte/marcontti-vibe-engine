@@ -19,7 +19,7 @@ import {
   BadgePercent,
   Store,
   ShieldCheck,
-  ArrowUp,
+  
 } from "lucide-react";
 import {
   buildWhatsAppFallbackUrl,
@@ -50,6 +50,13 @@ export const Route = createFileRoute("/")({
         content:
           "Klug Motors: motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. Rua Albano Schimidt, 1882.",
       },
+      { property: "og:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
+      {
+        property: "og:description",
+        content:
+          "Motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis.",
+      },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: `${BASE_URL}/` },
       { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
     ],
@@ -1310,6 +1317,7 @@ function Footer() {
               <li><Link to="/modelos" className="story-link hover:text-primary">Catálogo completo</Link></li>
               <li><a href="#sobre" className="story-link hover:text-primary">Sobre</a></li>
               <li><a href="#contato" className="story-link hover:text-primary">Test-Ride</a></li>
+              <li><Link to="/privacidade" className="story-link hover:text-primary">Privacidade</Link></li>
             </ul>
           </div>
         </div>
@@ -1389,32 +1397,7 @@ function WhatsAppFab() {
 
 /* ---------------------------- Scroll to top ---------------------------- */
 
-function ScrollTopFab() {
-  const [visible, setVisible] = useState(false);
-  const reduced = useReducedMotion();
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 600);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return (
-    <button
-      type="button"
-      onClick={() =>
-        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" })
-      }
-      aria-label="Voltar ao topo"
-      className={`fixed bottom-6 right-24 z-40 w-12 h-12 grid place-items-center border border-border bg-card/95 backdrop-blur text-white transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary hover:border-primary hover:text-primary ${
-        visible
-          ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 translate-y-2 pointer-events-none"
-      }`}
-    >
-      <ArrowUp size={18} strokeWidth={2.2} />
-    </button>
-  );
-}
+// ScrollTopFab removido — BackToTop global vive em src/components/BackToTop.tsx
 
 function Index() {
   const featuredProducts: Product[] = FEATURED_SLUGS
@@ -1447,7 +1430,7 @@ function Index() {
         <Contact />
       </main>
       <Footer />
-      <ScrollTopFab />
+      {/* Back-to-top é global (renderizado no __root) */}
       <WhatsAppFab />
     </div>
   );
