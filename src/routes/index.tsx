@@ -1755,7 +1755,7 @@ function YoutubeShowcase() {
           </div>
           <div className="relative aspect-video bg-black">
             <video
-              src={heroBoltVideo.url}
+              src={conhecaKlugMotorsVideo.url}
               autoPlay
               loop
               muted
