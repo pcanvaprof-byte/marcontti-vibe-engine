@@ -67,12 +67,7 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: `${BASE_URL}/` },
       { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
     ],
-    links: [
-      { rel: "canonical", href: `${BASE_URL}/` },
-      { rel: "preload", as: "video", href: heroBoltVideo.url, type: "video/webm" },
-      { rel: "preload", as: "video", href: klugHeroVideo.url, type: "video/mp4" },
-      { rel: "preload", as: "image", href: x12Img.url, fetchpriority: "high" },
-    ],
+    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
     scripts: [
       {
         type: "application/ld+json",
@@ -549,17 +544,7 @@ function Hero() {
             "radial-gradient(60% 60% at 70% 50%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%)",
         }}
       />
-      {/* Left-side legibility scrim — ensures text contrast over the background video */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-y-0 left-0 w-full lg:w-3/5 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0) 100%)",
-        }}
-      />
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-14 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-
         {/* Left column */}
         <div className="lg:col-span-7 relative z-10 animate-fade-up">
           {/* Brand · localização + socials */}
@@ -570,17 +555,16 @@ function Hero() {
                 Klug Motors
               </span>
               <span className="w-px h-3 bg-white/25" />
-              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-white/80">
+              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-white/60">
                 Joinville
               </span>
-
             </span>
 
             <a
               href="https://www.instagram.com/klugmotors"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/85 hover:text-primary transition-colors"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
             >
               <Instagram size={14} /> @klugmotors
             </a>
@@ -588,32 +572,25 @@ function Hero() {
               href="https://www.youtube.com/@klugmotors"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/85 hover:text-primary transition-colors"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
             >
               <Youtube size={14} /> klugmotors
             </a>
           </div>
 
           {/* Kicker */}
-          <p
-            className="text-white text-sm sm:text-base font-display font-black uppercase tracking-[0.2em] mb-4"
-            style={{ textShadow: "0 1px 12px rgba(0,0,0,0.6)" }}
-          >
+          <p className="text-white text-sm sm:text-base font-display font-black uppercase tracking-[0.2em] mb-4">
             + de <span className="text-primary">{models.length}</span> modelos elétricos
           </p>
 
           {/* Big yellow-style headline (using Klug orange) */}
-          <h1
-            className="font-display font-black uppercase text-primary text-[2.75rem] sm:text-6xl lg:text-[5.25rem] leading-[0.95] tracking-tighter mb-8"
-            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.55)" }}
-          >
+          <h1 className="font-display font-black uppercase text-primary text-[2.75rem] sm:text-6xl lg:text-[5.25rem] leading-[0.95] tracking-tighter mb-8">
             A maior loja
             <br />
             em mobilidade
             <br />
             elétrica de Joinville!
           </h1>
-
 
           {/* Numbered features */}
           <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-5 max-w-2xl mb-10">
@@ -637,7 +614,7 @@ function Hero() {
                   <p className="text-white font-display font-black uppercase tracking-wider text-sm mb-1">
                     {f.title}
                   </p>
-                  <p className="text-white/80 text-[13px] leading-relaxed">
+                  <p className="text-white/60 text-[13px] leading-relaxed">
                     {f.desc}
                   </p>
                 </div>
@@ -683,9 +660,6 @@ function Hero() {
  * Uses SVG clip-path so the animated hero video fills the bolt silhouette.
  */
 function HeroBolt() {
-  const [boltFailed, setBoltFailed] = useState(false);
-  const [bgFailed, setBgFailed] = useState(false);
-
   return (
     <div className="relative w-full aspect-[4/5] max-w-md mx-auto">
       <svg width="0" height="0" className="absolute" aria-hidden="true">
@@ -707,50 +681,34 @@ function HeroBolt() {
         }}
       />
 
-      {/* Bolt video (with static image fallback) */}
+      {/* Bolt video */}
       <div
         className="relative w-full h-full"
         style={{ clipPath: "url(#klug-bolt)", WebkitClipPath: "url(#klug-bolt)" }}
       >
-        {boltFailed ? (
-          <img
-            src={x12Img.url}
-            alt="Scooter elétrica Klug Motors X12"
-            className="w-full h-full object-cover"
-            loading="eager"
-            decoding="async"
-          />
-        ) : (
-          <video
-            src={heroBoltVideo.url}
-            poster={x12Img.url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            aria-label="Vídeo de destaque da scooter elétrica Klug Motors X12"
-            className="w-full h-full object-cover"
-            onError={() => setBoltFailed(true)}
-          />
-        )}
-      </div>
-
-      {/* Klug institutional video (background layer, 50% opacity) */}
-      {bgFailed ? null : (
         <video
-          src={klugHeroVideo.url}
-          poster={x12Img.url}
+          src={heroBoltVideo.url}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 w-full h-full object-contain object-center opacity-50 rounded-2xl"
-          onError={() => setBgFailed(true)}
+          aria-label="Vídeo de destaque da scooter elétrica Klug Motors X12"
+          className="w-full h-full object-cover"
         />
-      )}
+      </div>
+
+      {/* Klug institutional video (background layer, 50% opacity) */}
+      <video
+        src={klugHeroVideo.url}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 w-full h-full object-contain object-center opacity-50 rounded-2xl"
+      />
 
     </div>
   );
