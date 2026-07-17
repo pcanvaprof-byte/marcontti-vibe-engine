@@ -536,8 +536,8 @@ function AnimatedCount({ target, suffix = "" }: { target: number; suffix?: strin
 function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-black">
-      <div className="mx-auto max-w-5xl px-5 sm:px-8 py-10 sm:py-14">
-        <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl aspect-video">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 py-8 sm:py-12">
+        <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-video">
           <video
             src={klugHeroVideo.url}
             poster={klugHeroPoster.url}
@@ -551,36 +551,33 @@ function Hero() {
             preload="metadata"
             aria-hidden="true"
             tabIndex={-1}
-            className="pointer-events-none absolute inset-0 w-full h-full object-cover"
+            className="pointer-events-none absolute inset-0 w-full h-full object-contain"
           />
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none bg-gradient-to-t from-black/70 via-black/20 to-transparent"
-          />
-          <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 flex flex-col items-end gap-[5px] animate-fade-up">
-            <a
-              href="#modelos"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Ver Modelos
-              <ArrowRight size={18} />
-            </a>
-            <a
-              href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
-              onClick={(e) => {
-                e.preventDefault();
-                openWhatsAppWithFallback(FINANCE_MSG);
-              }}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
-              aria-label="Simular financiamento no WhatsApp"
-            >
-              <MessageCircle size={18} fill="white" strokeWidth={0} />
-              Simular Financiamento
-            </a>
-          </div>
+        </div>
+        <div className="mt-6 flex flex-col items-center sm:items-end gap-[5px] animate-fade-up">
+          <a
+            href="#modelos"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
+          >
+            Ver Modelos
+            <ArrowRight size={18} />
+          </a>
+          <a
+            href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
+            onClick={(e) => {
+              e.preventDefault();
+              openWhatsAppWithFallback(FINANCE_MSG);
+            }}
+            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
+            aria-label="Simular financiamento no WhatsApp"
+          >
+            <MessageCircle size={18} fill="white" strokeWidth={0} />
+            Simular Financiamento
+          </a>
         </div>
       </div>
     </section>
+
 
   );
 }
