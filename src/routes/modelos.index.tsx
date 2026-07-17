@@ -9,7 +9,12 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 
+type CatSearch = { cat?: string };
+
 export const Route = createFileRoute("/modelos/")({
+  validateSearch: (s: Record<string, unknown>): CatSearch => ({
+    cat: typeof s.cat === "string" ? s.cat : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Catálogo — Klug Motors" },
@@ -31,6 +36,16 @@ export const Route = createFileRoute("/modelos/")({
   }),
   component: CatalogPage,
 });
+
+const CAT_TO_TYPE: Record<string, TypeFilter> = {
+  todos: "Todos",
+  scooter: "Scooter",
+  moto: "Moto",
+  triciclo: "Triciclo",
+  bicicleta: "Bicicleta",
+  patinete: "Patinete",
+  acessorios: "Todos",
+};
 
 const TYPES = ["Todos", "Scooter", "Moto", "Triciclo", "Bicicleta", "Patinete"] as const;
 type TypeFilter = (typeof TYPES)[number];
@@ -54,7 +69,9 @@ function typeOf(m: Model): TypeFilter {
 }
 
 function CatalogPage() {
-  const [type, setType] = useState<TypeFilter>("Todos");
+  const search = Route.useSearch();
+  const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";
+  const [type, setType] = useState<TypeFilter>(initialType);
   const [priceId, setPriceId] = useState<(typeof PRICE_RANGES)[number]["id"]>("all");
   const [sort, setSort] = useState<"relevance" | "price-asc" | "price-desc">("relevance");
 
