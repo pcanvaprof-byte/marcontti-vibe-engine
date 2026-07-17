@@ -149,6 +149,15 @@ function CatalogPage() {
 
       {/* Filters + Grid */}
       <section className="mx-auto max-w-7xl px-5 sm:px-8 py-12 sm:py-16">
+        {invalidMarca && (
+          <div className="mb-6 flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-white/90">
+            <AlertCircle size={18} className="text-primary shrink-0" />
+            <span>
+              Marca <strong className="text-white">“{search.marca}”</strong> não encontrada. Exibindo o catálogo completo.
+            </span>
+          </div>
+        )}
+
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
           <div
             role="tablist"
