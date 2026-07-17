@@ -534,24 +534,26 @@ function AnimatedCount({ target, suffix = "" }: { target: number; suffix?: strin
 function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-black">
-      {/* Fullscreen background video */}
-      <video
-        src={klugHeroVideo.url}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 w-full h-full object-cover"
-      />
-      {/* Subtle bottom gradient for button contrast */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/70 via-black/10 to-transparent"
-      />
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-14 lg:py-20 flex flex-col items-center gap-8">
+        {/* Contained video */}
+        <div className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[var(--shadow-ember)]">
+          <video
+            src={klugHeroVideo.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 w-full h-full object-cover"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/50 via-transparent to-transparent"
+          />
+        </div>
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 min-h-[calc(100svh-4rem)] sm:min-h-[80vh] lg:min-h-[85vh] flex items-end justify-center pb-12 sm:pb-16 lg:pb-20">
+        {/* CTAs */}
         <div className="flex flex-wrap justify-center gap-3 animate-fade-up">
           <a
             href="#modelos"
@@ -575,6 +577,7 @@ function Hero() {
         </div>
       </div>
     </section>
+
   );
 }
 
