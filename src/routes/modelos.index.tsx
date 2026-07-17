@@ -9,11 +9,12 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 
-type CatSearch = { cat?: string };
+type CatSearch = { cat?: string; marca?: string };
 
 export const Route = createFileRoute("/modelos/")({
   validateSearch: (s: Record<string, unknown>): CatSearch => ({
     cat: typeof s.cat === "string" ? s.cat : undefined,
+    marca: typeof s.marca === "string" ? s.marca : undefined,
   }),
   head: () => ({
     meta: [
@@ -21,12 +22,12 @@ export const Route = createFileRoute("/modelos/")({
       {
         name: "description",
         content:
-          "Explore todos os modelos elétricos da Klug Motors: scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo e faixa de preço.",
+          "Explore todos os modelos elétricos da Klug Motors: scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo, marca e faixa de preço.",
       },
       { property: "og:title", content: "Catálogo — Klug Motors" },
       {
         property: "og:description",
-        content: "Todos os modelos elétricos da Klug — filtre por tipo e preço.",
+        content: "Todos os modelos elétricos da Klug — filtre por tipo, marca e preço.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${BASE_URL}/modelos` },
@@ -36,6 +37,12 @@ export const Route = createFileRoute("/modelos/")({
   }),
   component: CatalogPage,
 });
+
+const TYPES = ["Todos", "Scooter", "Moto", "Triciclo", "Bicicleta", "Patinete"] as const;
+type TypeFilter = (typeof TYPES)[number];
+
+const BRANDS = ["Todas", "Klug", "SUDU", "Yamaha"] as const;
+type BrandFilter = (typeof BRANDS)[number];
 
 const CAT_TO_TYPE: Record<string, TypeFilter> = {
   todos: "Todos",
@@ -47,8 +54,17 @@ const CAT_TO_TYPE: Record<string, TypeFilter> = {
   acessorios: "Todos",
 };
 
-const TYPES = ["Todos", "Scooter", "Moto", "Triciclo", "Bicicleta", "Patinete"] as const;
-type TypeFilter = (typeof TYPES)[number];
+const MARCA_TO_BRAND: Record<string, BrandFilter> = {
+  klug: "Klug",
+  sudu: "SUDU",
+  yamaha: "Yamaha",
+};
+
+function brandOf(m: Model): BrandFilter {
+  if (m.slug.startsWith("sudu")) return "SUDU";
+  if (m.slug.startsWith("yamaha")) return "Yamaha";
+  return "Klug";
+}
 
 const PRICE_RANGES = [
   { id: "all", label: "Todos os preços", min: 0, max: Infinity },
@@ -71,7 +87,9 @@ function typeOf(m: Model): TypeFilter {
 function CatalogPage() {
   const search = Route.useSearch();
   const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";
+  const initialBrand: BrandFilter = (search.marca && MARCA_TO_BRAND[search.marca]) || "Todas";
   const [type, setType] = useState<TypeFilter>(initialType);
+  const [brand, setBrand] = useState<BrandFilter>(initialBrand);
   const [priceId, setPriceId] = useState<(typeof PRICE_RANGES)[number]["id"]>("all");
   const [sort, setSort] = useState<"relevance" | "price-asc" | "price-desc">("relevance");
 
@@ -79,13 +97,15 @@ function CatalogPage() {
     const range = PRICE_RANGES.find((r) => r.id === priceId)!;
     let list = models.filter((m) => {
       const typeOk = type === "Todos" || typeOf(m) === type;
+      const brandOk = brand === "Todas" || brandOf(m) === brand;
       const priceOk = m.priceNumber >= range.min && m.priceNumber <= range.max;
-      return typeOk && priceOk;
+      return typeOk && brandOk && priceOk;
     });
     if (sort === "price-asc") list = [...list].sort((a, b) => a.priceNumber - b.priceNumber);
     if (sort === "price-desc") list = [...list].sort((a, b) => b.priceNumber - a.priceNumber);
     return list;
-  }, [type, priceId, sort]);
+  }, [type, brand, priceId, sort]);
+
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
@@ -148,6 +168,16 @@ function CatalogPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
+            <select
+              value={brand}
+              onChange={(e) => setBrand(e.target.value as BrandFilter)}
+              className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
+              aria-label="Marca"
+            >
+              {BRANDS.map((b) => (
+                <option key={b} value={b}>{b === "Todas" ? "Todas as marcas" : b}</option>
+              ))}
+            </select>
             <select
               value={priceId}
               onChange={(e) => setPriceId(e.target.value as typeof priceId)}

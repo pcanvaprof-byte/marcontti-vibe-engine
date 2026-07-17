@@ -208,13 +208,15 @@ function PromoStrip() {
 /* --------------------------- Category nav (barra) --------------------------- */
 
 const CATEGORY_LINKS = [
-  { label: "Todos", cat: "todos" },
-  { label: "Patinetes", cat: "patinete" },
-  { label: "Bicicletas", cat: "bicicleta" },
-  { label: "Scooters", cat: "scooter" },
-  { label: "Motos", cat: "moto" },
-  { label: "Triciclos", cat: "triciclo" },
-  { label: "Acessórios", cat: "acessorios" },
+  { label: "Todos", search: { cat: "todos" } },
+  { label: "Patinetes", search: { cat: "patinete" } },
+  { label: "Bicicletas", search: { cat: "bicicleta" } },
+  { label: "Scooters", search: { cat: "scooter" } },
+  { label: "Motos", search: { cat: "moto" } },
+  { label: "Triciclos", search: { cat: "triciclo" } },
+  { label: "SUDU", search: { marca: "sudu" } },
+  { label: "Yamaha", search: { marca: "yamaha" } },
+  { label: "Acessórios", search: { cat: "acessorios" } },
 ] as const;
 
 function CategoryNav() {
@@ -229,13 +231,14 @@ function CategoryNav() {
             <Link
               key={c.label}
               to="/modelos"
-              search={{ cat: c.cat }}
+              search={c.search}
               className="whitespace-nowrap hover:text-primary transition-colors story-link"
             >
               {c.label}
             </Link>
           ))}
         </nav>
+
 
         <Link
           to="/modelos"
