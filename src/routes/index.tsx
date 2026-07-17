@@ -664,9 +664,10 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right — lightning-bolt mask with hero image */}
-        <div className="lg:col-span-5 relative">
+        {/* Right — lightning-bolt mask with hero image (desktop only) */}
+        <div className="hidden lg:block lg:col-span-5 relative">
           <HeroBolt />
+
         </div>
       </div>
     </section>
