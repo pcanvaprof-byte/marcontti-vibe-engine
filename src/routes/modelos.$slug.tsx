@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
 import {
   ArrowLeft,
@@ -34,7 +34,7 @@ const BASE_URL = "https://proototipomotos.lovable.app";
 export const Route = createFileRoute("/modelos/$slug")({
   loader: ({ params }) => {
     const model = getModel(params.slug);
-    if (!model) throw notFound();
+    if (!model) throw redirect({ to: "/modelos" });
     return { model };
   },
   head: ({ loaderData, params }) => {
