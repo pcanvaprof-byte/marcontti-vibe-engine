@@ -564,7 +564,7 @@ function Hero() {
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20 lg:py-24 min-h-[80vh] sm:min-h-[75vh] lg:min-h-[85vh] grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
 
         {/* Left column */}
-        <div className="lg:col-span-7 relative z-10 animate-fade-up opacity-60 lg:opacity-100">
+        <div className="lg:col-span-7 relative z-10 animate-fade-up opacity-30 lg:opacity-100">
           {/* Brand · localização + socials */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <span className="inline-flex items-center gap-2 text-white/90">
