@@ -1805,8 +1805,8 @@ function YoutubeShowcase() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
         <div className="rounded-lg overflow-hidden border border-border bg-card">
           <div className="flex items-center gap-3 p-4 bg-black border-b border-border">
-            <span className="grid place-items-center w-10 h-10 rounded-full bg-red-600 text-white">
-              <Youtube size={20} fill="white" strokeWidth={0} />
+            <span className="grid place-items-center w-10 h-10 rounded-full bg-primary text-primary-foreground">
+              <Zap size={20} strokeWidth={2.5} />
             </span>
             <div>
               <p className="font-display font-black uppercase text-white text-sm tracking-widest">
@@ -1818,12 +1818,13 @@ function YoutubeShowcase() {
             </div>
           </div>
           <div className="relative aspect-video bg-black">
-            <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"
-              title="Klug Motors — showroom"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute inset-0 w-full h-full"
+            <video
+              src={heroBoltVideo.url}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
         </div>
