@@ -537,7 +537,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-black">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 py-8 sm:py-12">
-        <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-video">
+        <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-[2/1]">
           <video
             src={klugHeroVideo.url}
             poster={klugHeroPoster.url}
@@ -551,7 +551,7 @@ function Hero() {
             preload="metadata"
             aria-hidden="true"
             tabIndex={-1}
-            className="pointer-events-none absolute inset-0 w-full h-full object-contain"
+            className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
         <div className="mt-6 flex flex-col items-center sm:items-end gap-[5px] animate-fade-up">
