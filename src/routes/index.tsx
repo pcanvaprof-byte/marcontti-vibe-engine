@@ -661,7 +661,7 @@ function Hero() {
  */
 function HeroBolt() {
   return (
-    <div className="relative w-full aspect-[4/5] max-w-md mx-auto">
+    <div className="relative w-full aspect-[4/5] sm:aspect-square lg:aspect-[4/5] max-w-md mx-auto flex items-center justify-center">
       <svg width="0" height="0" className="absolute" aria-hidden="true">
         <defs>
           <clipPath id="klug-bolt" clipPathUnits="objectBoundingBox">
