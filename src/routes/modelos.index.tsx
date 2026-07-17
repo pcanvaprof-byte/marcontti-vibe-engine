@@ -44,6 +44,13 @@ type TypeFilter = (typeof TYPES)[number];
 const BRANDS = ["Todas", "Klug", "SUDU", "Yamaha"] as const;
 type BrandFilter = (typeof BRANDS)[number];
 
+const BRAND_TO_MARCA: Record<BrandFilter, string | undefined> = {
+  Todas: undefined,
+  Klug: "klug",
+  SUDU: "sudu",
+  Yamaha: "yamaha",
+};
+
 const CAT_TO_TYPE: Record<string, TypeFilter> = {
   todos: "Todos",
   scooter: "Scooter",
