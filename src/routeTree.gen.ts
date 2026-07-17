@@ -19,6 +19,8 @@ import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CompararRouteImport } from './routes/comparar'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ModelosIndexRouteImport } from './routes/modelos.index'
+import { Route as ModelosYamahaRouteImport } from './routes/modelos.yamaha'
+import { Route as ModelosSuduRouteImport } from './routes/modelos.sudu'
 import { Route as ModelosSlugRouteImport } from './routes/modelos.$slug'
 
 const SobreRoute = SobreRouteImport.update({
@@ -71,6 +73,16 @@ const ModelosIndexRoute = ModelosIndexRouteImport.update({
   path: '/modelos/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModelosYamahaRoute = ModelosYamahaRouteImport.update({
+  id: '/modelos/yamaha',
+  path: '/modelos/yamaha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModelosSuduRoute = ModelosSuduRouteImport.update({
+  id: '/modelos/sudu',
+  path: '/modelos/sudu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ModelosSlugRoute = ModelosSlugRouteImport.update({
   id: '/modelos/$slug',
   path: '/modelos/$slug',
@@ -88,6 +100,8 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/modelos/$slug': typeof ModelosSlugRoute
+  '/modelos/sudu': typeof ModelosSuduRoute
+  '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos/': typeof ModelosIndexRoute
 }
 export interface FileRoutesByTo {
@@ -101,6 +115,8 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/modelos/$slug': typeof ModelosSlugRoute
+  '/modelos/sudu': typeof ModelosSuduRoute
+  '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos': typeof ModelosIndexRoute
 }
 export interface FileRoutesById {
@@ -115,6 +131,8 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/modelos/$slug': typeof ModelosSlugRoute
+  '/modelos/sudu': typeof ModelosSuduRoute
+  '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos/': typeof ModelosIndexRoute
 }
 export interface FileRouteTypes {
@@ -130,6 +148,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/modelos/$slug'
+    | '/modelos/sudu'
+    | '/modelos/yamaha'
     | '/modelos/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -143,6 +163,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/modelos/$slug'
+    | '/modelos/sudu'
+    | '/modelos/yamaha'
     | '/modelos'
   id:
     | '__root__'
@@ -156,6 +178,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/modelos/$slug'
+    | '/modelos/sudu'
+    | '/modelos/yamaha'
     | '/modelos/'
   fileRoutesById: FileRoutesById
 }
@@ -170,6 +194,8 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
   ModelosSlugRoute: typeof ModelosSlugRoute
+  ModelosSuduRoute: typeof ModelosSuduRoute
+  ModelosYamahaRoute: typeof ModelosYamahaRoute
   ModelosIndexRoute: typeof ModelosIndexRoute
 }
 
@@ -245,6 +271,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/modelos/yamaha': {
+      id: '/modelos/yamaha'
+      path: '/modelos/yamaha'
+      fullPath: '/modelos/yamaha'
+      preLoaderRoute: typeof ModelosYamahaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modelos/sudu': {
+      id: '/modelos/sudu'
+      path: '/modelos/sudu'
+      fullPath: '/modelos/sudu'
+      preLoaderRoute: typeof ModelosSuduRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/modelos/$slug': {
       id: '/modelos/$slug'
       path: '/modelos/$slug'
@@ -266,8 +306,20 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
   ModelosSlugRoute: ModelosSlugRoute,
+  ModelosSuduRoute: ModelosSuduRoute,
+  ModelosYamahaRoute: ModelosYamahaRoute,
   ModelosIndexRoute: ModelosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
