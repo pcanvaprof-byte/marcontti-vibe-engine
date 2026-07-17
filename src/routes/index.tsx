@@ -67,7 +67,12 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: `${BASE_URL}/` },
       { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
     ],
-    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
+    links: [
+      { rel: "canonical", href: `${BASE_URL}/` },
+      { rel: "preload", as: "video", href: heroBoltVideo.url, type: "video/webm" },
+      { rel: "preload", as: "video", href: klugHeroVideo.url, type: "video/mp4" },
+      { rel: "preload", as: "image", href: x12Img.url, fetchpriority: "high" },
+    ],
     scripts: [
       {
         type: "application/ld+json",
@@ -660,6 +665,9 @@ function Hero() {
  * Uses SVG clip-path so the animated hero video fills the bolt silhouette.
  */
 function HeroBolt() {
+  const [boltFailed, setBoltFailed] = useState(false);
+  const [bgFailed, setBgFailed] = useState(false);
+
   return (
     <div className="relative w-full aspect-[4/5] max-w-md mx-auto">
       <svg width="0" height="0" className="absolute" aria-hidden="true">
@@ -681,34 +689,50 @@ function HeroBolt() {
         }}
       />
 
-      {/* Bolt video */}
+      {/* Bolt video (with static image fallback) */}
       <div
         className="relative w-full h-full"
         style={{ clipPath: "url(#klug-bolt)", WebkitClipPath: "url(#klug-bolt)" }}
       >
+        {boltFailed ? (
+          <img
+            src={x12Img.url}
+            alt="Scooter elétrica Klug Motors X12"
+            className="w-full h-full object-cover"
+            loading="eager"
+            decoding="async"
+          />
+        ) : (
+          <video
+            src={heroBoltVideo.url}
+            poster={x12Img.url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label="Vídeo de destaque da scooter elétrica Klug Motors X12"
+            className="w-full h-full object-cover"
+            onError={() => setBoltFailed(true)}
+          />
+        )}
+      </div>
+
+      {/* Klug institutional video (background layer, 50% opacity) */}
+      {bgFailed ? null : (
         <video
-          src={heroBoltVideo.url}
+          src={klugHeroVideo.url}
+          poster={x12Img.url}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          aria-label="Vídeo de destaque da scooter elétrica Klug Motors X12"
-          className="w-full h-full object-cover"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 w-full h-full object-contain object-center opacity-50 rounded-2xl"
+          onError={() => setBgFailed(true)}
         />
-      </div>
-
-      {/* Klug institutional video (background layer, 50% opacity) */}
-      <video
-        src={klugHeroVideo.url}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 w-full h-full object-contain object-center opacity-50 rounded-2xl"
-      />
+      )}
 
     </div>
   );
