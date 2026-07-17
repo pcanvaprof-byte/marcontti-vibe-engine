@@ -570,9 +570,10 @@ function Hero() {
                 Klug Motors
               </span>
               <span className="w-px h-3 bg-white/25" />
-              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-white/60">
+              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-white/80">
                 Joinville
               </span>
+
             </span>
 
             <a
