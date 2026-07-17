@@ -698,7 +698,7 @@ function HeroBolt() {
         />
       </div>
 
-      {/* Klug institutional video (behind badge, 50% opacity) */}
+      {/* Klug institutional video (background layer, 50% opacity) */}
       <video
         src={klugHeroVideo.url}
         autoPlay
@@ -707,7 +707,7 @@ function HeroBolt() {
         playsInline
         preload="auto"
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-50 rounded-2xl"
+        className="pointer-events-none absolute inset-0 w-full h-full object-contain object-center opacity-50 rounded-2xl"
       />
 
     </div>
