@@ -534,6 +534,23 @@ function AnimatedCount({ target, suffix = "" }: { target: number; suffix?: strin
 function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-background">
+      {/* Mobile/tablet-only background video (behind text) */}
+      <video
+        src={klugHeroVideo.url}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        className="lg:hidden pointer-events-none absolute inset-0 w-full h-full object-cover opacity-25"
+        style={{ objectPosition: "center 45%" }}
+      />
+      {/* Readability overlay on mobile */}
+      <div
+        aria-hidden="true"
+        className="lg:hidden absolute inset-0 pointer-events-none bg-gradient-to-b from-background/85 via-background/70 to-background/90"
+      />
       <div className="absolute inset-0 ember-spotlight pointer-events-none opacity-70" />
       {/* subtle radial vignette on the right */}
       <div
@@ -545,6 +562,7 @@ function Hero() {
         }}
       />
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20 lg:py-24 min-h-[80vh] sm:min-h-[75vh] lg:min-h-[85vh] grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+
         {/* Left column */}
         <div className="lg:col-span-7 relative z-10 animate-fade-up">
           {/* Brand · localização + socials */}
