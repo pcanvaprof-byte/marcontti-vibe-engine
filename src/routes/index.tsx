@@ -707,7 +707,7 @@ function HeroBolt() {
         playsInline
         preload="auto"
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[160%] max-w-none aspect-video object-cover opacity-80 rounded-2xl"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[220%] max-w-none aspect-video object-contain opacity-80"
       />
 
     </div>
