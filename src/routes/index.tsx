@@ -580,7 +580,7 @@ function Hero() {
               href="https://www.instagram.com/klugmotors"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/85 hover:text-primary transition-colors"
             >
               <Instagram size={14} /> @klugmotors
             </a>
@@ -588,7 +588,7 @@ function Hero() {
               href="https://www.youtube.com/@klugmotors"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
+              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/85 hover:text-primary transition-colors"
             >
               <Youtube size={14} /> klugmotors
             </a>
@@ -630,7 +630,7 @@ function Hero() {
                   <p className="text-white font-display font-black uppercase tracking-wider text-sm mb-1">
                     {f.title}
                   </p>
-                  <p className="text-white/60 text-[13px] leading-relaxed">
+                  <p className="text-white/80 text-[13px] leading-relaxed">
                     {f.desc}
                   </p>
                 </div>
