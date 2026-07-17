@@ -67,7 +67,12 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: `${BASE_URL}/` },
       { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
     ],
-    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
+    links: [
+      { rel: "canonical", href: `${BASE_URL}/` },
+      { rel: "preload", as: "video", href: heroBoltVideo.url, type: "video/webm" },
+      { rel: "preload", as: "video", href: klugHeroVideo.url, type: "video/mp4" },
+      { rel: "preload", as: "image", href: x12Img.url, fetchpriority: "high" },
+    ],
     scripts: [
       {
         type: "application/ld+json",
