@@ -44,6 +44,7 @@ import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
 import klugHeroVideo from "@/assets/videos/klug-hero-telao.mp4.asset.json";
 import klugHeroPoster from "@/assets/videos/klug-hero-poster.jpg.asset.json";
+import conhecaKlugMotorsVideo from "@/assets/videos/conheca-klug-motors.mp4.asset.json";
 
 
 const BASE_URL = "https://proototipomotos.lovable.app";
@@ -1754,7 +1755,7 @@ function YoutubeShowcase() {
           </div>
           <div className="relative aspect-video bg-black">
             <video
-              src={heroBoltVideo.url}
+              src={conhecaKlugMotorsVideo.url}
               autoPlay
               loop
               muted
