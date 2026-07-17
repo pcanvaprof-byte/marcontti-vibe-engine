@@ -87,9 +87,14 @@ function typeOf(m: Model): TypeFilter {
 function CatalogPage() {
   const search = Route.useSearch();
   const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";
-  const initialBrand: BrandFilter = (search.marca && MARCA_TO_BRAND[search.marca]) || "Todas";
+  const normalizedBrand: BrandFilter = useMemo(() => {
+    const key = search.marca?.toLowerCase();
+    return (key && MARCA_TO_BRAND[key]) || "Todas";
+  }, [search.marca]);
+  const invalidMarca = Boolean(search.marca && normalizedBrand === "Todas");
+
   const [type, setType] = useState<TypeFilter>(initialType);
-  const [brand, setBrand] = useState<BrandFilter>(initialBrand);
+  const [brand, setBrand] = useState<BrandFilter>(normalizedBrand);
   const [priceId, setPriceId] = useState<(typeof PRICE_RANGES)[number]["id"]>("all");
   const [sort, setSort] = useState<"relevance" | "price-asc" | "price-desc">("relevance");
 
