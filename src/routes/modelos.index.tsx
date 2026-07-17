@@ -169,6 +169,16 @@ function CatalogPage() {
 
           <div className="flex flex-wrap items-center gap-3">
             <select
+              value={brand}
+              onChange={(e) => setBrand(e.target.value as BrandFilter)}
+              className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
+              aria-label="Marca"
+            >
+              {BRANDS.map((b) => (
+                <option key={b} value={b}>{b === "Todas" ? "Todas as marcas" : b}</option>
+              ))}
+            </select>
+            <select
               value={priceId}
               onChange={(e) => setPriceId(e.target.value as typeof priceId)}
               className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
