@@ -42,7 +42,7 @@ import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
-import klugHeroVideo from "@/assets/videos/klug-hero.mp4.asset.json";
+import klugHeroVideo from "@/assets/videos/klug-hero-telao.mp4.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 const FINANCE_MSG =
@@ -536,7 +536,7 @@ function Hero() {
     <section className="relative overflow-hidden border-b border-border bg-black">
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-10 sm:py-14 lg:py-20 flex flex-col items-center gap-8">
         {/* Contained video */}
-        <div className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[var(--shadow-ember)]">
+        <div className="relative w-full max-w-5xl aspect-[2/1] rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-[var(--shadow-ember)]">
           <video
             src={klugHeroVideo.url}
             autoPlay
