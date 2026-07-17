@@ -42,6 +42,7 @@ import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
+import klugHeroVideo from "@/assets/videos/klug-hero.mp4.asset.json";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 const FINANCE_MSG =
@@ -697,8 +698,20 @@ function HeroBolt() {
         />
       </div>
 
+      {/* Klug institutional video (behind badge, 50% opacity) */}
+      <video
+        src={klugHeroVideo.url}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-50 rounded-2xl"
+      />
+
       {/* Destaque badge */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-background/85 backdrop-blur border border-border rounded-full px-4 py-1.5 flex items-center gap-2">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 bg-background/85 backdrop-blur border border-border rounded-full px-4 py-1.5 flex items-center gap-2">
         <span className="text-[9px] font-display font-black text-primary uppercase tracking-[0.3em]">
           Destaque
         </span>
