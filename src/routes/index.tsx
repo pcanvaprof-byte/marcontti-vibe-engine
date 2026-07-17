@@ -43,6 +43,8 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
 import klugHeroVideo from "@/assets/videos/klug-hero-telao.mp4.asset.json";
+import klugHeroPoster from "@/assets/videos/klug-hero-poster.jpg.asset.json";
+
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 const FINANCE_MSG =
