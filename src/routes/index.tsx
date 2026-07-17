@@ -560,8 +560,9 @@ function Hero() {
         className="absolute inset-x-0 bottom-0 h-1/2 pointer-events-none bg-gradient-to-t from-black/80 via-black/30 to-transparent"
       />
 
-      <div className="relative min-h-[calc(100svh-4rem)] flex items-end justify-center px-5 sm:px-8 pb-10 sm:pb-14 lg:pb-20">
-        <div className="flex flex-wrap justify-center gap-3 animate-fade-up">
+      <div className="relative min-h-[calc(100svh-4rem)] flex items-end justify-end px-5 sm:px-8 pb-10 sm:pb-14 lg:pb-20">
+        <div className="flex flex-wrap justify-end gap-3 animate-fade-up">
+
           <a
             href="#modelos"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
