@@ -539,14 +539,21 @@ function Hero() {
       {/* Fullscreen background video */}
       <video
         src={klugHeroVideo.url}
+        poster={klugHeroPoster.url}
         autoPlay
         muted
+        defaultMuted
         loop
         playsInline
-        preload="auto"
+        disablePictureInPicture
+        disableRemotePlayback
+        controls={false}
+        preload="metadata"
         aria-hidden="true"
+        tabIndex={-1}
         className="pointer-events-none absolute inset-0 w-full h-full object-cover"
       />
+
       {/* Gradient for button legibility */}
       <div
         aria-hidden="true"
