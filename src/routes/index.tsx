@@ -710,15 +710,6 @@ function HeroBolt() {
         className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-50 rounded-2xl"
       />
 
-      {/* Destaque badge */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 bg-background/85 backdrop-blur border border-border rounded-full px-4 py-1.5 flex items-center gap-2">
-        <span className="text-[9px] font-display font-black text-primary uppercase tracking-[0.3em]">
-          Destaque
-        </span>
-        <span className="text-white text-xs font-display font-black tracking-wider">
-          X12 1000W
-        </span>
-      </div>
     </div>
   );
 }
