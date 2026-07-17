@@ -225,7 +225,7 @@ function CategoryNav() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
         <nav
           aria-label="Categorias"
-          className="flex items-center gap-7 text-[12px] font-display font-bold uppercase tracking-[0.15em] text-white/80 overflow-x-auto scrollbar-none"
+          className="flex items-center gap-7 text-[12px] font-display font-bold uppercase tracking-[0.15em] text-white/80 overflow-x-auto scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {CATEGORY_LINKS.map((c) => (
             <Link
