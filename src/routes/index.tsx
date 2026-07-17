@@ -549,7 +549,17 @@ function Hero() {
             "radial-gradient(60% 60% at 70% 50%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%)",
         }}
       />
+      {/* Left-side legibility scrim — ensures text contrast over the background video */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-full lg:w-3/5 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0) 100%)",
+        }}
+      />
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-14 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+
         {/* Left column */}
         <div className="lg:col-span-7 relative z-10 animate-fade-up">
           {/* Brand · localização + socials */}
