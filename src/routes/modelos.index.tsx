@@ -93,15 +93,15 @@ function typeOf(m: Model): TypeFilter {
 
 function CatalogPage() {
   const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/modelos" });
   const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";
-  const normalizedBrand: BrandFilter = useMemo(() => {
+  const brand: BrandFilter = useMemo(() => {
     const key = search.marca?.toLowerCase();
     return (key && MARCA_TO_BRAND[key]) || "Todas";
   }, [search.marca]);
-  const invalidMarca = Boolean(search.marca && normalizedBrand === "Todas");
+  const invalidMarca = Boolean(search.marca && brand === "Todas");
 
   const [type, setType] = useState<TypeFilter>(initialType);
-  const [brand, setBrand] = useState<BrandFilter>(normalizedBrand);
   const [priceId, setPriceId] = useState<(typeof PRICE_RANGES)[number]["id"]>("all");
   const [sort, setSort] = useState<"relevance" | "price-asc" | "price-desc">("relevance");
 
