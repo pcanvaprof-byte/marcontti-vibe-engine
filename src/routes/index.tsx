@@ -543,7 +543,7 @@ function Hero() {
         autoPlay
         muted
         loop
-        loop
+
         playsInline
         disablePictureInPicture
         disableRemotePlayback
