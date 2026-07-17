@@ -7,34 +7,84 @@ import { useReveal } from "@/hooks/use-reveal";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
-const BASE_URL = "https://proototipomotos.lovable.app";
+const BASE_URL = "https://althaciamoveis.shop";
+
+const VALID_BRANDS = ["klug", "sudu", "yamaha"] as const;
+type ValidBrand = (typeof VALID_BRANDS)[number];
 
 type CatSearch = { cat?: string; marca?: string };
+
+function isValidBrand(marca?: string): marca is ValidBrand {
+  return Boolean(marca && (VALID_BRANDS as readonly string[]).includes(marca.toLowerCase()));
+}
+
+function brandMeta(marca?: string) {
+  const key = marca?.toLowerCase();
+  switch (key) {
+    case "yamaha":
+      return {
+        title: "Modelos Yamaha — Catálogo Klug Motors",
+        description:
+          "Descubra os modelos elétricos Yamaha na Klug Motors: scooters urbanas, design e performance com financiamento facilitado em Joinville/SC.",
+        ogTitle: "Modelos Yamaha — Catálogo Klug Motors",
+        ogDescription: "Veículos elétricos Yamaha disponíveis na Klug Motors. Filtre e compare modelos.",
+      };
+    case "sudu":
+      return {
+        title: "Modelos SUDU — Catálogo Klug Motors",
+        description:
+          "Conheça a linha SUDU de veículos elétricos na Klug Motors: scooters, motos e triciclos com tecnologia e autonomia para o dia a dia.",
+        ogTitle: "Modelos SUDU — Catálogo Klug Motors",
+        ogDescription: "Veículos elétricos SUDU na Klug Motors. Encontre o modelo ideal para você.",
+      };
+    case "klug":
+      return {
+        title: "Modelos Klug — Catálogo Klug Motors",
+        description:
+          "Explore a linha completa Klug Motors: scooters, motos, triciclos, bicicletas e patinetes elétricos sem CNH em Joinville/SC.",
+        ogTitle: "Modelos Klug — Catálogo Klug Motors",
+        ogDescription: "Todos os modelos Klug Motors elétricos. Filtre por tipo, preço e autonomia.",
+      };
+    default:
+      return {
+        title: "Catálogo — Klug Motors",
+        description:
+          "Explore todos os modelos elétricos da Klug Motors: scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo, marca e faixa de preço.",
+        ogTitle: "Catálogo — Klug Motors",
+        ogDescription: "Todos os modelos elétricos da Klug — filtre por tipo, marca e preço.",
+      };
+  }
+}
 
 export const Route = createFileRoute("/modelos/")({
   validateSearch: (s: Record<string, unknown>): CatSearch => ({
     cat: typeof s.cat === "string" ? s.cat : undefined,
     marca: typeof s.marca === "string" ? s.marca : undefined,
   }),
-  head: () => ({
-    meta: [
-      { title: "Catálogo — Klug Motors" },
-      {
-        name: "description",
-        content:
-          "Explore todos os modelos elétricos da Klug Motors: scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo, marca e faixa de preço.",
-      },
-      { property: "og:title", content: "Catálogo — Klug Motors" },
-      {
-        property: "og:description",
-        content: "Todos os modelos elétricos da Klug — filtre por tipo, marca e preço.",
-      },
+  loaderDeps: ({ search }) => ({ marca: search.marca }),
+  loader: ({ deps }) => ({ marca: deps.marca }),
+  head: ({ loaderData }) => {
+    const marca = loaderData?.marca;
+    const valid = isValidBrand(marca);
+    const meta = brandMeta(marca);
+    const url = valid ? `${BASE_URL}/modelos?marca=${marca.toLowerCase()}` : `${BASE_URL}/modelos`;
+    const metaTags: { title?: string; name?: string; property?: string; content?: string }[] = [
+      { title: meta.title },
+      { name: "description", content: meta.description },
+      { property: "og:title", content: meta.ogTitle },
+      { property: "og:description", content: meta.ogDescription },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: `${BASE_URL}/modelos` },
+      { property: "og:url", content: url },
       { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: `${BASE_URL}/modelos` }],
-  }),
+    ];
+    if (!valid && marca) {
+      metaTags.push({ name: "robots", content: "noindex, follow" });
+    }
+    return {
+      meta: metaTags,
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: CatalogPage,
 });
 
