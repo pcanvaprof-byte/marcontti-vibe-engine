@@ -564,7 +564,7 @@ function Hero() {
         <div className="flex flex-wrap justify-center gap-3 animate-fade-up">
           <a
             href="#modelos"
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
           >
             Ver Modelos
             <ArrowRight size={18} />
@@ -575,7 +575,7 @@ function Hero() {
               e.preventDefault();
               openWhatsAppWithFallback(FINANCE_MSG);
             }}
-            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
+            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
             aria-label="Simular financiamento no WhatsApp"
           >
             <MessageCircle size={18} fill="white" strokeWidth={0} />
