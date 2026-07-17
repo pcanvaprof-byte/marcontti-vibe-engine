@@ -191,7 +191,14 @@ function CatalogPage() {
           <div className="flex flex-wrap items-center gap-3">
             <select
               value={brand}
-              onChange={(e) => setBrand(e.target.value as BrandFilter)}
+              onChange={(e) => {
+                const value = e.target.value as BrandFilter;
+                navigate({
+                  to: "/modelos",
+                  search: { cat: search.cat, marca: BRAND_TO_MARCA[value] },
+                  replace: true,
+                });
+              }}
               className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
               aria-label="Marca"
             >
