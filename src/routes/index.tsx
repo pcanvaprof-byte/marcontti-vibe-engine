@@ -542,7 +542,7 @@ function Hero() {
         poster={klugHeroPoster.url}
         autoPlay
         muted
-        defaultMuted
+        loop
         loop
         playsInline
         disablePictureInPicture
