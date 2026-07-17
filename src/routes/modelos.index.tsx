@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Zap, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle } from "lucide-react";
 import { models, type Model } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
 
@@ -87,9 +87,14 @@ function typeOf(m: Model): TypeFilter {
 function CatalogPage() {
   const search = Route.useSearch();
   const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";
-  const initialBrand: BrandFilter = (search.marca && MARCA_TO_BRAND[search.marca]) || "Todas";
+  const normalizedBrand: BrandFilter = useMemo(() => {
+    const key = search.marca?.toLowerCase();
+    return (key && MARCA_TO_BRAND[key]) || "Todas";
+  }, [search.marca]);
+  const invalidMarca = Boolean(search.marca && normalizedBrand === "Todas");
+
   const [type, setType] = useState<TypeFilter>(initialType);
-  const [brand, setBrand] = useState<BrandFilter>(initialBrand);
+  const [brand, setBrand] = useState<BrandFilter>(normalizedBrand);
   const [priceId, setPriceId] = useState<(typeof PRICE_RANGES)[number]["id"]>("all");
   const [sort, setSort] = useState<"relevance" | "price-asc" | "price-desc">("relevance");
 
@@ -144,6 +149,15 @@ function CatalogPage() {
 
       {/* Filters + Grid */}
       <section className="mx-auto max-w-7xl px-5 sm:px-8 py-12 sm:py-16">
+        {invalidMarca && (
+          <div className="mb-6 flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-white/90">
+            <AlertCircle size={18} className="text-primary shrink-0" />
+            <span>
+              Marca <strong className="text-white">“{search.marca}”</strong> não encontrada. Exibindo o catálogo completo.
+            </span>
+          </div>
+        )}
+
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
           <div
             role="tablist"
