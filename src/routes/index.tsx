@@ -595,18 +595,25 @@ function Hero() {
           </div>
 
           {/* Kicker */}
-          <p className="text-white text-sm sm:text-base font-display font-black uppercase tracking-[0.2em] mb-4">
+          <p
+            className="text-white text-sm sm:text-base font-display font-black uppercase tracking-[0.2em] mb-4"
+            style={{ textShadow: "0 1px 12px rgba(0,0,0,0.6)" }}
+          >
             + de <span className="text-primary">{models.length}</span> modelos elétricos
           </p>
 
           {/* Big yellow-style headline (using Klug orange) */}
-          <h1 className="font-display font-black uppercase text-primary text-[2.75rem] sm:text-6xl lg:text-[5.25rem] leading-[0.95] tracking-tighter mb-8">
+          <h1
+            className="font-display font-black uppercase text-primary text-[2.75rem] sm:text-6xl lg:text-[5.25rem] leading-[0.95] tracking-tighter mb-8"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.55)" }}
+          >
             A maior loja
             <br />
             em mobilidade
             <br />
             elétrica de Joinville!
           </h1>
+
 
           {/* Numbered features */}
           <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-5 max-w-2xl mb-10">
