@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle } from "lucide-react";
 import { models, type Model } from "@/lib/models";
@@ -44,6 +44,13 @@ type TypeFilter = (typeof TYPES)[number];
 const BRANDS = ["Todas", "Klug", "SUDU", "Yamaha"] as const;
 type BrandFilter = (typeof BRANDS)[number];
 
+const BRAND_TO_MARCA: Record<BrandFilter, string | undefined> = {
+  Todas: undefined,
+  Klug: "klug",
+  SUDU: "sudu",
+  Yamaha: "yamaha",
+};
+
 const CAT_TO_TYPE: Record<string, TypeFilter> = {
   todos: "Todos",
   scooter: "Scooter",
@@ -86,15 +93,15 @@ function typeOf(m: Model): TypeFilter {
 
 function CatalogPage() {
   const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/modelos" });
   const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";
-  const normalizedBrand: BrandFilter = useMemo(() => {
+  const brand: BrandFilter = useMemo(() => {
     const key = search.marca?.toLowerCase();
     return (key && MARCA_TO_BRAND[key]) || "Todas";
   }, [search.marca]);
-  const invalidMarca = Boolean(search.marca && normalizedBrand === "Todas");
+  const invalidMarca = Boolean(search.marca && brand === "Todas");
 
   const [type, setType] = useState<TypeFilter>(initialType);
-  const [brand, setBrand] = useState<BrandFilter>(normalizedBrand);
   const [priceId, setPriceId] = useState<(typeof PRICE_RANGES)[number]["id"]>("all");
   const [sort, setSort] = useState<"relevance" | "price-asc" | "price-desc">("relevance");
 
@@ -184,7 +191,14 @@ function CatalogPage() {
           <div className="flex flex-wrap items-center gap-3">
             <select
               value={brand}
-              onChange={(e) => setBrand(e.target.value as BrandFilter)}
+              onChange={(e) => {
+                const value = e.target.value as BrandFilter;
+                navigate({
+                  to: "/modelos",
+                  search: { cat: search.cat, marca: BRAND_TO_MARCA[value] },
+                  replace: true,
+                });
+              }}
               className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
               aria-label="Marca"
             >
