@@ -533,8 +533,8 @@ function AnimatedCount({ target, suffix = "" }: { target: number; suffix?: strin
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-background">
-      {/* Mobile/tablet-only background video (behind text) */}
+    <section className="relative overflow-hidden border-b border-border bg-black">
+      {/* Fullscreen background video */}
       <video
         src={klugHeroVideo.url}
         autoPlay
@@ -543,136 +543,42 @@ function Hero() {
         playsInline
         preload="auto"
         aria-hidden="true"
-        className="lg:hidden pointer-events-none absolute inset-0 w-full h-full object-cover opacity-25"
-        style={{ objectPosition: "center 45%" }}
+        className="pointer-events-none absolute inset-0 w-full h-full object-cover"
       />
-      {/* Readability overlay on mobile */}
+      {/* Subtle bottom gradient for button contrast */}
       <div
         aria-hidden="true"
-        className="lg:hidden absolute inset-0 pointer-events-none bg-gradient-to-b from-background/85 via-background/70 to-background/90"
+        className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/70 via-black/10 to-transparent"
       />
-      <div className="absolute inset-0 ember-spotlight pointer-events-none opacity-70" />
-      {/* subtle radial vignette on the right */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-y-0 right-0 w-1/2 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(60% 60% at 70% 50%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%)",
-        }}
-      />
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-12 sm:py-16 lg:py-24 min-h-[calc(100svh-4rem)] sm:min-h-[70vh] lg:min-h-[85vh] grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
 
-        {/* Left column */}
-        <div className="lg:col-span-7 relative z-10 animate-fade-up opacity-20 sm:opacity-30 md:opacity-40 lg:opacity-100">
-          {/* Brand · localização + socials */}
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            <span className="inline-flex items-center gap-2 text-white/90">
-              <Zap size={16} className="text-primary" strokeWidth={2.4} />
-              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em]">
-                Klug Motors
-              </span>
-              <span className="w-px h-3 bg-white/25" />
-              <span className="text-[11px] font-display font-black uppercase tracking-[0.25em] text-white/60">
-                Joinville
-              </span>
-            </span>
-
-            <a
-              href="https://www.instagram.com/klugmotors"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
-            >
-              <Instagram size={14} /> @klugmotors
-            </a>
-            <a
-              href="https://www.youtube.com/@klugmotors"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest text-white/70 hover:text-primary transition-colors"
-            >
-              <Youtube size={14} /> klugmotors
-            </a>
-          </div>
-
-          {/* Kicker */}
-          <p className="text-white text-sm sm:text-base font-display font-black uppercase tracking-[0.2em] mb-4">
-            + de <span className="text-primary">{models.length}</span> modelos elétricos
-          </p>
-
-          {/* Big yellow-style headline (using Klug orange) */}
-          <h1 className="font-display font-black uppercase text-primary text-[2.75rem] sm:text-6xl lg:text-[5.25rem] leading-[0.95] tracking-tighter mb-8">
-            A maior loja
-            <br />
-            em mobilidade
-            <br />
-            elétrica de Joinville!
-          </h1>
-
-          {/* Numbered features */}
-          <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-5 max-w-2xl mb-10">
-            {[
-              {
-                n: "1",
-                title: "Líderes no mercado",
-                desc: "Referência regional em mobilidade elétrica, com atendimento consultivo.",
-              },
-              {
-                n: "2",
-                title: "A maioria sem CNH",
-                desc: "Modelos até 1000W liberados sem CNH — praticidade para o dia a dia.",
-              },
-            ].map((f) => (
-              <li key={f.n} className="flex gap-4">
-                <span className="font-display font-black text-primary text-5xl leading-none tracking-tighter">
-                  {f.n}
-                </span>
-                <div>
-                  <p className="text-white font-display font-black uppercase tracking-wider text-sm mb-1">
-                    {f.title}
-                  </p>
-                  <p className="text-white/60 text-[13px] leading-relaxed">
-                    {f.desc}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-3">
-            <a
-              href="#modelos"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Ver Modelos
-              <ArrowRight size={18} />
-            </a>
-            <a
-              href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
-              onClick={(e) => {
-                e.preventDefault();
-                openWhatsAppWithFallback(FINANCE_MSG);
-              }}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
-              aria-label="Simular financiamento no WhatsApp"
-            >
-              <MessageCircle size={18} fill="white" strokeWidth={0} />
-              Simular Financiamento
-            </a>
-          </div>
-        </div>
-
-        {/* Right — lightning-bolt mask with hero image (desktop only) */}
-        <div className="hidden lg:block lg:col-span-5 relative">
-          <HeroBolt />
-
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 min-h-[calc(100svh-4rem)] sm:min-h-[80vh] lg:min-h-[85vh] flex items-end justify-center pb-12 sm:pb-16 lg:pb-20">
+        <div className="flex flex-wrap justify-center gap-3 animate-fade-up">
+          <a
+            href="#modelos"
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
+          >
+            Ver Modelos
+            <ArrowRight size={18} />
+          </a>
+          <a
+            href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
+            onClick={(e) => {
+              e.preventDefault();
+              openWhatsAppWithFallback(FINANCE_MSG);
+            }}
+            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm px-7 py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
+            aria-label="Simular financiamento no WhatsApp"
+          >
+            <MessageCircle size={18} fill="white" strokeWidth={0} />
+            Simular Financiamento
+          </a>
         </div>
       </div>
     </section>
   );
 }
+
+
 
 /**
  * Lightning-bolt shaped video frame, MotoChefe-style.
