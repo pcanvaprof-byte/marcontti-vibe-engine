@@ -544,7 +544,7 @@ function Hero() {
             "radial-gradient(60% 60% at 70% 50%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%)",
         }}
       />
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-14 sm:py-20 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20 lg:py-24 min-h-[80vh] sm:min-h-[75vh] lg:min-h-[85vh] grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         {/* Left column */}
         <div className="lg:col-span-7 relative z-10 animate-fade-up">
           {/* Brand · localização + socials */}
