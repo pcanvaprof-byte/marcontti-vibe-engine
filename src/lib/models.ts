@@ -1484,14 +1484,12 @@ export function openWhatsAppWithFallback(
 
   const primaryUrl = buildWhatsAppUrl(message, phone);
   const fallbackUrl = buildWhatsAppFallbackUrl(message, phone);
-  let fallbackTimer = window.setTimeout(() => {
+  const fallbackTimer = window.setTimeout(() => {
     if (document.visibilityState === "visible") window.location.assign(fallbackUrl);
   }, WHATSAPP_FALLBACK_DELAY);
 
-  const clearFallback = () => {
-    window.clearTimeout(fallbackTimer);
-    fallbackTimer = 0;
-  };
+  const clearFallback = () => window.clearTimeout(fallbackTimer);
+
 
   window.addEventListener("pagehide", clearFallback, { once: true });
   window.addEventListener("blur", clearFallback, { once: true });
