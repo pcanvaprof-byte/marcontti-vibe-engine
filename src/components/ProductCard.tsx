@@ -84,6 +84,7 @@ export function ProductCard({ product }: { product: Product }) {
               alt={product.nome}
               aspectRatio={null}
               wrapperClassName="h-full items-end"
+              sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 40vw, 85vw"
               className="
                 w-auto object-contain pointer-events-none
                 h-[135%] sm:h-[145%]
