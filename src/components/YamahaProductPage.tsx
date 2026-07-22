@@ -92,6 +92,43 @@ export function YamahaProductPage({
         </div>
       </header>
 
+      {/* Sub-nav com âncoras — padrão site oficial Yamaha */}
+      <nav className="hidden md:block border-b border-border bg-neutral-950/80 backdrop-blur-md sticky top-14 z-30">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
+          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar text-[11px] uppercase tracking-widest font-display font-black text-white/70">
+            {[
+              ["eficiencia", "Eficiência elétrica"],
+              ["modos", "Modos de condução"],
+              ["tecnologia", "Tecnologia"],
+              ["comodidade", "Comodidade"],
+              ["conectividade", "Conectividade"],
+              ["baterias", "Baterias"],
+              ["modernidade", "Modernidade"],
+              ["inovacao", "Inovação"],
+            ].map(([id, label]) => (
+              <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-primary transition-colors">
+                {label}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <a
+              href="#financiamento"
+              className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/30 text-white text-[11px] font-display font-black uppercase tracking-widest hover:border-primary hover:text-primary"
+            >
+              Comprar online
+            </a>
+            <a
+              href={whatsappUrl}
+              onClick={handleWhats}
+              className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-black uppercase tracking-widest hover:brightness-110"
+            >
+              Receber contato
+            </a>
+          </div>
+        </div>
+      </nav>
+
       {/* HERO — official artwork, matches yamaha-motor.com.br */}
       <section className="relative overflow-hidden isolate text-white bg-neutral-950">
         <img
@@ -104,32 +141,24 @@ export function YamahaProductPage({
         />
       </section>
 
-
-
-
-
-
-      {/* ============================================================
-          SEÇÕES DE PRODUTO — padrão Yamaha, marca Klug
-          Cada bloco: kicker curto + título grande + copy + imagem.
-          ============================================================ */}
-
-      {/* 1. INTRO — MOBILIDADE INTELIGENTE */}
-      <section className="border-t border-border bg-neutral-950">
-        <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 text-center">
-          <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-            {m.tag}
-          </p>
-          <h2
-            className="mt-5 text-white uppercase leading-[0.9] tracking-tight"
-            style={{
-              fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-              fontSize: "clamp(36px, 6vw, 84px)",
-            }}
-          >
-            Mobilidade <span className="text-primary">inteligente</span>
-          </h2>
-          <p className="mt-8 text-white/75 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+      {/* 1. INTRO — MOBILIDADE INTELIGENTE (2-col: título esquerda / texto direita) */}
+      <section id="eficiencia" className="border-t border-border bg-neutral-950">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+              Eficiência elétrica
+            </p>
+            <h2
+              className="mt-5 text-white uppercase leading-[0.9] tracking-tight"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "clamp(36px, 5.5vw, 76px)",
+              }}
+            >
+              Mobilidade <span className="text-primary">inteligente</span>
+            </h2>
+          </div>
+          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6">
             {m.description}
           </p>
         </div>
@@ -153,7 +182,7 @@ export function YamahaProductPage({
       ) : null}
 
       {/* 3. MODOS DE CONDUÇÃO / VERSATILIDADE */}
-      <section className="border-t border-border bg-card/30">
+      <section id="modos" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="order-2 lg:order-1">
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
@@ -196,80 +225,57 @@ export function YamahaProductPage({
         </div>
       </section>
 
-      {/* 4. TECNOLOGIA — 3 CARDS DE DESTAQUE */}
-      <section className="border-t border-border bg-neutral-950">
+      {/* 4. TECNOLOGIA — cabeçalho 2-col + 3 imagens sem legendas */}
+      <section id="tecnologia" className="border-t border-border bg-neutral-950">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-              Tecnologia
-            </p>
-            <h3
-              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(30px, 4.5vw, 60px)",
-              }}
-            >
-              A escolha certa para <span className="text-primary">mobilidade urbana</span>
-            </h3>
-            <p className="mt-6 text-white/70 leading-relaxed">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Tecnologia
+              </p>
+              <h3
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                style={{
+                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                  fontSize: "clamp(30px, 4.5vw, 60px)",
+                }}
+              >
+                A escolha certa para <span className="text-primary">mobilidade urbana</span>
+              </h3>
+            </div>
+            <p className="text-white/75 leading-relaxed lg:pt-6">
               {sentences[2] ?? sentences[0]}
             </p>
           </div>
 
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                img: activeGallery[2] ?? activeGallery[0],
-                title: "Design atraente",
-                desc: "Linhas modernas e presença urbana que se destacam em qualquer trajeto.",
-              },
-              {
-                img: activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
-                title: "Performance afinada",
-                desc: "Resposta imediata e condução equilibrada para o dia a dia da cidade.",
-              },
-              {
-                img: activeGallery[4] ?? activeGallery[2] ?? activeGallery[0],
-                title: "Praticidade real",
-                desc: "Recursos pensados para simplificar cada viagem, do trajeto ao estacionamento.",
-              },
-            ].map((c, i) => (
-              <article
-                key={c.title + i}
-                className="group rounded-3xl bg-card/60 border border-white/10 overflow-hidden hover:border-primary/60 transition-colors"
+              activeGallery[2] ?? activeGallery[0],
+              activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
+              activeGallery[4] ?? activeGallery[2] ?? activeGallery[0],
+            ].map((img, i) => (
+              <div
+                key={i}
+                className="rounded-3xl overflow-hidden bg-neutral-900 border border-white/10 aspect-[4/3] grid place-items-center"
               >
-                <div className="aspect-[4/3] bg-neutral-950 grid place-items-center overflow-hidden">
-                  {c.img ? (
-                    <img
-                      src={c.img}
-                      alt={c.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                  ) : null}
-                </div>
-                <div className="p-6">
-                  <h4
-                    className="text-white uppercase leading-[1] tracking-tight"
-                    style={{
-                      fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                      fontSize: "28px",
-                    }}
-                  >
-                    {c.title}
-                  </h4>
-                  <p className="mt-3 text-white/70 text-sm leading-relaxed">{c.desc}</p>
-                </div>
-              </article>
+                {img ? (
+                  <img
+                    src={img}
+                    alt={`${m.name} — detalhe ${i + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-contain"
+                  />
+                ) : null}
+              </div>
             ))}
           </div>
         </div>
       </section>
 
+
       {/* 5. COMODIDADE + CONECTIVIDADE — dois blocos alternados */}
-      <section className="border-t border-border bg-card/30">
+      <section id="comodidade" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 space-y-20 sm:space-y-28">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
@@ -301,7 +307,7 @@ export function YamahaProductPage({
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div id="conectividade" className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center scroll-mt-28">
             <div className="order-2 lg:order-1">
               <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
                 Conectividade
@@ -341,7 +347,7 @@ export function YamahaProductPage({
       </section>
 
       {/* 6. BATERIAS / AUTONOMIA — DUAL BATTERY */}
-      <section className="border-t border-border bg-neutral-950">
+      <section id="baterias" className="border-t border-border bg-neutral-950">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
           <div className="text-center max-w-3xl mx-auto">
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
@@ -389,7 +395,7 @@ export function YamahaProductPage({
       </section>
 
       {/* 7. MODERNIDADE — PAINEL 100% DIGITAL */}
-      <section className="border-t border-border bg-card/30">
+      <section id="modernidade" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
             <img
@@ -422,7 +428,7 @@ export function YamahaProductPage({
       </section>
 
       {/* 8. INOVAÇÃO — MANUAL INTERATIVO */}
-      <section className="border-t border-border bg-neutral-950">
+      <section id="inovacao" className="border-t border-border bg-neutral-950">
         <div className="max-w-[1200px] mx-auto px-5 sm:px-10 py-20 sm:py-28 text-center">
           <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
             Inovação
@@ -468,12 +474,18 @@ export function YamahaProductPage({
             </div>
 
             <div className="mt-12 relative rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 p-6 sm:p-12">
-              <div className="min-h-[280px] sm:min-h-[420px] grid place-items-center">
+              <div className="relative min-h-[280px] sm:min-h-[420px] grid place-items-center">
+                {/* Anel tracejado 360° — padrão site oficial Yamaha */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-[560px] aspect-[2/1] rounded-[50%] border border-dashed border-white/25"
+                  style={{ maskImage: "linear-gradient(to bottom, transparent 0%, transparent 55%, black 60%, black 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, transparent 55%, black 60%, black 100%)" }}
+                />
                 {variant?.image ? (
                   <img
                     src={variant.image}
                     alt={`${m.name} — ${variant.name}`}
-                    className="max-h-[420px] w-auto object-contain transition-opacity duration-300"
+                    className="relative max-h-[420px] w-auto object-contain transition-opacity duration-300"
                   />
                 ) : null}
               </div>
