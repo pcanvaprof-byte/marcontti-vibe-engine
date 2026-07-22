@@ -78,6 +78,29 @@ export function FinanciamentoForm({
     if (el) el.value = value;
   };
 
+  // Preserva edições manuais: só sobrescreve se o campo estiver vazio
+  // ou tiver sido preenchido automaticamente antes (e não editado pelo usuário).
+  const fillIfEditable = (
+    id: string,
+    value: string,
+    opts: { onlyIfEmpty?: boolean } = {}
+  ) => {
+    const el = document.getElementById(id) as (HTMLInputElement | HTMLSelectElement) & { dataset: DOMStringMap } | null;
+    if (!el) return;
+    const isAutofilled = el.dataset.autofilled === "true";
+    const isEmpty = !el.value;
+    if (opts.onlyIfEmpty && !isEmpty) return;
+    if (!isEmpty && !isAutofilled) return; // usuário editou manualmente — não sobrescreve
+    el.value = value;
+    el.dataset.autofilled = value ? "true" : "";
+  };
+
+  // Handler para marcar como "editado manualmente" quando o usuário digita/altera
+  const markUserEdited = (e: React.SyntheticEvent<HTMLInputElement | HTMLSelectElement>) => {
+    (e.currentTarget as HTMLElement).dataset.autofilled = "";
+  };
+
+
   const maskCep = (v: string) => {
     const d = v.replace(/\D+/g, "").slice(0, 8);
     return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
