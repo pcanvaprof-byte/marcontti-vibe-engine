@@ -1,6 +1,8 @@
+import { useState, type MouseEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { Zap } from "lucide-react";
 import { LazyImage } from "@/components/LazyImage";
+import { QuickViewModal } from "@/components/QuickViewModal";
 
 export type Product = {
   id: string;
@@ -19,6 +21,14 @@ const displayFont = "'Bebas Neue', 'Urbanist', sans-serif";
 
 export function ProductCard({ product }: { product: Product }) {
   const href = product.slug ? `/modelos/${product.slug}` : "#";
+  const [open, setOpen] = useState(false);
+
+  const openModal = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(true);
+  };
+
 
   return (
     <article
