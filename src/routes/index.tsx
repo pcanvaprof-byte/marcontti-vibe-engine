@@ -1447,7 +1447,7 @@ function Footer() {
 
           {/* Visit */}
           <div className="lg:col-span-3 lg:pl-8 lg:border-l lg:border-white/10">
-            <h4 className="inline-flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-5">
+            <h4 className="flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.25em] text-primary mb-5">
               <span className="h-px w-6 bg-primary/60" aria-hidden="true" />
               Visite-nos
             </h4>
@@ -1463,7 +1463,7 @@ function Footer() {
 
           {/* Contact */}
           <div className="lg:col-span-3 lg:pl-8 lg:border-l lg:border-white/10">
-            <h4 className="inline-flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-5">
+            <h4 className="flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.25em] text-primary mb-5">
               <span className="h-px w-6 bg-primary/60" aria-hidden="true" />
               Contato
             </h4>
@@ -1498,7 +1498,7 @@ function Footer() {
 
           {/* Nav */}
           <div className="lg:col-span-2 lg:pl-8 lg:border-l lg:border-white/10">
-            <h4 className="inline-flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.3em] text-primary mb-5">
+            <h4 className="flex items-center gap-2 font-display font-black uppercase text-[10px] tracking-[0.25em] text-primary mb-5">
               <span className="h-px w-6 bg-primary/60" aria-hidden="true" />
               Navegação
             </h4>
