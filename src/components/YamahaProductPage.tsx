@@ -220,7 +220,10 @@ export function YamahaProductPage({
             >
               Versatilidade em <span className="text-primary">cada viagem</span>
             </h3>
-            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg">
+            <p
+              key={`sen1-${selected}`}
+              className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg transition-opacity duration-500 animate-in fade-in"
+            >
               {sentences[1] ?? sentences[0]}
             </p>
             {m.features.length > 0 && (
