@@ -8,7 +8,7 @@ export const Route = createFileRoute("/sobre")({
   head: () => ({
     meta: [
       { title: "Sobre a Klug Motors — Concessionária Elétrica em Joinville" },
-      { name: "description", content: "Conheça a Klug Motors: concessionária de motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Nossa história, missão e compromisso com mobilidade sustentável." },
+      { name: "description", content: "Conheça a Klug Motors: concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Nossa história, missão e compromisso com mobilidade sustentável." },
       { property: "og:title", content: "Sobre a Klug Motors" },
       { property: "og:description", content: "História, missão e valores da Klug Motors — mobilidade elétrica em Joinville/SC." },
       { property: "og:type", content: "website" },
@@ -25,7 +25,7 @@ function SobrePage() {
       eyebrow="Institucional"
       title="Sobre a"
       titleAccent="Klug Motors"
-      intro="Somos uma concessionária especializada em mobilidade elétrica em Joinville/SC. Motos, scooters, triciclos e bicicletas com foco em economia, sustentabilidade e o melhor pós-venda da região."
+      intro="Somos uma concessionária especializada em mobilidade elétrica em Joinville/SC. Motos, scooters, triciclos com foco em economia, sustentabilidade e o melhor pós-venda da região."
     >
       <SectionCard title="Nossa missão">
         <p>
