@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Zap } from "lucide-react";
+import { LazyImage } from "@/components/LazyImage";
 
 export type Product = {
   id: string;
