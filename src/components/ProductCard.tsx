@@ -108,9 +108,13 @@ export function ProductCard({ product }: { product: Product }) {
               {product.preco}
             </p>
           )}
-          <span className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)]">
+          <button
+            type="button"
+            onClick={openModal}
+            className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
+          >
             Saiba mais
-          </span>
+          </button>
         </div>
 
         {/* DESKTOP — sobreposição no canto inferior esquerdo (mantido) */}
