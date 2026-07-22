@@ -33,6 +33,7 @@ import {
   type Model,
 } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
+import { usePublicInstagramPosts, type InstagramPost } from "@/hooks/useInstagramPosts";
 
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
@@ -1886,7 +1887,20 @@ function YoutubeShowcase() {
 }
 
 function InstagramRow() {
-  const shots = models.slice(0, 6);
+  const { data: posts, isLoading } = usePublicInstagramPosts();
+  const hasPosts = !!posts && posts.length > 0;
+  const fallback = models.slice(0, 6).map((m, i) => ({
+    id: `fallback-${m.slug}`,
+    image_url: m.colors[0]?.image ?? "",
+    caption: m.name,
+    post_url: "https://www.instagram.com/klugmotors/",
+    sort_order: i,
+    is_active: true,
+    created_at: "",
+    updated_at: "",
+  }));
+  const items = hasPosts ? posts! : fallback;
+
   return (
     <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
@@ -1901,31 +1915,45 @@ function InstagramRow() {
             @klugmotors
           </a>
         </h2>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
-          {shots.map((m) => (
-            <a
-              key={m.slug}
-              href="https://www.instagram.com/klugmotors"
-              target="_blank"
-              rel="noreferrer"
-              className="group relative aspect-square bg-white rounded-md overflow-hidden border border-border hover:border-primary/60 transition-colors"
-            >
-              <img
-                src={m.colors[0]?.image}
-                alt=""
-                className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-              />
-              <span className="absolute inset-0 grid place-items-center bg-black/0 group-hover:bg-black/40 transition-colors">
-                <Instagram
-                  size={22}
-                  className="text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+          {isLoading && !hasPosts
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={`sk-${i}`}
+                  className="aspect-square bg-neutral-900 rounded-md border border-border animate-pulse"
                 />
-              </span>
-            </a>
-          ))}
+              ))
+            : items.map((p: InstagramPost) => (
+                <a
+                  key={p.id}
+                  href={p.post_url || "https://www.instagram.com/klugmotors"}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={p.caption || "Post no Instagram @klugmotors"}
+                  className="group relative aspect-square bg-white rounded-md overflow-hidden border border-border hover:border-primary/60 transition-colors"
+                >
+                  <img
+                    src={p.image_url}
+                    alt={p.caption || ""}
+                    className={`w-full h-full ${hasPosts ? "object-cover" : "object-contain p-2"} group-hover:scale-105 transition-transform duration-500`}
+                    loading="lazy"
+                  />
+                  <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/0 group-hover:bg-black/60 transition-colors p-3 text-center">
+                    <Instagram
+                      size={22}
+                      className="text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    />
+                    {p.caption && (
+                      <span className="text-white text-[10px] leading-tight font-medium opacity-0 group-hover:opacity-100 transition-opacity line-clamp-3">
+                        {p.caption}
+                      </span>
+                    )}
+                  </span>
+                </a>
+              ))}
         </div>
       </div>
     </section>
   );
 }
+
