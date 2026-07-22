@@ -151,7 +151,7 @@ export function FinanciamentoForm({
         })
       );
       setNeighborhoodOptions(Array.from(bairros).sort((a, b) => a.localeCompare(b, "pt-BR")).slice(0, 50));
-      setCityOptions(Array.from(cities).sort((a, b) => a.localeCompare(b, "pt-BR")).slice(0, 20));
+
     } catch {
       // silencioso — autocomplete é opcional
     }
