@@ -13,7 +13,7 @@ export type InstagramPost = {
 };
 
 async function fetchPosts(includeInactive = false) {
-  let q = (supabase.from("instagram_posts" as any) as any)
+  let q = supabase.from("instagram_posts")
     .select("*")
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false });
@@ -22,6 +22,7 @@ async function fetchPosts(includeInactive = false) {
   if (error) throw error;
   return (data ?? []) as InstagramPost[];
 }
+
 
 /** Public — active posts only. */
 export function usePublicInstagramPosts() {

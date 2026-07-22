@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+
 import { Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle, ArrowRight } from "lucide-react";
 import { z } from "zod";
 import { models, openWhatsAppWithFallback, openWhatsAppNewTab } from "@/lib/models";
@@ -361,7 +363,7 @@ export function ConsorcioForm({
           />
           <span className="text-[11px] leading-relaxed text-white/70">
             Li e autorizo o tratamento dos meus dados pela Klug para contato sobre esta solicitação,
-            conforme a <a href="/privacidade" target="_blank" rel="noreferrer" className="text-primary underline underline-offset-2">Política de Privacidade</a> e a LGPD (Lei nº 13.709/2018). <span className="text-destructive">*</span>
+            conforme a <Link to="/privacidade" target="_blank" rel="noreferrer" className="text-primary underline underline-offset-2">Política de Privacidade</Link> e a LGPD (Lei nº 13.709/2018). <span className="text-destructive">*</span>
           </span>
         </label>
         {errors.lgpd && <p id="con-lgpd-err" role="alert" className="text-xs text-destructive mt-1.5">{errors.lgpd}</p>}

@@ -41,7 +41,8 @@ function InstagramAdminPage() {
     supabase.auth.getUser().then(async ({ data: u }) => {
       if (!u.user) return;
       const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", u.user.id);
-      setIsAdmin(!!roles?.some((r: any) => r.role === "admin"));
+      setIsAdmin(!!roles?.some((r) => r.role === "admin"));
+
     });
   }, []);
 
@@ -54,16 +55,17 @@ function InstagramAdminPage() {
 
   async function handleDelete(p: InstagramPost) {
     if (!confirm("Excluir este post?")) return;
-    const { error } = await (supabase.from("instagram_posts" as any) as any).delete().eq("id", p.id);
+    const { error } = await supabase.from("instagram_posts").delete().eq("id", p.id);
     if (error) return toast.error(error.message);
     toast.success("Post removido");
     refetch();
   }
 
   async function handleToggle(p: InstagramPost) {
-    const { error } = await (supabase.from("instagram_posts" as any) as any)
+    const { error } = await supabase.from("instagram_posts")
       .update({ is_active: !p.is_active })
       .eq("id", p.id);
+
     if (error) return toast.error(error.message);
     refetch();
   }
@@ -155,11 +157,12 @@ function InstagramAdminPage() {
                     value={p.sort_order}
                     onChange={async (e) => {
                       const v = Number(e.target.value) || 0;
-                      await (supabase.from("instagram_posts" as any) as any)
+                      await supabase.from("instagram_posts")
                         .update({ sort_order: v })
                         .eq("id", p.id);
                       refetch();
                     }}
+
                     className="h-7 text-xs"
                     aria-label="Ordem"
                   />
@@ -229,10 +232,11 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       sort_order: d.sort_order ?? 0,
       is_active: d.is_active ?? true,
     };
-    const table = supabase.from("instagram_posts" as any) as any;
+    const table = supabase.from("instagram_posts");
     const { error } = d.id
       ? await table.update(payload).eq("id", d.id)
       : await table.insert(payload);
+
     setSaving(false);
     if (error) return toast.error(error.message);
     toast.success("Post salvo");
