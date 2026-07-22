@@ -139,8 +139,19 @@ export function ProductCard({ product }: { product: Product }) {
 
       </Link>
 
+      {/* Desktop — botão flutuante "Saiba mais" no canto inferior direito */}
+      <button
+        type="button"
+        onClick={openModal}
+        className="hidden sm:inline-flex absolute right-4 bottom-5 z-[5] items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[11px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
+      >
+        Saiba mais
+      </button>
+
+      <QuickViewModal product={product} open={open} onClose={() => setOpen(false)} />
     </article>
   );
 }
+
 
 export default ProductCard;
