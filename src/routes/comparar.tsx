@@ -256,19 +256,23 @@ function ComparisonBlock({
                 <div className="min-w-0 text-[11px] sm:text-xs uppercase tracking-widest text-white/50 font-display font-black">
                   {r.label}
                 </div>
-                {r.values.map((v, j) => (
-                  <div
-                    key={j}
-                    className={[
-                      "min-w-0 text-[13px] sm:text-sm leading-relaxed break-words",
-                      highlight && j === 0 ? "text-primary font-display font-black" : "text-white/85",
-                      !v ? "text-white/30" : "",
-                      allEqual ? "text-white/50" : "",
-                    ].join(" ")}
-                  >
-                    {v ?? "—"}
-                  </div>
-                ))}
+                {r.values.map((v, j) => {
+                  const isPrice = highlight && r.label === "Preço";
+                  return (
+                    <div
+                      key={j}
+                      className={[
+                        "min-w-0 text-[13px] sm:text-sm leading-relaxed break-words",
+                        isPrice ? "text-primary font-display font-black text-base sm:text-lg" : "text-white/85",
+                        !v ? "text-white/30" : "",
+                        allEqual && !isPrice ? "text-white/50" : "",
+                      ].join(" ")}
+                    >
+                      {v ?? "—"}
+                    </div>
+                  );
+                })}
+
               </div>
             );
           })}
