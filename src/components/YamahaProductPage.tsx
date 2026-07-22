@@ -92,6 +92,43 @@ export function YamahaProductPage({
         </div>
       </header>
 
+      {/* Sub-nav com âncoras — padrão site oficial Yamaha */}
+      <nav className="hidden md:block border-b border-border bg-neutral-950/80 backdrop-blur-md sticky top-14 z-30">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
+          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar text-[11px] uppercase tracking-widest font-display font-black text-white/70">
+            {[
+              ["eficiencia", "Eficiência elétrica"],
+              ["modos", "Modos de condução"],
+              ["tecnologia", "Tecnologia"],
+              ["comodidade", "Comodidade"],
+              ["conectividade", "Conectividade"],
+              ["baterias", "Baterias"],
+              ["modernidade", "Modernidade"],
+              ["inovacao", "Inovação"],
+            ].map(([id, label]) => (
+              <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-primary transition-colors">
+                {label}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <a
+              href="#financiamento"
+              className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/30 text-white text-[11px] font-display font-black uppercase tracking-widest hover:border-primary hover:text-primary"
+            >
+              Comprar online
+            </a>
+            <a
+              href={whatsappUrl}
+              onClick={handleWhats}
+              className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-black uppercase tracking-widest hover:brightness-110"
+            >
+              Receber contato
+            </a>
+          </div>
+        </div>
+      </nav>
+
       {/* HERO — official artwork, matches yamaha-motor.com.br */}
       <section className="relative overflow-hidden isolate text-white bg-neutral-950">
         <img
@@ -104,32 +141,24 @@ export function YamahaProductPage({
         />
       </section>
 
-
-
-
-
-
-      {/* ============================================================
-          SEÇÕES DE PRODUTO — padrão Yamaha, marca Klug
-          Cada bloco: kicker curto + título grande + copy + imagem.
-          ============================================================ */}
-
-      {/* 1. INTRO — MOBILIDADE INTELIGENTE */}
-      <section className="border-t border-border bg-neutral-950">
-        <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 text-center">
-          <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-            {m.tag}
-          </p>
-          <h2
-            className="mt-5 text-white uppercase leading-[0.9] tracking-tight"
-            style={{
-              fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-              fontSize: "clamp(36px, 6vw, 84px)",
-            }}
-          >
-            Mobilidade <span className="text-primary">inteligente</span>
-          </h2>
-          <p className="mt-8 text-white/75 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+      {/* 1. INTRO — MOBILIDADE INTELIGENTE (2-col: título esquerda / texto direita) */}
+      <section id="eficiencia" className="border-t border-border bg-neutral-950">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+              Eficiência elétrica
+            </p>
+            <h2
+              className="mt-5 text-white uppercase leading-[0.9] tracking-tight"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "clamp(36px, 5.5vw, 76px)",
+              }}
+            >
+              Mobilidade <span className="text-primary">inteligente</span>
+            </h2>
+          </div>
+          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6">
             {m.description}
           </p>
         </div>
