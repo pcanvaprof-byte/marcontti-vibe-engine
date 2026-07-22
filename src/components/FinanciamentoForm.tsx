@@ -3,6 +3,7 @@ import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircl
 import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
+import { trackEvent } from "@/lib/analytics";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
