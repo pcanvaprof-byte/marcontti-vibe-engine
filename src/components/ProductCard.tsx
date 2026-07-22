@@ -1,6 +1,8 @@
+import { useState, type MouseEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { Zap } from "lucide-react";
 import { LazyImage } from "@/components/LazyImage";
+import { QuickViewModal } from "@/components/QuickViewModal";
 
 export type Product = {
   id: string;
@@ -19,6 +21,14 @@ const displayFont = "'Bebas Neue', 'Urbanist', sans-serif";
 
 export function ProductCard({ product }: { product: Product }) {
   const href = product.slug ? `/modelos/${product.slug}` : "#";
+  const [open, setOpen] = useState(false);
+
+  const openModal = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(true);
+  };
+
 
   return (
     <article
@@ -98,9 +108,13 @@ export function ProductCard({ product }: { product: Product }) {
               {product.preco}
             </p>
           )}
-          <span className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)]">
+          <button
+            type="button"
+            onClick={openModal}
+            className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
+          >
             Saiba mais
-          </span>
+          </button>
         </div>
 
         {/* DESKTOP — sobreposição no canto inferior esquerdo (mantido) */}
@@ -125,8 +139,19 @@ export function ProductCard({ product }: { product: Product }) {
 
       </Link>
 
+      {/* Desktop — botão flutuante "Saiba mais" no canto inferior direito */}
+      <button
+        type="button"
+        onClick={openModal}
+        className="hidden sm:inline-flex absolute right-4 bottom-5 z-[5] items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[11px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
+      >
+        Saiba mais
+      </button>
+
+      <QuickViewModal product={product} open={open} onClose={() => setOpen(false)} />
     </article>
   );
 }
+
 
 export default ProductCard;
