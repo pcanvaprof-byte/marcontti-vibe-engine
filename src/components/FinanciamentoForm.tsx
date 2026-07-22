@@ -156,6 +156,10 @@ export function FinanciamentoForm({
 
       if (opts.notify) toast.success("Endereço preenchido pelo CEP");
       (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
+
+      // Carrega sugestões de bairro/cidade para autocomplete
+      void fetchNeighborhoodSuggestions(data.uf, data.localidade, data.logradouro);
+
     } catch {
       const msg = "Não foi possível consultar o CEP agora. Preencha manualmente.";
       setCepError(msg);
