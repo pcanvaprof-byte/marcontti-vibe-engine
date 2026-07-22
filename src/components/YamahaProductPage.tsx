@@ -4,6 +4,8 @@ import { ArrowLeft, MessageCircle, ChevronRight, Check, Plus, Minus } from "luci
 
 import type { Model } from "@/lib/models";
 import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
+import { trackEvent } from "@/lib/analytics";
+
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { ConsorcioForm } from "@/components/ConsorcioForm";
 import { View360Modal } from "@/components/View360Modal";
@@ -531,7 +533,15 @@ export function YamahaProductPage({
               <button
                 key={c.key}
                 type="button"
-                onClick={() => setModalOpen(c.key)}
+                onClick={() => {
+                  trackEvent("interest_click", {
+                    source: "product_payment_card",
+                    modelSlug: m.slug,
+                    meta: { model: m.name, paymentType: c.key, cta: c.cta },
+                  });
+                  setModalOpen(c.key);
+                }}
+
                 className="group text-left rounded-3xl bg-card/60 border border-white/10 p-8 hover:border-primary/60 hover:bg-card transition-colors block w-full"
               >
                 <h4
