@@ -31,12 +31,12 @@ export function QuickViewModal({ product, open, onClose }: Props) {
 
   const message = `Olá, Klug Motors! Tenho interesse na *${product.nome}${product.potencia ? " " + product.potencia : ""}*${product.preco ? ` (${product.preco})` : ""}. Pode me passar mais informações e condições?`;
   const waHref = buildWhatsAppFallbackUrl(message);
-  const detailHref = product.slug ? `/modelos/${product.slug}` : "#";
 
   const handleWa = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     openWhatsAppWithFallback(message);
   };
+
 
   return (
     <div
@@ -114,13 +114,17 @@ export function QuickViewModal({ product, open, onClose }: Props) {
                 Falar no WhatsApp
               </a>
 
-              <Link
-                to={detailHref}
-                onClick={onClose}
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full transition"
-              >
-                Ver página completa <ArrowRight size={14} />
-              </Link>
+              {product.slug ? (
+                <Link
+                  to="/modelos/$slug"
+                  params={{ slug: product.slug }}
+                  onClick={onClose}
+                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full transition"
+                >
+                  Ver página completa <ArrowRight size={14} />
+                </Link>
+              ) : null}
+
             </div>
           </div>
         </div>
