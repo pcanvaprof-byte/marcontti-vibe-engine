@@ -251,15 +251,13 @@ function PromoStrip() {
 
 const CATEGORY_LINKS = [
   { label: "Todos", search: { cat: "todos" } },
-  { label: "Patinetes", search: { cat: "patinete" } },
-  { label: "Bicicletas", search: { cat: "bicicleta" } },
-  { label: "Scooters", search: { cat: "scooter" } },
-  { label: "Motos", search: { cat: "moto" } },
-  { label: "Triciclos", search: { cat: "triciclo" } },
-  { label: "SUDU", search: { marca: "sudu" } },
-  { label: "Yamaha", search: { marca: "yamaha" } },
-  { label: "Acessórios", search: { cat: "acessorios" } },
+  { label: "Scooter Elétricas", search: { cat: "scooter" } },
+  { label: "Moto Chefe", search: { marca: "klug" } },
+  { label: "Scooter Elétricas Sudu", search: { marca: "sudu" } },
+  { label: "Motos a Combustão", search: { cat: "moto" } },
+  { label: "Yamaha 0km", search: { marca: "yamaha" } },
 ] as const;
+
 
 function CategoryNav() {
   return (
