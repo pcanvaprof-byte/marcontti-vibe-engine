@@ -229,7 +229,7 @@ function CatalogPage() {
                 role="tab"
                 aria-selected={type === t}
                 onClick={() => setType(t)}
-                className={`pb-1 transition-colors border-b-2 ${
+                className={`min-h-11 px-1 pb-1 transition-colors border-b-2 ${
                   type === t
                     ? "text-primary border-primary"
                     : "text-white/40 hover:text-white border-transparent"
