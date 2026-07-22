@@ -6,6 +6,7 @@ import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { View360Modal } from "@/components/View360Modal";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
+import neosHeroOfficial from "@/assets/neos-hero-official.png.asset.json";
 
 /**
  * Yamaha-style editorial product page.
@@ -104,155 +105,16 @@ export function YamahaProductPage({
         </div>
       </header>
 
-      {/* HERO — editorial stage inspired by yamaha-motor.com.br */}
+      {/* HERO — official artwork, matches yamaha-motor.com.br */}
       <section className="relative overflow-hidden isolate text-white bg-neutral-950">
-        {/* Base variant-tinted gradient — flows from the vehicle color */}
-        <div
-          key={`bg-${variant?.hex ?? "base"}`}
-          aria-hidden
-          className="absolute inset-0 z-0 transition-opacity duration-700"
-          style={{
-            backgroundImage: `radial-gradient(ellipse 90% 100% at 50% 55%, ${variant?.hex ?? "#2a6f8a"} 0%, ${variant?.hex ?? "#154055"}cc 45%, #0a1a24 100%)`,
-          }}
+        <img
+          src={neosHeroOfficial.url}
+          alt={`${m.name} — elétrica, carregada de energia`}
+          fetchPriority="high"
+          decoding="async"
+          className="block w-full h-auto select-none"
+          draggable={false}
         />
-        {/* Soft top vignette for header contrast */}
-        <div
-          aria-hidden
-          className="absolute inset-x-0 top-0 h-40 z-0"
-          style={{ backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.35), transparent)" }}
-        />
-
-        {/* Floating leaves — green, like the reference */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 z-10">
-          {[
-            { top: "10%", left: "6%", size: 110, rot: -18, delay: "0s", opacity: 0.9 },
-            { top: "22%", left: "20%", size: 50, rot: 30, delay: "1.2s", opacity: 0.75 },
-            { top: "64%", left: "3%", size: 140, rot: 15, delay: "0.4s", opacity: 0.95 },
-            { top: "48%", left: "12%", size: 70, rot: -25, delay: "2s", opacity: 0.7 },
-            { top: "76%", left: "22%", size: 80, rot: 55, delay: "0.8s", opacity: 0.85 },
-            { top: "26%", right: "8%", size: 130, rot: 22, delay: "1.6s", opacity: 0.9 },
-            { top: "58%", right: "4%", size: 90, rot: -35, delay: "0.2s", opacity: 0.8 },
-            { top: "84%", right: "18%", size: 60, rot: 12, delay: "2.4s", opacity: 0.7 },
-          ].map((l, i) => (
-            <svg
-              key={i}
-              viewBox="0 0 100 100"
-              width={l.size}
-              height={l.size}
-              className="absolute drop-shadow-[0_10px_22px_rgba(0,20,10,0.4)] animate-[float_9s_ease-in-out_infinite]"
-              style={{
-                top: l.top,
-                left: (l as { left?: string }).left,
-                right: (l as { right?: string }).right,
-                transform: `rotate(${l.rot}deg)`,
-                opacity: l.opacity,
-                animationDelay: l.delay,
-              }}
-            >
-              <defs>
-                <linearGradient id={`lf${i}`} x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#a7e39a" />
-                  <stop offset="55%" stopColor="#3f9d4f" />
-                  <stop offset="100%" stopColor="#12432a" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M50 5 C 75 20, 92 45, 88 78 C 60 90, 30 82, 12 60 C 18 32, 30 15, 50 5 Z"
-                fill={`url(#lf${i})`}
-              />
-              <path
-                d="M50 10 Q 55 45 82 72"
-                stroke="rgba(10,40,20,0.45)"
-                strokeWidth="1.5"
-                fill="none"
-              />
-            </svg>
-          ))}
-        </div>
-
-        <style>{`
-          @keyframes float {
-            0%, 100% { transform: translate(0,0) rotate(var(--r,0deg)); }
-            50% { transform: translate(6px,-10px) rotate(var(--r,0deg)); }
-          }
-          @keyframes heroImgIn {
-            0% { opacity: 0; transform: translateY(12px) scale(0.985); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-          }
-          @keyframes wordmarkIn {
-            0% { opacity: 0; letter-spacing: 0.12em; }
-            100% { opacity: 1; letter-spacing: 0.02em; }
-          }
-        `}</style>
-
-        <div className="relative max-w-[1600px] mx-auto px-5 sm:px-10 pt-8 sm:pt-12 pb-10 min-h-[92svh] flex flex-col">
-          {/* Vehicle stage */}
-          <div className="relative flex-1 flex items-center justify-center">
-            {/* Giant wordmark BEHIND the vehicle — outlined, like the reference */}
-            <h1
-              aria-label={m.name}
-              className="absolute inset-x-0 top-[8%] z-10 text-center pointer-events-none select-none animate-[wordmarkIn_900ms_ease-out]"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(90px, 20vw, 320px)",
-                lineHeight: 0.85,
-                color: "transparent",
-                WebkitTextStroke: "1.5px rgba(255,255,255,0.85)",
-                letterSpacing: "0.02em",
-                textShadow: "0 30px 80px rgba(0,0,0,0.35)",
-              }}
-            >
-              {m.name.replace(/^Yamaha\s+/i, "").split(" ")[0].toUpperCase()}
-            </h1>
-
-            {/* ELÉTRICA — left, under the wordmark */}
-            <div
-              aria-hidden
-              className="hidden md:block absolute left-[6%] top-[38%] z-20 select-none"
-              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
-            >
-              <p
-                className="text-white/90"
-                style={{ fontSize: "clamp(28px, 4vw, 56px)", letterSpacing: "0.15em", lineHeight: 1 }}
-              >
-                ELÉTRICA
-              </p>
-            </div>
-
-            {/* CARREGADA DE ENERGIA — right */}
-            <div
-              aria-hidden
-              className="hidden md:block absolute right-[4%] top-[46%] z-20 text-right select-none"
-              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
-            >
-              <h2
-                className="text-white/90 leading-[0.95]"
-                style={{ fontSize: "clamp(26px, 3.4vw, 52px)", letterSpacing: "0.18em" }}
-              >
-                CARREGADA<br />DE ENERGIA
-              </h2>
-            </div>
-
-            {/* Ground reflection — tints with variant */}
-            <div
-              className="absolute inset-x-16 bottom-6 h-14 rounded-[50%] blur-3xl opacity-70 transition-[background-color] duration-700 ease-out"
-              style={{ backgroundColor: `${variant?.hex ?? "#0a1a24"}aa` }}
-            />
-
-            {heroImg ? (
-              <img
-                key={heroImg}
-                src={heroImg}
-                alt={`${m.name} — ${variant?.name ?? ""}`}
-                width={1400}
-                height={1000}
-                fetchPriority="high"
-                decoding="async"
-                className="relative z-30 w-full max-w-[880px] h-auto object-contain drop-shadow-[0_60px_70px_rgba(0,0,0,0.55)] animate-[heroImgIn_500ms_ease-out]"
-              />
-            ) : null}
-          </div>
-        </div>
       </section>
 
 
