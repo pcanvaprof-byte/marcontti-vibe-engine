@@ -72,11 +72,11 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
                 >
                   <b.icon size={20} strokeWidth={2.2} />
                 </span>
-                <div className="min-w-0">
-                  <p className="text-white font-semibold text-sm leading-tight truncate">
+                <div className="min-w-0 flex-1">
+                  <p className="text-white font-semibold text-sm leading-tight break-words">
                     {b.title}
                   </p>
-                  <p className="text-white/55 text-xs leading-tight mt-0.5 truncate">
+                  <p className="text-white/55 text-xs leading-snug mt-0.5 break-words">
                     {b.desc}
                   </p>
                 </div>
