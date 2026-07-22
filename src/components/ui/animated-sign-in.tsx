@@ -5,11 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 
-type Mode = "signin" | "signup";
-
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,20 +21,9 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: `${window.location.origin}/admin` },
-        });
-        if (error) throw error;
-        toast.success("Conta criada. Você já pode entrar.");
-        setMode("signin");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        navigate({ to: "/admin", replace: true });
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      navigate({ to: "/admin", replace: true });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Erro na autenticação";
       toast.error(message);
@@ -45,6 +31,7 @@ export default function LoginPage() {
       setLoading(false);
     }
   }
+
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-neutral-950 text-white">
@@ -113,33 +100,13 @@ export default function LoginPage() {
             </div>
 
             <div className="rounded-3xl border border-white/10 bg-neutral-900/60 p-8 shadow-[0_30px_80px_-40px_rgba(248,96,0,0.35)] backdrop-blur-xl sm:p-10">
-              {/* Tabs */}
-              <div className="mb-8 grid grid-cols-2 rounded-full border border-white/10 bg-black/40 p-1">
-                {(["signin", "signup"] as Mode[]).map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => setMode(m)}
-                    className={`relative rounded-full py-2 text-[11px] font-semibold uppercase tracking-[0.2em] transition ${
-                      mode === m
-                        ? "bg-primary text-primary-foreground shadow-[0_8px_20px_-8px_rgba(248,96,0,0.6)]"
-                        : "text-white/50 hover:text-white"
-                    }`}
-                  >
-                    {m === "signin" ? "Entrar" : "Cadastrar"}
-                  </button>
-                ))}
-              </div>
-
-              <div key={mode} className="animate-fade-in space-y-6">
+              <div className="animate-fade-in space-y-6">
                 <div className="space-y-1">
                   <h2 className="font-display text-2xl font-black uppercase tracking-tight">
-                    {mode === "signin" ? "Bem-vindo de volta" : "Criar conta"}
+                    Bem-vindo de volta
                   </h2>
                   <p className="text-sm text-white/50">
-                    {mode === "signin"
-                      ? "Entre com suas credenciais para acessar o painel."
-                      : "Cadastre-se para gerenciar o painel administrativo."}
+                    Entre com suas credenciais para acessar o painel.
                   </p>
                 </div>
 
@@ -172,7 +139,7 @@ export default function LoginPage() {
                         type="password"
                         required
                         minLength={6}
-                        autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                        autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
@@ -191,25 +158,19 @@ export default function LoginPage() {
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                       <>
-                        {mode === "signin" ? "Entrar" : "Criar conta"}
+                        Entrar
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </>
                     )}
                   </button>
                 </form>
 
-                <p className="text-center text-xs text-white/40">
-                  {mode === "signin" ? "Ainda não tem conta? " : "Já tem uma conta? "}
-                  <button
-                    type="button"
-                    onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-                    className="font-semibold text-primary underline-offset-4 hover:underline"
-                  >
-                    {mode === "signin" ? "Cadastre-se" : "Entre aqui"}
-                  </button>
+                <p className="text-center text-[10px] uppercase tracking-[0.25em] text-white/40">
+                  Acesso restrito a administradores
                 </p>
               </div>
             </div>
+
 
             <p className="mt-6 text-center text-[10px] uppercase tracking-[0.25em] text-white/30">
               © {new Date().getFullYear()} Klug Motors · Acesso restrito
