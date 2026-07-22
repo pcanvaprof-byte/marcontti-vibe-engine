@@ -32,6 +32,7 @@ export function YamahaProductPage({
     else setSelectedLocal(i);
   };
   const [view360Open, setView360Open] = useState(false);
+  const [modalOpen, setModalOpen] = useState<null | "financiamento" | "consorcio" | "avista">(null);
   const modelGallery = useMemo(() => getGallery(m), [m]);
   const variant = m.colors[selected] ?? m.colors[0];
   // Per-color gallery takes precedence; fall back to the model-level gallery.
