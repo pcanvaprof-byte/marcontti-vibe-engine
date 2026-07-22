@@ -107,14 +107,21 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
                 <span
                   className="
                     shrink-0 w-11 h-11 rounded-xl grid place-items-center
-                    bg-primary/10 text-primary
+                    bg-primary text-primary-foreground
                     transition-all duration-300
-                    group-hover:bg-primary group-hover:text-primary-foreground
+                    group-hover:bg-primary/90
                     motion-safe:group-hover:scale-110
                   "
+                  aria-hidden="true"
                 >
-                  <b.icon size={20} strokeWidth={2.2} />
+                  <img
+                    src={klugSymbol.url}
+                    alt=""
+                    className="w-6 h-6 object-contain"
+                    loading="lazy"
+                  />
                 </span>
+
                 <div className="min-w-0 flex-1">
                   <p className="text-white font-semibold text-sm leading-tight break-words">
                     {b.title}
