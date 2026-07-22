@@ -1923,7 +1923,7 @@ function InstagramRow() {
                   className="aspect-square bg-neutral-900 rounded-md border border-border animate-pulse"
                 />
               ))
-            : items.map((p) => (
+            : items.map((p: InstagramPost) => (
                 <a
                   key={p.id}
                   href={p.post_url || "https://www.instagram.com/klugmotors"}
