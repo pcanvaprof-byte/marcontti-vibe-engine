@@ -561,7 +561,7 @@ export function YamahaProductPage({
           },
           {
             q: "Vocês entregam em outras cidades?",
-            a: "Sim. Realizamos entregas em todo o Brasil com transportadoras parceiras. Consulte o frete pelo WhatsApp informando o CEP de destino.",
+            a: "Sim. Entregamos em Joinville e região com frota própria e para todo o Brasil via transportadoras parceiras. Consulte o frete pelo WhatsApp informando o CEP de destino.",
           },
           {
             q: "É necessária CNH para conduzir este modelo?",
