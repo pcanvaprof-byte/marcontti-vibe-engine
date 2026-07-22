@@ -148,23 +148,21 @@ export function FinanciamentoForm({
     // Abre a aba do WhatsApp AGORA (dentro do gesto do usuário) para evitar bloqueio de pop-up.
     const waWindow = typeof window !== "undefined" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
 
-    const paymentLine =
-      d.paymentType === "Financiamento"
-        ? `*Financiamento* — entrada: ${d.entry} · prazo: ${d.term}`
-        : `*Forma de pagamento:* ${d.paymentType}`;
-
-    const text = [
-      `Olá! Quero uma proposta para uma moto elétrica da Klug Motors.`,
-      ``,
-      `*Nome:* ${d.name}`,
-      `*Telefone:* ${d.phone}`,
-      `*E-mail:* ${d.email}`,
-      `*Modelo:* ${d.model}`,
-      paymentLine,
-      d.message ? `*Observações:* ${d.message}` : null,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const text = buildFinanciamentoMessage({
+      name: d.name,
+      phone: d.phone,
+      email: d.email,
+      model: d.model,
+      paymentType: d.paymentType,
+      message: d.message,
+      entry: d.entry,
+      term: d.term,
+      cpf: cpfDigits,
+      rg,
+      birthDate,
+      income,
+      address: addr,
+    });
 
     const { error } = await supabase.from("leads").insert({
       name: d.name,
