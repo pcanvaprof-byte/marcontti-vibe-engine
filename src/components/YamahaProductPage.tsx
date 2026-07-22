@@ -225,77 +225,54 @@ export function YamahaProductPage({
         </div>
       </section>
 
-      {/* 4. TECNOLOGIA — 3 CARDS DE DESTAQUE */}
-      <section className="border-t border-border bg-neutral-950">
+      {/* 4. TECNOLOGIA — cabeçalho 2-col + 3 imagens sem legendas */}
+      <section id="tecnologia" className="border-t border-border bg-neutral-950">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-              Tecnologia
-            </p>
-            <h3
-              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(30px, 4.5vw, 60px)",
-              }}
-            >
-              A escolha certa para <span className="text-primary">mobilidade urbana</span>
-            </h3>
-            <p className="mt-6 text-white/70 leading-relaxed">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Tecnologia
+              </p>
+              <h3
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                style={{
+                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                  fontSize: "clamp(30px, 4.5vw, 60px)",
+                }}
+              >
+                A escolha certa para <span className="text-primary">mobilidade urbana</span>
+              </h3>
+            </div>
+            <p className="text-white/75 leading-relaxed lg:pt-6">
               {sentences[2] ?? sentences[0]}
             </p>
           </div>
 
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                img: activeGallery[2] ?? activeGallery[0],
-                title: "Design atraente",
-                desc: "Linhas modernas e presença urbana que se destacam em qualquer trajeto.",
-              },
-              {
-                img: activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
-                title: "Performance afinada",
-                desc: "Resposta imediata e condução equilibrada para o dia a dia da cidade.",
-              },
-              {
-                img: activeGallery[4] ?? activeGallery[2] ?? activeGallery[0],
-                title: "Praticidade real",
-                desc: "Recursos pensados para simplificar cada viagem, do trajeto ao estacionamento.",
-              },
-            ].map((c, i) => (
-              <article
-                key={c.title + i}
-                className="group rounded-3xl bg-card/60 border border-white/10 overflow-hidden hover:border-primary/60 transition-colors"
+              activeGallery[2] ?? activeGallery[0],
+              activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
+              activeGallery[4] ?? activeGallery[2] ?? activeGallery[0],
+            ].map((img, i) => (
+              <div
+                key={i}
+                className="rounded-3xl overflow-hidden bg-neutral-900 border border-white/10 aspect-[4/3] grid place-items-center"
               >
-                <div className="aspect-[4/3] bg-neutral-950 grid place-items-center overflow-hidden">
-                  {c.img ? (
-                    <img
-                      src={c.img}
-                      alt={c.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                  ) : null}
-                </div>
-                <div className="p-6">
-                  <h4
-                    className="text-white uppercase leading-[1] tracking-tight"
-                    style={{
-                      fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                      fontSize: "28px",
-                    }}
-                  >
-                    {c.title}
-                  </h4>
-                  <p className="mt-3 text-white/70 text-sm leading-relaxed">{c.desc}</p>
-                </div>
-              </article>
+                {img ? (
+                  <img
+                    src={img}
+                    alt={`${m.name} — detalhe ${i + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-contain"
+                  />
+                ) : null}
+              </div>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* 5. COMODIDADE + CONECTIVIDADE — dois blocos alternados */}
       <section className="border-t border-border bg-card/30">
