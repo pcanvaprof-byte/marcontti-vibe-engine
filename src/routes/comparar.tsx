@@ -6,7 +6,7 @@ import { z } from "zod";
 import { PageLayout } from "@/components/PageLayout";
 import { usePublicModels } from "@/hooks/useDbModels";
 
-const BASE_URL = "https://proototipomotos.lovable.app";
+const BASE_URL = "https://althaciamoveis.shop";
 
 const searchSchema = z.object({
   a: fallback(z.string().optional(), undefined),

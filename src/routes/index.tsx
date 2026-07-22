@@ -48,7 +48,7 @@ import klugHeroPoster from "@/assets/videos/klug-hero-poster.jpg.asset.json";
 import conhecaKlugMotorsVideo from "@/assets/videos/conheca-klug-motors.mp4.asset.json";
 
 
-const BASE_URL = "https://proototipomotos.lovable.app";
+const BASE_URL = "https://althaciamoveis.shop";
 const FINANCE_MSG =
   "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições para as motos elétricas. Podem me ajudar?";
 
