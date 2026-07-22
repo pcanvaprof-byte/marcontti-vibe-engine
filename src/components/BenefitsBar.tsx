@@ -36,24 +36,66 @@ function useInViewOnce<T extends Element>() {
 
 export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] }) {
   const { ref, inView } = useInViewOnce<HTMLDivElement>();
+  const scrollerRef = useRef<HTMLUListElement | null>(null);
+  const pausedRef = useRef(false);
+
+  // Auto-scroll horizontal em telas pequenas (loop, pausa em interação)
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let raf = 0;
+    let last = performance.now();
+
+    const tick = (now: number) => {
+      const dt = now - last;
+      last = now;
+      if (mq.matches && !reduce.matches && !pausedRef.current && el.scrollWidth > el.clientWidth + 4) {
+        el.scrollLeft += (dt / 1000) * 40;
+        if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 1) {
+          el.scrollLeft = 0;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    const pause = () => { pausedRef.current = true; };
+    const resume = () => { pausedRef.current = false; };
+    el.addEventListener("pointerdown", pause);
+    el.addEventListener("pointerup", resume);
+    el.addEventListener("pointerleave", resume);
+    el.addEventListener("touchstart", pause, { passive: true });
+    el.addEventListener("touchend", resume);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("pointerdown", pause);
+      el.removeEventListener("pointerup", resume);
+      el.removeEventListener("pointerleave", resume);
+      el.removeEventListener("touchstart", pause);
+      el.removeEventListener("touchend", resume);
+    };
+  }, []);
 
   return (
     <section aria-label="Benefícios" className="bg-black border-b border-white/5">
       <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-8 py-5 sm:py-6">
         <ul
+          ref={scrollerRef}
           className="
             flex md:grid md:grid-cols-3 lg:grid-cols-5
             gap-6 md:gap-x-6 md:gap-y-5
             overflow-x-auto md:overflow-visible
-            snap-x snap-mandatory md:snap-none
-            scroll-px-4
+            scroll-smooth scroll-px-4
             [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
           "
         >
           {items.map((b, i) => (
             <li
               key={b.id}
-              className="snap-start shrink-0 basis-[75%] sm:basis-[45%] md:basis-auto md:min-w-0"
+              className="shrink-0 basis-[75%] sm:basis-[45%] md:basis-auto md:min-w-0"
               style={
                 inView
                   ? { animation: `fade-in 0.5s ease-out ${i * 80}ms both` }
