@@ -83,11 +83,16 @@ export type Database = {
       leads: {
         Row: {
           created_at: string
+          doc_address_url: string | null
+          doc_income_url: string | null
+          doc_photo_url: string | null
+          email: string | null
           entry: string | null
           id: string
           message: string | null
           model: string | null
           name: string
+          payment_type: string | null
           phone: string
           source: string
           term: string | null
@@ -95,11 +100,16 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          doc_address_url?: string | null
+          doc_income_url?: string | null
+          doc_photo_url?: string | null
+          email?: string | null
           entry?: string | null
           id?: string
           message?: string | null
           model?: string | null
           name: string
+          payment_type?: string | null
           phone: string
           source?: string
           term?: string | null
@@ -107,11 +117,16 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          doc_address_url?: string | null
+          doc_income_url?: string | null
+          doc_photo_url?: string | null
+          email?: string | null
           entry?: string | null
           id?: string
           message?: string | null
           model?: string | null
           name?: string
+          payment_type?: string | null
           phone?: string
           source?: string
           term?: string | null
