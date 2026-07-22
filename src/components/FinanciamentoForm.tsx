@@ -639,6 +639,8 @@ export function FinanciamentoForm({
                       defaultValue=""
                       className={inputCls}
                       aria-invalid={!!errors.address_state}
+                      onChange={markUserEdited}
+
                     >
                       <option value="" disabled>—</option>
                       {UFS.map((u) => <option key={u}>{u}</option>)}
