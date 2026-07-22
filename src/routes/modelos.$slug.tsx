@@ -271,7 +271,13 @@ function ModelPage() {
 
   // Yamaha models use the dedicated editorial layout.
   if (m.slug.startsWith("yamaha-")) {
-    return <YamahaProductPage m={m} />;
+    return (
+      <YamahaProductPage
+        m={m}
+        selected={selected}
+        onSelect={setSelected}
+      />
+    );
   }
 
   const activeImage = gallery[imgIndex] ?? variant?.image;
