@@ -1122,7 +1122,7 @@ function ProductCard({ product: p }: { product: Model }) {
       <div className="p-6 sm:p-7">
         <div className="flex justify-between items-start gap-4 mb-5">
           <div className="min-w-0">
-            <h3 className="font-display font-black uppercase text-xl tracking-tight truncate">
+            <h3 className="font-display font-black uppercase text-xl tracking-tight line-clamp-2 break-words">
               {p.name}
             </h3>
             <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mt-1">
@@ -1707,7 +1707,7 @@ function RefProductCard({ m }: { m: Model }) {
         </span>
       </div>
       <div className="p-4 text-center">
-        <h3 className="font-display font-black uppercase text-xs sm:text-sm tracking-tight text-white truncate">
+        <h3 className="font-display font-black uppercase text-xs sm:text-sm tracking-tight text-white line-clamp-2 break-words min-h-[2.4em]">
           {m.name} | Klug
         </h3>
         <div className="flex items-center justify-center gap-0.5 text-primary mt-1.5">

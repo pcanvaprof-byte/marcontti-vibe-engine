@@ -662,7 +662,7 @@ function ModelPage() {
                     />
                   </div>
                   <div className="p-4">
-                    <h3 className="font-display font-black uppercase text-sm tracking-tight text-white truncate">
+                    <h3 className="font-display font-black uppercase text-sm tracking-tight text-white line-clamp-2 break-words min-h-[2.4em]">
                       {x.name}
                     </h3>
                     <p
