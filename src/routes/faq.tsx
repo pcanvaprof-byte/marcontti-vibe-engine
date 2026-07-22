@@ -32,7 +32,7 @@ const FAQS = [
   },
   {
     q: "Vocês fazem entrega para outras cidades?",
-    a: "Sim, entregamos para todo o Brasil por transportadora. O frete é cotado por CEP. Fale conosco no WhatsApp com sua cidade para receber o valor.",
+    a: "Sim. Entregamos em Joinville e região com frota própria e para todo o Brasil via transportadoras parceiras. O frete é cotado por CEP — fale conosco no WhatsApp com sua cidade para receber o valor.",
   },
   {
     q: "Posso fazer test-drive antes de comprar?",
