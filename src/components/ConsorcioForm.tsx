@@ -156,6 +156,22 @@ export function ConsorcioForm({
         origin_page: originPage,
       },
     });
+    // Abre WhatsApp automaticamente em nova aba, mantendo tela de confirmação
+    openWhatsAppNewTab(text, {
+      source: "consorcio_form",
+      event: "whatsapp_redirected",
+      meta: {
+        name: d.name,
+        phone: d.phone,
+        email: d.email,
+        model: d.model,
+        payment_type: "Consórcio",
+        credit: d.credit,
+        budget: d.budget,
+        contemplation: d.contemplation,
+        origin_page: originPage,
+      },
+    });
   }
 
   function reset() {
