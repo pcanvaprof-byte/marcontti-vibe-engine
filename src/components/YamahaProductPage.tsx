@@ -48,21 +48,8 @@ export function YamahaProductPage({
     return parts.length ? parts : [m.description];
   }, [m.description]);
 
-  // Build up to 3 alternating feature blocks pairing gallery images with copy.
-  const featureBlocks = useMemo(() => {
-    const imgs = activeGallery.filter((g) => g && g !== heroImg).slice(0, 3);
-    const highlights = [
-      { kicker: "Design", title: "Presença que atravessa a cidade" },
-      { kicker: "Performance", title: "Resposta afinada em cada acelerada" },
-      { kicker: "Tecnologia", title: "Recursos que elevam a experiência" },
-    ];
-    return imgs.map((img, i) => ({
-      img,
-      kicker: highlights[i]?.kicker ?? "Destaque",
-      title: highlights[i]?.title ?? m.name,
-      copy: sentences[i + 1] ?? sentences[0],
-    }));
-  }, [activeGallery, heroImg, sentences, m.name]);
+
+
 
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
