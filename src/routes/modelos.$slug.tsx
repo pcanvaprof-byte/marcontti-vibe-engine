@@ -326,6 +326,10 @@ function ModelPage() {
               <img
                 src={activeImage}
                 alt={`${m.name} — imagem ${imgIndex + 1} de ${gallery.length}`}
+                width={800}
+                height={800}
+                fetchPriority="high"
+                decoding="async"
                 className="absolute inset-0 w-full h-full object-contain p-6"
               />
 
