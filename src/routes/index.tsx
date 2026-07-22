@@ -955,7 +955,7 @@ function Featured() {
             <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
               Destaques
             </p>
-            <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+            <h2 className="font-display font-black uppercase text-3xl sm:text-4xl md:text-5xl tracking-tight sm:tracking-tighter leading-[1.05]">
               Nossa <span className="text-primary">Linha</span>
             </h2>
             <p className="text-white/60 mt-4 text-sm leading-relaxed max-w-md">
@@ -1032,7 +1032,7 @@ function Products() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
           <div className="max-w-xl">
-            <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+            <h2 className="font-display font-black uppercase text-3xl sm:text-4xl md:text-5xl tracking-tight sm:tracking-tighter leading-[1.05]">
               Catálogo <span className="text-primary">Completo</span>
             </h2>
             <p className="text-white/50 font-bold uppercase text-[11px] tracking-[0.25em] mt-4">
@@ -1205,7 +1205,7 @@ function Benefits() {
           <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
             Por que Klug Motors
           </p>
-          <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+          <h2 className="font-display font-black uppercase text-3xl sm:text-4xl md:text-5xl tracking-tight sm:tracking-tighter leading-[1.05]">
             Mais liberdade.
             <br />
             Menos <span className="text-primary">custo</span>. Zero ruído.
@@ -1250,11 +1250,12 @@ function Contact() {
   return (
     <section id="contato" className="py-24 sm:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16">
-        <div>
+        <div className="min-w-0">
+
           <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
             Visite a unidade
           </p>
-          <h2 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none mb-6">
+          <h2 className="font-display font-black uppercase text-3xl sm:text-4xl md:text-5xl tracking-tight sm:tracking-tighter leading-[1.05] mb-6">
             Estamos em <span className="text-primary">Joinville</span>.
           </h2>
           <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-md">
@@ -1328,7 +1329,8 @@ function Contact() {
           </div>
         </div>
 
-        <div>
+        <div className="min-w-0">
+
           <FinanciamentoForm />
         </div>
       </div>
@@ -1365,9 +1367,10 @@ function ContactRow({
           {label}
         </p>
         <p
-          className={`font-medium truncate ${
+          className={`font-medium break-words ${
             highlight
               ? "text-primary font-display font-black text-xl tracking-tight"
+
               : "text-white/90"
           }`}
         >

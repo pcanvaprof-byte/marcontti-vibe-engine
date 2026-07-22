@@ -53,7 +53,7 @@ export function PageLayout({
         <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-display font-black mb-4">
           {eyebrow}
         </p>
-        <h1 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+        <h1 className="font-display font-black uppercase text-3xl sm:text-4xl md:text-5xl tracking-tight sm:tracking-tighter leading-[1.05]">
           {title} {titleAccent && <span className="text-primary">{titleAccent}</span>}
         </h1>
         {intro && (

@@ -51,7 +51,7 @@ function PrivacyPage() {
         <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-display font-black mb-4">
           Documento legal
         </p>
-        <h1 className="font-display font-black uppercase text-4xl sm:text-5xl tracking-tighter leading-none">
+        <h1 className="font-display font-black uppercase text-3xl sm:text-4xl md:text-5xl tracking-tight sm:tracking-tighter leading-[1.05]">
           Política de <span className="text-primary">Privacidade</span>
         </h1>
         <p className="mt-5 text-sm text-white/50">Última atualização: {updated}</p>
