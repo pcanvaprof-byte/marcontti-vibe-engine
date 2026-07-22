@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { models } from "@/lib/models";
 
-const BASE_URL = "https://proototipomotos.lovable.app";
+const BASE_URL = "https://althaciamoveis.shop";
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
@@ -11,6 +11,8 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/modelos", changefreq: "weekly", priority: "0.9" },
+          { path: "/modelos/yamaha", changefreq: "weekly", priority: "0.9" },
+          { path: "/modelos/sudu", changefreq: "weekly", priority: "0.9" },
           { path: "/comparar", changefreq: "monthly", priority: "0.7" },
           { path: "/financiamento", changefreq: "monthly", priority: "0.8" },
           { path: "/garantia", changefreq: "yearly", priority: "0.5" },
