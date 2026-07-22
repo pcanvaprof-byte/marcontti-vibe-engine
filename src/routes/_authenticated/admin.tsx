@@ -183,33 +183,61 @@ function AdminPage() {
 function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => void; onSaved: () => void }) {
   const [d, setD] = useState<Draft>(draft);
   const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [uploadingMain, setUploadingMain] = useState(false);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
   }
 
+  async function uploadFile(file: File): Promise<string> {
+    const ext = file.name.split(".").pop() || "jpg";
+    const safe = (d.slug || "novo").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
+    const path = `${safe}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    const { error } = await supabase.storage.from("model-images").upload(path, file, { upsert: true, contentType: file.type });
+    if (error) throw error;
+    return `/api/public/model-images/${path}`;
+  }
+
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploading(true);
+    setUploadingMain(true);
     try {
-      const ext = file.name.split(".").pop() || "jpg";
-      const path = `${d.slug || "novo"}/${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("model-images").upload(path, file, { upsert: true, contentType: file.type });
-      if (error) throw error;
-      const url = `/api/public/model-images/${path}`;
+      const url = await uploadFile(file);
       const currentColors = d.colors ?? [];
       const newColors = currentColors.length > 0
         ? currentColors.map((c, i) => i === 0 ? { ...c, image: url } : c)
         : [{ name: "Padrão", hex: "#1a1a1a", image: url }];
       set("colors", newColors);
-      toast.success("Imagem enviada");
+      toast.success("Imagem principal enviada");
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
-      setUploading(false);
+      setUploadingMain(false);
+      e.target.value = "";
     }
+  }
+
+  async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+    setUploadingGallery(true);
+    try {
+      const urls: string[] = [];
+      for (const f of files) urls.push(await uploadFile(f));
+      set("gallery", [...(d.gallery ?? []), ...urls]);
+      toast.success(`${urls.length} imagem(ns) adicionada(s)`);
+    } catch (err: any) {
+      toast.error(err.message ?? "Falha no upload");
+    } finally {
+      setUploadingGallery(false);
+      e.target.value = "";
+    }
+  }
+
+  function removeGalleryItem(idx: number) {
+    set("gallery", (d.gallery ?? []).filter((_, i) => i !== idx));
   }
 
   async function handleSave() {
