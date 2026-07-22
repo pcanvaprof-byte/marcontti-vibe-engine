@@ -40,11 +40,10 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
   const scrollerRef = useRef<HTMLUListElement | null>(null);
   const pausedRef = useRef(false);
 
-  // Auto-scroll horizontal em telas pequenas (loop, pausa em interação)
+  // Auto-scroll horizontal em todas as telas (loop, pausa em interação)
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
-    const mq = window.matchMedia("(max-width: 767px)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     let raf = 0;
     let last = performance.now();
@@ -52,7 +51,7 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
     const tick = (now: number) => {
       const dt = now - last;
       last = now;
-      if (mq.matches && !reduce.matches && !pausedRef.current && el.scrollWidth > el.clientWidth + 4) {
+      if (!reduce.matches && !pausedRef.current && el.scrollWidth > el.clientWidth + 4) {
         el.scrollLeft += (dt / 1000) * 40;
         if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 1) {
           el.scrollLeft = 0;
@@ -67,6 +66,8 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
     el.addEventListener("pointerdown", pause);
     el.addEventListener("pointerup", resume);
     el.addEventListener("pointerleave", resume);
+    el.addEventListener("mouseenter", pause);
+    el.addEventListener("mouseleave", resume);
     el.addEventListener("touchstart", pause, { passive: true });
     el.addEventListener("touchend", resume);
 
@@ -75,6 +76,8 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
       el.removeEventListener("pointerdown", pause);
       el.removeEventListener("pointerup", resume);
       el.removeEventListener("pointerleave", resume);
+      el.removeEventListener("mouseenter", pause);
+      el.removeEventListener("mouseleave", resume);
       el.removeEventListener("touchstart", pause);
       el.removeEventListener("touchend", resume);
     };
@@ -86,17 +89,15 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
         <ul
           ref={scrollerRef}
           className="
-            flex md:grid md:grid-cols-3 lg:grid-cols-5
-            gap-6 md:gap-x-6 md:gap-y-5
-            overflow-x-auto md:overflow-visible
-            scroll-smooth scroll-px-4
+            flex gap-6
+            overflow-x-auto scroll-smooth scroll-px-4
             [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
           "
         >
           {items.map((b, i) => (
             <li
               key={b.id}
-              className="shrink-0 basis-[75%] sm:basis-[45%] md:basis-auto md:min-w-0"
+              className="shrink-0 basis-[75%] sm:basis-[45%] md:basis-[30%] lg:basis-[22%]"
               style={
                 inView
                   ? { animation: `fade-in 0.5s ease-out ${i * 80}ms both` }
