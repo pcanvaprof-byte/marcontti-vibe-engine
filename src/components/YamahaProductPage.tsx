@@ -213,58 +213,8 @@ export function YamahaProductPage({
               />
             ) : null}
 
-            {/* 360 badge */}
-            <button
-              type="button"
-              onClick={() => setView360Open(true)}
-              aria-label="Abrir visualização 360 graus"
-              className="hidden sm:grid absolute right-[6%] bottom-[10%] z-40 w-16 h-16 place-items-center rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white hover:bg-white hover:text-neutral-900 transition-all cursor-pointer"
-            >
-              <div className="text-center leading-tight pointer-events-none">
-                <div className="text-[13px] font-black" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>360°</div>
-                <div className="text-[9px] uppercase tracking-widest opacity-80">view</div>
-              </div>
-            </button>
           </div>
 
-
-          {/* Bottom strip: specs + CTAs */}
-          <div className="relative z-20 mt-8 pt-6 border-t border-white/25 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-end">
-            <dl className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl">
-              {[
-                { l: "Autonomia", v: m.range },
-                { l: "Velocidade", v: m.speed },
-                { l: "Potência", v: m.power },
-              ].map((s, i) => (
-                <div key={s.l} className={i > 0 ? "border-l border-white/25 pl-4 sm:pl-6" : ""}>
-                  <dt className="text-[10px] uppercase tracking-[0.3em] text-white/75 font-bold">{s.l}</dt>
-                  <dd
-                    className="text-white mt-1"
-                    style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "clamp(22px, 2.4vw, 32px)", lineHeight: 1, letterSpacing: "0.04em" }}
-                  >
-                    {s.v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                to="/comparar"
-                search={{ a: m.slug }}
-                className="inline-flex items-center justify-center gap-2 border border-white/60 text-white font-display font-black uppercase tracking-wider text-[11px] px-6 py-3 rounded-full hover:bg-white hover:text-neutral-900 transition-colors"
-              >
-                Comparar este modelo
-              </Link>
-              <button
-                type="button"
-                onClick={() => openWhatsAppWithFallback(whatsappMsg)}
-                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-wider text-[11px] px-6 py-3 rounded-full hover:brightness-110"
-              >
-                Consultar condições <ChevronRight size={14} />
-              </button>
-            </div>
-          </div>
         </div>
       </section>
 
