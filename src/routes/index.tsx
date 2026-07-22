@@ -421,7 +421,7 @@ function Header() {
           <a
             href="#contato"
             onClick={handleAnchor("contato")}
-            className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground font-display font-extrabold text-[10px] px-3.5 py-2 rounded-full uppercase tracking-widest active:scale-95 transition-transform"
+            className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground font-display font-extrabold text-[10px] px-3.5 py-2.5 min-h-11 rounded-full uppercase tracking-widest active:scale-95 transition-transform"
           >
             Financiar
             <ArrowRight size={12} />
@@ -1776,7 +1776,7 @@ function RefProductCard({ m }: { m: Model }) {
             ou <span className="text-white/70">{m.price}</span>
           </p>
         )}
-        <span className="mt-auto pt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md group-hover:brightness-110">
+        <span className="mt-auto pt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] min-h-11 py-2.5 rounded-md group-hover:brightness-110">
           Ver produto
         </span>
       </div>
@@ -1881,7 +1881,7 @@ function YoutubeShowcase() {
             <Link
               to="/modelos/$slug"
               params={{ slug: highlight.slug }}
-              className="mt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md hover:brightness-110"
+              className="mt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] min-h-11 py-2.5 rounded-md hover:brightness-110"
             >
               Ver produto
             </Link>
