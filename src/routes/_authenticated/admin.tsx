@@ -237,7 +237,7 @@ function AdminPage() {
                       <Switch checked={m.is_active} onCheckedChange={() => handleToggle(m)} />
                     </td>
                     <td className="p-3 text-right">
-                      <Button size="sm" variant="ghost" onClick={() => setEditing(m as any)}>
+                      <Button size="sm" variant="ghost" onClick={() => setEditing(m)}>
                         <Pencil className="w-4 h-4" />
                       </Button>
                       <Button size="sm" variant="ghost" onClick={() => handleDelete(m)}>
