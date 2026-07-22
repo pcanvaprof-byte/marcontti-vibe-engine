@@ -428,7 +428,7 @@ export function YamahaProductPage({
       </section>
 
       {/* 8. INOVAÇÃO — MANUAL INTERATIVO */}
-      <section className="border-t border-border bg-neutral-950">
+      <section id="inovacao" className="border-t border-border bg-neutral-950">
         <div className="max-w-[1200px] mx-auto px-5 sm:px-10 py-20 sm:py-28 text-center">
           <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
             Inovação
