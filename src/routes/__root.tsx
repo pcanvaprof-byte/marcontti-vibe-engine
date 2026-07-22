@@ -17,7 +17,7 @@ import { BackToTop } from "../components/BackToTop";
 import { CookieConsent } from "../components/CookieConsent";
 import { captureAttribution } from "../lib/attribution";
 
-const PUBLIC_ORIGIN = "https://proototipomotos.lovable.app";
+const PUBLIC_ORIGIN = "https://althaciamoveis.shop";
 const INFINDA_LOGO_URL = `${PUBLIC_ORIGIN}${infindaLogo.url}`;
 
 function InfindaCredit() {
