@@ -105,13 +105,11 @@ export const Route = createFileRoute("/")({
           paymentAccepted: "Cash, Credit Card, Debit Card, PIX, Financiamento",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "R. Albano Schmidt, 1882",
+            streetAddress: "R. Albano Schmidt, 1882 - Boa Vista",
             addressLocality: "Joinville",
             addressRegion: "SC",
             postalCode: "89205-100",
             addressCountry: "BR",
-            "@id": `${BASE_URL}/#endereco-joinville`,
-            name: "Boa Vista",
           },
           geo: {
             "@type": "GeoCoordinates",
@@ -149,7 +147,6 @@ export const Route = createFileRoute("/")({
           ],
           sameAs: [
             "https://www.instagram.com/klugmotors/",
-            "https://althaciamoveis.shop",
           ],
         }),
       },
