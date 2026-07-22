@@ -6,11 +6,8 @@ import somaImg from "@/assets/motos/soma.jpg.asset.json";
 import jetImg from "@/assets/motos/jet.jpg.asset.json";
 import jetmaxImg from "@/assets/motos/jetmax.jpg.asset.json";
 import bigtriImg from "@/assets/motos/bigtri.jpg.asset.json";
-import joysuperImg from "@/assets/motos/joysuper.jpg.asset.json";
 import sofiaImg from "@/assets/motos/sofia.jpg.asset.json";
 import miatriImg from "@/assets/motos/miatri.jpg.asset.json";
-import p10Img from "@/assets/motos/p10.jpg.asset.json";
-import popImg from "@/assets/motos/pop.jpg.asset.json";
 import x15Img from "@/assets/motos/x15.jpg.asset.json";
 import suduA12Img from "@/assets/motos/sudu-a12.png.asset.json";
 import suduA10Img from "@/assets/motos/sudu-a10.png.asset.json";
@@ -278,30 +275,6 @@ export const models: Model[] = [
     features: ["3 rodas estáveis", "Marcha ré elétrica", "Bagageiro traseiro", "Painel digital"],
   },
   {
-    slug: "joy-super",
-    name: "JOY SUPER 800W",
-    tag: "Bicicleta Elétrica · Sem CNH",
-    price: "R$ 7.210,00",
-    priceNumber: 7210,
-    range: "até 40 km",
-    speed: "32 km/h",
-    power: "800W",
-    short: "Bicicleta elétrica leve e prática para o dia a dia.",
-    description:
-      "A JOY SUPER une o design de bicicleta com um motor de 800W. Leve, econômica, com bateria removível e assistência pedal. Sem exigência de CNH.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: joysuperImg.url }],
-    specs: [
-      { label: "Autonomia", value: "até 40 km" },
-      { label: "Velocidade máx.", value: "32 km/h" },
-      { label: "Potência", value: "800W" },
-      { label: "Bateria", value: "Lítio 48V removível" },
-      { label: "Aro", value: "20\"" },
-      { label: "Capacidade", value: "até 150 kg" },
-      { label: "Habilitação", value: "Não exige CNH" },
-    ],
-    features: ["Bateria removível", "Painel LCD", "Pedal assistido", "Farol LED"],
-  },
-  {
     slug: "sofia",
     name: "SOFIA 1000W",
     tag: "Scooter · Sem CNH",
@@ -325,60 +298,6 @@ export const models: Model[] = [
       { label: "Habilitação", value: "Não exige CNH (CONTRAN 996/23)" },
     ],
     features: ["Design feminino", "Painel digital", "Cesto frontal", "Farol LED full"],
-  },
-  {
-    slug: "p10",
-    name: "P10 500W",
-    tag: "Patinete Elétrico · Sem CNH",
-    price: "R$ 4.360,00",
-    priceNumber: 4360,
-    range: "20–25 km",
-    speed: "32 km/h",
-    power: "500W",
-    short: "Patinete dobrável com banco — leve, prático e econômico.",
-    description:
-      "O P10 é um patinete elétrico dobrável com banco ajustável, ideal para deslocamentos urbanos rápidos. Freio a disco nas duas rodas, suspensão dupla e faróis LED. Suporta até 120 kg — sem CNH.",
-    colors: [{ name: "Preto", hex: "#1a1a1a", image: p10Img.url }],
-    specs: [
-      { label: "Autonomia", value: "20–25 km" },
-      { label: "Velocidade máx.", value: "32 km/h" },
-      { label: "Potência", value: "500W (cubo traseiro)" },
-      { label: "Bateria", value: "Lítio 48V 11Ah" },
-      { label: "Carregador", value: "Bivolt 110/220V" },
-      { label: "Recarga", value: "até 5 horas" },
-      { label: "Aro", value: "10\"" },
-      { label: "Peso", value: "16 kg (dobrável)" },
-      { label: "Capacidade", value: "até 120 kg" },
-      { label: "Habilitação", value: "Não exige CNH (CONTRAN 996/23)" },
-    ],
-    features: ["Dobrável e portátil", "Banco ajustável e removível", "Suspensão dupla", "Freio a disco dianteiro e traseiro"],
-  },
-  {
-    slug: "pop",
-    name: "POP 800W",
-    tag: "Bicicleta Elétrica · Sem CNH",
-    price: "Consultar disponibilidade",
-    priceNumber: 0,
-    range: "até 40 km",
-    speed: "32 km/h",
-    power: "800W",
-    short: "Bicicleta elétrica urbana com bateria removível e cesto frontal.",
-    description:
-      "A POP 800W é uma bicicleta urbana resistente, prática e sustentável. Bateria de lítio removível 48V 15Ah, aros 24\", cesto dianteiro, alarme antifurto e cartão NFC. Suporta até 150 kg — sem CNH.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: popImg.url }],
-    specs: [
-      { label: "Autonomia", value: "até 40 km" },
-      { label: "Velocidade máx.", value: "32 km/h" },
-      { label: "Potência", value: "800W" },
-      { label: "Bateria", value: "Lítio 48V 15Ah removível" },
-      { label: "Carregador", value: "Bivolt 110/220V" },
-      { label: "Recarga", value: "4 a 6 horas" },
-      { label: "Aro", value: "24\"" },
-      { label: "Modo", value: "Aceleração ou pedal assistido" },
-      { label: "Capacidade", value: "até 150 kg" },
-      { label: "Habilitação", value: "Não exige CNH (CONTRAN 996/23)" },
-    ],
-    features: ["Bateria removível com alça", "Cesta dianteira + garupa", "Alarme antifurto + NFC", "3 níveis de velocidade"],
   },
   {
     slug: "x15",

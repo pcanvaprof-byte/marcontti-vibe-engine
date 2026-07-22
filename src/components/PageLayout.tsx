@@ -82,7 +82,7 @@ export function PageLayout({
           <div>
             <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain mb-3" />
             <p className="text-xs leading-relaxed max-w-xs">
-              Motos, scooters, triciclos e bicicletas elétricas em Joinville/SC.
+              Motos, scooters e triciclos elétricos em Joinville/SC.
             </p>
           </div>
           <div className="space-y-2 text-xs">

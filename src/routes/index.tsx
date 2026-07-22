@@ -61,9 +61,9 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Concessionária de motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x, 10% OFF no PIX.",
+          "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x, 10% OFF no PIX.",
       },
-      { name: "keywords", content: "moto elétrica Joinville, scooter elétrica Joinville, Yamaha Joinville, concessionária elétrica SC, moto sem CNH, bicicleta elétrica Joinville, Klug Motors" },
+      { name: "keywords", content: "moto elétrica Joinville, scooter elétrica Joinville, Yamaha Joinville, concessionária elétrica SC, moto sem CNH, Klug Motors" },
       { name: "geo.region", content: "BR-SC" },
       { name: "geo.placename", content: "Joinville" },
       { name: "geo.position", content: "-26.2836;-48.8451" },
@@ -72,7 +72,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. Loja física + financiamento facilitado.",
+          "Motos, scooters e triciclos elétricos em Joinville/SC. Sem CNH, econômicas e sustentáveis. Loja física + financiamento facilitado.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
@@ -99,7 +99,7 @@ export const Route = createFileRoute("/")({
           name: "Klug Motors — Unidade Joinville",
           alternateName: "Klug Motor's",
           description:
-            "Concessionária de motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Representante Yamaha, SUDU e MotoChefe.",
+            "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Representante Yamaha, SUDU e MotoChefe.",
           url: BASE_URL,
           logo: `${BASE_URL}${x12Img.url}`,
           image: `${BASE_URL}${x12Img.url}`,
@@ -963,7 +963,7 @@ function Featured() {
               Nossa <span className="text-primary">Linha</span>
             </h2>
             <p className="text-white/60 mt-4 text-sm leading-relaxed max-w-md">
-              Os quatro modelos mais procurados — do patinete urbano ao triciclo top de linha.
+              Os quatro modelos mais procurados — do scooter urbano ao triciclo top de linha.
             </p>
           </div>
           <Link

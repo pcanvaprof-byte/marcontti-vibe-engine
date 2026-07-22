@@ -46,7 +46,7 @@ function brandMeta(marca?: string) {
       return {
         title: "Modelos Klug — Catálogo Klug Motors",
         description:
-          "Explore a linha completa Klug Motors: scooters, motos, triciclos, bicicletas e patinetes elétricos sem CNH em Joinville/SC.",
+          "Explore a linha completa Klug Motors: scooters, motos elétricos sem CNH em Joinville/SC.",
         ogTitle: "Modelos Klug — Catálogo Klug Motors",
         ogDescription: "Todos os modelos Klug Motors elétricos. Filtre por tipo, preço e autonomia.",
       };
@@ -54,7 +54,7 @@ function brandMeta(marca?: string) {
       return {
         title: "Catálogo — Klug Motors",
         description:
-          "Explore todos os modelos elétricos da Klug Motors: scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo, marca e faixa de preço.",
+          "Explore todos os modelos elétricos da Klug Motors: scooters, motos. Filtre por tipo, marca e faixa de preço.",
         ogTitle: "Catálogo — Klug Motors",
         ogDescription: "Todos os modelos elétricos da Klug — filtre por tipo, marca e preço.",
       };
@@ -200,7 +200,7 @@ function CatalogPage() {
           </h1>
           <p className="mt-6 text-white/60 max-w-xl leading-relaxed">
             <strong className="text-white">{models.length} modelos</strong> disponíveis —
-            scooters, motos, triciclos, bicicletas e patinetes. Filtre por tipo e preço
+            scooters, motos. Filtre por tipo e preço
             para encontrar o seu.
           </p>
         </div>
