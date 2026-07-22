@@ -83,7 +83,11 @@ export const Route = createFileRoute("/")({
       { name: "twitter:description", content: "Concessionária de mobilidade elétrica em Joinville/SC. Yamaha, SUDU, MotoChefe." },
       { name: "twitter:image", content: `${BASE_URL}${x12Img.url}` },
     ],
-    links: [{ rel: "canonical", href: `${BASE_URL}/` }],
+    links: [
+      { rel: "canonical", href: `${BASE_URL}/` },
+      // LCP preload: pôster do vídeo do hero (renderiza antes do vídeo carregar).
+      { rel: "preload", as: "image", href: klugHeroPoster.url, fetchpriority: "high" },
+    ],
     scripts: [
       {
         type: "application/ld+json",

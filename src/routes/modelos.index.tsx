@@ -378,6 +378,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
                       alt={`${m.name} — ${m.tag}`}
                       wrapperClassName="w-full h-full rounded-xl"
                       loadingLabel="Carregando"
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                       className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
                     />
                     <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
