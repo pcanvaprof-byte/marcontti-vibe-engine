@@ -83,33 +83,53 @@ export function FinanciamentoForm({
 
   const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.currentTarget.value = maskCep(e.currentTarget.value);
+    // Limpa erro assim que o usuário edita novamente
+    if (cepError) setCepError(null);
+    // Auto-lookup ao completar 8 dígitos (silencioso — sem toast)
+    const digits = e.currentTarget.value.replace(/\D+/g, "");
+    if (digits.length === 8) void lookupCep(digits, { notify: false });
   };
 
-  const handleCepLookup = async (e: React.FocusEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {
-    const digits = (e.currentTarget.value || "").replace(/\D+/g, "");
-    if (digits.length !== 8) return;
+  const handleCepBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const digits = e.currentTarget.value.replace(/\D+/g, "");
+    if (digits.length === 0) return;
+    if (digits.length !== 8) {
+      setCepError("CEP incompleto — informe os 8 dígitos");
+      return;
+    }
+    void lookupCep(digits, { notify: true });
+  };
+
+  const lookupCep = async (digits: string, opts: { notify: boolean }) => {
     setCepError(null);
     setCepLoading(true);
     try {
       const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data?.erro) {
-        setCepError("CEP não encontrado");
+        const msg = "CEP não encontrado. Verifique e tente novamente.";
+        setCepError(msg);
+        if (opts.notify) toast.error(msg);
         return;
       }
       setFieldValue("fin-address_street", data.logradouro ?? "");
       setFieldValue("fin-address_neighborhood", data.bairro ?? "");
       setFieldValue("fin-address_city", data.localidade ?? "");
       setFieldValue("fin-address_state", data.uf ?? "");
-      setFieldValue("fin-address_complement", data.complemento ?? (document.getElementById("fin-address_complement") as HTMLInputElement)?.value ?? "");
-      // Focar o número após preencher
+      const complEl = document.getElementById("fin-address_complement") as HTMLInputElement | null;
+      if (complEl && !complEl.value && data.complemento) complEl.value = data.complemento;
+      if (opts.notify) toast.success("Endereço preenchido pelo CEP");
       (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
     } catch {
-      setCepError("Falha ao consultar o CEP");
+      const msg = "Não foi possível consultar o CEP agora. Preencha manualmente.";
+      setCepError(msg);
+      if (opts.notify) toast.error(msg);
     } finally {
       setCepLoading(false);
     }
   };
+
 
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
