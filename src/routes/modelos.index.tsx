@@ -355,6 +355,8 @@ function CatalogGrid({ items }: { items: Model[] }) {
               <LazyImage
                 src={m.colors[0]?.image ?? ""}
                 alt={`${m.name} — ${m.tag}`}
+                wrapperClassName="w-full h-full rounded-xl"
+                loadingLabel="Carregando"
                 className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
               />
               <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
