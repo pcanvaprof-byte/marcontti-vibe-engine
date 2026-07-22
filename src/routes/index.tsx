@@ -98,7 +98,7 @@ export const Route = createFileRoute("/")({
           url: BASE_URL,
           logo: `${BASE_URL}${x12Img.url}`,
           image: `${BASE_URL}${x12Img.url}`,
-          telephone: "+554734293200",
+          telephone: "+5547934293200",
           email: "klugmotors@gmail.com",
           taxID: "51.728.597/0001-26",
           vatID: "51.728.597/0001-26",
@@ -141,7 +141,7 @@ export const Route = createFileRoute("/")({
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+554734293200",
+              telephone: "+5547934293200",
               contactType: "customer service",
               areaServed: "BR",
               availableLanguage: ["Portuguese"],
@@ -1276,8 +1276,8 @@ function Contact() {
             <ContactRow
               icon={Phone}
               label="Central de vendas"
-              value="(47) 3429-3200"
-              href="tel:+554734293200"
+              value="(47) 93429-3200"
+              href="tel:+5547934293200"
               highlight
             />
             <ContactRow
@@ -1470,8 +1470,8 @@ function Footer() {
             <ul className="space-y-3 text-sm text-white/70">
               <li className="flex items-center gap-2">
                 <Phone {...iconProps} className="shrink-0 text-white/40" />
-                <a href="tel:+554734293200" className="font-display font-black text-base text-white hover:text-primary transition-colors">
-                  (47) 3429-3200
+                <a href="tel:+5547934293200" className="font-display font-black text-base text-white hover:text-primary transition-colors">
+                  (47) 93429-3200
                 </a>
               </li>
               <li className="flex items-center gap-2">
