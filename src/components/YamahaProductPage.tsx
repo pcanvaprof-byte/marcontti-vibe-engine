@@ -557,7 +557,7 @@ export function YamahaProductPage({
         items={[
           {
             q: `Como faço para comprar a ${m.name.replace(/^Yamaha\s+/i, "")} na Klug?`,
-            a: "Basta falar com um dos nossos consultores pelo WhatsApp ou visitar nossa unidade em Joinville / SC. Emitimos nota, cuidamos do emplacamento e entregamos pronto para rodar.",
+            a: "Basta falar com um dos nossos consultores pelo WhatsApp ou visitar nossa unidade em Joinville / SC. Emitimos nota fiscal e entregamos pronto para rodar. Para modelos homologados (acima de 1000W) cuidamos também do emplacamento; modelos até 1000W seguem o CONTRAN 996/23 e não exigem CNH nem emplacamento.",
           },
           {
             q: "Vocês entregam em outras cidades?",
