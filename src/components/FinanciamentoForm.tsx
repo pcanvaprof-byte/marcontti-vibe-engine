@@ -52,7 +52,7 @@ const incomes = [
   "Acima de R$ 10.000",
 ];
 
-const UFS = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
+
 
 export function FinanciamentoForm({
   defaultModel,
