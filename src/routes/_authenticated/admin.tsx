@@ -329,6 +329,11 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     set("gallery", arrayMove(normalizeGallery(d.gallery), fromIdx, toIdx));
   }
 
+  const dndSensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
   function toggleMainHidden() {
     const cs = d.colors ?? [];
     if (!cs.length) return;
