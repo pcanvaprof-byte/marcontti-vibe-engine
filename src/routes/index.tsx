@@ -1367,9 +1367,10 @@ function ContactRow({
           {label}
         </p>
         <p
-          className={`font-medium truncate ${
+          className={`font-medium break-words ${
             highlight
               ? "text-primary font-display font-black text-xl tracking-tight"
+
               : "text-white/90"
           }`}
         >
