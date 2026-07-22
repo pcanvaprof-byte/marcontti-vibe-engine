@@ -99,17 +99,25 @@ export type Database = {
           entry: string | null
           id: string
           income: string | null
+          landing_page: string | null
           lgpd_consent: boolean
           lgpd_consent_at: string | null
           message: string | null
           model: string | null
           name: string
+          origin_page: string | null
           payment_type: string | null
           phone: string
+          referrer: string | null
           rg: string | null
           source: string
           term: string | null
           updated_at: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
           address_city?: string | null
@@ -129,17 +137,25 @@ export type Database = {
           entry?: string | null
           id?: string
           income?: string | null
+          landing_page?: string | null
           lgpd_consent?: boolean
           lgpd_consent_at?: string | null
           message?: string | null
           model?: string | null
           name: string
+          origin_page?: string | null
           payment_type?: string | null
           phone: string
+          referrer?: string | null
           rg?: string | null
           source?: string
           term?: string | null
           updated_at?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
           address_city?: string | null
@@ -159,17 +175,25 @@ export type Database = {
           entry?: string | null
           id?: string
           income?: string | null
+          landing_page?: string | null
           lgpd_consent?: boolean
           lgpd_consent_at?: string | null
           message?: string | null
           model?: string | null
           name?: string
+          origin_page?: string | null
           payment_type?: string | null
           phone?: string
+          referrer?: string | null
           rg?: string | null
           source?: string
           term?: string | null
           updated_at?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: []
       }
