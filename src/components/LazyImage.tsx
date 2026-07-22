@@ -1,4 +1,4 @@
-import { useState, type ImgHTMLAttributes } from "react";
+import { useState, type CSSProperties, type ImgHTMLAttributes } from "react";
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
@@ -7,12 +7,22 @@ type Props = ImgHTMLAttributes<HTMLImageElement> & {
   wrapperClassName?: string;
   /** Text shown under the spinner while loading (optional) */
   loadingLabel?: string;
+  /**
+   * Fixed CSS aspect-ratio applied to the wrapper AND the image so the layout
+   * never shifts while the image loads. Accepts any CSS aspect-ratio value
+   * (e.g. "4 / 3", "16 / 9", "1"). Defaults to "4 / 3".
+   */
+  aspectRatio?: string | null;
 };
 
 /**
  * Image with skeleton shimmer + fade-in on load. Uses native `loading="lazy"`
  * so the browser decides when to fetch (avoids intersection edge cases where
  * an image never gets a src on fast scrolls or long grids).
+ *
+ * The wrapper reserves space via CSS `aspect-ratio` so cards do NOT reflow
+ * while images load. Pass `aspectRatio={null}` to opt out when the parent
+ * already constrains the box.
  */
 export function LazyImage({
   src,
@@ -20,14 +30,25 @@ export function LazyImage({
   className = "",
   wrapperClassName = "",
   loadingLabel,
+  aspectRatio = "4 / 3",
+  style,
   ...rest
 }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
 
+  const wrapperStyle: CSSProperties | undefined = aspectRatio
+    ? { aspectRatio }
+    : undefined;
+  const imgStyle: CSSProperties = {
+    ...(aspectRatio ? { aspectRatio } : {}),
+    ...style,
+  };
+
   return (
     <span
-      className={`relative inline-flex items-center justify-center overflow-hidden ${wrapperClassName}`}
+      style={wrapperStyle}
+      className={`relative flex items-center justify-center overflow-hidden ${wrapperClassName}`}
     >
       {/* Skeleton / loading overlay */}
       {!loaded && !errored && (
@@ -57,9 +78,11 @@ export function LazyImage({
         decoding="async"
         onLoad={() => setLoaded(true)}
         onError={() => setErrored(true)}
+        style={imgStyle}
         className={`${className} transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
         {...rest}
       />
     </span>
   );
 }
+
