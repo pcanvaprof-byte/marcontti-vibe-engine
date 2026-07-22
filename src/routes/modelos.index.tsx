@@ -171,7 +171,7 @@ function CatalogPage() {
     if (sort === "price-asc") list = [...list].sort((a, b) => a.priceNumber - b.priceNumber);
     if (sort === "price-desc") list = [...list].sort((a, b) => b.priceNumber - a.priceNumber);
     return list;
-  }, [type, brand, priceId, sort]);
+  }, [models, type, brand, priceId, sort]);
 
 
   return (
