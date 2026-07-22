@@ -45,8 +45,9 @@ export function FinanciamentoForm({
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [lastMessage, setLastMessage] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const raw = {
@@ -72,6 +73,7 @@ export function FinanciamentoForm({
       return;
     }
     setErrors({});
+    setSaveError(null);
     setSubmitting(true);
     const d = parsed.data;
     const text = [
@@ -87,17 +89,32 @@ export function FinanciamentoForm({
       .filter(Boolean)
       .join("\n");
 
-    setTimeout(() => {
-      openWhatsAppWithFallback(text);
+    const { error } = await supabase.from("leads").insert({
+      name: d.name,
+      phone: d.phone,
+      model: d.model,
+      entry: d.entry,
+      term: d.term,
+      message: d.message || null,
+      source: "financiamento",
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      setSaveError("Não foi possível salvar sua solicitação. Tente novamente ou envie pelo WhatsApp.");
       setLastMessage(text);
-      setSubmitting(false);
-      setSent(true);
-    }, 400);
+      return;
+    }
+
+    setLastMessage(text);
+    setSent(true);
   }
 
   function reset() {
     setSent(false);
     setLastMessage(null);
+    setSaveError(null);
     setErrors({});
   }
 
