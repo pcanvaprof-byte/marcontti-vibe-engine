@@ -1498,3 +1498,28 @@ export function openWhatsAppWithFallback(
   window.location.assign(primaryUrl);
 }
 
+/**
+ * Opens WhatsApp in a new tab (does not navigate the current page).
+ * Fires a `whatsapp_redirected` analytics event by default.
+ * Must be called during a user gesture (e.g. from a form submit handler)
+ * to avoid popup blockers.
+ */
+export function openWhatsAppNewTab(
+  message: string,
+  opts: { phone?: string; source?: string; modelSlug?: string; event?: string; meta?: Record<string, unknown> } = {},
+): Window | null {
+  if (typeof window === "undefined") return null;
+  const phone = opts.phone ?? WHATSAPP_NUMBER;
+  try {
+    void import("@/lib/analytics").then(({ trackEvent }) => {
+      trackEvent(opts.event ?? "whatsapp_redirected", {
+        source: opts.source,
+        modelSlug: opts.modelSlug,
+        meta: opts.meta,
+      });
+    });
+  } catch { /* noop */ }
+  const url = buildWhatsAppUrl(message, phone);
+  return window.open(url, "_blank", "noopener,noreferrer");
+}
+
