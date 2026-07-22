@@ -428,10 +428,10 @@ export const models: Model[] = [
   // ==================== SUDU ====================
   {
     slug: "sudu-a12",
-    name: "SUDU A12",
+    name: "SUDU A12+ 1000W",
     tag: "Scooter SUDU · Sem CNH",
-    price: "Consultar disponibilidade",
-    priceNumber: 0,
+    price: "R$ 10.590",
+    priceNumber: 10590,
     range: "até 55 km",
     speed: "32 km/h",
     power: "1.000W",
