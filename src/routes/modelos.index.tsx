@@ -154,7 +154,12 @@ function CatalogPage() {
       let catOk = true;
       if (activeKey === "triciclo") catOk = isTriciclo(m);
       else if (activeKey === "seminovos") catOk = false;
-      else if (activeKey !== "todos") catOk = brandOf(m) === MARCA_LABEL[activeKey];
+      else if (activeKey === "klug" || activeKey === "sudu") {
+        // Abas de scooter: excluir triciclos da mesma marca (vão para aba Triciclos)
+        catOk = brandOf(m) === MARCA_LABEL[activeKey] && !isTriciclo(m);
+      } else if (activeKey !== "todos") {
+        catOk = brandOf(m) === MARCA_LABEL[activeKey];
+      }
       const priceOk = m.priceNumber >= range.min && m.priceNumber <= range.max;
       return catOk && priceOk;
     });
