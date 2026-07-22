@@ -1414,9 +1414,9 @@ function Footer() {
             <address className="not-italic text-white/70 text-sm leading-relaxed flex items-start gap-2">
               <MapPin {...iconProps} className="mt-1 shrink-0 text-white/40" />
               <span>
-                R. Albano Schmidt, 1882
+                R. Albano Schmidt, 1882 — Boa Vista
                 <br />
-                Joinville — SC
+                Joinville/SC · 89205-100
               </span>
             </address>
           </div>
