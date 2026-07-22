@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle, ArrowRight } from "lucide-react";
 import { z } from "zod";
-import { models, openWhatsAppWithFallback } from "@/lib/models";
+import { models, openWhatsAppWithFallback, openWhatsAppNewTab } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { getAttribution, getOriginPage } from "@/lib/attribution";
@@ -153,6 +153,22 @@ export function ConsorcioForm({
         utm_source: attr.utm_source,
         utm_medium: attr.utm_medium,
         utm_campaign: attr.utm_campaign,
+        origin_page: originPage,
+      },
+    });
+    // Abre WhatsApp automaticamente em nova aba, mantendo tela de confirmação
+    openWhatsAppNewTab(text, {
+      source: "consorcio_form",
+      event: "whatsapp_redirected",
+      meta: {
+        name: d.name,
+        phone: d.phone,
+        email: d.email,
+        model: d.model,
+        payment_type: "Consórcio",
+        credit: d.credit,
+        budget: d.budget,
+        contemplation: d.contemplation,
         origin_page: originPage,
       },
     });

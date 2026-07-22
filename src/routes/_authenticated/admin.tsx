@@ -188,6 +188,7 @@ function AdminPage() {
           <Link to="/"><Button variant="ghost" size="sm">Ver site</Button></Link>
           <Link to="/instagram"><Button variant="ghost" size="sm">Instagram</Button></Link>
           <Link to="/leads"><Button variant="ghost" size="sm">Leads</Button></Link>
+          <Link to="/whatsapp"><Button variant="ghost" size="sm">WhatsApp</Button></Link>
           <Button size="sm" onClick={() => setEditing({ ...emptyDraft })}>
             <Plus className="w-4 h-4 mr-1" /> Novo modelo
           </Button>
