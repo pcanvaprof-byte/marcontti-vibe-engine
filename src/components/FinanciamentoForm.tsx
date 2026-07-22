@@ -224,6 +224,9 @@ export function FinanciamentoForm({
       if (!addr.city) errs.address_city = "Cidade";
       if (!addr.state) errs.address_state = "UF";
       if (addr.zip.length !== 8) errs.address_zip = "CEP inválido";
+      if (cepError) errs.address_zip = cepError;
+      if (cepLoading) errs.address_zip = "Aguarde a consulta do CEP finalizar";
+
 
       if (!lgpd) errs.lgpd = "É necessário aceitar o compartilhamento dos dados";
     }
