@@ -459,37 +459,31 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             </span>
           </div>
           {galleryItems.length > 0 && (
-            <div className="grid grid-cols-4 md:grid-cols-6 gap-2 mt-2">
-              {galleryItems.map((g, i) => (
-                <div key={i} className="relative group">
-                  <img src={g.url} alt="" className={`w-full aspect-square rounded object-cover bg-neutral-800 ${g.hidden ? "opacity-40 grayscale" : ""}`} />
-                  {g.hidden && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <EyeOff className="w-5 h-5 text-white/80" />
-                    </div>
-                  )}
-                  <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      type="button"
-                      onClick={() => toggleGalleryHidden(i)}
-                      className="bg-neutral-900/90 hover:bg-neutral-800 text-white rounded p-1"
-                      aria-label={g.hidden ? "Publicar" : "Ocultar"}
-                      title={g.hidden ? "Publicar" : "Ocultar"}
-                    >
-                      {g.hidden ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => removeGalleryItem(i)}
-                      className="bg-red-500/90 hover:bg-red-600 text-white rounded p-1"
-                      aria-label="Remover"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  </div>
+            <DndContext
+              sensors={dndSensors}
+              collisionDetection={closestCenter}
+              onDragEnd={(e: DragEndEvent) => {
+                const { active, over } = e;
+                if (!over || active.id === over.id) return;
+                const from = galleryItems.findIndex((_, i) => `g-${i}` === active.id);
+                const to = galleryItems.findIndex((_, i) => `g-${i}` === over.id);
+                if (from >= 0 && to >= 0) reorderGallery(from, to);
+              }}
+            >
+              <SortableContext items={galleryItems.map((_, i) => `g-${i}`)} strategy={rectSortingStrategy}>
+                <div className="grid grid-cols-4 md:grid-cols-6 gap-2 mt-2">
+                  {galleryItems.map((g, i) => (
+                    <SortableGalleryTile
+                      key={`g-${i}`}
+                      id={`g-${i}`}
+                      item={g}
+                      onToggleHidden={() => toggleGalleryHidden(i)}
+                      onRemove={() => removeGalleryItem(i)}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
+              </SortableContext>
+            </DndContext>
           )}
         </div>
 
