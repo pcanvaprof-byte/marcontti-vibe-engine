@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle } from "lucide-react";
 import { z } from "zod";
-import { models, openWhatsAppWithFallback, openWhatsAppNewTab } from "@/lib/models";
+import { models, openWhatsAppWithFallback, openWhatsAppNewTab, buildWhatsAppFallbackUrl } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 
@@ -144,6 +144,9 @@ export function FinanciamentoForm({
     setSaveError(null);
     setSubmitting(true);
 
+    // Abre a aba do WhatsApp AGORA (dentro do gesto do usuário) para evitar bloqueio de pop-up.
+    const waWindow = typeof window !== "undefined" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
+
     const paymentLine =
       d.paymentType === "Financiamento"
         ? `*Financiamento* — entrada: ${d.entry} · prazo: ${d.term}`
@@ -192,6 +195,7 @@ export function FinanciamentoForm({
     if (error) {
       setSaveError("Não foi possível salvar sua solicitação. Tente novamente ou envie pelo WhatsApp.");
       setLastMessage(text);
+      if (waWindow) waWindow.close();
       return;
     }
 
@@ -201,18 +205,19 @@ export function FinanciamentoForm({
       source: "financiamento_form",
       meta: { model: d.model, payment_type: d.paymentType, entry: d.entry, term: d.term },
     });
-    openWhatsAppNewTab(text, {
+    const waUrl = buildWhatsAppFallbackUrl(text);
+    if (waWindow && !waWindow.closed) {
+      waWindow.location.href = waUrl;
+    } else {
+      openWhatsAppNewTab(text, {
+        source: "financiamento_form",
+        event: "whatsapp_redirected",
+        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
+      });
+    }
+    trackEvent("whatsapp_redirected", {
       source: "financiamento_form",
-      event: "whatsapp_redirected",
-      meta: {
-        name: d.name,
-        phone: d.phone,
-        email: d.email,
-        model: d.model,
-        payment_type: d.paymentType,
-        entry: d.entry,
-        term: d.term,
-      },
+      meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
     });
   }
 
