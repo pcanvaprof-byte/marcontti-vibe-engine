@@ -1329,7 +1329,8 @@ function Contact() {
           </div>
         </div>
 
-        <div>
+        <div className="min-w-0">
+
           <FinanciamentoForm />
         </div>
       </div>
