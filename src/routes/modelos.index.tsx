@@ -344,53 +344,113 @@ function CatalogPage() {
 
 function CatalogGrid({ items }: { items: Model[] }) {
   const ref = useReveal<HTMLDivElement>();
+  const [quickView, setQuickView] = useState<Model | null>(null);
+
   return (
-    <div ref={ref} className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-      {items.map((m, i) => (
-        <Link
-          key={m.slug}
-          to="/modelos/$slug"
-          params={{ slug: m.slug }}
-          style={{ transitionDelay: `${Math.min(i, 8) * 60}ms` }}
-          className="reveal card-shine group bg-card border border-border rounded-2xl overflow-hidden hover-ember transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
-        >
-          <div className="relative aspect-[4/3] p-3">
-            <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
-              <LazyImage
-                src={m.colors[0]?.image ?? ""}
-                alt={`${m.name} — ${m.tag}`}
-                wrapperClassName="w-full h-full rounded-xl"
-                loadingLabel="Carregando"
-                className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
-              />
-              <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
-                <Zap size={10} className="text-primary" /> {m.power}
-              </span>
-            </div>
-          </div>
-          <div className="p-6 pt-4">
-            <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-2">
-              {m.tag}
-            </p>
-            <h2 className="font-display font-black uppercase text-xl tracking-tight">
-              {m.name}
-            </h2>
-            <p className="mt-2 text-sm text-white/60 line-clamp-2">{m.short}</p>
-            <div className="mt-5 pt-5 border-t border-border flex items-center justify-between">
-              <div>
-                <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
-                  A partir de
-                </span>
-                <span className="font-display font-black text-lg">{m.price}</span>
+    <>
+      <div ref={ref} className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {items.map((m, i) => {
+          const waMsg = `Olá, Klug Motors! Tenho interesse na *${m.name}*${m.price ? ` (${m.price})` : ""}. Pode me passar mais informações?`;
+          return (
+            <div
+              key={m.slug}
+              style={{ transitionDelay: `${Math.min(i, 8) * 60}ms` }}
+              className="reveal card-shine group relative bg-card border border-border rounded-2xl overflow-hidden hover-ember transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 flex flex-col"
+            >
+              <Link
+                to="/modelos/$slug"
+                params={{ slug: m.slug }}
+                className="block"
+                aria-label={`Ver detalhes de ${m.name}`}
+              >
+                <div className="relative aspect-[4/3] p-3">
+                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
+                    <LazyImage
+                      src={m.colors[0]?.image ?? ""}
+                      alt={`${m.name} — ${m.tag}`}
+                      wrapperClassName="w-full h-full rounded-xl"
+                      loadingLabel="Carregando"
+                      className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
+                      <Zap size={10} className="text-primary" /> {m.power}
+                    </span>
+                  </div>
+                </div>
+                <div className="px-6 pt-4">
+                  <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-2">
+                    {m.tag}
+                  </p>
+                  <h2 className="font-display font-black uppercase text-xl tracking-tight">
+                    {m.name}
+                  </h2>
+                  <p className="mt-2 text-sm text-white/60 line-clamp-2">{m.short}</p>
+                </div>
+              </Link>
+
+              <div className="px-6 pb-6 pt-4 mt-auto">
+                <div className="pt-5 border-t border-border flex items-center justify-between gap-3 mb-4">
+                  <div>
+                    <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
+                      A partir de
+                    </span>
+                    <span className="font-display font-black text-lg">{m.price}</span>
+                  </div>
+                  <Link
+                    to="/modelos/$slug"
+                    params={{ slug: m.slug }}
+                    className="inline-flex items-center gap-1 text-[10px] font-display font-black uppercase tracking-widest text-primary hover:gap-2 transition-all"
+                  >
+                    Ver <ChevronRight size={14} />
+                  </Link>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setQuickView(m)}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] px-3 py-2.5 rounded-full hover:brightness-110 transition"
+                  >
+                    Saiba mais
+                  </button>
+                  <a
+                    href={buildWhatsAppFallbackUrl(waMsg)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openWhatsAppWithFallback(waMsg);
+                    }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Falar no WhatsApp sobre ${m.name}`}
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe57] text-black font-display font-black uppercase tracking-widest text-[10px] px-3 py-2.5 rounded-full transition"
+                  >
+                    <MessageCircle size={12} strokeWidth={2.5} /> WhatsApp
+                  </a>
+                </div>
               </div>
-              <span className="inline-flex items-center gap-1 text-[10px] font-display font-black uppercase tracking-widest text-primary group-hover:gap-2 transition-all">
-                Ver <ChevronRight size={14} />
-              </span>
             </div>
-          </div>
-        </Link>
-      ))}
-    </div>
+          );
+        })}
+      </div>
+
+      <QuickViewModal
+        open={Boolean(quickView)}
+        onClose={() => setQuickView(null)}
+        product={
+          quickView
+            ? {
+                id: quickView.slug,
+                nome: quickView.name,
+                potencia: quickView.power,
+                imagem: quickView.colors[0]?.image ?? "",
+                preco: quickView.price,
+                slug: quickView.slug,
+              }
+            : null
+        }
+      />
+    </>
   );
 }
+
 
