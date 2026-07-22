@@ -84,98 +84,153 @@ export function YamahaProductPage({ m }: { m: Model }) {
         </div>
       </header>
 
-      {/* HERO — full-bleed editorial */}
-      <section className="relative overflow-hidden isolate">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0a0f1c] via-[#0d1424] to-background" />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.18] mix-blend-screen"
-          style={{
-            backgroundImage:
-              "radial-gradient(60% 40% at 50% 30%, oklch(0.75 0.19 30 / .55), transparent 70%)",
-          }}
-        />
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 pt-10 sm:pt-16 pb-8 sm:pb-14 min-h-[88svh] flex flex-col">
-          <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.35em] font-display font-black text-white/60">
-            <span className="inline-block h-px w-8 bg-primary" /> Yamaha · {m.tag}
+      {/* HERO — Yamaha editorial: light backdrop, oversized faded wordmark, side profile */}
+      <section className="relative overflow-hidden isolate bg-gradient-to-b from-[#e6ecf1] via-[#d9e0e6] to-[#c9d2da] text-neutral-900">
+        <div className="max-w-[1500px] mx-auto px-5 sm:px-10 pt-10 sm:pt-14 pb-10 sm:pb-16 min-h-[86svh] flex flex-col">
+          {/* Oversized wordmark behind everything */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-[18%] flex flex-col items-center justify-center leading-[0.82] text-center select-none"
+            style={{
+              fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+              color: "rgba(30,41,59,0.10)",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {(() => {
+              const clean = m.name.replace(/^Yamaha\s+/i, "").toUpperCase();
+              const words = clean.split(" ");
+              const line1 = words[0] ?? clean;
+              const line2 = words.slice(1).join(" ");
+              return (
+                <>
+                  <span style={{ fontSize: "clamp(90px, 18vw, 260px)" }}>{line1}</span>
+                  {line2 ? (
+                    <span style={{ fontSize: "clamp(70px, 14vw, 210px)" }}>{line2}</span>
+                  ) : null}
+                </>
+              );
+            })()}
           </div>
 
-          <div className="mt-4 flex-1 grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-6 lg:gap-10 items-center">
-            <div>
-              <h1
-                className="text-white leading-[0.85] tracking-tight uppercase break-words"
-                style={{
-                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                  fontSize: "clamp(48px, 9vw, 128px)",
-                }}
-              >
-                {m.name.replace(/^Yamaha\s+/i, "").split(" ").slice(0, 2).join(" ")}
-              </h1>
-              <p className="mt-3 max-w-md text-white/70 text-base sm:text-lg leading-relaxed">
-                {m.short}
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 grid lg:grid-cols-[minmax(240px,320px)_minmax(0,1fr)] gap-8 lg:gap-12 items-center">
+            {/* Color selector column */}
+            <div className="relative z-10">
+              <ul className="space-y-5">
+                {m.colors.map((c, i) => {
+                  const [title, subtitle] = c.name.includes("·")
+                    ? c.name.split("·").map((s) => s.trim())
+                    : [c.name, ""];
+                  const active = i === selected;
+                  return (
+                    <li key={c.name + i}>
+                      <button
+                        type="button"
+                        onClick={() => setSelected(i)}
+                        className="group flex items-center gap-4 text-left w-full"
+                      >
+                        <span
+                          aria-hidden
+                          className={`shrink-0 grid place-items-center rounded-full transition-all ${
+                            active ? "w-12 h-12 ring-2 ring-primary ring-offset-2 ring-offset-transparent" : "w-11 h-11 ring-1 ring-neutral-400/50"
+                          }`}
+                          style={{ backgroundColor: c.hex }}
+                        >
+                          {active ? <Check size={16} className="text-white mix-blend-difference" /> : null}
+                        </span>
+                        <span className="min-w-0">
+                          <span
+                            className={`block uppercase tracking-wide font-black ${active ? "text-primary" : "text-neutral-900"}`}
+                            style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "20px", letterSpacing: "0.06em" }}
+                          >
+                            {title}
+                          </span>
+                          {subtitle ? (
+                            <span className="block text-sm text-neutral-600 mt-0.5">{subtitle}</span>
+                          ) : null}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <div className="mt-8 flex flex-col gap-3 max-w-[260px]">
+                <Link
+                  to="/comparar"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary bg-white/60 backdrop-blur-sm font-display font-black uppercase tracking-wider text-[11px] px-5 py-3 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                >
+                  Comparar este modelo
+                </Link>
                 <button
                   type="button"
                   onClick={() => openWhatsAppWithFallback(whatsappMsg)}
-                  className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
+                  className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-wider text-[11px] px-5 py-3 rounded-full hover:brightness-110"
                 >
                   Consultar condições <ChevronRight size={14} />
                 </button>
-                <a
-                  href="#financiamento"
-                  className="inline-flex items-center gap-2 border border-white/20 text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:border-primary hover:text-primary"
-                >
-                  Simular financiamento
-                </a>
               </div>
-
-              <dl className="mt-8 grid grid-cols-3 gap-4 max-w-md">
-                {[
-                  { l: "Autonomia", v: m.range },
-                  { l: "Velocidade", v: m.speed },
-                  { l: "Potência", v: m.power },
-                ].map((s) => (
-                  <div key={s.l} className="border-l border-white/15 pl-3">
-                    <dt className="text-[10px] uppercase tracking-widest text-white/50 font-bold">
-                      {s.l}
-                    </dt>
-                    <dd
-                      className="text-white mt-1"
-                      style={{
-                        fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                        fontSize: "22px",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {s.v}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
             </div>
 
+            {/* Vehicle */}
             <div className="relative">
-              <div className="absolute inset-x-4 bottom-2 h-8 rounded-[50%] bg-black/60 blur-2xl" />
+              <div className="absolute inset-x-6 bottom-4 h-10 rounded-[50%] bg-black/25 blur-2xl" />
               {heroImg ? (
                 <img
+                  key={heroImg}
                   src={heroImg}
-                  alt={m.name}
+                  alt={`${m.name} — ${variant?.name ?? ""}`}
                   width={1400}
                   height={1000}
                   fetchPriority="high"
                   decoding="async"
-                  className="relative w-full h-auto object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.55)]"
+                  className="relative w-full h-auto object-contain drop-shadow-[0_35px_45px_rgba(15,23,42,0.35)] transition-opacity duration-300"
                 />
               ) : null}
+              {/* 360 badge — decorative */}
+              <div
+                aria-hidden
+                className="hidden sm:grid absolute right-[8%] top-1/2 -translate-y-1/2 w-16 h-16 place-items-center rounded-full bg-white/95 shadow-lg text-neutral-900"
+              >
+                <div className="text-center leading-tight">
+                  <div className="text-[13px] font-black" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>360°</div>
+                  <div className="text-[9px] uppercase tracking-widest text-neutral-500">view</div>
+                </div>
+              </div>
+              {/* Rotation arrow — decorative */}
+              <svg
+                aria-hidden
+                viewBox="0 0 400 60"
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[70%] max-w-[520px] text-neutral-700/60"
+                fill="none"
+              >
+                <path d="M20 30 C 120 55, 280 55, 380 30" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M373 25 L 383 30 L 373 35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </div>
           </div>
 
-          <div className="mt-4 flex items-center justify-center text-white/40 text-[10px] uppercase tracking-[0.4em] font-bold">
-            <ChevronDown size={14} className="animate-bounce mr-2" /> Role para conhecer
-          </div>
+          {/* Bottom quick specs */}
+          <dl className="relative z-10 mt-8 grid grid-cols-3 gap-4 max-w-2xl mx-auto lg:mx-0">
+            {[
+              { l: "Autonomia", v: m.range },
+              { l: "Velocidade", v: m.speed },
+              { l: "Potência", v: m.power },
+            ].map((s) => (
+              <div key={s.l} className="border-l border-neutral-500/30 pl-3">
+                <dt className="text-[10px] uppercase tracking-widest text-neutral-600 font-bold">{s.l}</dt>
+                <dd
+                  className="text-neutral-900 mt-1"
+                  style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "22px", lineHeight: 1 }}
+                >
+                  {s.v}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
+
 
       {/* INTRO */}
       <section className="border-t border-border">
