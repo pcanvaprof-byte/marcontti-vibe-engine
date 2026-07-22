@@ -314,7 +314,7 @@ export function YamahaProductPage({
               <Link
                 to="/comparar"
                 search={{ a: m.slug }}
-                className="inline-flex items-center justify-center gap-2 border border-white/25 text-white font-display font-black uppercase tracking-wider text-[11px] px-6 py-3 rounded-full hover:bg-white hover:text-neutral-900 transition-colors"
+                className="inline-flex items-center justify-center gap-2 border border-white/60 text-white font-display font-black uppercase tracking-wider text-[11px] px-6 py-3 rounded-full hover:bg-white hover:text-neutral-900 transition-colors"
               >
                 Comparar este modelo
               </Link>
