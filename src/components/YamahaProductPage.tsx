@@ -13,8 +13,21 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
  * typography, alternating feature blocks driven by the model's gallery, big
  * color selector, spec table and a final CTA. Uses existing DB fields only.
  */
-export function YamahaProductPage({ m }: { m: Model }) {
-  const [selected, setSelected] = useState(0);
+export function YamahaProductPage({
+  m,
+  selected: selectedProp,
+  onSelect,
+}: {
+  m: Model;
+  selected?: number;
+  onSelect?: (i: number) => void;
+}) {
+  const [selectedLocal, setSelectedLocal] = useState(0);
+  const selected = selectedProp ?? selectedLocal;
+  const setSelected = (i: number) => {
+    if (onSelect) onSelect(i);
+    else setSelectedLocal(i);
+  };
   const [view360Open, setView360Open] = useState(false);
   const modelGallery = useMemo(() => getGallery(m), [m]);
   const variant = m.colors[selected] ?? m.colors[0];

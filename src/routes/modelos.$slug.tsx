@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
 import {
   ArrowLeft,
@@ -40,7 +40,20 @@ function humanizeSlug(slug: string) {
     .join(" ");
 }
 
+export const slugColor = (name: string) =>
+  name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+type SlugSearch = { cor?: string };
+
 export const Route = createFileRoute("/modelos/$slug")({
+  validateSearch: (s: Record<string, unknown>): SlugSearch => ({
+    cor: typeof s.cor === "string" && s.cor.length > 0 ? s.cor : undefined,
+  }),
   loader: ({ params }) => {
     const model = getModel(params.slug);
     // Allow unknown slugs to render — the component fetches from the DB.
@@ -171,12 +184,36 @@ function ModelPage() {
   const m = dbModels.find((x) => x.slug === data.slug) ?? data.model ?? null;
 
   // Hooks must be declared unconditionally — never early-return above them.
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelectedState] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [tab, setTab] = useState<Tab>("Descrição Geral");
   const [cep, setCep] = useState("");
   const gallery = useMemo(() => (m ? getGallery(m) : []), [m]);
   const [imgIndex, setImgIndex] = useState(0);
+
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/modelos/$slug" });
+
+  // Sync selected color with ?cor= search param (share-friendly deep links).
+  useEffect(() => {
+    if (!m || !search.cor) return;
+    const idx = m.colors.findIndex((c) => slugColor(c.name) === search.cor);
+    if (idx >= 0 && idx !== selected) setSelectedState(idx);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [m?.slug, search.cor]);
+
+  const setSelected = useCallback(
+    (i: number) => {
+      setSelectedState(i);
+      const color = m?.colors[i];
+      if (!color) return;
+      navigate({
+        search: (prev: SlugSearch) => ({ ...prev, cor: slugColor(color.name) }),
+        replace: true,
+      });
+    },
+    [m, navigate],
+  );
 
   const variant = m?.colors[selected] ?? m?.colors[0];
 
@@ -234,7 +271,13 @@ function ModelPage() {
 
   // Yamaha models use the dedicated editorial layout.
   if (m.slug.startsWith("yamaha-")) {
-    return <YamahaProductPage m={m} />;
+    return (
+      <YamahaProductPage
+        m={m}
+        selected={selected}
+        onSelect={setSelected}
+      />
+    );
   }
 
   const activeImage = gallery[imgIndex] ?? variant?.image;
