@@ -17,7 +17,7 @@ export type DbModel = {
   power: string;
   short_description: string;
   description: string;
-  colors: { name: string; hex: string; image: string; hidden?: boolean }[];
+  colors: { name: string; hex: string; image: string; hidden?: boolean; gallery?: string[] }[];
   specs: { label: string; value: string }[];
   features: string[];
   gallery: Array<string | GalleryItem>;
@@ -31,7 +31,12 @@ export function normalizeGallery(raw: DbModel["gallery"] | null | undefined): Ga
 
 export function dbToModel(m: DbModel): Model {
   const visibleGallery = normalizeGallery(m.gallery).filter((g) => !g.hidden).map((g) => g.url);
-  const colors = (m.colors ?? []).map((c) => (c.hidden ? { ...c, image: "" } : c));
+  const colors = (m.colors ?? []).map((c) => ({
+    name: c.name,
+    hex: c.hex,
+    image: c.hidden ? "" : c.image,
+    ...(c.gallery && c.gallery.length ? { gallery: c.gallery } : {}),
+  }));
   return {
     slug: m.slug,
     name: m.name,
