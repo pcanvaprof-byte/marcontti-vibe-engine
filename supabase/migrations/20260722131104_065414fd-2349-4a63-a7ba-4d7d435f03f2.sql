@@ -1,0 +1,2 @@
+UPDATE public.models SET tag = 'Moto · Edição limitada · Wolverine' WHERE slug = 'yamaha-crosser-z-abs-wolverine';
+UPDATE public.models SET tag = 'Moto · Edição limitada · Deadpool' WHERE slug = 'yamaha-fazer-fz15-abs-deadpool';
