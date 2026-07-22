@@ -835,6 +835,7 @@ function ModelPage() {
             >
               Admin
             </Link>
+            <CreatedBy />
           </div>
         </div>
       </footer>
