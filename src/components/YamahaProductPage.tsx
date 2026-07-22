@@ -565,7 +565,7 @@ export function YamahaProductPage({
           },
           {
             q: "É necessária CNH para conduzir este modelo?",
-            a: "Sim, é necessária habilitação adequada conforme a legislação vigente e o uso obrigatório de equipamentos de segurança.",
+            a: "Depende do modelo. Scooters e motos elétricas acima de 1000W são homologadas como motocicletas e exigem CNH categoria A, emplacamento e uso obrigatório de capacete e demais equipamentos de segurança. Modelos até 1000W são classificados como autopropelidos pelo CONTRAN 996/23 e não exigem CNH nem emplacamento — ainda assim recomendamos capacete e proteção adequada.",
           },
           {
             q: "Qual é a garantia do veículo?",
