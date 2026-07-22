@@ -195,6 +195,7 @@ export function FinanciamentoForm({
     if (error) {
       setSaveError("Não foi possível salvar sua solicitação. Tente novamente ou envie pelo WhatsApp.");
       setLastMessage(text);
+      if (waWindow) waWindow.close();
       return;
     }
 
@@ -204,18 +205,19 @@ export function FinanciamentoForm({
       source: "financiamento_form",
       meta: { model: d.model, payment_type: d.paymentType, entry: d.entry, term: d.term },
     });
-    openWhatsAppNewTab(text, {
+    const waUrl = buildWhatsAppFallbackUrl(text);
+    if (waWindow && !waWindow.closed) {
+      waWindow.location.href = waUrl;
+    } else {
+      openWhatsAppNewTab(text, {
+        source: "financiamento_form",
+        event: "whatsapp_redirected",
+        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
+      });
+    }
+    trackEvent("whatsapp_redirected", {
       source: "financiamento_form",
-      event: "whatsapp_redirected",
-      meta: {
-        name: d.name,
-        phone: d.phone,
-        email: d.email,
-        model: d.model,
-        payment_type: d.paymentType,
-        entry: d.entry,
-        term: d.term,
-      },
+      meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
     });
   }
 
