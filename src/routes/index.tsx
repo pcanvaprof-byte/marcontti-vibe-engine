@@ -1696,7 +1696,7 @@ function RefProductCard({ m }: { m: Model }) {
     <Link
       to="/modelos/$slug"
       params={{ slug: m.slug }}
-      className="group block bg-black border border-border rounded-lg overflow-hidden hover:border-primary/60 transition-all hover:-translate-y-1"
+      className="group flex flex-col h-full bg-black border border-border rounded-lg overflow-hidden hover:border-primary/60 transition-all hover:-translate-y-1"
     >
       <div className="relative aspect-square bg-white overflow-hidden">
         <img
@@ -1709,8 +1709,8 @@ function RefProductCard({ m }: { m: Model }) {
           <Zap size={10} className="inline -mt-0.5" /> {m.power}
         </span>
       </div>
-      <div className="p-4 text-center">
-        <h3 className="font-display font-black uppercase text-xs sm:text-sm tracking-tight text-white line-clamp-2 break-words min-h-[2.4em]">
+      <div className="p-4 text-center flex-1 flex flex-col min-w-0">
+        <h3 className="font-display font-black uppercase text-xs sm:text-sm tracking-tight text-white break-words min-h-[2.4em]">
           {m.name} | Klug
         </h3>
         <div className="flex items-center justify-center gap-0.5 text-primary mt-1.5">
