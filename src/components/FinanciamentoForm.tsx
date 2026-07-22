@@ -597,12 +597,10 @@ export function FinanciamentoForm({
                       placeholder="00000-000"
                       className={inputCls}
                       aria-invalid={!!errors.address_zip || !!cepError}
-                      onChange={(e) => {
-                        handleCepChange(e);
-                        handleCepLookup(e);
-                      }}
-                      onBlur={handleCepLookup}
+                      onChange={handleCepChange}
+                      onBlur={handleCepBlur}
                     />
+
                     {(errors.address_zip || cepError) && (
                       <p role="alert" className="text-xs text-destructive mt-1.5">
                         {errors.address_zip ?? cepError}
