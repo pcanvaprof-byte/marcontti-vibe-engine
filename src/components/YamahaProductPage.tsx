@@ -96,53 +96,12 @@ export function YamahaProductPage({
       </header>
 
       {/* Sub-nav com âncoras — padrão site oficial Yamaha */}
-      <nav className="hidden md:block border-b border-border bg-neutral-950/80 backdrop-blur-md sticky top-14 z-30">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
-          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar text-[11px] uppercase tracking-widest font-display font-black text-white/70">
-            {[
-              ["eficiencia", "Eficiência elétrica"],
-              ["modos", "Modos de condução"],
-              ["tecnologia", "Tecnologia"],
-              ["comodidade", "Comodidade"],
-              ["conectividade", "Conectividade"],
-              ["baterias", "Baterias"],
-              ["modernidade", "Modernidade"],
-              ["inovacao", "Inovação"],
-            ].map(([id, label]) => (
-              <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-primary transition-colors">
-                {label}
-              </a>
-            ))}
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={() =>
-                openWhatsAppWithFallback(
-                  `Olá! Quero agendar um Test-Ride da *${m.name}*. Pode me passar as opções?`,
-                  { source: "yamaha_subnav_test_ride", event: "test_ride_click", modelSlug: m.slug },
-                )
-              }
-              className="inline-flex items-center px-4 py-1.5 rounded-full bg-white text-neutral-950 text-[11px] font-display font-black uppercase tracking-widest hover:brightness-90"
-            >
-              Agendar Test-Ride
-            </button>
-            <a
-              href="#financiamento"
-              className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/30 text-white text-[11px] font-display font-black uppercase tracking-widest hover:border-primary hover:text-primary"
-            >
-              Comprar online
-            </a>
-            <a
-              href={whatsappUrl}
-              onClick={handleWhats}
-              className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-black uppercase tracking-widest hover:brightness-110"
-            >
-              Receber contato
-            </a>
-          </div>
-        </div>
-      </nav>
+      <SubNav
+        model={m}
+        whatsappUrl={whatsappUrl}
+        onWhats={handleWhats}
+      />
+
 
       {/* HERO — official artwork, matches yamaha-motor.com.br */}
       <section className="relative overflow-hidden isolate text-white bg-neutral-950">
