@@ -501,6 +501,10 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           <Textarea rows={3} value={JSON.stringify(d.features ?? [], null, 2)}
             onChange={(e) => { try { set("features", JSON.parse(e.target.value)); } catch {} }} />
         </Field>
+        <Field label='Cores (JSON avançado — permite imagem e galeria por cor: [{"name","hex","image","gallery":["url1","url2"],"hidden":false}])'>
+          <Textarea rows={8} value={JSON.stringify(d.colors ?? [], null, 2)}
+            onChange={(e) => { try { set("colors", JSON.parse(e.target.value)); } catch {} }} />
+        </Field>
 
         <div className="flex items-center gap-3">
           <Switch checked={d.is_active ?? true} onCheckedChange={(v) => set("is_active", v)} />
