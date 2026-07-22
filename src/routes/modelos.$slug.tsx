@@ -192,7 +192,7 @@ function ModelPage() {
   const [imgIndex, setImgIndex] = useState(0);
 
   const search = Route.useSearch();
-  const navigate = useNavigate({ from: "/modelos/$slug" });
+
 
   // Sync selected color with ?cor= search param (share-friendly deep links).
   useEffect(() => {
