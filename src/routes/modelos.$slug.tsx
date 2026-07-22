@@ -128,9 +128,25 @@ type Tab = (typeof TABS)[number];
 
 function ModelPage() {
   const data = Route.useLoaderData() as { model: import("@/lib/models").Model | null; slug: string };
-  const { items: dbModels } = usePublicModels();
+  const { items: dbModels, isLoading: dbLoading } = usePublicModels();
   const m = data.model ?? dbModels.find((x) => x.slug === data.slug) ?? null;
+
+  // Hooks must be declared unconditionally — never early-return above them.
+  const [selected, setSelected] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  const [tab, setTab] = useState<Tab>("Descrição Geral");
+  const [cep, setCep] = useState("");
+  const gallery = useMemo(() => (m ? getGallery(m) : []), [m]);
+  const [imgIndex, setImgIndex] = useState(0);
+
   if (!m) {
+    if (dbLoading) {
+      return (
+        <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
+          <div className="h-8 w-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+        </div>
+      );
+    }
     return (
       <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
         <div>
@@ -143,14 +159,8 @@ function ModelPage() {
       </div>
     );
   }
-  const [selected, setSelected] = useState(0);
-  const [lightbox, setLightbox] = useState(false);
-  const [tab, setTab] = useState<Tab>("Descrição Geral");
-  const [cep, setCep] = useState("");
-  const variant = m.colors[selected] ?? m.colors[0];
 
-  const gallery = useMemo(() => getGallery(m), [m]);
-  const [imgIndex, setImgIndex] = useState(0);
+  const variant = m.colors[selected] ?? m.colors[0];
   const activeImage = gallery[imgIndex] ?? variant?.image;
 
   useEffect(() => {
