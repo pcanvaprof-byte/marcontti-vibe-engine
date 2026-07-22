@@ -235,10 +235,10 @@ export function YamahaProductPage({
               </h2>
             </div>
 
-            {/* Ground reflection */}
+            {/* Ground reflection — tints with variant */}
             <div
-              className="absolute inset-x-12 bottom-4 h-12 rounded-[50%] blur-2xl opacity-70"
-              style={{ backgroundColor: "rgba(60,15,0,0.55)" }}
+              className="absolute inset-x-12 bottom-4 h-12 rounded-[50%] blur-2xl opacity-70 transition-[background-color] duration-700 ease-out"
+              style={{ backgroundColor: `${variant?.hex ?? "#3c0f00"}88` }}
             />
 
             {heroImg ? (
@@ -250,7 +250,7 @@ export function YamahaProductPage({
                 height={1000}
                 fetchPriority="high"
                 decoding="async"
-                className="relative z-30 w-full max-w-[860px] h-auto object-contain drop-shadow-[0_50px_60px_rgba(60,15,0,0.5)] transition-opacity duration-300"
+                className="relative z-30 w-full max-w-[860px] h-auto object-contain drop-shadow-[0_50px_60px_rgba(60,15,0,0.5)] animate-[heroImgIn_500ms_ease-out]"
               />
             ) : null}
 
