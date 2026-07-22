@@ -325,6 +325,10 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     set("gallery", normalizeGallery(d.gallery).map((g, i) => i === idx ? { ...g, hidden: !g.hidden } : g));
   }
 
+  function reorderGallery(fromIdx: number, toIdx: number) {
+    set("gallery", arrayMove(normalizeGallery(d.gallery), fromIdx, toIdx));
+  }
+
   function toggleMainHidden() {
     const cs = d.colors ?? [];
     if (!cs.length) return;
