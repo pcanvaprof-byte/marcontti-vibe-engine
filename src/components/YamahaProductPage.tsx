@@ -551,40 +551,8 @@ export function YamahaProductPage({
       )}
 
       {/* 7. FICHA TÉCNICA */}
-      {m.specs.length > 0 && (
-        <section className="border-t border-border bg-card/30">
-          <div className="max-w-5xl mx-auto px-5 sm:px-10 py-20 sm:py-28">
-            <div className="text-center">
-              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-                Especificações técnicas
-              </p>
-              <h2
-                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-                style={{
-                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                  fontSize: "clamp(30px, 5vw, 56px)",
-                }}
-              >
-                Cada número, uma <span className="text-primary">promessa</span>
-              </h2>
-            </div>
+      {m.specs.length > 0 && <SpecSheet specs={m.specs} />}
 
-            <dl className="mt-12 grid sm:grid-cols-2 gap-x-10">
-              {m.specs.map((s) => (
-                <div
-                  key={s.label}
-                  className="flex justify-between gap-6 py-4 border-b border-white/10"
-                >
-                  <dt className="text-white/60 text-sm uppercase tracking-widest font-bold">
-                    {s.label}
-                  </dt>
-                  <dd className="text-white font-semibold text-right">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
-      )}
 
       {/* 8. CONDIÇÕES — Financiamento / Consórcio / Consultoria */}
       <section className="border-t border-border bg-neutral-950">
