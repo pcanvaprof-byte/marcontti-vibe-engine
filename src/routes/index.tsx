@@ -58,7 +58,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Klug Motors: motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. Rua Albano Schimidt, 1882.",
+          "Klug Motors: motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. R. Albano Schmidt, 1882.",
       },
       { property: "og:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
       {
@@ -87,9 +87,10 @@ export const Route = createFileRoute("/")({
           vatID: "51.728.597/0001-26",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Rua Albano Schimidt, 1882",
+            streetAddress: "R. Albano Schmidt, 1882 — Boa Vista",
             addressLocality: "Joinville",
             addressRegion: "SC",
+            postalCode: "89205-100",
             addressCountry: "BR",
           },
           openingHoursSpecification: [
@@ -1232,8 +1233,8 @@ function Contact() {
             <ContactRow
               icon={MapPin}
               label="Endereço"
-              value="Rua Albano Schimidt, 1882 · Joinville / SC"
-              href="https://maps.google.com/?q=Rua+Albano+Schimidt+1882+Joinville"
+              value="R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100"
+              href="https://maps.google.com/?q=R.+Albano+Schmidt,+1882+-+Boa+Vista,+Joinville+-+SC,+89205-100"
             />
             <ContactRow
               icon={Phone}
@@ -1265,8 +1266,8 @@ function Contact() {
           {/* Google Maps embed */}
           <div className="mt-6 border border-border bg-card rounded-2xl overflow-hidden">
             <iframe
-              title="Localização da Klug Motors em Joinville — Rua Albano Schimidt, 1882"
-              src="https://www.google.com/maps?q=Rua+Albano+Schimidt+1882+Joinville+SC&output=embed"
+              title="Localização da Klug Motors em Joinville — R. Albano Schmidt, 1882"
+              src="https://www.google.com/maps?q=R.+Albano+Schmidt,+1882+-+Boa+Vista,+Joinville+-+SC,+89205-100&output=embed"
               width="100%"
               height="320"
               style={{ border: 0 }}
@@ -1276,10 +1277,10 @@ function Contact() {
             />
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border-t border-border bg-background/50">
               <p className="text-xs text-white/60 leading-relaxed">
-                Rua Albano Schimidt, 1882 — Joinville/SC
+                R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100
               </p>
               <a
-                href="https://www.google.com/maps/dir/?api=1&destination=Rua+Albano+Schimidt+1882+Joinville+SC"
+                href="https://www.google.com/maps/dir/?api=1&destination=R.+Albano+Schmidt,+1882+-+Boa+Vista,+Joinville+-+SC,+89205-100"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Abrir rota até a Klug Motors no Google Maps"
@@ -1413,9 +1414,9 @@ function Footer() {
             <address className="not-italic text-white/70 text-sm leading-relaxed flex items-start gap-2">
               <MapPin {...iconProps} className="mt-1 shrink-0 text-white/40" />
               <span>
-                Rua Albano Schimidt, 1882
+                R. Albano Schmidt, 1882 — Boa Vista
                 <br />
-                Joinville — SC
+                Joinville/SC · 89205-100
               </span>
             </address>
           </div>
@@ -1474,7 +1475,7 @@ function Footer() {
 
         <div className="pt-6 sm:pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] text-center md:text-left">
-            © {new Date().getFullYear()} Klug Motors · CNPJ 51.728.597/0001-26 · Rua Albano Schimidt, 1882 — Joinville/SC
+            © {new Date().getFullYear()} Klug Motors · CNPJ 51.728.597/0001-26 · R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100
           </p>
           <img
             src={klugSymbol.url}

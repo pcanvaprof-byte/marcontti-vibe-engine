@@ -32,8 +32,9 @@ export const Route = createFileRoute("/contato")({
           taxID: "51.728.597/0001-26",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Rua Albano Schimidt, 1882",
+            streetAddress: "R. Albano Schmidt, 1882 — Boa Vista",
             addressLocality: "Joinville",
+            postalCode: "89205-100",
             addressRegion: "SC",
             addressCountry: "BR",
           },
@@ -102,13 +103,13 @@ function ContatoPage() {
 
           <SectionCard title="Loja física">
             <div className="not-prose space-y-3 text-sm">
-              <p className="inline-flex items-start gap-2"><MapPin size={16} className="text-primary mt-0.5 shrink-0" /> <span>Rua Albano Schimidt, 1882 — Joinville/SC</span></p>
+              <p className="inline-flex items-start gap-2"><MapPin size={16} className="text-primary mt-0.5 shrink-0" /> <span>R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100</span></p>
               <p className="inline-flex items-start gap-2"><Clock size={16} className="text-primary mt-0.5 shrink-0" /> <span>Seg–Sex 08:30–18:30 (sem fechar para almoço)<br />Sábado 08:30–13:00</span></p>
             </div>
             <div className="not-prose mt-5 border border-border rounded-xl overflow-hidden">
               <iframe
                 title="Localização da Klug Motors"
-                src="https://www.google.com/maps?q=Rua+Albano+Schimidt+1882+Joinville+SC&output=embed"
+                src="https://www.google.com/maps?q=R.+Albano+Schmidt,+1882+-+Boa+Vista,+Joinville+-+SC,+89205-100&output=embed"
                 width="100%"
                 height="260"
                 style={{ border: 0 }}
@@ -116,9 +117,9 @@ function ContatoPage() {
                 referrerPolicy="no-referrer-when-downgrade"
               />
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border-t border-border bg-background/50">
-                <p className="text-xs text-white/60">Rua Albano Schimidt, 1882 — Joinville/SC</p>
+                <p className="text-xs text-white/60">R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100</p>
                 <a
-                  href="https://www.google.com/maps/dir/?api=1&destination=Rua+Albano+Schimidt+1882+Joinville+SC"
+                  href="https://www.google.com/maps/dir/?api=1&destination=R.+Albano+Schmidt,+1882+-+Boa+Vista,+Joinville+-+SC,+89205-100"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase text-[11px] tracking-widest px-4 py-2.5 rounded-full transition-all hover:-translate-y-0.5"

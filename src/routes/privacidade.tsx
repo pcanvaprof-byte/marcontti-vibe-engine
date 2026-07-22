@@ -60,7 +60,7 @@ function PrivacyPage() {
           <Section title="1. Quem somos">
             <p>
               Klug Motors, inscrita no CNPJ 51.728.597/0001-26, localizada na
-              Rua Albano Schimidt, 1882 — Joinville/SC, é a controladora dos
+              R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100, é a controladora dos
               dados pessoais tratados por este site e responsável por esta
               política, nos termos da Lei Geral de Proteção de Dados
               (Lei nº 13.709/2018 — LGPD).
@@ -149,7 +149,7 @@ function PrivacyPage() {
               <br />
               Telefone: <a href="tel:+554734293200" className="text-primary underline underline-offset-2">(47) 3429-3200</a>
               <br />
-              Endereço: Rua Albano Schimidt, 1882 — Joinville/SC.
+              Endereço: R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100.
             </p>
           </Section>
 

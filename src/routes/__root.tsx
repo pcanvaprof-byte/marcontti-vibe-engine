@@ -136,7 +136,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
-      { name: "description", content: "Klug Motors: motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. Rua Albano Schimidt, 1882." },
+      { name: "description", content: "Klug Motors: motos, scooters, triciclos e bicicletas elétricas em Joinville/SC. Sem CNH, econômicas e sustentáveis. R. Albano Schmidt, 1882." },
       { name: "author", content: "Klug Motors" },
       { property: "og:site_name", content: "Klug Motors" },
       { property: "og:locale", content: "pt_BR" },
