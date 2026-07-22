@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type MouseEvent } from "react";
-import { ArrowLeft, MessageCircle, ChevronDown, ChevronRight, Check } from "lucide-react";
+import { ArrowLeft, MessageCircle, ChevronRight, Check } from "lucide-react";
 import type { Model } from "@/lib/models";
 import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
