@@ -459,6 +459,13 @@ export function YamahaProductPage({ m }: { m: Model }) {
           <FinanciamentoForm defaultModel={m.name} />
         </div>
       </section>
+
+      <View360Modal
+        open={view360Open}
+        onClose={() => setView360Open(false)}
+        frames={activeGallery.filter(Boolean)}
+        title={`${m.name} — ${variant?.name ?? ""}`}
+      />
     </div>
   );
 }
