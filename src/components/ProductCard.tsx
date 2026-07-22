@@ -34,6 +34,7 @@ export function ProductCard({ product }: { product: Product }) {
     <article
       className="
         group relative w-full h-full
+        flex flex-col
         bg-black overflow-visible
         rounded-[18px]
         shadow-[0_10px_30px_-15px_rgba(0,0,0,0.6)]
@@ -62,21 +63,21 @@ export function ProductCard({ product }: { product: Product }) {
       {/* Pastilha vertical arredondada — borda ESQUERDA */}
       <span
         aria-hidden
-        className="absolute left-0 top-[46%] -translate-y-1/2 -translate-x-1/2 w-8 h-14 sm:w-[38px] sm:h-[64px] rounded-full bg-primary z-[1]"
+        className="absolute left-0 top-[42%] -translate-y-1/2 -translate-x-1/2 w-8 h-14 sm:w-[38px] sm:h-[64px] rounded-full bg-primary z-[1]"
       />
       {/* Pastilha vertical arredondada — borda DIREITA */}
       <span
         aria-hidden
-        className="absolute right-0 top-[54%] -translate-y-1/2 translate-x-1/2 w-8 h-14 sm:w-[38px] sm:h-[64px] rounded-full bg-primary z-[1]"
+        className="absolute right-0 top-[50%] -translate-y-1/2 translate-x-1/2 w-8 h-14 sm:w-[38px] sm:h-[64px] rounded-full bg-primary z-[1]"
       />
 
+      {/* Palco branco — proporção fixa, imagem pode extrapolar as bordas */}
       <Link
         to={href}
         aria-label={`Ver detalhes de ${product.nome}`}
-        className="relative z-[2] block h-full"
+        className="relative z-[2] block mx-3 mt-3 sm:mx-4 sm:mt-4"
       >
-        {/* Palco branco — moto pode estourar as bordas para simular "saindo" do card */}
-        <div className="absolute inset-x-3 top-3 bottom-[132px] sm:inset-x-4 sm:top-4 sm:bottom-28 rounded-[12px] bg-white overflow-visible shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
+        <div className="relative aspect-[4/3] rounded-[12px] bg-white overflow-visible shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
           <div className="absolute inset-0 flex items-end justify-center overflow-visible">
             <LazyImage
               src={product.imagem}
@@ -93,40 +94,46 @@ export function ProductCard({ product }: { product: Product }) {
             />
           </div>
         </div>
+      </Link>
 
-
-        {/* MOBILE — bloco inferior com título, preço e CTA centralizados vertical e horizontalmente */}
-        <div className="sm:hidden absolute inset-x-0 bottom-0 h-[128px] z-[4] px-4 pb-3 flex flex-col items-center justify-center gap-1.5 text-center">
+      {/* MOBILE — bloco inferior em fluxo, altura automática, sem clipping */}
+      <div className="sm:hidden relative z-[4] px-4 pt-3 pb-4 flex flex-1 flex-col items-center justify-center text-center gap-1.5 min-w-0">
+        <Link to={href} className="min-w-0 w-full">
           <h3
-            className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[34px]"
+            className="text-primary italic uppercase leading-[0.9] tracking-[-0.01em] text-[30px] sm:text-[34px] break-words"
             style={{ fontFamily: displayFont, fontWeight: 400 }}
           >
-            {product.nome} <span className="text-white/90 text-[24px] not-italic ml-1">{product.potencia}</span>
+            {product.nome}{" "}
+            <span className="text-white/90 text-[22px] not-italic ml-1 break-words">
+              {product.potencia}
+            </span>
           </h3>
-          {product.preco && (
-            <p className="text-white/80 text-[12px] font-semibold tracking-wide">
-              {product.preco}
-            </p>
-          )}
-          <button
-            type="button"
-            onClick={openModal}
-            className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
-          >
-            Saiba mais
-          </button>
-        </div>
+        </Link>
+        {product.preco && (
+          <p className="text-white/80 text-[12px] font-semibold tracking-wide break-words">
+            {product.preco}
+          </p>
+        )}
+        <button
+          type="button"
+          onClick={openModal}
+          className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition shrink-0"
+        >
+          Saiba mais
+        </button>
+      </div>
 
-        {/* DESKTOP — sobreposição no canto inferior esquerdo (mantido) */}
-        <div className="hidden sm:block absolute left-5 bottom-4 z-[4] pointer-events-none">
+      {/* DESKTOP — bloco inferior em fluxo com título à esquerda e CTA à direita */}
+      <div className="hidden sm:flex relative z-[4] flex-1 items-end justify-between gap-4 px-5 pb-5 pt-4 min-w-0">
+        <Link to={href} className="min-w-0 flex-1">
           <h3
-            className="text-primary italic uppercase leading-[0.85] tracking-[-0.01em] text-[48px] lg:text-[56px]"
+            className="text-primary italic uppercase leading-[0.9] tracking-[-0.01em] text-[40px] lg:text-[52px] break-words hyphens-auto"
             style={{ fontFamily: displayFont, fontWeight: 400 }}
           >
             {product.nome}
           </h3>
           <p
-            className="mt-1 text-white italic uppercase leading-[0.85] tracking-[-0.01em] text-[44px] lg:text-[52px]"
+            className="mt-1 text-white italic uppercase leading-[0.9] tracking-[-0.01em] text-[36px] lg:text-[46px] break-words"
             style={{
               fontFamily: displayFont,
               fontWeight: 400,
@@ -135,18 +142,15 @@ export function ProductCard({ product }: { product: Product }) {
           >
             {product.potencia}
           </p>
-        </div>
-
-      </Link>
-
-      {/* Desktop — botão flutuante "Saiba mais" no canto inferior direito */}
-      <button
-        type="button"
-        onClick={openModal}
-        className="hidden sm:inline-flex absolute right-4 bottom-5 z-[5] items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[11px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
-      >
-        Saiba mais
-      </button>
+        </Link>
+        <button
+          type="button"
+          onClick={openModal}
+          className="shrink-0 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[11px] px-4 py-2 rounded-full shadow-[0_6px_16px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
+        >
+          Saiba mais
+        </button>
+      </div>
 
       <QuickViewModal product={product} open={open} onClose={() => setOpen(false)} />
     </article>
