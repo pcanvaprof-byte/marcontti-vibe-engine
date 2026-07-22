@@ -1522,12 +1522,15 @@ function Footer() {
           <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] text-center md:text-left">
             © {new Date().getFullYear()} Klug Motors · CNPJ 51.728.597/0001-26 · R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100
           </p>
-          <img
-            src={klugSymbol.url}
-            alt=""
-            aria-hidden="true"
-            className="w-6 h-6 object-contain opacity-60"
-          />
+          <div className="flex items-center gap-3">
+            <CreatedBy />
+            <img
+              src={klugSymbol.url}
+              alt=""
+              aria-hidden="true"
+              className="w-6 h-6 object-contain opacity-60"
+            />
+          </div>
         </div>
       </div>
     </footer>
