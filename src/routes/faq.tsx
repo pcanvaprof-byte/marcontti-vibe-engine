@@ -65,6 +65,11 @@ export const Route = createFileRoute("/faq")({
       { property: "og:description", content: "Perguntas frequentes sobre motos e scooters elétricas: CNH, autonomia, garantia, financiamento." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: `${BASE_URL}/faq` },
+      { property: "og:image", content: `${BASE_URL}/__l5e/assets-v1/21bd2611-0299-49a1-97ac-8ef4e7ef597e/og-faq.jpg` },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: `${BASE_URL}/__l5e/assets-v1/21bd2611-0299-49a1-97ac-8ef4e7ef597e/og-faq.jpg` },
     ],
     links: [{ rel: "canonical", href: `${BASE_URL}/faq` }],
     scripts: [
