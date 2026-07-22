@@ -67,11 +67,9 @@ export function ProductCard({ product }: { product: Product }) {
         {/* Palco branco — moto pode estourar as bordas para simular "saindo" do card */}
         <div className="absolute inset-x-3 top-3 bottom-[132px] sm:inset-x-4 sm:top-4 sm:bottom-28 rounded-[12px] bg-white overflow-visible shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
           <div className="absolute inset-0 flex items-end justify-center overflow-visible">
-            <img
+            <LazyImage
               src={product.imagem}
               alt={product.nome}
-              loading="lazy"
-              decoding="async"
               className="
                 w-auto object-contain pointer-events-none
                 h-[135%] sm:h-[145%]
