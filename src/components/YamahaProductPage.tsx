@@ -39,14 +39,17 @@ export function YamahaProductPage({
   }, [variant, modelGallery]);
   const heroImg = variant?.image ?? activeGallery[0];
 
+  // Text swaps with the selected color when the variant provides its own copy.
+  const activeDescription = variant?.description?.trim() || m.description;
+  const activeTagline = variant?.tagline?.trim() || "";
   // Split description into paragraphs / sentences for the feature blocks.
   const sentences = useMemo(() => {
-    const parts = m.description
+    const parts = activeDescription
       .split(/(?<=[.!?])\s+/)
       .map((s) => s.trim())
       .filter(Boolean);
-    return parts.length ? parts : [m.description];
-  }, [m.description]);
+    return parts.length ? parts : [activeDescription];
+  }, [activeDescription]);
 
 
 
