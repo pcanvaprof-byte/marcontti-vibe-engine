@@ -50,7 +50,7 @@ export function PageLayout({
                   { source: "header_test_ride", event: "test_ride_click" },
                 )
               }
-              className="hidden sm:inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-[11px] font-display font-black uppercase tracking-widest text-primary-foreground hover:brightness-110"
+              className="hidden sm:inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-[11px] font-display font-black uppercase tracking-widest text-primary-foreground hover:brightness-110"
             >
               Agendar Test-Ride
             </button>
