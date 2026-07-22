@@ -184,12 +184,36 @@ function ModelPage() {
   const m = dbModels.find((x) => x.slug === data.slug) ?? data.model ?? null;
 
   // Hooks must be declared unconditionally — never early-return above them.
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelectedState] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [tab, setTab] = useState<Tab>("Descrição Geral");
   const [cep, setCep] = useState("");
   const gallery = useMemo(() => (m ? getGallery(m) : []), [m]);
   const [imgIndex, setImgIndex] = useState(0);
+
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/modelos/$slug" });
+
+  // Sync selected color with ?cor= search param (share-friendly deep links).
+  useEffect(() => {
+    if (!m || !search.cor) return;
+    const idx = m.colors.findIndex((c) => slugColor(c.name) === search.cor);
+    if (idx >= 0 && idx !== selected) setSelectedState(idx);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [m?.slug, search.cor]);
+
+  const setSelected = useCallback(
+    (i: number) => {
+      setSelectedState(i);
+      const color = m?.colors[i];
+      if (!color) return;
+      navigate({
+        search: (prev) => ({ ...prev, cor: slugColor(color.name) }),
+        replace: true,
+      });
+    },
+    [m, navigate],
+  );
 
   const variant = m?.colors[selected] ?? m?.colors[0];
 
