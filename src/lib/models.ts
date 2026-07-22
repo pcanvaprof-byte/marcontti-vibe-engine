@@ -14,8 +14,12 @@ import popImg from "@/assets/motos/pop.jpg.asset.json";
 import x15Img from "@/assets/motos/x15.jpg.asset.json";
 import suduSportImg from "@/assets/motos/sudu-sport.jpg.asset.json";
 import suduA12Img from "@/assets/motos/sudu-a12.png.asset.json";
-import suduUrbanImg from "@/assets/motos/sudu-urban.jpg.asset.json";
-import suduTriImg from "@/assets/motos/sudu-tri.jpg.asset.json";
+import suduA10Img from "@/assets/motos/sudu-a10.png.asset.json";
+import suduA3PlusImg from "@/assets/motos/sudu-a3-plus.png.asset.json";
+import suduA4Img from "@/assets/motos/sudu-a4.png.asset.json";
+import suduA5Img from "@/assets/motos/sudu-a5.png.asset.json";
+import suduA6Img from "@/assets/motos/sudu-a6.png.asset.json";
+import suduA13TImg from "@/assets/motos/sudu-a13t.png.asset.json";
 import yamahaNeosImg from "@/assets/motos/yamaha-neos.jpg.asset.json";
 import yamahaE01Img from "@/assets/motos/yamaha-e01.jpg.asset.json";
 
