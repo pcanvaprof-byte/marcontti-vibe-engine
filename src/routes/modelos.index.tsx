@@ -330,6 +330,11 @@ function CatalogPage() {
               Privacidade
             </Link>
             <Link
+              to="/admin"
+              className="text-[11px] font-display font-black uppercase tracking-widest text-white/50 hover:text-primary"
+            >
+              Admin
+            <Link
               to="/"
               className="inline-flex items-center gap-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
             >
