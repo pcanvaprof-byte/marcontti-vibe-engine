@@ -38,6 +38,7 @@ const schema = z.object({
   budget: z.enum(MONTHLY_BUDGETS, { message: "Selecione o orçamento mensal" }),
   contemplation: z.enum(CONTEMPLATION, { message: "Selecione a preferência" }),
   message: z.string().trim().max(500).optional(),
+  lgpd: z.literal(true, { message: "É necessário aceitar o tratamento de dados" }),
 });
 
 export function ConsorcioForm({
