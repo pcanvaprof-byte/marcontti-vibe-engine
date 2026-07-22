@@ -224,10 +224,10 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     if (!files.length) return;
     setUploadingGallery(true);
     try {
-      const urls: string[] = [];
-      for (const f of files) urls.push(await uploadFile(f));
-      set("gallery", [...(d.gallery ?? []), ...urls]);
-      toast.success(`${urls.length} imagem(ns) adicionada(s)`);
+      const items: GalleryItem[] = [];
+      for (const f of files) items.push({ url: await uploadFile(f) });
+      set("gallery", [...normalizeGallery(d.gallery), ...items]);
+      toast.success(`${items.length} imagem(ns) adicionada(s)`);
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
@@ -237,7 +237,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   }
 
   function removeGalleryItem(idx: number) {
-    set("gallery", (d.gallery ?? []).filter((_, i) => i !== idx));
+    set("gallery", normalizeGallery(d.gallery).filter((_, i) => i !== idx));
+  }
+
+  function toggleGalleryHidden(idx: number) {
+    set("gallery", normalizeGallery(d.gallery).map((g, i) => i === idx ? { ...g, hidden: !g.hidden } : g));
+  }
+
+  function toggleMainHidden() {
+    const cs = d.colors ?? [];
+    if (!cs.length) return;
+    set("colors", cs.map((c, i) => i === 0 ? { ...c, hidden: !c.hidden } : c));
   }
 
   async function handleSave() {
