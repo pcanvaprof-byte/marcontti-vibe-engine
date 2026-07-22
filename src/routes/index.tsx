@@ -1689,11 +1689,11 @@ function RevealGrid({
 const CIRCLE_CATS = [
   { label: "Autopropelidos", to: "/modelos", filter: "autopropelido" },
   { label: "Motos", to: "/modelos", filter: "moto" },
-  { label: "Patinetes", to: "/modelos", filter: "patinete" },
   { label: "Scooters", to: "/modelos", filter: "scooter" },
   { label: "Triciclos", to: "/modelos", filter: "triciclo" },
   { label: "Todas Cat.", to: "/modelos", filter: "todos" },
 ] as const;
+
 
 function CategoryCircles() {
   return (
