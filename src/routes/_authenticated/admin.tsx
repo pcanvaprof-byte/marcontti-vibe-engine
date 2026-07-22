@@ -319,18 +319,47 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
         <div className="space-y-2">
           <Label>Imagem principal</Label>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap">
             {preview && <img src={preview} alt="" className="w-24 h-24 rounded object-cover bg-neutral-800" />}
             <label className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 hover:bg-neutral-700 cursor-pointer text-sm">
-              <Upload className="w-4 h-4" /> {uploading ? "Enviando..." : "Enviar imagem"}
-              <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploading} />
+              <Upload className="w-4 h-4" /> {uploadingMain ? "Enviando..." : "Escolher arquivo"}
+              <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
             </label>
             <Input
               placeholder="Ou cole uma URL de imagem"
               value={preview ?? ""}
               onChange={(e) => set("colors", [{ name: d.colors?.[0]?.name ?? "Padrão", hex: d.colors?.[0]?.hex ?? "#1a1a1a", image: e.target.value }, ...(d.colors ?? []).slice(1)])}
+              className="flex-1 min-w-[200px]"
             />
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Galeria de imagens</Label>
+          <div className="flex items-center gap-3 flex-wrap">
+            <label className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 hover:bg-neutral-700 cursor-pointer text-sm">
+              <Upload className="w-4 h-4" /> {uploadingGallery ? "Enviando..." : "Adicionar imagens"}
+              <input type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} disabled={uploadingGallery} />
+            </label>
+            <span className="text-xs text-neutral-500">{(d.gallery ?? []).length} imagem(ns)</span>
+          </div>
+          {(d.gallery ?? []).length > 0 && (
+            <div className="grid grid-cols-4 md:grid-cols-6 gap-2 mt-2">
+              {(d.gallery ?? []).map((url, i) => (
+                <div key={i} className="relative group">
+                  <img src={url} alt="" className="w-full aspect-square rounded object-cover bg-neutral-800" />
+                  <button
+                    type="button"
+                    onClick={() => removeGalleryItem(i)}
+                    className="absolute top-1 right-1 bg-red-500/90 hover:bg-red-600 text-white rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label="Remover"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <Field label="Specs (JSON: [{label, value}])">
