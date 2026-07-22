@@ -208,7 +208,7 @@ function ModelPage() {
       const color = m?.colors[i];
       if (!color) return;
       navigate({
-        search: (prev) => ({ ...prev, cor: slugColor(color.name) }),
+        search: (prev: SlugSearch) => ({ ...prev, cor: slugColor(color.name) }),
         replace: true,
       });
     },
