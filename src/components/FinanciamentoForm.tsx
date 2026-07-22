@@ -66,8 +66,51 @@ export function FinanciamentoForm({
   const [saveError, setSaveError] = useState<string | null>(null);
   const [paymentType, setPaymentType] = useState<PaymentType | "">("");
   const [lgpd, setLgpd] = useState(false);
+  const [cepLoading, setCepLoading] = useState(false);
+  const [cepError, setCepError] = useState<string | null>(null);
 
   const isFinancing = paymentType === "Financiamento";
+
+  const setFieldValue = (id: string, value: string) => {
+    const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | null;
+    if (el) el.value = value;
+  };
+
+  const maskCep = (v: string) => {
+    const d = v.replace(/\D+/g, "").slice(0, 8);
+    return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
+  };
+
+  const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.currentTarget.value = maskCep(e.currentTarget.value);
+  };
+
+  const handleCepLookup = async (e: React.FocusEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement>) => {
+    const digits = (e.currentTarget.value || "").replace(/\D+/g, "");
+    if (digits.length !== 8) return;
+    setCepError(null);
+    setCepLoading(true);
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+      const data = await res.json();
+      if (data?.erro) {
+        setCepError("CEP não encontrado");
+        return;
+      }
+      setFieldValue("fin-address_street", data.logradouro ?? "");
+      setFieldValue("fin-address_neighborhood", data.bairro ?? "");
+      setFieldValue("fin-address_city", data.localidade ?? "");
+      setFieldValue("fin-address_state", data.uf ?? "");
+      setFieldValue("fin-address_complement", data.complemento ?? (document.getElementById("fin-address_complement") as HTMLInputElement)?.value ?? "");
+      // Focar o número após preencher
+      (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
+    } catch {
+      setCepError("Falha ao consultar o CEP");
+    } finally {
+      setCepLoading(false);
+    }
+  };
+
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
