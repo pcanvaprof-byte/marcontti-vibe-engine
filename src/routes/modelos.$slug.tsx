@@ -30,7 +30,14 @@ import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
-const BASE_URL = "https://proototipomotos.lovable.app";
+const BASE_URL = "https://althaciamoveis.shop";
+
+function humanizeSlug(slug: string) {
+  return slug
+    .split("-")
+    .map((w) => (w.length <= 3 ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1)))
+    .join(" ");
+}
 
 export const Route = createFileRoute("/modelos/$slug")({
   loader: ({ params }) => {
@@ -39,11 +46,32 @@ export const Route = createFileRoute("/modelos/$slug")({
     return { model: model ?? null, slug: params.slug };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData || !loaderData.model) return { meta: [{ title: "Modelo — Klug Motors" }] };
+    const url = `${BASE_URL}/modelos/${params.slug}`;
+    if (!loaderData || !loaderData.model) {
+      const name = humanizeSlug(params.slug);
+      const title = `${name} — Klug Motors | Motos e Scooters Elétricas`;
+      const desc = `Conheça a ${name} na Klug Motors em Joinville/SC. Preço, autonomia, velocidade e financiamento facilitado.`;
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "product" },
+          { property: "og:url", content: url },
+        ],
+        links: [{ rel: "canonical", href: url }],
+      };
+    }
     const m = loaderData.model;
     const title = `${m.name} — ${m.tag} | Klug Motors`;
     const desc = `${m.short} A partir de ${m.price}. Autonomia ${m.range}, ${m.speed}. Financiamento facilitado em Joinville/SC.`;
-    const img = m.colors[0]?.image;
+    const rawImg = m.colors[0]?.image;
+    const img = rawImg
+      ? rawImg.startsWith("http")
+        ? rawImg
+        : `${BASE_URL}${rawImg}`
+      : undefined;
     return {
       meta: [
         { title },
@@ -51,10 +79,19 @@ export const Route = createFileRoute("/modelos/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "product" },
-        { property: "og:url", content: `${BASE_URL}/modelos/${params.slug}` },
-        ...(img ? [{ property: "og:image", content: `${BASE_URL}${img}` }] : []),
+        { property: "og:url", content: url },
+        ...(img
+          ? [
+              { property: "og:image", content: img },
+              { name: "twitter:card", content: "summary_large_image" },
+              { name: "twitter:image", content: img },
+            ]
+          : []),
       ],
-      links: [{ rel: "canonical", href: `${BASE_URL}/modelos/${params.slug}` }],
+      links: [
+        { rel: "canonical", href: url },
+        ...(img ? [{ rel: "preload", as: "image", href: img, fetchpriority: "high" }] : []),
+      ],
       scripts: [
         {
           type: "application/ld+json",
@@ -65,13 +102,13 @@ export const Route = createFileRoute("/modelos/$slug")({
             description: m.description,
             brand: { "@type": "Brand", name: "Klug Motors" },
             category: m.tag,
-            image: img ? `${BASE_URL}${img}` : undefined,
+            image: img,
             offers: {
               "@type": "Offer",
               price: m.priceNumber,
               priceCurrency: "BRL",
               availability: "https://schema.org/InStock",
-              url: `${BASE_URL}/modelos/${params.slug}`,
+              url,
               seller: { "@type": "Organization", name: "Klug Motors" },
             },
           }),
