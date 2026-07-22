@@ -537,7 +537,7 @@ export function YamahaProductPage({
                   trackEvent("interest_click", {
                     source: "product_payment_card",
                     modelSlug: m.slug,
-                    metadata: { model: m.name, paymentType: c.key, cta: c.cta },
+                    meta: { model: m.name, paymentType: c.key, cta: c.cta },
                   });
                   setModalOpen(c.key);
                 }}
