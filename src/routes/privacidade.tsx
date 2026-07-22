@@ -147,7 +147,7 @@ function PrivacyPage() {
             <p>
               E-mail: <a href="mailto:klugmotors@gmail.com" className="text-primary underline underline-offset-2">klugmotors@gmail.com</a>
               <br />
-              Telefone: <a href="tel:+5547934293200" className="text-primary underline underline-offset-2">(47) 93429-3200</a>
+              Telefone: <a href="tel:+554734293200" className="text-primary underline underline-offset-2">(47) 3429-3200</a>
               <br />
               Endereço: R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100.
             </p>
