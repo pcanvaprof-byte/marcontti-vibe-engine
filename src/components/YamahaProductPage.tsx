@@ -275,7 +275,7 @@ export function YamahaProductPage({
 
 
       {/* 5. COMODIDADE + CONECTIVIDADE — dois blocos alternados */}
-      <section className="border-t border-border bg-card/30">
+      <section id="comodidade" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 space-y-20 sm:space-y-28">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
