@@ -13,6 +13,7 @@ import p10Img from "@/assets/motos/p10.jpg.asset.json";
 import popImg from "@/assets/motos/pop.jpg.asset.json";
 import x15Img from "@/assets/motos/x15.jpg.asset.json";
 import suduSportImg from "@/assets/motos/sudu-sport.jpg.asset.json";
+import suduA12Img from "@/assets/motos/sudu-a12.png.asset.json";
 import suduUrbanImg from "@/assets/motos/sudu-urban.jpg.asset.json";
 import suduTriImg from "@/assets/motos/sudu-tri.jpg.asset.json";
 import yamahaNeosImg from "@/assets/motos/yamaha-neos.jpg.asset.json";
@@ -427,7 +428,7 @@ export const models: Model[] = [
     short: "Scooter SUDU A12 com NFC, Bluetooth e cruise control.",
     description:
       "SUDU A12 combina tecnologia embarcada (NFC, Bluetooth, Cruise Control) com bateria 60V 24Ah de lítio e capacidade de 150 kg. Design urbano e desempenho ideal para o dia a dia.",
-    colors: [{ name: "Padrão", hex: "#c0392b", image: suduSportImg.url }],
+    colors: [{ name: "Verde", hex: "#1f8a4c", image: suduA12Img.url }],
     specs: [
       { label: "Autonomia", value: "até 55 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
