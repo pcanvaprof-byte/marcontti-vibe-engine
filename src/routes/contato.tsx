@@ -38,6 +38,8 @@ export const Route = createFileRoute("/contato")({
           "@id": `${BASE_URL}/contato#loja-joinville`,
           name: "Klug Motors — Unidade Joinville",
           url: `${BASE_URL}/contato`,
+          logo: `${BASE_URL}/favicon.ico`,
+          image: `${BASE_URL}/favicon.ico`,
           telephone: "+554734293200",
           email: "klugmotors@gmail.com",
           taxID: "51.728.597/0001-26",
@@ -47,7 +49,7 @@ export const Route = createFileRoute("/contato")({
           paymentAccepted: "Cash, Credit Card, Debit Card, PIX, Financiamento",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "R. Albano Schmidt, 1882",
+            streetAddress: "R. Albano Schmidt, 1882 - Boa Vista",
             addressLocality: "Joinville",
             addressRegion: "SC",
             postalCode: "89205-100",
@@ -62,6 +64,7 @@ export const Route = createFileRoute("/contato")({
           areaServed: [
             { "@type": "City", name: "Joinville" },
             { "@type": "AdministrativeArea", name: "Santa Catarina" },
+            { "@type": "Country", name: "Brasil" },
           ],
           openingHoursSpecification: [
             { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "08:30", closes: "18:30" },
