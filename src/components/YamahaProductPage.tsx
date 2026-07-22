@@ -40,20 +40,16 @@ export function YamahaProductPage({
   }, [variant, modelGallery]);
   const heroImg = variant?.image ?? activeGallery[0];
 
-  // Text swaps with the selected color when the variant provides its own copy.
-  const activeDescription = variant?.description?.trim() || m.description;
-  const activeTagline = variant?.tagline?.trim() || "";
-  // Split description into paragraphs / sentences for the feature blocks.
+  // Textos das seções Intro/Versatilidade/Tecnologia são fixos (não trocam por cor)
+  // — evita re-render/piscada de várias seções a cada clique na cor.
+  const baseDescription = m.description;
   const sentences = useMemo(() => {
-    const parts = activeDescription
+    const parts = baseDescription
       .split(/(?<=[.!?])\s+/)
       .map((s) => s.trim())
       .filter(Boolean);
-    return parts.length ? parts : [activeDescription];
-  }, [activeDescription]);
-
-
-
+    return parts.length ? parts : [baseDescription];
+  }, [baseDescription]);
 
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -65,12 +61,14 @@ export function YamahaProductPage({
     openWhatsAppWithFallback(whatsappMsg);
   };
 
-  // Prefetch the variant image swap.
+  // Pré-carrega TODAS as imagens de variantes no mount — troca de cor fica instantânea.
   useEffect(() => {
-    if (!variant?.image) return;
-    const i = new Image();
-    i.src = variant.image;
-  }, [variant?.image]);
+    m.colors.forEach((c) => {
+      if (!c?.image) return;
+      const i = new Image();
+      i.src = c.image;
+    });
+  }, [m.colors]);
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
