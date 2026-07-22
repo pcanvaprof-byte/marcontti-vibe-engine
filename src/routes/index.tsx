@@ -256,6 +256,8 @@ const CATEGORY_LINKS = [
   { label: "Scooter Elétricas Sudu", search: { marca: "sudu" } },
   { label: "Motos a Combustão", search: { cat: "moto" } },
   { label: "Yamaha 0km", search: { marca: "yamaha" } },
+  { label: "Motos Seminovas", search: { cat: "seminovos" } },
+
 ] as const;
 
 
