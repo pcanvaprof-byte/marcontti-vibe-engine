@@ -602,13 +602,13 @@ function Hero() {
           />
         </div>
         <div className="mt-6 flex flex-col items-center sm:items-end gap-[5px] animate-fade-up">
-          <a
-            href="#modelos"
+          <Link
+            to="/modelos"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
           >
             Ver Modelos
             <ArrowRight size={18} />
-          </a>
+          </Link>
           <a
             href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
             onClick={(e) => {
