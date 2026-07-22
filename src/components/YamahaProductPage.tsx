@@ -347,7 +347,7 @@ export function YamahaProductPage({
       </section>
 
       {/* 6. BATERIAS / AUTONOMIA — DUAL BATTERY */}
-      <section className="border-t border-border bg-neutral-950">
+      <section id="baterias" className="border-t border-border bg-neutral-950">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
           <div className="text-center max-w-3xl mx-auto">
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
