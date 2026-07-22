@@ -29,6 +29,7 @@ import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedInstagramRouteImport } from './routes/_authenticated/instagram'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicBootstrapAdminRouteImport } from './routes/api/public/bootstrap-admin'
 import { Route as ApiPublicModelImagesSplatRouteImport } from './routes/api/public/model-images/$'
 
 const SobreRoute = SobreRouteImport.update({
@@ -130,6 +131,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicBootstrapAdminRoute = ApiPublicBootstrapAdminRouteImport.update({
+  id: '/api/public/bootstrap-admin',
+  path: '/api/public/bootstrap-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicModelImagesSplatRoute =
   ApiPublicModelImagesSplatRouteImport.update({
     id: '/api/public/model-images/$',
@@ -157,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos/': typeof ModelosIndexRoute
+  '/api/public/bootstrap-admin': typeof ApiPublicBootstrapAdminRoute
   '/api/public/model-images/$': typeof ApiPublicModelImagesSplatRoute
 }
 export interface FileRoutesByTo {
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos': typeof ModelosIndexRoute
+  '/api/public/bootstrap-admin': typeof ApiPublicBootstrapAdminRoute
   '/api/public/model-images/$': typeof ApiPublicModelImagesSplatRoute
 }
 export interface FileRoutesById {
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos/': typeof ModelosIndexRoute
+  '/api/public/bootstrap-admin': typeof ApiPublicBootstrapAdminRoute
   '/api/public/model-images/$': typeof ApiPublicModelImagesSplatRoute
 }
 export interface FileRouteTypes {
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/modelos/sudu'
     | '/modelos/yamaha'
     | '/modelos/'
+    | '/api/public/bootstrap-admin'
     | '/api/public/model-images/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/modelos/sudu'
     | '/modelos/yamaha'
     | '/modelos'
+    | '/api/public/bootstrap-admin'
     | '/api/public/model-images/$'
   id:
     | '__root__'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/modelos/sudu'
     | '/modelos/yamaha'
     | '/modelos/'
+    | '/api/public/bootstrap-admin'
     | '/api/public/model-images/$'
   fileRoutesById: FileRoutesById
 }
@@ -291,6 +303,7 @@ export interface RootRouteChildren {
   ModelosSuduRoute: typeof ModelosSuduRoute
   ModelosYamahaRoute: typeof ModelosYamahaRoute
   ModelosIndexRoute: typeof ModelosIndexRoute
+  ApiPublicBootstrapAdminRoute: typeof ApiPublicBootstrapAdminRoute
   ApiPublicModelImagesSplatRoute: typeof ApiPublicModelImagesSplatRoute
 }
 
@@ -436,6 +449,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/bootstrap-admin': {
+      id: '/api/public/bootstrap-admin'
+      path: '/api/public/bootstrap-admin'
+      fullPath: '/api/public/bootstrap-admin'
+      preLoaderRoute: typeof ApiPublicBootstrapAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/model-images/$': {
       id: '/api/public/model-images/$'
       path: '/api/public/model-images/$'
@@ -481,6 +501,7 @@ const rootRouteChildren: RootRouteChildren = {
   ModelosSuduRoute: ModelosSuduRoute,
   ModelosYamahaRoute: ModelosYamahaRoute,
   ModelosIndexRoute: ModelosIndexRoute,
+  ApiPublicBootstrapAdminRoute: ApiPublicBootstrapAdminRoute,
   ApiPublicModelImagesSplatRoute: ApiPublicModelImagesSplatRoute,
 }
 export const routeTree = rootRouteImport
