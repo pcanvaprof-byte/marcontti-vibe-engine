@@ -648,20 +648,19 @@ export function FinanciamentoForm({
 
                   <div>
                     <label htmlFor="fin-address_state" className={labelCls}>UF</label>
-                    <select
+                    <input
                       id="fin-address_state"
                       name="address_state"
-                      defaultValue=""
-                      disabled
-                      className={`${inputCls} bg-muted/50 cursor-not-allowed`}
+                      maxLength={2}
+                      readOnly
+                      placeholder="—"
+                      className={`${inputCls} bg-muted/50 cursor-not-allowed uppercase`}
                       aria-invalid={!!errors.address_state}
                       title="UF é preenchida automaticamente pelo CEP para garantir consistência"
-                    >
-                      <option value="" disabled>—</option>
-                      {UFS.map((u) => <option key={u}>{u}</option>)}
-                    </select>
+                    />
                     {errors.address_state && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_state}</p>}
                   </div>
+
 
                 </div>
 
