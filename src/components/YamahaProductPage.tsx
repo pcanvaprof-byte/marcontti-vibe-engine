@@ -5,6 +5,7 @@ import { ArrowLeft, MessageCircle, ChevronRight, Check, Plus, Minus } from "luci
 import type { Model } from "@/lib/models";
 import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
+import { ConsorcioForm } from "@/components/ConsorcioForm";
 import { View360Modal } from "@/components/View360Modal";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
