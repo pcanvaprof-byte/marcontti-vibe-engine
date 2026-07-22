@@ -231,7 +231,14 @@ function ModelPage() {
     );
   }
 
+  // Yamaha models use the dedicated editorial layout.
+  if (m.slug.startsWith("yamaha-")) {
+    return <YamahaProductPage m={m} />;
+  }
+
   const activeImage = gallery[imgIndex] ?? variant?.image;
+
+
 
 
   const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* — ${m.price}. Pode me passar mais informações?`;
