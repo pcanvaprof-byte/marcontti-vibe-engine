@@ -15,6 +15,7 @@ import infindaLogo from "../assets/infinda-logo.png.asset.json";
 import klugSymbol from "../assets/klug/klug-symbol.png.asset.json";
 import { BackToTop } from "../components/BackToTop";
 import { CookieConsent } from "../components/CookieConsent";
+import { captureAttribution } from "../lib/attribution";
 
 const PUBLIC_ORIGIN = "https://proototipomotos.lovable.app";
 const INFINDA_LOGO_URL = `${PUBLIC_ORIGIN}${infindaLogo.url}`;
@@ -177,6 +178,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    captureAttribution();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

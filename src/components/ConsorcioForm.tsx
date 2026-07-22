@@ -4,6 +4,7 @@ import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
+import { getAttribution, getOriginPage } from "@/lib/attribution";
 
 const CREDIT_RANGES = [
   "Até R$ 10.000",
@@ -96,6 +97,9 @@ export function ConsorcioForm({
       .filter(Boolean)
       .join("\n");
 
+    const attr = getAttribution();
+    const originPage = getOriginPage();
+
     const { error } = await supabase.from("leads").insert({
       name: d.name,
       phone: d.phone,
@@ -111,6 +115,14 @@ export function ConsorcioForm({
         .filter(Boolean)
         .join(" | "),
       source: "consorcio",
+      utm_source: attr.utm_source,
+      utm_medium: attr.utm_medium,
+      utm_campaign: attr.utm_campaign,
+      utm_term: attr.utm_term,
+      utm_content: attr.utm_content,
+      referrer: attr.referrer,
+      landing_page: attr.landing_page,
+      origin_page: originPage,
     });
 
     setSubmitting(false);
@@ -125,7 +137,16 @@ export function ConsorcioForm({
     setSent(true);
     trackEvent("consorcio_submit", {
       source: "consorcio_form",
-      meta: { model: d.model, credit: d.credit, budget: d.budget, contemplation: d.contemplation },
+      meta: {
+        model: d.model,
+        credit: d.credit,
+        budget: d.budget,
+        contemplation: d.contemplation,
+        utm_source: attr.utm_source,
+        utm_medium: attr.utm_medium,
+        utm_campaign: attr.utm_campaign,
+        origin_page: originPage,
+      },
     });
   }
 
