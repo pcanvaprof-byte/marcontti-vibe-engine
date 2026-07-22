@@ -323,7 +323,7 @@ function CatalogPage() {
               © {new Date().getFullYear()} Klug Motors · Joinville / SC
             </span>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-6">
             <Link
               to="/privacidade"
               className="text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
