@@ -571,10 +571,10 @@ export const models: Model[] = [
   },
   {
     slug: "sudu-a13t",
-    name: "SUDU A13T 1000W",
+    name: "SUDU A13T 800W",
     tag: "Triciclo SUDU · 3 lugares",
-    price: "Consultar disponibilidade",
-    priceNumber: 0,
+    price: "R$ 10.990",
+    priceNumber: 10990,
     range: "até 55 km",
     speed: "32 km/h",
     power: "1.000W",
