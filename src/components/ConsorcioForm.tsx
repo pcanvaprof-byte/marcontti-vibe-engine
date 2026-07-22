@@ -38,6 +38,7 @@ const schema = z.object({
   budget: z.enum(MONTHLY_BUDGETS, { message: "Selecione o orçamento mensal" }),
   contemplation: z.enum(CONTEMPLATION, { message: "Selecione a preferência" }),
   message: z.string().trim().max(500).optional(),
+  lgpd: z.literal(true, { message: "É necessário aceitar o tratamento de dados" }),
 });
 
 export function ConsorcioForm({
@@ -68,6 +69,7 @@ export function ConsorcioForm({
       budget: String(fd.get("budget") ?? "") as (typeof MONTHLY_BUDGETS)[number],
       contemplation: String(fd.get("contemplation") ?? "") as (typeof CONTEMPLATION)[number],
       message: String(fd.get("message") ?? ""),
+      lgpd: fd.get("lgpd") === "on",
     };
     const parsed = schema.safeParse(raw);
     if (!parsed.success) {
@@ -326,6 +328,27 @@ export function ConsorcioForm({
       <div>
         <label htmlFor="con-message" className={labelCls}>Observações (opcional)</label>
         <textarea id="con-message" name="message" rows={3} maxLength={500} placeholder="Conte um pouco mais sobre o que você procura" className={inputCls} />
+      </div>
+
+      <div>
+        <label
+          htmlFor="con-lgpd"
+          className="flex items-start gap-3 border border-border p-3 cursor-pointer hover:border-primary/60 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5"
+        >
+          <input
+            id="con-lgpd"
+            name="lgpd"
+            type="checkbox"
+            className="mt-0.5 h-4 w-4 accent-primary shrink-0"
+            aria-invalid={!!errors.lgpd}
+            aria-describedby={errors.lgpd ? "con-lgpd-err" : undefined}
+          />
+          <span className="text-[11px] leading-relaxed text-white/70">
+            Li e autorizo o tratamento dos meus dados pela Klug para contato sobre esta solicitação,
+            conforme a <a href="/privacidade" target="_blank" rel="noreferrer" className="text-primary underline underline-offset-2">Política de Privacidade</a> e a LGPD (Lei nº 13.709/2018). <span className="text-destructive">*</span>
+          </span>
+        </label>
+        {errors.lgpd && <p id="con-lgpd-err" role="alert" className="text-xs text-destructive mt-1.5">{errors.lgpd}</p>}
       </div>
 
       <div className="pt-2">
