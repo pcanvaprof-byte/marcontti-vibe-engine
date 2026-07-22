@@ -564,7 +564,9 @@ export function FinanciamentoForm({
 
                 <div className="grid sm:grid-cols-[1fr_120px] gap-5">
                   <div>
-                    <label htmlFor="fin-address_zip" className={labelCls}>CEP</label>
+                    <label htmlFor="fin-address_zip" className={labelCls}>
+                      CEP {cepLoading && <span className="ml-2 text-white/60 normal-case">consultando…</span>}
+                    </label>
                     <input
                       id="fin-address_zip"
                       name="address_zip"
@@ -572,10 +574,20 @@ export function FinanciamentoForm({
                       maxLength={9}
                       placeholder="00000-000"
                       className={inputCls}
-                      aria-invalid={!!errors.address_zip}
+                      aria-invalid={!!errors.address_zip || !!cepError}
+                      onChange={(e) => {
+                        handleCepChange(e);
+                        handleCepLookup(e);
+                      }}
+                      onBlur={handleCepLookup}
                     />
-                    {errors.address_zip && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_zip}</p>}
+                    {(errors.address_zip || cepError) && (
+                      <p role="alert" className="text-xs text-destructive mt-1.5">
+                        {errors.address_zip ?? cepError}
+                      </p>
+                    )}
                   </div>
+
                   <div>
                     <label htmlFor="fin-address_state" className={labelCls}>UF</label>
                     <select
