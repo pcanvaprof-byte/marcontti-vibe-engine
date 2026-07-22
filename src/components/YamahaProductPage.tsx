@@ -179,6 +179,14 @@ export function YamahaProductPage({
             0%, 100% { transform: translate(0,0) rotate(var(--r,0deg)); }
             50% { transform: translate(6px,-10px) rotate(var(--r,0deg)); }
           }
+          @keyframes tintIn {
+            0% { opacity: 0; }
+            100% { opacity: 0.85; }
+          }
+          @keyframes heroImgIn {
+            0% { opacity: 0; transform: translateY(12px) scale(0.985); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
         `}</style>
 
         <div className="relative max-w-[1500px] mx-auto px-5 sm:px-10 pt-8 sm:pt-10 pb-10 min-h-[86svh] flex flex-col">
