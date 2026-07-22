@@ -27,6 +27,7 @@ import {
 } from "@/lib/models";
 import { usePublicModels } from "@/hooks/useDbModels";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
+import { YamahaProductPage } from "@/components/YamahaProductPage";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
@@ -230,7 +231,14 @@ function ModelPage() {
     );
   }
 
+  // Yamaha models use the dedicated editorial layout.
+  if (m.slug.startsWith("yamaha-")) {
+    return <YamahaProductPage m={m} />;
+  }
+
   const activeImage = gallery[imgIndex] ?? variant?.image;
+
+
 
 
   const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* — ${m.price}. Pode me passar mais informações?`;
