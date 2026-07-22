@@ -106,11 +106,26 @@ export function YamahaProductPage({
 
       {/* HERO — warm lifestyle stage inspired by yamaha-motor.com.br */}
       <section
-        className="relative overflow-hidden isolate text-white"
-        style={{
-          backgroundImage: `radial-gradient(ellipse 70% 90% at 78% 40%, #ffd9a8 0%, #f4a463 28%, #d96a26 60%, #7a2a0a 100%)`,
-        }}
+        className="relative overflow-hidden isolate text-white bg-[#7a2a0a]"
       >
+        {/* Base warm gradient */}
+        <div
+          aria-hidden
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse 70% 90% at 78% 40%, #ffd9a8 0%, #f4a463 28%, #d96a26 60%, #7a2a0a 100%)",
+          }}
+        />
+        {/* Variant tint layer — cross-fades on color change */}
+        <div
+          key={variant?.hex ?? "base"}
+          aria-hidden
+          className="absolute inset-0 z-0 mix-blend-overlay animate-[tintIn_700ms_ease-out_forwards] opacity-0"
+          style={{
+            backgroundImage: `radial-gradient(ellipse 60% 70% at 50% 55%, ${variant?.hex ?? "#ffffff"}80 0%, transparent 70%)`,
+          }}
+        />
         {/* Floating leaves */}
         <div aria-hidden className="pointer-events-none absolute inset-0 z-10">
           {[
