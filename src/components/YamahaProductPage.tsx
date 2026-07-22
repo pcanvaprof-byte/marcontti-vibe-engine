@@ -48,21 +48,8 @@ export function YamahaProductPage({
     return parts.length ? parts : [m.description];
   }, [m.description]);
 
-  // Build up to 3 alternating feature blocks pairing gallery images with copy.
-  const featureBlocks = useMemo(() => {
-    const imgs = activeGallery.filter((g) => g && g !== heroImg).slice(0, 3);
-    const highlights = [
-      { kicker: "Design", title: "Presença que atravessa a cidade" },
-      { kicker: "Performance", title: "Resposta afinada em cada acelerada" },
-      { kicker: "Tecnologia", title: "Recursos que elevam a experiência" },
-    ];
-    return imgs.map((img, i) => ({
-      img,
-      kicker: highlights[i]?.kicker ?? "Destaque",
-      title: highlights[i]?.title ?? m.name,
-      copy: sentences[i + 1] ?? sentences[0],
-    }));
-  }, [activeGallery, heroImg, sentences, m.name]);
+
+
 
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -122,104 +109,257 @@ export function YamahaProductPage({
 
 
 
-      {/* INTRO */}
-      <section className="border-t border-border">
-        <div className="max-w-5xl mx-auto px-5 sm:px-10 py-16 sm:py-24 text-center">
-          <p className="text-[10px] uppercase tracking-[0.35em] font-display font-black text-primary">
+      {/* ============================================================
+          SEÇÕES DE PRODUTO — padrão Yamaha, marca Klug
+          Cada bloco: kicker curto + título grande + copy + imagem.
+          ============================================================ */}
+
+      {/* 1. INTRO — MOBILIDADE INTELIGENTE */}
+      <section className="border-t border-border bg-neutral-950">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 text-center">
+          <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
             {m.tag}
           </p>
           <h2
-            className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+            className="mt-5 text-white uppercase leading-[0.9] tracking-tight"
             style={{
               fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-              fontSize: "clamp(32px, 5vw, 64px)",
+              fontSize: "clamp(36px, 6vw, 84px)",
             }}
           >
-            Feita para quem <span className="text-primary">exige mais</span>
+            Mobilidade <span className="text-primary">inteligente</span>
           </h2>
-          <p className="mt-6 text-white/70 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
+          <p className="mt-8 text-white/75 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto">
             {m.description}
           </p>
         </div>
       </section>
 
-      {/* FEATURE BLOCKS — alternating */}
-      {featureBlocks.map((f, i) => (
-        <section
-          key={f.img + i}
-          className={`border-t border-border ${i % 2 === 0 ? "bg-card/30" : ""}`}
-        >
-          <div
-            className={`max-w-[1400px] mx-auto px-5 sm:px-10 py-16 sm:py-24 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
-              i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-            }`}
-          >
-            <div className="relative">
-              <div className="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-br from-primary/10 to-transparent" />
+      {/* 2. GRANDE IMAGEM LATERAL */}
+      {activeGallery[0] ? (
+        <section className="border-t border-border bg-neutral-950">
+          <div className="max-w-[1600px] mx-auto px-5 sm:px-10 py-16 sm:py-24">
+            <div className="relative rounded-3xl overflow-hidden bg-neutral-900">
               <img
-                src={f.img}
-                alt={f.title}
+                src={activeGallery[0]}
+                alt={`${m.name} — vista lateral`}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-contain rounded-2xl"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* 3. MODOS DE CONDUÇÃO / VERSATILIDADE */}
+      <section className="border-t border-border bg-card/30">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="order-2 lg:order-1">
+            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+              Experiência
+            </p>
+            <h3
+              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "clamp(30px, 4.5vw, 60px)",
+              }}
+            >
+              Versatilidade em <span className="text-primary">cada viagem</span>
+            </h3>
+            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg">
+              {sentences[1] ?? sentences[0]}
+            </p>
+            {m.features.length > 0 && (
+              <ul className="mt-8 grid sm:grid-cols-2 gap-3 max-w-lg">
+                {m.features.slice(0, 6).map((it) => (
+                  <li key={it} className="flex gap-2 text-sm text-white/85">
+                    <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                    <span>{it}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="order-1 lg:order-2">
+            <div className="rounded-3xl overflow-hidden bg-neutral-900 border border-white/10">
+              <img
+                src={activeGallery[1] ?? activeGallery[0] ?? heroImg}
+                alt={`${m.name} — modos de condução`}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. TECNOLOGIA — 3 CARDS DE DESTAQUE */}
+      <section className="border-t border-border bg-neutral-950">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+          <div className="text-center max-w-3xl mx-auto">
+            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+              Tecnologia
+            </p>
+            <h3
+              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "clamp(30px, 4.5vw, 60px)",
+              }}
+            >
+              A escolha certa para <span className="text-primary">mobilidade urbana</span>
+            </h3>
+            <p className="mt-6 text-white/70 leading-relaxed">
+              {sentences[2] ?? sentences[0]}
+            </p>
+          </div>
+
+          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                img: activeGallery[2] ?? activeGallery[0],
+                title: "Design atraente",
+                desc: "Linhas modernas e presença urbana que se destacam em qualquer trajeto.",
+              },
+              {
+                img: activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
+                title: "Performance afinada",
+                desc: "Resposta imediata e condução equilibrada para o dia a dia da cidade.",
+              },
+              {
+                img: activeGallery[4] ?? activeGallery[2] ?? activeGallery[0],
+                title: "Praticidade real",
+                desc: "Recursos pensados para simplificar cada viagem, do trajeto ao estacionamento.",
+              },
+            ].map((c, i) => (
+              <article
+                key={c.title + i}
+                className="group rounded-3xl bg-card/60 border border-white/10 overflow-hidden hover:border-primary/60 transition-colors"
+              >
+                <div className="aspect-[4/3] bg-neutral-900 grid place-items-center overflow-hidden">
+                  {c.img ? (
+                    <img
+                      src={c.img}
+                      alt={c.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
+                  ) : null}
+                </div>
+                <div className="p-6">
+                  <h4
+                    className="text-white uppercase leading-[1] tracking-tight"
+                    style={{
+                      fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                      fontSize: "28px",
+                    }}
+                  >
+                    {c.title}
+                  </h4>
+                  <p className="mt-3 text-white/70 text-sm leading-relaxed">{c.desc}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. COMODIDADE + CONECTIVIDADE — dois blocos alternados */}
+      <section className="border-t border-border bg-card/30">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 space-y-20 sm:space-y-28">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="rounded-3xl overflow-hidden bg-neutral-900 border border-white/10">
+              <img
+                src={activeGallery[5] ?? activeGallery[0] ?? heroImg}
+                alt="Comodidade"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto object-contain"
               />
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-[0.35em] font-display font-black text-primary">
-                {f.kicker}
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Comodidade
               </p>
               <h3
-                className="mt-3 text-white uppercase leading-[0.9] tracking-tight"
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
                 style={{
                   fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
                   fontSize: "clamp(28px, 4vw, 52px)",
                 }}
               >
-                {f.title}
+                Praticidade que acompanha <span className="text-primary">a sua rotina</span>
               </h3>
-              <p className="mt-5 text-white/70 leading-relaxed text-base sm:text-lg max-w-lg">
-                {f.copy}
+              <p className="mt-6 text-white/75 leading-relaxed">
+                Ergonomia pensada para deslocamentos diários, com espaço útil e acessos rápidos
+                que fazem diferença na cidade.
               </p>
-              {i === 0 && m.features.length > 0 && (
-                <ul className="mt-6 grid sm:grid-cols-2 gap-2 max-w-lg">
-                  {m.features.slice(0, 6).map((it) => (
-                    <li key={it} className="flex gap-2 text-sm text-white/80">
-                      <Check size={16} className="text-primary shrink-0 mt-0.5" />
-                      <span>{it}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
           </div>
-        </section>
-      ))}
 
-      {/* COLORS */}
-      {m.colors.length > 0 && (
-        <section className="border-t border-border">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-16 sm:py-24">
-            <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 mb-10">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.35em] font-display font-black text-primary">
-                  Cores
-                </p>
-                <h2
-                  className="mt-3 text-white uppercase leading-[0.9] tracking-tight"
-                  style={{
-                    fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                    fontSize: "clamp(32px, 5vw, 64px)",
-                  }}
-                >
-                  Escolha o seu <span className="text-primary">estilo</span>
-                </h2>
-              </div>
-              <p className="text-white/60 text-sm max-w-sm">
-                Selecione uma cor abaixo para visualizar em detalhes.
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="order-2 lg:order-1">
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Conectividade
               </p>
+              <h3
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                style={{
+                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                  fontSize: "clamp(28px, 4vw, 52px)",
+                }}
+              >
+                Sua {m.name.replace(/^Yamaha\s+/i, "")} <span className="text-primary">na palma da mão</span>
+              </h3>
+              <p className="mt-6 text-white/75 leading-relaxed">
+                Monitore seu veículo, acompanhe informações essenciais e mantenha a manutenção em
+                dia direto pelo aplicativo — tecnologia que anda com você.
+              </p>
+              <a
+                href={whatsappUrl}
+                onClick={handleWhats}
+                className="mt-8 inline-flex items-center gap-2 text-primary text-xs font-display font-black uppercase tracking-widest hover:brightness-125"
+              >
+                Falar com um consultor Klug <ChevronRight size={14} />
+              </a>
+            </div>
+            <div className="order-1 lg:order-2 rounded-3xl overflow-hidden bg-neutral-900 border border-white/10">
+              <img
+                src={activeGallery[6] ?? activeGallery[1] ?? heroImg}
+                alt="Conectividade"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. CORES */}
+      {m.colors.length > 0 && (
+        <section className="border-t border-border bg-neutral-950">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+            <div className="text-center max-w-3xl mx-auto">
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Cores
+              </p>
+              <h2
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                style={{
+                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                  fontSize: "clamp(32px, 5vw, 64px)",
+                }}
+              >
+                Escolha o seu <span className="text-primary">estilo</span>
+              </h2>
             </div>
 
-            <div className="relative rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 p-6 sm:p-12">
+            <div className="mt-12 relative rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 p-6 sm:p-12">
               <div className="min-h-[280px] sm:min-h-[420px] grid place-items-center">
                 {variant?.image ? (
                   <img
@@ -233,13 +373,12 @@ export function YamahaProductPage({
                 className="text-center mt-6 text-white uppercase"
                 style={{
                   fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                  fontSize: "28px",
+                  fontSize: "32px",
                   lineHeight: 1,
                 }}
               >
                 {variant?.name}
               </p>
-
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 {m.colors.map((c, i) => (
                   <button
@@ -262,24 +401,26 @@ export function YamahaProductPage({
         </section>
       )}
 
-      {/* SPECS */}
+      {/* 7. FICHA TÉCNICA */}
       {m.specs.length > 0 && (
         <section className="border-t border-border bg-card/30">
-          <div className="max-w-5xl mx-auto px-5 sm:px-10 py-16 sm:py-24">
-            <p className="text-[10px] uppercase tracking-[0.35em] font-display font-black text-primary">
-              Ficha técnica
-            </p>
-            <h2
-              className="mt-3 text-white uppercase leading-[0.9] tracking-tight"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(32px, 5vw, 56px)",
-              }}
-            >
-              Cada número, uma <span className="text-primary">promessa</span>
-            </h2>
+          <div className="max-w-5xl mx-auto px-5 sm:px-10 py-20 sm:py-28">
+            <div className="text-center">
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Especificações técnicas
+              </p>
+              <h2
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                style={{
+                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                  fontSize: "clamp(30px, 5vw, 56px)",
+                }}
+              >
+                Cada número, uma <span className="text-primary">promessa</span>
+              </h2>
+            </div>
 
-            <dl className="mt-10 grid sm:grid-cols-2 gap-x-10">
+            <dl className="mt-12 grid sm:grid-cols-2 gap-x-10">
               {m.specs.map((s) => (
                 <div
                   key={s.label}
@@ -295,6 +436,128 @@ export function YamahaProductPage({
           </div>
         </section>
       )}
+
+      {/* 8. CONDIÇÕES — Financiamento / Consórcio / Consultoria */}
+      <section className="border-t border-border bg-neutral-950">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+          <div className="text-center max-w-3xl mx-auto">
+            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+              Condições Klug
+            </p>
+            <h2
+              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "clamp(32px, 5vw, 64px)",
+              }}
+            >
+              A partir de <span className="text-primary">{fmtBRL(m.priceNumber)}</span>
+            </h2>
+            <p className="mt-5 text-white/70">
+              Consulte disponibilidade e condições especiais na unidade Klug Motors Joinville / SC.
+            </p>
+          </div>
+
+          <div className="mt-14 grid md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Financiamento",
+                desc: "Simule parcelas em até 36x com nossos parceiros bancários.",
+                cta: "Simular financiamento",
+              },
+              {
+                title: "Consórcio",
+                desc: "Planeje agora a compra do seu novo veículo com parcelas sob medida.",
+                cta: "Saiba mais",
+              },
+              {
+                title: "À vista",
+                desc: "Condições exclusivas para pagamento à vista via Pix ou transferência.",
+                cta: "Falar com consultor",
+              },
+            ].map((c) => (
+              <a
+                key={c.title}
+                href={whatsappUrl}
+                onClick={handleWhats}
+                className="group rounded-3xl bg-card/60 border border-white/10 p-8 hover:border-primary/60 hover:bg-card transition-colors block"
+              >
+                <h4
+                  className="text-white uppercase leading-[1] tracking-tight"
+                  style={{
+                    fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                    fontSize: "32px",
+                  }}
+                >
+                  {c.title}
+                </h4>
+                <p className="mt-3 text-white/70 text-sm leading-relaxed">{c.desc}</p>
+                <span className="mt-6 inline-flex items-center gap-2 text-primary text-xs font-display font-black uppercase tracking-widest">
+                  {c.cta} <ChevronRight size={14} className="transition-transform group-hover:translate-x-1" />
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 9. FAQ */}
+      <section className="border-t border-border bg-card/30">
+        <div className="max-w-4xl mx-auto px-5 sm:px-10 py-20 sm:py-28">
+          <div className="text-center">
+            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+              Perguntas frequentes
+            </p>
+            <h2
+              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "clamp(30px, 5vw, 56px)",
+              }}
+            >
+              Tire suas <span className="text-primary">dúvidas</span>
+            </h2>
+          </div>
+
+          <div className="mt-12 divide-y divide-white/10 border-y border-white/10">
+            {[
+              {
+                q: `Como faço para comprar a ${m.name.replace(/^Yamaha\s+/i, "")} na Klug?`,
+                a: "Basta falar com um dos nossos consultores pelo WhatsApp ou visitar nossa unidade em Joinville / SC. Emitimos nota, cuidamos do emplacamento e entregamos pronto para rodar.",
+              },
+              {
+                q: "Vocês entregam em outras cidades?",
+                a: "Sim. Realizamos entregas em todo o Brasil com transportadoras parceiras. Consulte o frete pelo WhatsApp informando o CEP de destino.",
+              },
+              {
+                q: "É necessária CNH para conduzir este modelo?",
+                a: "Sim, é necessária habilitação adequada conforme a legislação vigente e o uso obrigatório de equipamentos de segurança.",
+              },
+              {
+                q: "Qual é a garantia do veículo?",
+                a: "Todos os modelos comercializados pela Klug Motors possuem garantia oficial de fábrica. Fale com nosso consultor para conhecer as condições específicas deste modelo.",
+              },
+            ].map((f, i) => (
+              <details key={i} className="group py-5">
+                <summary className="cursor-pointer list-none flex items-start justify-between gap-4 text-white font-semibold">
+                  <span className="flex items-start gap-4">
+                    <span className="text-primary font-display font-black text-sm mt-0.5">
+                      {String(i + 1).padStart(2, "0")}.
+                    </span>
+                    <span>{f.q}</span>
+                  </span>
+                  <ChevronRight
+                    size={18}
+                    className="shrink-0 mt-1 text-primary transition-transform group-open:rotate-90"
+                  />
+                </summary>
+                <p className="mt-3 pl-10 text-white/70 text-sm leading-relaxed">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
 
       {/* FINAL CTA */}
       <section
