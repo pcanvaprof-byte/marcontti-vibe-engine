@@ -114,13 +114,17 @@ export function QuickViewModal({ product, open, onClose }: Props) {
                 Falar no WhatsApp
               </a>
 
-              <Link
-                to={detailHref}
-                onClick={onClose}
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full transition"
-              >
-                Ver página completa <ArrowRight size={14} />
-              </Link>
+              {product.slug ? (
+                <Link
+                  to="/modelos/$slug"
+                  params={{ slug: product.slug }}
+                  onClick={onClose}
+                  className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full transition"
+                >
+                  Ver página completa <ArrowRight size={14} />
+                </Link>
+              ) : null}
+
             </div>
           </div>
         </div>
