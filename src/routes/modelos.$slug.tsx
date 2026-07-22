@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
 import {
   ArrowLeft,
@@ -192,7 +192,7 @@ function ModelPage() {
   const [imgIndex, setImgIndex] = useState(0);
 
   const search = Route.useSearch();
-  const navigate = useNavigate({ from: "/modelos/$slug" });
+
 
   // Sync selected color with ?cor= search param (share-friendly deep links).
   useEffect(() => {
@@ -206,14 +206,16 @@ function ModelPage() {
     (i: number) => {
       setSelectedState(i);
       const color = m?.colors[i];
-      if (!color) return;
-      navigate({
-        search: (prev: SlugSearch) => ({ ...prev, cor: slugColor(color.name) }),
-        replace: true,
-      });
+      if (!color || typeof window === "undefined") return;
+      // Atualiza apenas o ?cor= via history API — evita re-render de rota,
+      // re-run de loader e qualquer sensação de "reload" ao trocar de cor.
+      const url = new URL(window.location.href);
+      url.searchParams.set("cor", slugColor(color.name));
+      window.history.replaceState(window.history.state, "", url.toString());
     },
-    [m, navigate],
+    [m],
   );
+
 
   const variant = m?.colors[selected] ?? m?.colors[0];
 
