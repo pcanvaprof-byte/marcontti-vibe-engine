@@ -551,40 +551,8 @@ export function YamahaProductPage({
       )}
 
       {/* 7. FICHA TÉCNICA */}
-      {m.specs.length > 0 && (
-        <section className="border-t border-border bg-card/30">
-          <div className="max-w-5xl mx-auto px-5 sm:px-10 py-20 sm:py-28">
-            <div className="text-center">
-              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-                Especificações técnicas
-              </p>
-              <h2
-                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-                style={{
-                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                  fontSize: "clamp(30px, 5vw, 56px)",
-                }}
-              >
-                Cada número, uma <span className="text-primary">promessa</span>
-              </h2>
-            </div>
+      {m.specs.length > 0 && <SpecSheet specs={m.specs} />}
 
-            <dl className="mt-12 grid sm:grid-cols-2 gap-x-10">
-              {m.specs.map((s) => (
-                <div
-                  key={s.label}
-                  className="flex justify-between gap-6 py-4 border-b border-white/10"
-                >
-                  <dt className="text-white/60 text-sm uppercase tracking-widest font-bold">
-                    {s.label}
-                  </dt>
-                  <dd className="text-white font-semibold text-right">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
-      )}
 
       {/* 8. CONDIÇÕES — Financiamento / Consórcio / Consultoria */}
       <section className="border-t border-border bg-neutral-950">
@@ -780,5 +748,117 @@ export function YamahaProductPage({
         title={`${m.name} — ${variant?.name ?? ""}`}
       />
     </div>
+  );
+}
+
+/* ---------------- Spec Sheet (Yamaha-style tabbed) ---------------- */
+
+type Spec = { label: string; value: string };
+
+const SPEC_GROUPS: { id: string; label: string; match: RegExp }[] = [
+  { id: "motor", label: "Motor / Propulsão", match: /(motor|potênc|potenc|torque|cilindr|combust|inje|refriger|partida|transmiss|câmbio|cambio|embreagem|válvul|valvul)/i },
+  { id: "bateria", label: "Bateria / Autonomia", match: /(bateria|autonom|carga|carregamento|litio|lítio|voltagem|tensão|tensao|kwh|ah\b)/i },
+  { id: "desempenho", label: "Desempenho", match: /(velocid|aceler|km\/h|rampa|inclina|rendiment)/i },
+  { id: "chassi", label: "Chassi / Suspensão", match: /(chassi|suspens|amortec|garfo|quadro|pneu|roda|freio|disco|abs\b)/i },
+  { id: "dimensoes", label: "Dimensões / Peso", match: /(dimens|comprim|largur|altur|entre.?eixo|peso|capacid|tanque|carga|distância|distancia)/i },
+  { id: "eletrica", label: "Elétrica / Iluminação", match: /(elétric|eletric|farol|luz|led|painel|display|instrument|bluetooth|conect|usb|app|gps)/i },
+];
+
+function groupSpecs(specs: Spec[]) {
+  const groups = new Map<string, { label: string; items: Spec[] }>();
+  const order: string[] = [];
+  for (const s of specs) {
+    const g = SPEC_GROUPS.find((g) => g.match.test(s.label));
+    const id = g?.id ?? "outros";
+    const label = g?.label ?? "Outros";
+    if (!groups.has(id)) {
+      groups.set(id, { label, items: [] });
+      order.push(id);
+    }
+    groups.get(id)!.items.push(s);
+  }
+  return order.map((id) => ({ id, ...groups.get(id)! }));
+}
+
+function SpecSheet({ specs }: { specs: Spec[] }) {
+  const groups = useMemo(() => groupSpecs(specs), [specs]);
+  const [active, setActive] = useState(groups[0]?.id ?? "");
+  const current = groups.find((g) => g.id === active) ?? groups[0];
+
+  return (
+    <section id="ficha-tecnica" className="border-t border-border bg-neutral-950">
+      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+        <div className="max-w-3xl">
+          <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+            Ficha Técnica
+          </p>
+          <h2
+            className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+            style={{
+              fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+              fontSize: "clamp(32px, 5vw, 64px)",
+            }}
+          >
+            Cada número, uma <span className="text-primary">promessa</span>
+          </h2>
+        </div>
+
+        {/* Tabs — horizontal scroll on mobile */}
+        <div className="mt-10 -mx-5 sm:mx-0 border-b border-white/10">
+          <div
+            role="tablist"
+            aria-label="Categorias de especificações"
+            className="flex gap-1 overflow-x-auto scrollbar-none px-5 sm:px-0 snap-x snap-mandatory"
+          >
+            {groups.map((g) => {
+              const isActive = g.id === current?.id;
+              return (
+                <button
+                  key={g.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActive(g.id)}
+                  className={[
+                    "shrink-0 snap-start px-4 sm:px-5 py-3 text-[12px] sm:text-sm uppercase tracking-[0.18em] font-bold font-display whitespace-nowrap transition-colors border-b-2 -mb-px",
+                    isActive
+                      ? "text-white border-primary"
+                      : "text-white/50 border-transparent hover:text-white/80",
+                  ].join(" ")}
+                >
+                  {g.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Rows */}
+        {current && (
+          <dl
+            key={current.id}
+            className="mt-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-14 animate-in fade-in duration-300"
+          >
+            {current.items.map((s, i) => (
+              <div
+                key={`${s.label}-${i}`}
+                className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:gap-6 py-4 border-b border-white/10"
+              >
+                <dt className="min-w-0 text-white/60 text-[11px] sm:text-xs uppercase tracking-[0.18em] font-bold leading-relaxed">
+                  {s.label}
+                </dt>
+                <dd className="text-white font-semibold text-sm sm:text-base text-right break-words max-w-[62%] sm:max-w-[70%]">
+                  {s.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        <p className="mt-8 text-[11px] text-white/40 leading-relaxed">
+          As informações técnicas podem sofrer alterações sem aviso prévio. Imagens meramente
+          ilustrativas. Consulte a Klug Motors para condições e disponibilidade.
+        </p>
+      </div>
+    </section>
   );
 }
