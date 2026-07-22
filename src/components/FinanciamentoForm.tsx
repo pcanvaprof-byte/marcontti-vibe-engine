@@ -7,6 +7,7 @@ import { models, openWhatsAppWithFallback, openWhatsAppNewTab, buildWhatsAppFall
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { buildFinanciamentoMessage } from "@/lib/whatsapp-templates";
+import { getAttribution, getOriginPage } from "@/lib/attribution";
 
 const PAYMENT_TYPES = ["Financiamento", "À vista", "Cartão de crédito"] as const;
 type PaymentType = (typeof PAYMENT_TYPES)[number];
@@ -298,6 +299,9 @@ export function FinanciamentoForm({
       address: addr,
     });
 
+    const attr = getAttribution();
+    const originPage = getOriginPage();
+
     const { error } = await supabase.from("leads").insert({
       name: d.name,
       phone: d.phone,
@@ -321,6 +325,14 @@ export function FinanciamentoForm({
       address_zip: d.paymentType === "Financiamento" ? addr.zip : null,
       lgpd_consent: d.paymentType === "Financiamento" ? lgpd : false,
       lgpd_consent_at: d.paymentType === "Financiamento" && lgpd ? new Date().toISOString() : null,
+      utm_source: attr.utm_source,
+      utm_medium: attr.utm_medium,
+      utm_campaign: attr.utm_campaign,
+      utm_term: attr.utm_term,
+      utm_content: attr.utm_content,
+      referrer: attr.referrer,
+      landing_page: attr.landing_page,
+      origin_page: originPage,
     });
 
     setSubmitting(false);

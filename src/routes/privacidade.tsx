@@ -29,7 +29,7 @@ export const Route = createFileRoute("/privacidade")({
 });
 
 function PrivacyPage() {
-  const updated = "09/07/2026";
+  const updated = "22/07/2026";
 
   return (
     <div className="min-h-dvh bg-background text-foreground">

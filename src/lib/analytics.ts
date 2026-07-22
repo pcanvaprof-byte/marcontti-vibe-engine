@@ -1,14 +1,14 @@
 import { supabase } from "@/integrations/supabase/client";
+import { getConsent } from "@/components/CookieConsent";
 
 /**
  * Fire-and-forget analytics event tracker.
  * Inserts a row into `public.analytics_events`. Never blocks navigation
- * and never throws — failures are silently logged to the console.
+ * e nunca lança erros — falhas são logadas silenciosamente no console.
  *
- * Usage:
- *   trackEvent("whatsapp_click", { source: "hero_fab" });
- *   trackEvent("test_ride_click", { source: "header", modelSlug: "yamaha-neos" });
- *   trackEvent("financiamento_submit", { modelSlug: "sudu-x12" });
+ * Respeita o consentimento LGPD: se o usuário recusou "Analytics" no banner,
+ * nada é enviado. Enquanto o banner não tiver decisão registrada, também
+ * NÃO enviamos (opt-in explícito).
  */
 export type TrackEventOpts = {
   source?: string;
@@ -18,6 +18,8 @@ export type TrackEventOpts = {
 
 export function trackEvent(eventName: string, opts: TrackEventOpts = {}): void {
   if (typeof window === "undefined") return;
+  const consent = getConsent();
+  if (!consent || !consent.analytics) return;
   try {
     void supabase
       .from("analytics_events")
@@ -40,3 +42,4 @@ export function trackEvent(eventName: string, opts: TrackEventOpts = {}): void {
     console.warn("[analytics] error:", err);
   }
 }
+

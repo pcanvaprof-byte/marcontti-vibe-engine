@@ -11,8 +11,10 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/modelos", changefreq: "weekly", priority: "0.9" },
-          { path: "/modelos/yamaha", changefreq: "weekly", priority: "0.9" },
-          { path: "/modelos/sudu", changefreq: "weekly", priority: "0.9" },
+          { path: "/modelos?marca=yamaha", changefreq: "weekly", priority: "0.9" },
+          { path: "/modelos?marca=sudu", changefreq: "weekly", priority: "0.9" },
+          { path: "/modelos?marca=klug", changefreq: "weekly", priority: "0.9" },
+          { path: "/modelos?cat=triciclo", changefreq: "weekly", priority: "0.8" },
           { path: "/comparar", changefreq: "monthly", priority: "0.7" },
           { path: "/financiamento", changefreq: "monthly", priority: "0.8" },
           { path: "/garantia", changefreq: "yearly", priority: "0.5" },
@@ -27,10 +29,13 @@ export const Route = createFileRoute("/sitemap.xml")({
           })),
         ];
 
+        const escapeXml = (s: string) =>
+          s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
         const urls = entries
           .map(
             (e) =>
-              `  <url>\n    <loc>${BASE_URL}${e.path}</loc>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`,
+              `  <url>\n    <loc>${escapeXml(BASE_URL + e.path)}</loc>\n    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`,
           )
           .join("\n");
 
