@@ -1248,7 +1248,7 @@ function Benefits() {
 
 function Contact() {
   return (
-    <section id="contato" className="py-24 sm:py-32 bg-background">
+    <section id="contato" className="py-24 sm:py-32 pb-32 sm:pb-40 lg:pb-32 bg-background">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16">
         <div className="min-w-0">
 
@@ -1572,6 +1572,33 @@ function WhatsAppCTA() {
 function WhatsAppFab() {
   const message =
     "Olá! Tenho interesse em conhecer os modelos da Klug Motors.";
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    let ticking = false;
+    const check = () => {
+      ticking = false;
+      const el = document.getElementById("contato");
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Hide when the contact section overlaps the bottom-right FAB area
+      const inView = r.top < vh - 40 && r.bottom > vh - 220;
+      setHidden(inView);
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(check);
+      }
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
   return (
     <a
       href={buildWhatsAppFallbackUrl(message)}
@@ -1580,12 +1607,19 @@ function WhatsAppFab() {
         openWhatsAppWithFallback(message);
       }}
       aria-label="Falar no WhatsApp"
-      className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform animate-float"
+      aria-hidden={hidden}
+      tabIndex={hidden ? -1 : 0}
+      className={`fixed bottom-6 right-4 sm:right-6 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-all duration-300 animate-float ${
+        hidden ? "opacity-0 translate-y-4 pointer-events-none" : "opacity-100"
+      }`}
     >
-      <MessageCircle size={26} fill="white" strokeWidth={0} />
+      <MessageCircle size={22} className="sm:hidden" fill="white" strokeWidth={0} />
+      <MessageCircle size={26} className="hidden sm:block" fill="white" strokeWidth={0} />
     </a>
   );
 }
+
+
 
 /* ---------------------------- Scroll to top ---------------------------- */
 
