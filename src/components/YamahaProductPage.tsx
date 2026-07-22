@@ -666,8 +666,28 @@ export function YamahaProductPage({
         </div>
       </section>
 
+      {/* 10. AVISO DE FRAUDE / DISCLAIMER */}
+      <section className="border-t border-border bg-neutral-950">
+        <div className="max-w-4xl mx-auto px-5 sm:px-10 py-14 sm:py-20 text-white/60 text-xs sm:text-sm leading-relaxed space-y-4">
+          <p className="uppercase tracking-widest font-display font-black text-primary text-[11px]">
+            Aviso importante
+          </p>
+          <p>
+            Os veículos são comercializados exclusivamente por meio de concessionárias autorizadas e
+            do e-commerce oficial das marcas. A Klug Motors é a unidade autorizada em Joinville / SC.
+            Nunca realize pagamentos em contas de terceiros e desconfie de ofertas com valores muito
+            abaixo do mercado.
+          </p>
+          <p>
+            Preços, condições de financiamento e disponibilidade sujeitos a alteração sem aviso
+            prévio e à análise de crédito. Imagens meramente ilustrativas. Consulte o consultor Klug
+            para as condições vigentes.
+          </p>
+        </div>
+      </section>
 
       {/* FINAL CTA */}
+
       <section
         id="financiamento"
         className="border-t border-border"
