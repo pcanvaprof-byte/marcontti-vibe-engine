@@ -115,12 +115,12 @@ export function FinanciamentoForm({
         if (opts.notify) toast.error(msg);
         return;
       }
-      setFieldValue("fin-address_street", data.logradouro ?? "");
-      setFieldValue("fin-address_neighborhood", data.bairro ?? "");
-      setFieldValue("fin-address_city", data.localidade ?? "");
-      setFieldValue("fin-address_state", data.uf ?? "");
-      const complEl = document.getElementById("fin-address_complement") as HTMLInputElement | null;
-      if (complEl && !complEl.value && data.complemento) complEl.value = data.complemento;
+      fillIfEditable("fin-address_street", data.logradouro ?? "");
+      fillIfEditable("fin-address_neighborhood", data.bairro ?? "");
+      fillIfEditable("fin-address_city", data.localidade ?? "");
+      fillIfEditable("fin-address_state", data.uf ?? "");
+      fillIfEditable("fin-address_complement", data.complemento ?? "", { onlyIfEmpty: true });
+
       if (opts.notify) toast.success("Endereço preenchido pelo CEP");
       (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
     } catch {
