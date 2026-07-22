@@ -69,6 +69,7 @@ export function ConsorcioForm({
       budget: String(fd.get("budget") ?? "") as (typeof MONTHLY_BUDGETS)[number],
       contemplation: String(fd.get("contemplation") ?? "") as (typeof CONTEMPLATION)[number],
       message: String(fd.get("message") ?? ""),
+      lgpd: fd.get("lgpd") === "on",
     };
     const parsed = schema.safeParse(raw);
     if (!parsed.success) {
