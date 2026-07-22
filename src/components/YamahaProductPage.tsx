@@ -4,6 +4,7 @@ import { ArrowLeft, MessageCircle, ChevronRight, Check } from "lucide-react";
 import type { Model } from "@/lib/models";
 import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
+import { View360Modal } from "@/components/View360Modal";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 /**
