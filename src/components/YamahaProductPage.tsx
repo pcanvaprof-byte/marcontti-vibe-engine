@@ -307,7 +307,7 @@ export function YamahaProductPage({
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div id="conectividade" className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center scroll-mt-28">
             <div className="order-2 lg:order-1">
               <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
                 Conectividade
