@@ -632,7 +632,7 @@ function ModelPage() {
             Produtos <span className="text-primary">relacionados</span>
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {related.map((x) => {
+            {related.map((x: import("@/lib/models").Model) => {
               const xPix = x.priceNumber * 0.9;
               return (
                 <Link
