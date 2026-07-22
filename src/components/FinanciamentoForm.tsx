@@ -138,11 +138,18 @@ export function FinanciamentoForm({
         if (opts.notify) toast.error(msg);
         return;
       }
+      // Rua/bairro/complemento respeitam edições manuais…
       fillIfEditable("fin-address_street", data.logradouro ?? "");
       fillIfEditable("fin-address_neighborhood", data.bairro ?? "");
-      fillIfEditable("fin-address_city", data.localidade ?? "");
-      fillIfEditable("fin-address_state", data.uf ?? "");
       fillIfEditable("fin-address_complement", data.complemento ?? "", { onlyIfEmpty: true });
+      // …mas cidade e UF são determinadas pelo CEP: sempre sobrescreve para manter consistência.
+      setFieldValue("fin-address_city", data.localidade ?? "");
+      setFieldValue("fin-address_state", (data.uf ?? "").toUpperCase());
+      const cityEl = document.getElementById("fin-address_city") as HTMLInputElement | null;
+      const stateEl = document.getElementById("fin-address_state") as HTMLSelectElement | null;
+      if (cityEl) cityEl.dataset.autofilled = "true";
+      if (stateEl) stateEl.dataset.autofilled = "true";
+
 
       if (opts.notify) toast.success("Endereço preenchido pelo CEP");
       (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
