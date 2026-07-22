@@ -221,11 +221,10 @@ export function YamahaProductPage({
             </p>
           </div>
 
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-14 grid sm:grid-cols-2 gap-6">
             {[
               activeGallery[2] ?? activeGallery[0],
-              activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
-              activeGallery[4] ?? activeGallery[2] ?? activeGallery[0],
+              activeGallery[4] ?? activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
             ].map((img, i) => (
               <div
                 key={i}
