@@ -104,142 +104,190 @@ export function YamahaProductPage({
         </div>
       </header>
 
-      {/* HERO — cinematic dark stage, oversized wordmark, floating taglines */}
+      {/* HERO — warm lifestyle stage inspired by yamaha-motor.com.br */}
       <section
-        className="relative overflow-hidden isolate bg-[#050708] text-white"
+        className="relative overflow-hidden isolate text-white"
         style={{
-          backgroundImage: `radial-gradient(ellipse 90% 70% at 50% 45%, ${variant?.hex ?? "#00c2c5"}33 0%, #0a1216 55%, #050708 100%)`,
+          backgroundImage: `radial-gradient(ellipse 70% 90% at 78% 40%, #ffd9a8 0%, #f4a463 28%, #d96a26 60%, #7a2a0a 100%)`,
         }}
       >
-        <div className="max-w-[1500px] mx-auto px-5 sm:px-10 pt-10 sm:pt-14 pb-8 sm:pb-10 min-h-[86svh] flex flex-col">
-          {/* Oversized wordmark behind everything */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-[16%] flex items-center justify-center leading-none text-center select-none"
-            style={{
-              fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-              color: "rgba(255,255,255,0.05)",
-              letterSpacing: "-0.02em",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span style={{ fontSize: "clamp(120px, 32vw, 520px)" }}>
-              {m.name.replace(/^Yamaha\s+/i, "").split(" ")[0].toUpperCase()}
-            </span>
-          </div>
+        {/* Floating leaves */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 z-10">
+          {[
+            { top: "8%", left: "6%", size: 90, rot: -18, delay: "0s", opacity: 0.9 },
+            { top: "18%", left: "22%", size: 46, rot: 30, delay: "1.2s", opacity: 0.75 },
+            { top: "62%", left: "4%", size: 120, rot: 15, delay: "0.4s", opacity: 0.95 },
+            { top: "46%", left: "14%", size: 60, rot: -25, delay: "2s", opacity: 0.7 },
+            { top: "72%", left: "24%", size: 70, rot: 55, delay: "0.8s", opacity: 0.85 },
+            { top: "30%", right: "8%", size: 110, rot: 22, delay: "1.6s", opacity: 0.9 },
+            { top: "58%", right: "4%", size: 80, rot: -35, delay: "0.2s", opacity: 0.8 },
+            { top: "82%", right: "18%", size: 55, rot: 12, delay: "2.4s", opacity: 0.7 },
+          ].map((l, i) => (
+            <svg
+              key={i}
+              viewBox="0 0 100 100"
+              width={l.size}
+              height={l.size}
+              className="absolute drop-shadow-[0_8px_18px_rgba(70,20,0,0.35)] animate-[float_9s_ease-in-out_infinite]"
+              style={{
+                top: l.top,
+                left: (l as { left?: string }).left,
+                right: (l as { right?: string }).right,
+                transform: `rotate(${l.rot}deg)`,
+                opacity: l.opacity,
+                animationDelay: l.delay,
+              }}
+            >
+              <defs>
+                <linearGradient id={`lf${i}`} x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#ffb56b" />
+                  <stop offset="50%" stopColor="#e77a2b" />
+                  <stop offset="100%" stopColor="#8a3a10" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M50 5 C 75 20, 92 45, 88 78 C 60 90, 30 82, 12 60 C 18 32, 30 15, 50 5 Z"
+                fill={`url(#lf${i})`}
+              />
+              <path
+                d="M50 10 Q 55 45 82 72"
+                stroke="rgba(80,25,0,0.4)"
+                strokeWidth="1.5"
+                fill="none"
+              />
+            </svg>
+          ))}
+        </div>
 
+        <style>{`
+          @keyframes float {
+            0%, 100% { transform: translate(0,0) rotate(var(--r,0deg)); }
+            50% { transform: translate(6px,-10px) rotate(var(--r,0deg)); }
+          }
+        `}</style>
+
+        <div className="relative max-w-[1500px] mx-auto px-5 sm:px-10 pt-8 sm:pt-10 pb-10 min-h-[86svh] flex flex-col">
           {/* Category tag */}
-          <div className="relative z-20 mb-6">
-            <span className="inline-flex items-center gap-2 border border-primary/60 bg-primary/10 px-3 py-1.5 text-[10px] font-display font-black uppercase tracking-[0.3em] text-primary">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+          <div className="relative z-20 mb-4">
+            <span className="inline-flex items-center gap-2 border border-white/60 bg-white/10 backdrop-blur px-3 py-1.5 text-[10px] font-display font-black uppercase tracking-[0.3em] text-white">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               {m.tag}
             </span>
           </div>
 
-          <div className="relative flex-1 grid lg:grid-cols-[minmax(220px,300px)_minmax(0,1fr)] gap-8 lg:gap-12 items-center">
-            {/* Color selector column */}
-            <div className="relative z-20">
-              <p className="text-[9px] uppercase tracking-[0.4em] text-white/40 font-black mb-5">Disponível em</p>
-              <ul className="space-y-4">
-                {m.colors.map((c, i) => {
-                  const [title, subtitle] = c.name.includes("·")
-                    ? c.name.split("·").map((s) => s.trim())
-                    : [c.name, ""];
-                  const active = i === selected;
-                  return (
-                    <li key={c.name + i}>
-                      <button
-                        type="button"
-                        onClick={() => setSelected(i)}
-                        className={`group flex items-center gap-4 text-left w-full transition-opacity ${active ? "opacity-100" : "opacity-50 hover:opacity-100"}`}
-                      >
-                        <span
-                          aria-hidden
-                          className={`shrink-0 grid place-items-center rounded-full transition-all ${
-                            active ? "w-10 h-10 ring-2 ring-white ring-offset-4 ring-offset-transparent" : "w-8 h-8 ring-1 ring-white/30"
-                          }`}
-                          style={{
-                            backgroundColor: c.hex,
-                            boxShadow: active ? `0 0 24px ${c.hex}66` : undefined,
-                          }}
-                        >
-                          {active ? <Check size={14} className="text-white mix-blend-difference" /> : null}
-                        </span>
-                        <span className="min-w-0">
-                          <span
-                            className={`block uppercase tracking-wider font-black ${active ? "text-white" : "text-white/80"}`}
-                            style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "18px", letterSpacing: "0.08em" }}
-                          >
-                            {title}
-                          </span>
-                          {subtitle ? (
-                            <span className="block text-[11px] text-white/50 mt-0.5">{subtitle}</span>
-                          ) : null}
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
+          {/* Wordmark — in front, large, centered top */}
+          <div className="relative z-30 text-center pointer-events-none select-none">
+            <h1
+              className="text-white leading-[0.85] drop-shadow-[0_12px_40px_rgba(80,25,0,0.45)]"
+              style={{
+                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                fontSize: "clamp(80px, 16vw, 240px)",
+                letterSpacing: "0.02em",
+              }}
+            >
+              {m.name.replace(/^Yamaha\s+/i, "").split(" ")[0].toUpperCase()}
+            </h1>
+            <p
+              className="mt-2 text-white/95 tracking-[0.5em] font-light"
+              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "clamp(14px, 1.6vw, 22px)" }}
+            >
+              ELÉTRICA
+            </p>
+          </div>
+
+          {/* Vehicle stage */}
+          <div className="relative flex-1 flex items-center justify-center mt-[-40px] sm:mt-[-70px]">
+            {/* Right tagline */}
+            <div
+              aria-hidden
+              className="hidden md:block absolute right-[3%] top-[38%] z-20 text-right select-none"
+              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
+            >
+              <h2
+                className="text-white leading-[0.9] drop-shadow-[0_10px_28px_rgba(80,25,0,0.5)]"
+                style={{ fontSize: "clamp(22px, 3vw, 44px)", letterSpacing: "0.2em" }}
+              >
+                CARREGADA<br />
+                DE ENERGIA
+              </h2>
             </div>
 
-            {/* Vehicle stage */}
-            <div className="relative">
-              {/* Floating tagline — left */}
-              <div
-                aria-hidden
-                className="hidden md:block absolute left-2 top-4 z-10 select-none"
-                style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
-              >
-                <h2 className="text-white/85 leading-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" style={{ fontSize: "clamp(36px, 5.5vw, 84px)", letterSpacing: "0.18em" }}>
-                  ELÉTRICA
-                </h2>
-              </div>
+            {/* Ground reflection */}
+            <div
+              className="absolute inset-x-12 bottom-4 h-12 rounded-[50%] blur-2xl opacity-70"
+              style={{ backgroundColor: "rgba(60,15,0,0.55)" }}
+            />
 
-              {/* Floating tagline — right */}
-              <div
-                aria-hidden
-                className="hidden md:block absolute right-2 bottom-16 z-10 text-right select-none"
-                style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
-              >
-                <h2 className="text-white/90 leading-[0.85] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" style={{ fontSize: "clamp(30px, 4.6vw, 68px)", letterSpacing: "0.14em" }}>
-                  CARREGADA<br />
-                  <span style={{ color: variant?.hex ?? "#00c2c5" }}>DE ENERGIA</span>
-                </h2>
-              </div>
-
-              {/* Ground shadow */}
-              <div
-                className="absolute inset-x-8 bottom-2 h-10 rounded-[50%] blur-2xl"
-                style={{ backgroundColor: `${variant?.hex ?? "#000"}55` }}
+            {heroImg ? (
+              <img
+                key={heroImg}
+                src={heroImg}
+                alt={`${m.name} — ${variant?.name ?? ""}`}
+                width={1400}
+                height={1000}
+                fetchPriority="high"
+                decoding="async"
+                className="relative z-30 w-full max-w-[860px] h-auto object-contain drop-shadow-[0_50px_60px_rgba(60,15,0,0.5)] transition-opacity duration-300"
               />
+            ) : null}
 
-              {heroImg ? (
-                <img
-                  key={heroImg}
-                  src={heroImg}
-                  alt={`${m.name} — ${variant?.name ?? ""}`}
-                  width={1400}
-                  height={1000}
-                  fetchPriority="high"
-                  decoding="async"
-                  className="relative z-20 w-full h-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)] transition-opacity duration-300"
-                />
-              ) : null}
+            {/* 360 badge */}
+            <button
+              type="button"
+              onClick={() => setView360Open(true)}
+              aria-label="Abrir visualização 360 graus"
+              className="hidden sm:grid absolute right-[6%] bottom-[10%] z-40 w-16 h-16 place-items-center rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white hover:bg-white hover:text-neutral-900 transition-all cursor-pointer"
+            >
+              <div className="text-center leading-tight pointer-events-none">
+                <div className="text-[13px] font-black" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>360°</div>
+                <div className="text-[9px] uppercase tracking-widest opacity-80">view</div>
+              </div>
+            </button>
+          </div>
 
-              {/* 360 badge */}
-              <button
-                type="button"
-                onClick={() => setView360Open(true)}
-                aria-label="Abrir visualização 360 graus"
-                className="hidden sm:grid absolute right-[6%] top-1/2 -translate-y-1/2 z-30 w-16 h-16 place-items-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-primary hover:border-primary transition-all cursor-pointer"
-              >
-                <div className="text-center leading-tight pointer-events-none">
-                  <div className="text-[13px] font-black" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>360°</div>
-                  <div className="text-[9px] uppercase tracking-widest opacity-70">view</div>
-                </div>
-              </button>
-            </div>
+          {/* Color selector — horizontal chip strip */}
+          <div className="relative z-30 mt-4">
+            <p className="text-[9px] uppercase tracking-[0.4em] text-white/80 font-black mb-3">Disponível em</p>
+            <ul className="flex flex-wrap gap-3">
+              {m.colors.map((c, i) => {
+                const [title, subtitle] = c.name.includes("·")
+                  ? c.name.split("·").map((s) => s.trim())
+                  : [c.name, ""];
+                const active = i === selected;
+                return (
+                  <li key={c.name + i}>
+                    <button
+                      type="button"
+                      onClick={() => setSelected(i)}
+                      className={`group flex items-center gap-3 pl-1.5 pr-4 py-1.5 rounded-full border backdrop-blur transition-all ${
+                        active
+                          ? "border-white bg-white/25 text-white"
+                          : "border-white/30 bg-white/5 text-white/85 hover:bg-white/15"
+                      }`}
+                    >
+                      <span
+                        aria-hidden
+                        className={`shrink-0 grid place-items-center rounded-full ${active ? "w-8 h-8 ring-2 ring-white" : "w-7 h-7 ring-1 ring-white/60"}`}
+                        style={{ backgroundColor: c.hex, boxShadow: active ? `0 0 20px ${c.hex}aa` : undefined }}
+                      >
+                        {active ? <Check size={12} className="text-white mix-blend-difference" /> : null}
+                      </span>
+                      <span className="min-w-0 text-left">
+                        <span
+                          className="block uppercase tracking-wider font-black"
+                          style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "14px", letterSpacing: "0.1em" }}
+                        >
+                          {title}
+                        </span>
+                        {subtitle ? (
+                          <span className="block text-[10px] opacity-75 -mt-0.5">{subtitle}</span>
+                        ) : null}
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           {/* Bottom strip: specs + CTAs */}
