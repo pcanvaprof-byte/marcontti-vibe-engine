@@ -70,6 +70,9 @@ export function FinanciamentoForm({
   const [lgpd, setLgpd] = useState(false);
   const [cepLoading, setCepLoading] = useState(false);
   const [cepError, setCepError] = useState<string | null>(null);
+  const [neighborhoodOptions, setNeighborhoodOptions] = useState<string[]>([]);
+
+
 
   const isFinancing = paymentType === "Financiamento";
 
@@ -125,7 +128,36 @@ export function FinanciamentoForm({
     void lookupCep(digits, { notify: true });
   };
 
+  const fetchNeighborhoodSuggestions = async (uf?: string, city?: string, street?: string) => {
+    if (!uf || !city) return;
+    try {
+      // ViaCEP requires street >= 3 chars; use street prefix when available, else common fallback tokens
+      const prefixes = street && street.length >= 3
+        ? [street.slice(0, Math.min(street.length, 6))]
+        : ["rua", "avenida", "travessa"];
+      const bairros = new Set<string>();
+      await Promise.all(
+        prefixes.map(async (p) => {
+          const url = `https://viacep.com.br/ws/${encodeURIComponent(uf)}/${encodeURIComponent(city)}/${encodeURIComponent(p)}/json/`;
+          const r = await fetch(url);
+          if (!r.ok) return;
+          const arr = (await r.json()) as Array<{ bairro?: string }>;
+          if (!Array.isArray(arr)) return;
+          arr.forEach((it) => {
+            if (it.bairro) bairros.add(it.bairro);
+          });
+        })
+      );
+
+      setNeighborhoodOptions(Array.from(bairros).sort((a, b) => a.localeCompare(b, "pt-BR")).slice(0, 50));
+
+    } catch {
+      // silencioso — autocomplete é opcional
+    }
+  };
+
   const lookupCep = async (digits: string, opts: { notify: boolean }) => {
+
     setCepError(null);
     setCepLoading(true);
     try {
@@ -153,6 +185,10 @@ export function FinanciamentoForm({
 
       if (opts.notify) toast.success("Endereço preenchido pelo CEP");
       (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
+
+      // Carrega sugestões de bairro/cidade para autocomplete
+      void fetchNeighborhoodSuggestions(data.uf, data.localidade, data.logradouro);
+
     } catch {
       const msg = "Não foi possível consultar o CEP agora. Preencha manualmente.";
       setCepError(msg);
@@ -714,8 +750,15 @@ export function FinanciamentoForm({
                       className={inputCls}
                       aria-invalid={!!errors.address_neighborhood}
                       onInput={markUserEdited}
-
+                      list="fin-neighborhood-options"
+                      autoComplete="address-level3"
                     />
+                    <datalist id="fin-neighborhood-options">
+                      {neighborhoodOptions.map((b) => (
+                        <option key={b} value={b} />
+                      ))}
+                    </datalist>
+
                     {errors.address_neighborhood && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_neighborhood}</p>}
                   </div>
                 </div>
