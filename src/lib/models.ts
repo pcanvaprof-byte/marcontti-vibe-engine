@@ -585,7 +585,7 @@ export const models: Model[] = [
     specs: [
       { label: "Autonomia", value: "até 55 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
-      { label: "Potência", value: "1.000W" },
+      { label: "Potência", value: "800W" },
       { label: "Bateria", value: "Lítio 60V 24Ah" },
       { label: "Capacidade", value: "até 186 kg" },
       { label: "Lugares", value: "3 lugares" },
