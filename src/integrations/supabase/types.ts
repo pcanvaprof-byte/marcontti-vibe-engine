@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      instagram_posts: {
+        Row: {
+          caption: string
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean
+          post_url: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          caption?: string
+          created_at?: string
+          id?: string
+          image_url: string
+          is_active?: boolean
+          post_url?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          caption?: string
+          created_at?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          post_url?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           created_at: string
