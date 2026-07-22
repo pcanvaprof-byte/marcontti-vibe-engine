@@ -456,7 +456,7 @@ export const models: Model[] = [
     short: "SUDU A10 — scooter urbana com bateria de lítio 48V 24Ah.",
     description:
       "SUDU A10 é a opção equilibrada da linha: leve, econômica e com autonomia de até 50 km. Suporta até 140 kg.",
-    colors: [{ name: "Padrão", hex: "#7f8c8d", image: suduUrbanImg.url }],
+    colors: [{ name: "Padrão", hex: "#7f8c8d", image: suduA10Img.url }],
     specs: [
       { label: "Autonomia", value: "até 50 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -479,7 +479,7 @@ export const models: Model[] = [
     short: "SUDU A3+ com NFC e autonomia de até 60 km.",
     description:
       "SUDU A3+ traz destravamento por NFC e bateria de lítio 60V 20Ah para uma autonomia estendida de até 60 km.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduSportImg.url }],
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduA3PlusImg.url }],
     specs: [
       { label: "Autonomia", value: "até 60 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -503,7 +503,7 @@ export const models: Model[] = [
     short: "SUDU A4 — design urbano e NFC integrado.",
     description:
       "SUDU A4 oferece bateria 60V 20Ah de lítio, autonomia de até 60 km e capacidade de 150 kg. Ideal para deslocamentos diários.",
-    colors: [{ name: "Padrão", hex: "#2c3e50", image: suduUrbanImg.url }],
+    colors: [{ name: "Padrão", hex: "#2c3e50", image: suduA4Img.url }],
     specs: [
       { label: "Autonomia", value: "até 60 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -527,7 +527,7 @@ export const models: Model[] = [
     short: "SUDU A5 com NFC, Bluetooth e bateria 60V 24Ah.",
     description:
       "SUDU A5 integra conectividade Bluetooth e NFC com bateria de lítio 60V 24Ah, entregando até 60 km de autonomia.",
-    colors: [{ name: "Padrão", hex: "#c0392b", image: suduSportImg.url }],
+    colors: [{ name: "Padrão", hex: "#c0392b", image: suduA5Img.url }],
     specs: [
       { label: "Autonomia", value: "até 60 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -551,7 +551,7 @@ export const models: Model[] = [
     short: "SUDU A6 — topo de linha com Hill Assist e Bluetooth.",
     description:
       "SUDU A6 é a scooter mais completa da linha: assistente de subida (Hill Assist), Bluetooth, NFC, bateria de lítio 60V 24Ah e autonomia de até 65 km.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduSportImg.url }],
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduA6Img.url }],
     specs: [
       { label: "Autonomia", value: "até 65 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -575,7 +575,7 @@ export const models: Model[] = [
     short: "Triciclo SUDU A13T — 3 lugares e capacidade de 186 kg.",
     description:
       "SUDU A13T é o triciclo elétrico para famílias e transporte utilitário. Comporta até 3 lugares, capacidade de 186 kg, NFC e bateria 60V 24Ah.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduTriImg.url }],
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduA13TImg.url }],
     specs: [
       { label: "Autonomia", value: "até 55 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
