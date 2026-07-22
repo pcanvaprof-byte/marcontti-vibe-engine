@@ -52,6 +52,9 @@ export function ConsorcioForm({
   const [sent, setSent] = useState(false);
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [summary, setSummary] = useState<z.infer<typeof schema> | null>(null);
+  const [sentAt, setSentAt] = useState<Date | null>(null);
+  const [protocol, setProtocol] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
