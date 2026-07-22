@@ -112,6 +112,18 @@ export function YamahaProductPage({
             ))}
           </div>
           <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() =>
+                openWhatsAppWithFallback(
+                  `Olá! Quero agendar um Test-Ride da *${m.name}*. Pode me passar as opções?`,
+                  { source: "yamaha_subnav_test_ride", event: "test_ride_click", modelSlug: m.slug },
+                )
+              }
+              className="inline-flex items-center px-4 py-1.5 rounded-full bg-white text-neutral-950 text-[11px] font-display font-black uppercase tracking-widest hover:brightness-90"
+            >
+              Agendar Test-Ride
+            </button>
             <a
               href="#financiamento"
               className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/30 text-white text-[11px] font-display font-black uppercase tracking-widest hover:border-primary hover:text-primary"
