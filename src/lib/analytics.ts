@@ -26,7 +26,7 @@ export function trackEvent(eventName: string, opts: TrackEventOpts = {}): void {
         source: opts.source ?? null,
         page: window.location.pathname + window.location.search,
         model_slug: opts.modelSlug ?? null,
-        meta: opts.meta ?? null,
+        meta: (opts.meta ?? null) as never,
         user_agent: window.navigator.userAgent,
       })
       .then((res) => {
