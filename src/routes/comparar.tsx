@@ -147,7 +147,7 @@ function CompararPage() {
                   type="button"
                   onClick={() => removeAt(i)}
                   aria-label={`Remover ${m.name}`}
-                  className="shrink-0 w-9 h-9 grid place-items-center rounded-lg border border-border text-white/60 hover:text-primary hover:border-primary transition-colors"
+                  className="shrink-0 w-11 h-11 grid place-items-center rounded-lg border border-border text-white/60 hover:text-primary hover:border-primary transition-colors"
                 >
                   <X size={14} />
                 </button>
