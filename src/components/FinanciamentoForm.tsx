@@ -726,14 +726,15 @@ export function FinanciamentoForm({
                     id="fin-address_city"
                     name="address_city"
                     maxLength={80}
-                    placeholder="Cidade"
-                    className={inputCls}
+                    placeholder="Preenchida pelo CEP"
+                    readOnly
+                    className={`${inputCls} bg-muted/50 cursor-not-allowed`}
                     aria-invalid={!!errors.address_city}
-                    onInput={markUserEdited}
-
+                    title="Cidade é preenchida automaticamente pelo CEP para garantir consistência"
                   />
                   {errors.address_city && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_city}</p>}
                 </div>
+
               </div>
 
               <label
