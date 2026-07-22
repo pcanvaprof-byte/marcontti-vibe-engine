@@ -128,7 +128,37 @@ export function FinanciamentoForm({
     void lookupCep(digits, { notify: true });
   };
 
+  const fetchNeighborhoodSuggestions = async (uf?: string, city?: string, street?: string) => {
+    if (!uf || !city) return;
+    try {
+      // ViaCEP requires street >= 3 chars; use street prefix when available, else common fallback tokens
+      const prefixes = street && street.length >= 3
+        ? [street.slice(0, Math.min(street.length, 6))]
+        : ["rua", "avenida", "travessa"];
+      const bairros = new Set<string>();
+      const cities = new Set<string>([city]);
+      await Promise.all(
+        prefixes.map(async (p) => {
+          const url = `https://viacep.com.br/ws/${encodeURIComponent(uf)}/${encodeURIComponent(city)}/${encodeURIComponent(p)}/json/`;
+          const r = await fetch(url);
+          if (!r.ok) return;
+          const arr = (await r.json()) as Array<{ bairro?: string; localidade?: string }>;
+          if (!Array.isArray(arr)) return;
+          arr.forEach((it) => {
+            if (it.bairro) bairros.add(it.bairro);
+            if (it.localidade) cities.add(it.localidade);
+          });
+        })
+      );
+      setNeighborhoodOptions(Array.from(bairros).sort((a, b) => a.localeCompare(b, "pt-BR")).slice(0, 50));
+      setCityOptions(Array.from(cities).sort((a, b) => a.localeCompare(b, "pt-BR")).slice(0, 20));
+    } catch {
+      // silencioso — autocomplete é opcional
+    }
+  };
+
   const lookupCep = async (digits: string, opts: { notify: boolean }) => {
+
     setCepError(null);
     setCepLoading(true);
     try {
