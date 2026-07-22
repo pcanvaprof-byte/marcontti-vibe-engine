@@ -191,8 +191,15 @@ export function FinanciamentoForm({
             Simule seu financiamento
           </h3>
           <p className="text-white/60 text-sm">
-            Preencha para receber as condições diretamente no WhatsApp da loja.
+            Preencha e nossa equipe entra em contato. Você também poderá enviar direto pelo WhatsApp após o envio.
           </p>
+        </div>
+      )}
+
+      {saveError && (
+        <div role="alert" className="mb-5 flex items-start gap-2 border border-destructive/50 bg-destructive/10 text-destructive text-xs p-3 rounded-md">
+          <AlertCircle size={16} className="shrink-0 mt-0.5" />
+          <span>{saveError}</span>
         </div>
       )}
 
