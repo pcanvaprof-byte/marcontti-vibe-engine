@@ -509,26 +509,29 @@ export function YamahaProductPage({
           <div className="mt-14 grid md:grid-cols-3 gap-6">
             {[
               {
+                key: "financiamento" as const,
                 title: "Financiamento",
                 desc: "Simule parcelas em até 36x com nossos parceiros bancários.",
                 cta: "Simular financiamento",
               },
               {
+                key: "consorcio" as const,
                 title: "Consórcio",
                 desc: "Planeje agora a compra do seu novo veículo com parcelas sob medida.",
                 cta: "Saiba mais",
               },
               {
-                title: "À vista",
-                desc: "Condições exclusivas para pagamento à vista via Pix ou transferência.",
-                cta: "Falar com consultor",
+                key: "avista" as const,
+                title: "À vista / Cartão",
+                desc: "Compra 100% online via Pix, transferência ou cartão. Em breve direto no site.",
+                cta: "Ver opções",
               },
             ].map((c) => (
-              <a
-                key={c.title}
-                href={whatsappUrl}
-                onClick={handleWhats}
-                className="group rounded-3xl bg-card/60 border border-white/10 p-8 hover:border-primary/60 hover:bg-card transition-colors block"
+              <button
+                key={c.key}
+                type="button"
+                onClick={() => setModalOpen(c.key)}
+                className="group text-left rounded-3xl bg-card/60 border border-white/10 p-8 hover:border-primary/60 hover:bg-card transition-colors block w-full"
               >
                 <h4
                   className="text-white uppercase leading-[1] tracking-tight"
@@ -543,7 +546,7 @@ export function YamahaProductPage({
                 <span className="mt-6 inline-flex items-center gap-2 text-primary text-xs font-display font-black uppercase tracking-widest">
                   {c.cta} <ChevronRight size={14} className="transition-transform group-hover:translate-x-1" />
                 </span>
-              </a>
+              </button>
             ))}
           </div>
         </div>
