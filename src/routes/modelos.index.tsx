@@ -198,7 +198,7 @@ function CatalogPage() {
           <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-display font-black mb-4">
             Catálogo completo
           </p>
-          <h1 className="font-display font-black uppercase text-5xl sm:text-6xl tracking-tighter leading-none">
+          <h1 className="font-display font-black uppercase text-4xl sm:text-5xl md:text-6xl tracking-tight sm:tracking-tighter leading-[1.05] break-words">
             Todos os <span className="text-primary">modelos</span>
           </h1>
           <p className="mt-6 text-white/60 max-w-xl leading-relaxed">
