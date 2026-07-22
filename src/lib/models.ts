@@ -12,10 +12,13 @@ import miatriImg from "@/assets/motos/miatri.jpg.asset.json";
 import p10Img from "@/assets/motos/p10.jpg.asset.json";
 import popImg from "@/assets/motos/pop.jpg.asset.json";
 import x15Img from "@/assets/motos/x15.jpg.asset.json";
-import suduSportImg from "@/assets/motos/sudu-sport.jpg.asset.json";
 import suduA12Img from "@/assets/motos/sudu-a12.png.asset.json";
-import suduUrbanImg from "@/assets/motos/sudu-urban.jpg.asset.json";
-import suduTriImg from "@/assets/motos/sudu-tri.jpg.asset.json";
+import suduA10Img from "@/assets/motos/sudu-a10.png.asset.json";
+import suduA3PlusImg from "@/assets/motos/sudu-a3-plus.png.asset.json";
+import suduA4Img from "@/assets/motos/sudu-a4.png.asset.json";
+import suduA5Img from "@/assets/motos/sudu-a5.png.asset.json";
+import suduA6Img from "@/assets/motos/sudu-a6.png.asset.json";
+import suduA13TImg from "@/assets/motos/sudu-a13t.png.asset.json";
 import yamahaNeosImg from "@/assets/motos/yamaha-neos.jpg.asset.json";
 import yamahaE01Img from "@/assets/motos/yamaha-e01.jpg.asset.json";
 
@@ -288,7 +291,7 @@ export const models: Model[] = [
     slug: "sofia",
     name: "SOFIA 1000W",
     tag: "Scooter · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 50 km",
     speed: "32 km/h",
@@ -340,7 +343,7 @@ export const models: Model[] = [
     slug: "pop",
     name: "POP 800W",
     tag: "Bicicleta Elétrica · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 40 km",
     speed: "32 km/h",
@@ -420,7 +423,7 @@ export const models: Model[] = [
     slug: "sudu-a12",
     name: "SUDU A12",
     tag: "Scooter SUDU · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 55 km",
     speed: "32 km/h",
@@ -444,7 +447,7 @@ export const models: Model[] = [
     slug: "sudu-a10",
     name: "SUDU A10 1000W",
     tag: "Scooter SUDU · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 50 km",
     speed: "32 km/h",
@@ -452,7 +455,7 @@ export const models: Model[] = [
     short: "SUDU A10 — scooter urbana com bateria de lítio 48V 24Ah.",
     description:
       "SUDU A10 é a opção equilibrada da linha: leve, econômica e com autonomia de até 50 km. Suporta até 140 kg.",
-    colors: [{ name: "Padrão", hex: "#7f8c8d", image: suduUrbanImg.url }],
+    colors: [{ name: "Padrão", hex: "#7f8c8d", image: suduA10Img.url }],
     specs: [
       { label: "Autonomia", value: "até 50 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -467,7 +470,7 @@ export const models: Model[] = [
     slug: "sudu-a3-plus",
     name: "SUDU A3+ 1000W",
     tag: "Scooter SUDU · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 60 km",
     speed: "32 km/h",
@@ -475,7 +478,7 @@ export const models: Model[] = [
     short: "SUDU A3+ com NFC e autonomia de até 60 km.",
     description:
       "SUDU A3+ traz destravamento por NFC e bateria de lítio 60V 20Ah para uma autonomia estendida de até 60 km.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduSportImg.url }],
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduA3PlusImg.url }],
     specs: [
       { label: "Autonomia", value: "até 60 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -491,7 +494,7 @@ export const models: Model[] = [
     slug: "sudu-a4",
     name: "SUDU A4 1000W",
     tag: "Scooter SUDU · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 60 km",
     speed: "32 km/h",
@@ -499,7 +502,7 @@ export const models: Model[] = [
     short: "SUDU A4 — design urbano e NFC integrado.",
     description:
       "SUDU A4 oferece bateria 60V 20Ah de lítio, autonomia de até 60 km e capacidade de 150 kg. Ideal para deslocamentos diários.",
-    colors: [{ name: "Padrão", hex: "#2c3e50", image: suduUrbanImg.url }],
+    colors: [{ name: "Padrão", hex: "#2c3e50", image: suduA4Img.url }],
     specs: [
       { label: "Autonomia", value: "até 60 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -515,7 +518,7 @@ export const models: Model[] = [
     slug: "sudu-a5",
     name: "SUDU A5 1000W",
     tag: "Scooter SUDU · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 60 km",
     speed: "32 km/h",
@@ -523,7 +526,7 @@ export const models: Model[] = [
     short: "SUDU A5 com NFC, Bluetooth e bateria 60V 24Ah.",
     description:
       "SUDU A5 integra conectividade Bluetooth e NFC com bateria de lítio 60V 24Ah, entregando até 60 km de autonomia.",
-    colors: [{ name: "Padrão", hex: "#c0392b", image: suduSportImg.url }],
+    colors: [{ name: "Padrão", hex: "#c0392b", image: suduA5Img.url }],
     specs: [
       { label: "Autonomia", value: "até 60 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -539,7 +542,7 @@ export const models: Model[] = [
     slug: "sudu-a6",
     name: "SUDU A6 1000W",
     tag: "Scooter SUDU · Sem CNH",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 65 km",
     speed: "32 km/h",
@@ -547,7 +550,7 @@ export const models: Model[] = [
     short: "SUDU A6 — topo de linha com Hill Assist e Bluetooth.",
     description:
       "SUDU A6 é a scooter mais completa da linha: assistente de subida (Hill Assist), Bluetooth, NFC, bateria de lítio 60V 24Ah e autonomia de até 65 km.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduSportImg.url }],
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduA6Img.url }],
     specs: [
       { label: "Autonomia", value: "até 65 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -563,7 +566,7 @@ export const models: Model[] = [
     slug: "sudu-a13t",
     name: "SUDU A13T 1000W",
     tag: "Triciclo SUDU · 3 lugares",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 55 km",
     speed: "32 km/h",
@@ -571,7 +574,7 @@ export const models: Model[] = [
     short: "Triciclo SUDU A13T — 3 lugares e capacidade de 186 kg.",
     description:
       "SUDU A13T é o triciclo elétrico para famílias e transporte utilitário. Comporta até 3 lugares, capacidade de 186 kg, NFC e bateria 60V 24Ah.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduTriImg.url }],
+    colors: [{ name: "Padrão", hex: "#1a1a1a", image: suduA13TImg.url }],
     specs: [
       { label: "Autonomia", value: "até 55 km" },
       { label: "Velocidade máx.", value: "32 km/h" },
@@ -589,7 +592,7 @@ export const models: Model[] = [
     slug: "yamaha-neos",
     name: "Yamaha Neo's",
     tag: "Scooter Elétrica Yamaha",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 68 km",
     speed: "45 km/h",
@@ -611,7 +614,7 @@ export const models: Model[] = [
     slug: "yamaha-e01",
     name: "Yamaha E01",
     tag: "Maxi Scooter Elétrica",
-    price: "Sob consulta",
+    price: "Consultar disponibilidade",
     priceNumber: 0,
     range: "até 100 km",
     speed: "100 km/h",
