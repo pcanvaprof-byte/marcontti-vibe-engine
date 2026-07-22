@@ -351,10 +351,9 @@ function CatalogGrid({ items }: { items: Model[] }) {
         >
           <div className="relative aspect-[4/3] p-3">
             <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
-              <img
-                src={m.colors[0]?.image}
+              <LazyImage
+                src={m.colors[0]?.image ?? ""}
                 alt={`${m.name} — ${m.tag}`}
-                loading="lazy"
                 className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
               />
               <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
