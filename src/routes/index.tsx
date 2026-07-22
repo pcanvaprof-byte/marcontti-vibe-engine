@@ -1574,14 +1574,30 @@ function WhatsAppFab() {
     "Olá! Tenho interesse em conhecer os modelos da Klug Motors.";
   const [hidden, setHidden] = useState(false);
   useEffect(() => {
-    const el = document.getElementById("contato");
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setHidden(entry.isIntersecting),
-      { rootMargin: "0px 0px -20% 0px", threshold: 0.05 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    let ticking = false;
+    const check = () => {
+      ticking = false;
+      const el = document.getElementById("contato");
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Hide when the contact section overlaps the bottom-right FAB area
+      const inView = r.top < vh - 40 && r.bottom > vh - 220;
+      setHidden(inView);
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(check);
+      }
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
   return (
     <a
@@ -1594,7 +1610,7 @@ function WhatsAppFab() {
       aria-hidden={hidden}
       tabIndex={hidden ? -1 : 0}
       className={`fixed bottom-6 right-4 sm:right-6 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white grid place-items-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-all duration-300 animate-float ${
-        hidden ? "opacity-0 translate-y-4 pointer-events-none lg:opacity-100 lg:translate-y-0 lg:pointer-events-auto" : "opacity-100"
+        hidden ? "opacity-0 translate-y-4 pointer-events-none" : "opacity-100"
       }`}
     >
       <MessageCircle size={22} className="sm:hidden" fill="white" strokeWidth={0} />
@@ -1602,6 +1618,7 @@ function WhatsAppFab() {
     </a>
   );
 }
+
 
 
 /* ---------------------------- Scroll to top ---------------------------- */
