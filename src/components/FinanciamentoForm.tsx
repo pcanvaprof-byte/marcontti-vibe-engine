@@ -139,14 +139,14 @@ export function FinanciamentoForm({
             <CheckCircle2 size={26} />
           </div>
           <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
-            Solicitação enviada
+            Solicitação recebida
           </p>
           <h3 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-3">
-            Abrimos o WhatsApp pra você
+            Obrigado! Já recebemos seus dados
           </h3>
           <p className="text-white/70 text-sm max-w-sm mb-6">
-            Confirme o envio da mensagem no WhatsApp. Se a janela não abriu,
-            clique em "Reabrir" abaixo.
+            Nossa equipe entrará em contato em breve pelo WhatsApp ou telefone informado.
+            Se preferir, envie os detalhes agora mesmo pelo WhatsApp da loja.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <button
@@ -155,7 +155,7 @@ export function FinanciamentoForm({
               className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               <MessageCircle size={16} fill="white" strokeWidth={0} />
-              Reabrir WhatsApp
+              Enviar pelo WhatsApp
             </button>
             <button
               type="button"
