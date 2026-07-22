@@ -624,12 +624,17 @@ export function FinanciamentoForm({
                       onBlur={handleCepBlur}
                     />
 
-                    {(errors.address_zip || cepError) && (
+                    {errors.address_zip || cepError ? (
                       <p role="alert" className="text-xs text-destructive mt-1.5">
                         {errors.address_zip ?? cepError}
                       </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground mt-1.5">
+                        Preenchemos rua, bairro, cidade e UF pelo CEP — você pode editar qualquer campo manualmente.
+                      </p>
                     )}
                   </div>
+
 
                   <div>
                     <label htmlFor="fin-address_state" className={labelCls}>UF</label>
