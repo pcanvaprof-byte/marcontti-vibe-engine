@@ -19,8 +19,15 @@ import suduA4Img from "@/assets/motos/sudu-a4.png.asset.json";
 import suduA5Img from "@/assets/motos/sudu-a5.png.asset.json";
 import suduA6Img from "@/assets/motos/sudu-a6.png.asset.json";
 import suduA13TImg from "@/assets/motos/sudu-a13t.png.asset.json";
-import yamahaNeosImg from "@/assets/motos/yamaha-neos.jpg.asset.json";
-import yamahaE01Img from "@/assets/motos/yamaha-e01.jpg.asset.json";
+import yamahaNeosImg from "@/assets/motos/yamaha-neos-connected.png.asset.json";
+import yamahaRayZrImg from "@/assets/motos/yamaha-rayzr-hybrid.png.asset.json";
+import yamahaFluoImg from "@/assets/motos/yamaha-fluo-hybrid.png.asset.json";
+import yamahaAeroxImg from "@/assets/motos/yamaha-aerox.png.asset.json";
+import yamahaNmaxImg from "@/assets/motos/yamaha-nmax.png.asset.json";
+import yamahaXmaxImg from "@/assets/motos/yamaha-xmax.png.asset.json";
+import yamahaFactorImg from "@/assets/motos/yamaha-factor-150.png.asset.json";
+import yamahaFactorDxImg from "@/assets/motos/yamaha-factor-150-dx.png.asset.json";
+import yamahaFz25Img from "@/assets/motos/yamaha-fz25.png.asset.json";
 
 export type ColorVariant = { name: string; hex: string; image: string };
 
