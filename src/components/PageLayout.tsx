@@ -72,7 +72,7 @@ export function PageLayout({
             <p className="inline-flex items-center gap-2"><MapPin size={13} className="text-white/40" /> R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100</p>
             <p className="inline-flex items-center gap-2"><Phone size={13} className="text-white/40" /> <a href="tel:+554734293200" className="hover:text-primary">(47) 3429-3200</a></p>
             <p className="inline-flex items-center gap-2"><Mail size={13} className="text-white/40" /> <a href="mailto:klugmotors@gmail.com" className="hover:text-primary">klugmotors@gmail.com</a></p>
-            <p className="inline-flex items-center gap-2"><Clock size={13} className="text-white/40" /> Seg–Sex 08:30–18:30 · Sáb 08:30–13:00</p>
+            <p className="inline-flex items-center gap-2"><Clock size={13} className="text-white/40" /> Seg a Sex 08:30–18:30 · Sáb 08:30–13:00 · Dom fechado</p>
           </div>
           <div className="flex flex-col gap-3 items-start md:items-end">
             <div className="flex gap-2">

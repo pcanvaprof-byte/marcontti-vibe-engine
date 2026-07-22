@@ -1246,7 +1246,7 @@ function Contact() {
             <ContactRow
               icon={Clock}
               label="Horários"
-              value="Seg–Sex 08:30–18:30 (sem fechar p/ almoço) · Sáb 08:30–13:00"
+              value="Seg a Sex 08:30–18:30 (sem fechar p/ almoço) · Sáb 08:30–13:00 · Dom fechado"
             />
             <ContactRow
               icon={Mail}
@@ -1446,9 +1446,11 @@ function Footer() {
               <li className="flex items-start gap-2 pt-1">
                 <Clock {...iconProps} className="mt-0.5 shrink-0 text-white/40" />
                 <span className="text-xs leading-relaxed">
-                  Seg–Sex: 08:30 às 18:30
+                  Seg a Sex: 08:30 às 18:30
                   <br />
                   Sábado: 08:30 às 13:00
+                  <br />
+                  Domingo: fechado
                 </span>
               </li>
             </ul>
