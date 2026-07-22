@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle } from "lucide-react";
-import { models, type Model } from "@/lib/models";
+import { type Model } from "@/lib/models";
+import { usePublicModels } from "@/hooks/useDbModels";
 import { useReveal } from "@/hooks/use-reveal";
 import { LazyImage } from "@/components/LazyImage";
 
@@ -143,6 +144,7 @@ function typeOf(m: Model): TypeFilter {
 }
 
 function CatalogPage() {
+  const { items: models } = usePublicModels();
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/modelos" });
   const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";

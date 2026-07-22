@@ -1,4 +1,4 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
 import {
   ArrowLeft,
@@ -21,10 +21,11 @@ import {
 import {
   getModel,
   getGallery,
-  models,
+  models as staticModels,
   buildWhatsAppFallbackUrl,
   openWhatsAppWithFallback,
 } from "@/lib/models";
+import { usePublicModels } from "@/hooks/useDbModels";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
@@ -34,11 +35,11 @@ const BASE_URL = "https://proototipomotos.lovable.app";
 export const Route = createFileRoute("/modelos/$slug")({
   loader: ({ params }) => {
     const model = getModel(params.slug);
-    if (!model) throw redirect({ to: "/modelos" });
-    return { model };
+    // Allow unknown slugs to render — the component fetches from the DB.
+    return { model: model ?? null, slug: params.slug };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData) return { meta: [{ title: "Modelo — Klug Motors" }] };
+    if (!loaderData || !loaderData.model) return { meta: [{ title: "Modelo — Klug Motors" }] };
     const m = loaderData.model;
     const title = `${m.name} — ${m.tag} | Klug Motors`;
     const desc = `${m.short} A partir de ${m.price}. Autonomia ${m.range}, ${m.speed}. Financiamento facilitado em Joinville/SC.`;
@@ -126,8 +127,22 @@ const TABS = [
 type Tab = (typeof TABS)[number];
 
 function ModelPage() {
-  const data = Route.useLoaderData() as { model: import("@/lib/models").Model };
-  const m = data.model;
+  const data = Route.useLoaderData() as { model: import("@/lib/models").Model | null; slug: string };
+  const { items: dbModels } = usePublicModels();
+  const m = data.model ?? dbModels.find((x) => x.slug === data.slug) ?? null;
+  if (!m) {
+    return (
+      <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
+        <div>
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">404</p>
+          <h1 className="font-display font-black uppercase text-3xl tracking-tight mb-4">Modelo não encontrado</h1>
+          <Link to="/modelos" className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full">
+            Ver catálogo <ChevronRight size={14} />
+          </Link>
+        </div>
+      </div>
+    );
+  }
   const [selected, setSelected] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [tab, setTab] = useState<Tab>("Descrição Geral");
@@ -181,7 +196,7 @@ function ModelPage() {
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-  const related = models.filter((x) => x.slug !== m.slug).slice(0, 4);
+  const related = (dbModels.length ? dbModels : staticModels).filter((x) => x.slug !== m.slug).slice(0, 4);
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
@@ -617,7 +632,7 @@ function ModelPage() {
             Produtos <span className="text-primary">relacionados</span>
           </h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {related.map((x) => {
+            {related.map((x: import("@/lib/models").Model) => {
               const xPix = x.priceNumber * 0.9;
               return (
                 <Link
