@@ -1,5 +1,6 @@
 import { CreditCard, Wallet, BadgePercent, Store, ShieldCheck, type LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import klugSymbol from "@/assets/klug/klug-symbol-white.png.asset.json";
 
 export type Benefit = {
   id: string;
