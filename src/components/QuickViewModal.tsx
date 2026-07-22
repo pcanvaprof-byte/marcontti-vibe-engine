@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 import { X, MessageCircle, ArrowRight, Zap } from "lucide-react";
 import type { Product } from "@/components/ProductCard";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
@@ -13,6 +13,8 @@ type Props = {
 };
 
 export function QuickViewModal({ product, open, onClose }: Props) {
+  const router = useRouter();
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -26,6 +28,19 @@ export function QuickViewModal({ product, open, onClose }: Props) {
       document.body.style.overflow = overflow;
     };
   }, [open, onClose]);
+
+  // Pré-carrega rota + dados + imagens quando o modal abre
+  useEffect(() => {
+    if (!open || !product?.slug) return;
+    router
+      .preloadRoute({ to: "/modelos/$slug", params: { slug: product.slug } })
+      .catch(() => {});
+    if (typeof window !== "undefined" && product.imagem) {
+      const img = new Image();
+      img.src = product.imagem;
+    }
+  }, [open, product?.slug, product?.imagem, router]);
+
 
   if (!open || !product) return null;
 
@@ -118,6 +133,7 @@ export function QuickViewModal({ product, open, onClose }: Props) {
                 <Link
                   to="/modelos/$slug"
                   params={{ slug: product.slug }}
+                  preload="intent"
                   onClick={onClose}
                   className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full transition"
                 >
