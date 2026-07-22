@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 
 import { Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle, ArrowRight } from "lucide-react";
 import { z } from "zod";
-import { models, openWhatsAppWithFallback, openWhatsAppNewTab } from "@/lib/models";
+import { models, openWhatsAppWithFallback, openWhatsAppNewTab, buildWhatsAppFallbackUrl } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { getAttribution, getOriginPage } from "@/lib/attribution";
