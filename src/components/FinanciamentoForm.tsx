@@ -52,7 +52,7 @@ const incomes = [
   "Acima de R$ 10.000",
 ];
 
-const UFS = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
+
 
 export function FinanciamentoForm({
   defaultModel,
@@ -138,11 +138,18 @@ export function FinanciamentoForm({
         if (opts.notify) toast.error(msg);
         return;
       }
+      // Rua/bairro/complemento respeitam edições manuais…
       fillIfEditable("fin-address_street", data.logradouro ?? "");
       fillIfEditable("fin-address_neighborhood", data.bairro ?? "");
-      fillIfEditable("fin-address_city", data.localidade ?? "");
-      fillIfEditable("fin-address_state", data.uf ?? "");
       fillIfEditable("fin-address_complement", data.complemento ?? "", { onlyIfEmpty: true });
+      // …mas cidade e UF são determinadas pelo CEP: sempre sobrescreve para manter consistência.
+      setFieldValue("fin-address_city", data.localidade ?? "");
+      setFieldValue("fin-address_state", (data.uf ?? "").toUpperCase());
+      const cityEl = document.getElementById("fin-address_city") as HTMLInputElement | null;
+      const stateEl = document.getElementById("fin-address_state") as HTMLSelectElement | null;
+      if (cityEl) cityEl.dataset.autofilled = "true";
+      if (stateEl) stateEl.dataset.autofilled = "true";
+
 
       if (opts.notify) toast.success("Endereço preenchido pelo CEP");
       (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
@@ -217,6 +224,9 @@ export function FinanciamentoForm({
       if (!addr.city) errs.address_city = "Cidade";
       if (!addr.state) errs.address_state = "UF";
       if (addr.zip.length !== 8) errs.address_zip = "CEP inválido";
+      if (cepError) errs.address_zip = cepError;
+      if (cepLoading) errs.address_zip = "Aguarde a consulta do CEP finalizar";
+
 
       if (!lgpd) errs.lgpd = "É necessário aceitar o compartilhamento dos dados";
     }
@@ -638,20 +648,20 @@ export function FinanciamentoForm({
 
                   <div>
                     <label htmlFor="fin-address_state" className={labelCls}>UF</label>
-                    <select
+                    <input
                       id="fin-address_state"
                       name="address_state"
-                      defaultValue=""
-                      className={inputCls}
+                      maxLength={2}
+                      readOnly
+                      placeholder="—"
+                      className={`${inputCls} bg-muted/50 cursor-not-allowed uppercase`}
                       aria-invalid={!!errors.address_state}
-                      onChange={markUserEdited}
-
-                    >
-                      <option value="" disabled>—</option>
-                      {UFS.map((u) => <option key={u}>{u}</option>)}
-                    </select>
+                      title="UF é preenchida automaticamente pelo CEP para garantir consistência"
+                    />
                     {errors.address_state && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_state}</p>}
                   </div>
+
+
                 </div>
 
                 <div className="grid sm:grid-cols-[1fr_120px] gap-5">
@@ -716,14 +726,15 @@ export function FinanciamentoForm({
                     id="fin-address_city"
                     name="address_city"
                     maxLength={80}
-                    placeholder="Cidade"
-                    className={inputCls}
+                    placeholder="Preenchida pelo CEP"
+                    readOnly
+                    className={`${inputCls} bg-muted/50 cursor-not-allowed`}
                     aria-invalid={!!errors.address_city}
-                    onInput={markUserEdited}
-
+                    title="Cidade é preenchida automaticamente pelo CEP para garantir consistência"
                   />
                   {errors.address_city && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_city}</p>}
                 </div>
+
               </div>
 
               <label
