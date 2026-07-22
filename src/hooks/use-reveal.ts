@@ -34,8 +34,8 @@ export function useReveal<T extends HTMLElement = HTMLElement>(options?: {
         }
       },
       {
-        threshold: options?.threshold ?? 0.12,
-        rootMargin: options?.rootMargin ?? "0px 0px -8% 0px",
+        threshold: options?.threshold ?? 0,
+        rootMargin: options?.rootMargin ?? "0px 0px -10% 0px",
       },
     );
 
