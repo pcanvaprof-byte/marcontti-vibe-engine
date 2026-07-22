@@ -227,50 +227,6 @@ export function YamahaProductPage({
             </button>
           </div>
 
-          {/* Color selector — horizontal chip strip */}
-          <div className="relative z-30 mt-4">
-            <p className="text-[9px] uppercase tracking-[0.4em] text-white/80 font-black mb-3">Disponível em</p>
-            <ul className="flex flex-wrap gap-3">
-              {m.colors.map((c, i) => {
-                const [title, subtitle] = c.name.includes("·")
-                  ? c.name.split("·").map((s) => s.trim())
-                  : [c.name, ""];
-                const active = i === selected;
-                return (
-                  <li key={c.name + i}>
-                    <button
-                      type="button"
-                      onClick={() => setSelected(i)}
-                      className={`group flex items-center gap-3 pl-1.5 pr-4 py-1.5 rounded-full border backdrop-blur transition-all ${
-                        active
-                          ? "border-white bg-white/25 text-white"
-                          : "border-white/30 bg-white/5 text-white/85 hover:bg-white/15"
-                      }`}
-                    >
-                      <span
-                        aria-hidden
-                        className={`shrink-0 grid place-items-center rounded-full ${active ? "w-8 h-8 ring-2 ring-white" : "w-7 h-7 ring-1 ring-white/60"}`}
-                        style={{ backgroundColor: c.hex, boxShadow: active ? `0 0 20px ${c.hex}aa` : undefined }}
-                      >
-                        {active ? <Check size={12} className="text-white mix-blend-difference" /> : null}
-                      </span>
-                      <span className="min-w-0 text-left">
-                        <span
-                          className="block uppercase tracking-wider font-black"
-                          style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "14px", letterSpacing: "0.1em" }}
-                        >
-                          {title}
-                        </span>
-                        {subtitle ? (
-                          <span className="block text-[10px] opacity-75 -mt-0.5">{subtitle}</span>
-                        ) : null}
-                      </span>
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
 
           {/* Bottom strip: specs + CTAs */}
           <div className="relative z-20 mt-8 pt-6 border-t border-white/25 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-end">
