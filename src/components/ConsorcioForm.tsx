@@ -89,6 +89,10 @@ export function ConsorcioForm({
     setSaveError(null);
     setSubmitting(true);
 
+    // Abre a aba do WhatsApp AGORA (dentro do gesto do usuário) para evitar bloqueio de pop-up.
+    // A URL final é definida após o insert.
+    const waWindow = typeof window !== "undefined" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
+
     const text = [
       `Olá! Tenho interesse em Consórcio Klug.`,
       ``,
