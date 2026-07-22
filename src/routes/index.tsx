@@ -1512,6 +1512,7 @@ function Footer() {
               <li><Link to="/faq" className="story-link hover:text-primary">FAQ</Link></li>
               <li><Link to="/contato" className="story-link hover:text-primary">Contato</Link></li>
               <li><Link to="/privacidade" className="story-link hover:text-primary">Privacidade</Link></li>
+              <li><Link to="/admin" className="story-link text-white/50 hover:text-primary">Admin</Link></li>
             </ul>
           </div>
         </div>

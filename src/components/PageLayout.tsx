@@ -110,9 +110,14 @@ export function PageLayout({
                 <MessageCircle size={14} />
               </a>
             </div>
-            <Link to="/privacidade" className="text-[11px] uppercase tracking-widest hover:text-primary">
-              Política de Privacidade
-            </Link>
+            <div className="flex flex-col gap-1 items-start md:items-end">
+              <Link to="/privacidade" className="text-[11px] uppercase tracking-widest hover:text-primary">
+                Política de Privacidade
+              </Link>
+              <Link to="/admin" className="text-[11px] uppercase tracking-widest text-white/50 hover:text-primary">
+                Painel Admin
+              </Link>
+            </div>
           </div>
         </div>
         <div className="border-t border-white/10">
