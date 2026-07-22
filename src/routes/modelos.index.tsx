@@ -1,10 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle } from "lucide-react";
-import { type Model } from "@/lib/models";
+import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle, MessageCircle } from "lucide-react";
+import { type Model, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { usePublicModels } from "@/hooks/useDbModels";
 import { useReveal } from "@/hooks/use-reveal";
 import { LazyImage } from "@/components/LazyImage";
+import { QuickViewModal } from "@/components/QuickViewModal";
+
 
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
