@@ -1250,7 +1250,8 @@ function Contact() {
   return (
     <section id="contato" className="py-24 sm:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16">
-        <div>
+        <div className="min-w-0">
+
           <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-4">
             Visite a unidade
           </p>
