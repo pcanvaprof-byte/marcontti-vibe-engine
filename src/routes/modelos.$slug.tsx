@@ -29,6 +29,7 @@ import { usePublicModels } from "@/hooks/useDbModels";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { YamahaProductPage } from "@/components/YamahaProductPage";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 const BASE_URL = "https://althaciamoveis.shop";
@@ -834,6 +835,7 @@ function ModelPage() {
             >
               Admin
             </Link>
+            <CreatedBy />
           </div>
         </div>
       </footer>

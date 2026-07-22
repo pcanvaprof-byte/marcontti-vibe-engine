@@ -9,6 +9,7 @@ import { QuickViewModal } from "@/components/QuickViewModal";
 
 
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 const BASE_URL = "https://althaciamoveis.shop";
@@ -341,6 +342,7 @@ function CatalogPage() {
             >
               <ArrowLeft className="w-4 h-4" /> Voltar para a home
             </Link>
+            <CreatedBy />
           </div>
         </div>
       </footer>

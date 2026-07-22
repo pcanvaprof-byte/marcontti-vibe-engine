@@ -40,6 +40,7 @@ import { BenefitsBar } from "@/components/BenefitsBar";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import type { Product } from "@/components/ProductCard";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
@@ -1521,12 +1522,15 @@ function Footer() {
           <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] text-center md:text-left">
             © {new Date().getFullYear()} Klug Motors · CNPJ 51.728.597/0001-26 · R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100
           </p>
-          <img
-            src={klugSymbol.url}
-            alt=""
-            aria-hidden="true"
-            className="w-6 h-6 object-contain opacity-60"
-          />
+          <div className="flex items-center gap-3">
+            <CreatedBy />
+            <img
+              src={klugSymbol.url}
+              alt=""
+              aria-hidden="true"
+              className="w-6 h-6 object-contain opacity-60"
+            />
+          </div>
         </div>
       </div>
     </footer>
