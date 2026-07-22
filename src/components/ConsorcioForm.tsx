@@ -137,6 +137,9 @@ export function ConsorcioForm({
     }
 
     setLastMessage(text);
+    setSummary(d);
+    setSentAt(new Date());
+    setProtocol(`KLG-${Date.now().toString(36).toUpperCase().slice(-6)}`);
     setSent(true);
     trackEvent("consorcio_submit", {
       source: "consorcio_form",
@@ -158,6 +161,9 @@ export function ConsorcioForm({
     setLastMessage(null);
     setSaveError(null);
     setErrors({});
+    setSummary(null);
+    setSentAt(null);
+    setProtocol(null);
   }
 
   const inputCls =
