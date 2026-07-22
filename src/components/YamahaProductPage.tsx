@@ -190,50 +190,9 @@ export function YamahaProductPage({
         `}</style>
 
         <div className="relative max-w-[1500px] mx-auto px-5 sm:px-10 pt-8 sm:pt-10 pb-10 min-h-[86svh] flex flex-col">
-          {/* Category tag */}
-          <div className="relative z-20 mb-4">
-            <span className="inline-flex items-center gap-2 border border-white/60 bg-white/10 backdrop-blur px-3 py-1.5 text-[10px] font-display font-black uppercase tracking-[0.3em] text-white">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-              {m.tag}
-            </span>
-          </div>
-
-          {/* Wordmark — in front, large, centered top */}
-          <div className="relative z-30 text-center pointer-events-none select-none">
-            <h1
-              className="text-white leading-[0.85] drop-shadow-[0_12px_40px_rgba(80,25,0,0.45)]"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(80px, 16vw, 240px)",
-                letterSpacing: "0.02em",
-              }}
-            >
-              {m.name.replace(/^Yamaha\s+/i, "").split(" ")[0].toUpperCase()}
-            </h1>
-            <p
-              className="mt-2 text-white/95 tracking-[0.5em] font-light"
-              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "clamp(14px, 1.6vw, 22px)" }}
-            >
-              ELÉTRICA
-            </p>
-          </div>
-
           {/* Vehicle stage */}
-          <div className="relative flex-1 flex items-center justify-center mt-[-40px] sm:mt-[-70px]">
-            {/* Right tagline */}
-            <div
-              aria-hidden
-              className="hidden md:block absolute right-[3%] top-[38%] z-20 text-right select-none"
-              style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
-            >
-              <h2
-                className="text-white leading-[0.9] drop-shadow-[0_10px_28px_rgba(80,25,0,0.5)]"
-                style={{ fontSize: "clamp(22px, 3vw, 44px)", letterSpacing: "0.2em" }}
-              >
-                CARREGADA<br />
-                DE ENERGIA
-              </h2>
-            </div>
+          <div className="relative flex-1 flex items-center justify-center">
+
 
             {/* Ground reflection — tints with variant */}
             <div
