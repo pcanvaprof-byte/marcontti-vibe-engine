@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState, type ImgHTMLAttributes } from "react";
+import { useState, type ImgHTMLAttributes } from "react";
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
   alt: string;
-  /** Distance in px before entering viewport to start loading */
-  rootMargin?: string;
   /** Wrapper class (skeleton fills this container) */
   wrapperClassName?: string;
   /** Text shown under the spinner while loading (optional) */
@@ -12,48 +10,25 @@ type Props = ImgHTMLAttributes<HTMLImageElement> & {
 };
 
 /**
- * Image with IntersectionObserver-based lazy loading, skeleton shimmer,
- * loading message and fade-in on load. Falls back gracefully on error.
+ * Image with skeleton shimmer + fade-in on load. Uses native `loading="lazy"`
+ * so the browser decides when to fetch (avoids intersection edge cases where
+ * an image never gets a src on fast scrolls or long grids).
  */
 export function LazyImage({
   src,
   alt,
-  rootMargin = "200px 0px",
   className = "",
   wrapperClassName = "",
   loadingLabel,
   ...rest
 }: Props) {
-  const ref = useRef<HTMLImageElement | null>(null);
-  const [inView, setInView] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setInView(true);
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setInView(true);
-            io.disconnect();
-            break;
-          }
-        }
-      },
-      { rootMargin, threshold: 0.01 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [rootMargin]);
-
   return (
-    <span className={`relative inline-flex items-center justify-center ${wrapperClassName}`}>
+    <span
+      className={`relative inline-flex items-center justify-center overflow-hidden ${wrapperClassName}`}
+    >
       {/* Skeleton / loading overlay */}
       {!loaded && !errored && (
         <span
@@ -76,8 +51,7 @@ export function LazyImage({
       )}
 
       <img
-        ref={ref}
-        src={inView ? src : undefined}
+        src={src}
         alt={alt}
         loading="lazy"
         decoding="async"
