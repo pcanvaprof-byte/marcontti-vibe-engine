@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle } from "lucide-react";
 import { models, type Model } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
+import { LazyImage } from "@/components/LazyImage";
 
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
