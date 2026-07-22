@@ -1248,7 +1248,7 @@ function Benefits() {
 
 function Contact() {
   return (
-    <section id="contato" className="py-24 sm:py-32 bg-background">
+    <section id="contato" className="py-24 sm:py-32 pb-32 sm:pb-40 lg:pb-32 bg-background">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16">
         <div className="min-w-0">
 
