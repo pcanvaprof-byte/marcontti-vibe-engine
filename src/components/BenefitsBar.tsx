@@ -12,7 +12,7 @@ const DEFAULT_BENEFITS: Benefit[] = [
   { id: "financ",   icon: CreditCard,   title: "Financiamento",       desc: "em até 36x (WhatsApp)" },
   { id: "cartao",   icon: Wallet,       title: "Pagamento Facilitado", desc: "em até 21x no cartão" },
   { id: "pix",      icon: BadgePercent, title: "10% OFF no PIX",       desc: "ganhe desconto na hora!" },
-  { id: "vendidas", icon: Store,        title: "+de 5.000",            desc: "scooters de fabricação nacional" },
+  { id: "nacional", icon: Store,        title: "Fabricação Nacional",  desc: "scooters produzidas no Brasil" },
   { id: "oficial",  icon: ShieldCheck,  title: "Loja Oficial",         desc: "Unidade de Joinville" },
 ];
 
