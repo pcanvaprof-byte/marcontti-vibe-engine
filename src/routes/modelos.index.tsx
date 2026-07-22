@@ -342,6 +342,7 @@ function CatalogPage() {
             >
               <ArrowLeft className="w-4 h-4" /> Voltar para a home
             </Link>
+            <CreatedBy />
           </div>
         </div>
       </footer>
