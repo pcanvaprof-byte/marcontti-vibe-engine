@@ -74,7 +74,7 @@ export function LazyImage({
       <img
         src={src}
         alt={alt}
-        loading="lazy"
+        loading={(rest as { loading?: "eager" | "lazy" }).loading ?? "lazy"}
         decoding="async"
         onLoad={() => setLoaded(true)}
         onError={() => setErrored(true)}
