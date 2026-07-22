@@ -32,8 +32,9 @@ export const Route = createFileRoute("/contato")({
           taxID: "51.728.597/0001-26",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "R. Albano Schmidt, 1882",
+            streetAddress: "R. Albano Schmidt, 1882 — Boa Vista",
             addressLocality: "Joinville",
+            postalCode: "89205-100",
             addressRegion: "SC",
             addressCountry: "BR",
           },
