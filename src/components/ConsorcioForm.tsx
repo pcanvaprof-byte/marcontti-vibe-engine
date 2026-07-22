@@ -330,6 +330,27 @@ export function ConsorcioForm({
         <textarea id="con-message" name="message" rows={3} maxLength={500} placeholder="Conte um pouco mais sobre o que você procura" className={inputCls} />
       </div>
 
+      <div>
+        <label
+          htmlFor="con-lgpd"
+          className="flex items-start gap-3 border border-border p-3 cursor-pointer hover:border-primary/60 transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/5"
+        >
+          <input
+            id="con-lgpd"
+            name="lgpd"
+            type="checkbox"
+            className="mt-0.5 h-4 w-4 accent-primary shrink-0"
+            aria-invalid={!!errors.lgpd}
+            aria-describedby={errors.lgpd ? "con-lgpd-err" : undefined}
+          />
+          <span className="text-[11px] leading-relaxed text-white/70">
+            Li e autorizo o tratamento dos meus dados pela Klug para contato sobre esta solicitação,
+            conforme a <a href="/privacidade" target="_blank" rel="noreferrer" className="text-primary underline underline-offset-2">Política de Privacidade</a> e a LGPD (Lei nº 13.709/2018). <span className="text-destructive">*</span>
+          </span>
+        </label>
+        {errors.lgpd && <p id="con-lgpd-err" role="alert" className="text-xs text-destructive mt-1.5">{errors.lgpd}</p>}
+      </div>
+
       <div className="pt-2">
         <button
           type="submit"
