@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle } from "lucide-react";
 import { z } from "zod";
-import { models, openWhatsAppWithFallback } from "@/lib/models";
+import { models, openWhatsAppWithFallback, openWhatsAppNewTab } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 
