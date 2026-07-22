@@ -1735,7 +1735,7 @@ function RefProductCard({ m }: { m: Model }) {
             ou <span className="text-white/70">{m.price}</span>
           </p>
         )}
-        <span className="mt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md group-hover:brightness-110">
+        <span className="mt-auto pt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] py-2 rounded-md group-hover:brightness-110">
           Ver produto
         </span>
       </div>
