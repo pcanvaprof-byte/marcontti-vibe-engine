@@ -328,9 +328,25 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         </Field>
 
         <div className="space-y-2">
-          <Label>Imagem principal</Label>
+          <div className="flex items-center justify-between gap-2">
+            <Label>Imagem principal</Label>
+            {preview && (
+              <button
+                type="button"
+                onClick={toggleMainHidden}
+                className={`inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md border ${mainHidden ? "bg-neutral-900 border-neutral-700 text-neutral-400" : "bg-emerald-500/10 border-emerald-500/40 text-emerald-300"}`}
+              >
+                {mainHidden ? <><EyeOff className="w-3.5 h-3.5" /> Oculta</> : <><Eye className="w-3.5 h-3.5" /> Publicada</>}
+              </button>
+            )}
+          </div>
           <div className="flex items-center gap-4 flex-wrap">
-            {preview && <img src={preview} alt="" className="w-24 h-24 rounded object-cover bg-neutral-800" />}
+            {preview && (
+              <div className="relative">
+                <img src={preview} alt="" className={`w-24 h-24 rounded object-cover bg-neutral-800 ${mainHidden ? "opacity-40 grayscale" : ""}`} />
+                {mainHidden && <div className="absolute inset-0 flex items-center justify-center"><EyeOff className="w-6 h-6 text-white/80" /></div>}
+              </div>
+            )}
             <label className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 hover:bg-neutral-700 cursor-pointer text-sm">
               <Upload className="w-4 h-4" /> {uploadingMain ? "Enviando..." : "Escolher arquivo"}
               <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
@@ -338,7 +354,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             <Input
               placeholder="Ou cole uma URL de imagem"
               value={preview ?? ""}
-              onChange={(e) => set("colors", [{ name: d.colors?.[0]?.name ?? "Padrão", hex: d.colors?.[0]?.hex ?? "#1a1a1a", image: e.target.value }, ...(d.colors ?? []).slice(1)])}
+              onChange={(e) => set("colors", [{ name: d.colors?.[0]?.name ?? "Padrão", hex: d.colors?.[0]?.hex ?? "#1a1a1a", image: e.target.value, hidden: d.colors?.[0]?.hidden }, ...(d.colors ?? []).slice(1)])}
               className="flex-1 min-w-[200px]"
             />
           </div>
@@ -351,21 +367,39 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <Upload className="w-4 h-4" /> {uploadingGallery ? "Enviando..." : "Adicionar imagens"}
               <input type="file" accept="image/*" multiple className="hidden" onChange={handleGalleryUpload} disabled={uploadingGallery} />
             </label>
-            <span className="text-xs text-neutral-500">{(d.gallery ?? []).length} imagem(ns)</span>
+            <span className="text-xs text-neutral-500">
+              {galleryItems.length} imagem(ns) · {galleryItems.filter((g) => !g.hidden).length} publicada(s)
+            </span>
           </div>
-          {(d.gallery ?? []).length > 0 && (
+          {galleryItems.length > 0 && (
             <div className="grid grid-cols-4 md:grid-cols-6 gap-2 mt-2">
-              {(d.gallery ?? []).map((url, i) => (
+              {galleryItems.map((g, i) => (
                 <div key={i} className="relative group">
-                  <img src={url} alt="" className="w-full aspect-square rounded object-cover bg-neutral-800" />
-                  <button
-                    type="button"
-                    onClick={() => removeGalleryItem(i)}
-                    className="absolute top-1 right-1 bg-red-500/90 hover:bg-red-600 text-white rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    aria-label="Remover"
-                  >
-                    <Trash2 className="w-3 h-3" />
-                  </button>
+                  <img src={g.url} alt="" className={`w-full aspect-square rounded object-cover bg-neutral-800 ${g.hidden ? "opacity-40 grayscale" : ""}`} />
+                  {g.hidden && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <EyeOff className="w-5 h-5 text-white/80" />
+                    </div>
+                  )}
+                  <div className="absolute top-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      type="button"
+                      onClick={() => toggleGalleryHidden(i)}
+                      className="bg-neutral-900/90 hover:bg-neutral-800 text-white rounded p-1"
+                      aria-label={g.hidden ? "Publicar" : "Ocultar"}
+                      title={g.hidden ? "Publicar" : "Ocultar"}
+                    >
+                      {g.hidden ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => removeGalleryItem(i)}
+                      className="bg-red-500/90 hover:bg-red-600 text-white rounded p-1"
+                      aria-label="Remover"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
