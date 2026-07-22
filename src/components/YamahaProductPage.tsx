@@ -137,22 +137,8 @@ export function YamahaProductPage({
         </div>
       </section>
 
-      {/* 2. GRANDE IMAGEM LATERAL */}
-      {activeGallery[0] ? (
-        <section className="border-t border-border bg-neutral-950">
-          <div className="max-w-[1600px] mx-auto px-5 sm:px-10 py-16 sm:py-24">
-            <div className="relative rounded-3xl overflow-hidden bg-neutral-950">
-              <img
-                src={activeGallery[0]}
-                alt={`${m.name} — vista lateral`}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-auto object-contain"
-              />
-            </div>
-          </div>
-        </section>
-      ) : null}
+
+
 
       {/* 3. MODOS DE CONDUÇÃO / VERSATILIDADE */}
       <section id="modos" className="border-t border-border bg-card/30">
