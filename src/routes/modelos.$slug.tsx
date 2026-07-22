@@ -529,6 +529,14 @@ function ModelPage() {
               >
                 <MessageCircle size={16} fill="white" strokeWidth={0} /> WhatsApp
               </a>
+
+              <Link
+                to="/comparar"
+                search={{ a: m.slug }}
+                className="w-full inline-flex items-center justify-center gap-2 border border-border text-white/80 font-display font-black uppercase tracking-widest text-xs py-2.5 rounded-md hover:border-primary hover:text-primary transition-all"
+              >
+                Comparar este modelo
+              </Link>
             </div>
 
             {/* Shipping estimator */}
