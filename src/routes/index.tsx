@@ -1406,7 +1406,7 @@ function Footer() {
   return (
     <footer className="bg-card border-t border-border pt-16 sm:pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 mb-12 sm:mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 mb-12 sm:mb-14 [&>*]:min-w-0">
           {/* Brand */}
           <div className="lg:col-span-4 lg:pr-8">
             <Link to="/" className="inline-flex items-center gap-2 mb-5" aria-label="Klug Motors">
