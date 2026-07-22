@@ -167,7 +167,8 @@ type Tab = (typeof TABS)[number];
 function ModelPage() {
   const data = Route.useLoaderData() as { model: import("@/lib/models").Model | null; slug: string };
   const { items: dbModels, isLoading: dbLoading } = usePublicModels();
-  const m = data.model ?? dbModels.find((x) => x.slug === data.slug) ?? null;
+  // Prefer DB (source of truth for price/gallery); fall back to static seed.
+  const m = dbModels.find((x) => x.slug === data.slug) ?? data.model ?? null;
 
   // Hooks must be declared unconditionally — never early-return above them.
   const [selected, setSelected] = useState(0);
