@@ -269,7 +269,10 @@ export function YamahaProductPage({
                 A escolha certa para <span className="text-primary">mobilidade urbana</span>
               </h3>
             </div>
-            <p className="text-white/75 leading-relaxed lg:pt-6">
+            <p
+              key={`sen2-${selected}`}
+              className="text-white/75 leading-relaxed lg:pt-6 transition-opacity duration-500 animate-in fade-in"
+            >
               {sentences[2] ?? sentences[0]}
             </p>
           </div>
