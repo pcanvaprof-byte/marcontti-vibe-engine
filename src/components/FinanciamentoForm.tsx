@@ -714,6 +714,8 @@ export function FinanciamentoForm({
                     placeholder="Cidade"
                     className={inputCls}
                     aria-invalid={!!errors.address_city}
+                    onInput={markUserEdited}
+
                   />
                   {errors.address_city && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_city}</p>}
                 </div>
