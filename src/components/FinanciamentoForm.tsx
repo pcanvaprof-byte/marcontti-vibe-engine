@@ -136,20 +136,19 @@ export function FinanciamentoForm({
         ? [street.slice(0, Math.min(street.length, 6))]
         : ["rua", "avenida", "travessa"];
       const bairros = new Set<string>();
-      const cities = new Set<string>([city]);
       await Promise.all(
         prefixes.map(async (p) => {
           const url = `https://viacep.com.br/ws/${encodeURIComponent(uf)}/${encodeURIComponent(city)}/${encodeURIComponent(p)}/json/`;
           const r = await fetch(url);
           if (!r.ok) return;
-          const arr = (await r.json()) as Array<{ bairro?: string; localidade?: string }>;
+          const arr = (await r.json()) as Array<{ bairro?: string }>;
           if (!Array.isArray(arr)) return;
           arr.forEach((it) => {
             if (it.bairro) bairros.add(it.bairro);
-            if (it.localidade) cities.add(it.localidade);
           });
         })
       );
+
       setNeighborhoodOptions(Array.from(bairros).sort((a, b) => a.localeCompare(b, "pt-BR")).slice(0, 50));
 
     } catch {
