@@ -172,8 +172,21 @@ export function ConsorcioForm({
     "block text-[10px] uppercase font-display font-black text-white/70 tracking-widest mb-2";
 
   if (sent) {
+    const rows: Array<[string, string]> = summary
+      ? [
+          ["Nome", summary.name],
+          ["WhatsApp", summary.phone],
+          ["E-mail", summary.email],
+          ["Modelo", summary.model],
+          ["Carta de crédito", summary.credit],
+          ["Parcela mensal", summary.budget],
+          ["Contemplação", summary.contemplation],
+          ...(summary.message ? ([["Observações", summary.message]] as Array<[string, string]>) : []),
+        ]
+      : [];
+
     return (
-      <div role="status" aria-live="polite" className={compact ? "space-y-4" : "bg-card border border-border p-8"}>
+      <div role="status" aria-live="polite" className={compact ? "space-y-5" : "bg-card border border-border p-8"}>
         <div className="flex flex-col items-center text-center">
           <div className="w-14 h-14 grid place-items-center border border-primary text-primary mb-5">
             <CheckCircle2 size={26} />
@@ -181,30 +194,55 @@ export function ConsorcioForm({
           <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
             Solicitação recebida
           </p>
-          <h3 className="font-display font-black uppercase text-2xl tracking-tight mb-3">
+          <h3 className="font-display font-black uppercase text-2xl tracking-tight mb-2">
             Obrigado! Entraremos em contato
           </h3>
-          <p className="text-white/70 text-sm max-w-sm mb-6">
+          <p className="text-white/70 text-sm max-w-sm mb-2">
             Um consultor Klug retornará com as opções de grupos, prazos e taxa de administração disponíveis.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => lastMessage && openWhatsAppWithFallback(lastMessage)}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3"
-            >
-              <MessageCircle size={16} fill="white" strokeWidth={0} />
-              Enviar pelo WhatsApp
-            </button>
-            <button
-              type="button"
-              onClick={reset}
-              className="inline-flex items-center gap-2 border border-border text-white/80 hover:border-primary hover:text-primary font-display font-black uppercase text-xs tracking-widest px-6 py-3"
-            >
-              <RotateCcw size={14} />
-              Nova solicitação
-            </button>
+          {protocol && (
+            <p className="text-[11px] text-white/50 font-mono mb-5">
+              Protocolo <span className="text-white/80">{protocol}</span>
+              {sentAt && <> · {sentAt.toLocaleString("pt-BR")}</>}
+            </p>
+          )}
+        </div>
+
+        {rows.length > 0 && (
+          <div className="border border-border">
+            <div className="px-4 py-2.5 border-b border-border bg-white/[0.02]">
+              <p className="text-[10px] font-display font-black uppercase tracking-[0.25em] text-white/60">
+                Resumo da solicitação
+              </p>
+            </div>
+            <dl className="divide-y divide-border">
+              {rows.map(([k, v]) => (
+                <div key={k} className="grid grid-cols-[130px_1fr] gap-3 px-4 py-2.5 text-xs">
+                  <dt className="text-white/50 uppercase tracking-wider text-[10px] font-display font-black self-center">{k}</dt>
+                  <dd className="text-white/90 break-words">{v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
+        )}
+
+        <div className="flex flex-wrap justify-center gap-3 pt-1">
+          <button
+            type="button"
+            onClick={() => lastMessage && openWhatsAppWithFallback(lastMessage)}
+            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3"
+          >
+            <MessageCircle size={16} fill="white" strokeWidth={0} />
+            Enviar pelo WhatsApp
+          </button>
+          <button
+            type="button"
+            onClick={reset}
+            className="inline-flex items-center gap-2 border border-border text-white/80 hover:border-primary hover:text-primary font-display font-black uppercase text-xs tracking-widest px-6 py-3"
+          >
+            <RotateCcw size={14} />
+            Nova solicitação
+          </button>
         </div>
       </div>
     );
