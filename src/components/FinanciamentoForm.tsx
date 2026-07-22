@@ -78,6 +78,29 @@ export function FinanciamentoForm({
     if (el) el.value = value;
   };
 
+  // Preserva edições manuais: só sobrescreve se o campo estiver vazio
+  // ou tiver sido preenchido automaticamente antes (e não editado pelo usuário).
+  const fillIfEditable = (
+    id: string,
+    value: string,
+    opts: { onlyIfEmpty?: boolean } = {}
+  ) => {
+    const el = document.getElementById(id) as (HTMLInputElement | HTMLSelectElement) & { dataset: DOMStringMap } | null;
+    if (!el) return;
+    const isAutofilled = el.dataset.autofilled === "true";
+    const isEmpty = !el.value;
+    if (opts.onlyIfEmpty && !isEmpty) return;
+    if (!isEmpty && !isAutofilled) return; // usuário editou manualmente — não sobrescreve
+    el.value = value;
+    el.dataset.autofilled = value ? "true" : "";
+  };
+
+  // Handler para marcar como "editado manualmente" quando o usuário digita/altera
+  const markUserEdited = (e: React.SyntheticEvent<HTMLInputElement | HTMLSelectElement>) => {
+    (e.currentTarget as HTMLElement).dataset.autofilled = "";
+  };
+
+
   const maskCep = (v: string) => {
     const d = v.replace(/\D+/g, "").slice(0, 8);
     return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
@@ -115,12 +138,12 @@ export function FinanciamentoForm({
         if (opts.notify) toast.error(msg);
         return;
       }
-      setFieldValue("fin-address_street", data.logradouro ?? "");
-      setFieldValue("fin-address_neighborhood", data.bairro ?? "");
-      setFieldValue("fin-address_city", data.localidade ?? "");
-      setFieldValue("fin-address_state", data.uf ?? "");
-      const complEl = document.getElementById("fin-address_complement") as HTMLInputElement | null;
-      if (complEl && !complEl.value && data.complemento) complEl.value = data.complemento;
+      fillIfEditable("fin-address_street", data.logradouro ?? "");
+      fillIfEditable("fin-address_neighborhood", data.bairro ?? "");
+      fillIfEditable("fin-address_city", data.localidade ?? "");
+      fillIfEditable("fin-address_state", data.uf ?? "");
+      fillIfEditable("fin-address_complement", data.complemento ?? "", { onlyIfEmpty: true });
+
       if (opts.notify) toast.success("Endereço preenchido pelo CEP");
       (document.getElementById("fin-address_number") as HTMLInputElement | null)?.focus();
     } catch {
@@ -601,12 +624,17 @@ export function FinanciamentoForm({
                       onBlur={handleCepBlur}
                     />
 
-                    {(errors.address_zip || cepError) && (
+                    {errors.address_zip || cepError ? (
                       <p role="alert" className="text-xs text-destructive mt-1.5">
                         {errors.address_zip ?? cepError}
                       </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground mt-1.5">
+                        Preenchemos rua, bairro, cidade e UF pelo CEP — você pode editar qualquer campo manualmente.
+                      </p>
                     )}
                   </div>
+
 
                   <div>
                     <label htmlFor="fin-address_state" className={labelCls}>UF</label>
@@ -616,6 +644,8 @@ export function FinanciamentoForm({
                       defaultValue=""
                       className={inputCls}
                       aria-invalid={!!errors.address_state}
+                      onChange={markUserEdited}
+
                     >
                       <option value="" disabled>—</option>
                       {UFS.map((u) => <option key={u}>{u}</option>)}
@@ -634,6 +664,8 @@ export function FinanciamentoForm({
                       placeholder="Ex.: Rua das Palmeiras"
                       className={inputCls}
                       aria-invalid={!!errors.address_street}
+                      onInput={markUserEdited}
+
                     />
                     {errors.address_street && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_street}</p>}
                   </div>
@@ -671,6 +703,8 @@ export function FinanciamentoForm({
                       placeholder="Bairro"
                       className={inputCls}
                       aria-invalid={!!errors.address_neighborhood}
+                      onInput={markUserEdited}
+
                     />
                     {errors.address_neighborhood && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_neighborhood}</p>}
                   </div>
@@ -685,6 +719,8 @@ export function FinanciamentoForm({
                     placeholder="Cidade"
                     className={inputCls}
                     aria-invalid={!!errors.address_city}
+                    onInput={markUserEdited}
+
                   />
                   {errors.address_city && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_city}</p>}
                 </div>
