@@ -1408,9 +1408,10 @@ function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 mb-12 sm:mb-14">
           {/* Brand */}
           <div className="lg:col-span-4 lg:pr-8">
-            <a href="#" className="inline-flex items-center gap-2 mb-5" aria-label="Klug Motors">
+            <Link to="/" className="inline-flex items-center gap-2 mb-5" aria-label="Klug Motors">
               <KlugWordmark />
-            </a>
+            </Link>
+
             <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-xs">
               A revolução da mobilidade elétrica em Joinville. Qualidade,
               tecnologia e o melhor pós-venda da região.

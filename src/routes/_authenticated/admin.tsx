@@ -368,9 +368,10 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         is_active: d.is_active ?? true,
         sort_order: d.sort_order ?? 0,
       };
-      const { error } = (d as any).id
-        ? await supabase.from("models").update(payload).eq("id", (d as any).id)
+      const { error } = d.id
+        ? await supabase.from("models").update(payload).eq("id", d.id)
         : await supabase.from("models").insert(payload);
+
       if (error) throw error;
       toast.success("Salvo");
       onSaved();
@@ -389,7 +390,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     <Dialog open onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-neutral-950 border-neutral-800 text-neutral-100">
         <DialogHeader>
-          <DialogTitle>{(d as any).id ? "Editar modelo" : "Novo modelo"}</DialogTitle>
+          <DialogTitle>{d.id ? "Editar modelo" : "Novo modelo"}</DialogTitle>
         </DialogHeader>
 
         <div className="grid md:grid-cols-2 gap-4">
