@@ -17,11 +17,15 @@ import { Route as FinanciamentoRouteImport } from './routes/financiamento'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as CompararRouteImport } from './routes/comparar'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ModelosIndexRouteImport } from './routes/modelos.index'
 import { Route as ModelosYamahaRouteImport } from './routes/modelos.yamaha'
 import { Route as ModelosSuduRouteImport } from './routes/modelos.sudu'
 import { Route as ModelosSlugRouteImport } from './routes/modelos.$slug'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicModelImagesSplatRouteImport } from './routes/api/public/model-images/$'
 
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
@@ -63,6 +67,15 @@ const CompararRoute = CompararRouteImport.update({
   path: '/comparar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -88,9 +101,21 @@ const ModelosSlugRoute = ModelosSlugRouteImport.update({
   path: '/modelos/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiPublicModelImagesSplatRoute =
+  ApiPublicModelImagesSplatRouteImport.update({
+    id: '/api/public/model-images/$',
+    path: '/api/public/model-images/$',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/faq': typeof FaqRoute
@@ -99,13 +124,16 @@ export interface FileRoutesByFullPath {
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos/': typeof ModelosIndexRoute
+  '/api/public/model-images/$': typeof ApiPublicModelImagesSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/faq': typeof FaqRoute
@@ -114,14 +142,18 @@ export interface FileRoutesByTo {
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos': typeof ModelosIndexRoute
+  '/api/public/model-images/$': typeof ApiPublicModelImagesSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/comparar': typeof CompararRoute
   '/contato': typeof ContatoRoute
   '/faq': typeof FaqRoute
@@ -130,15 +162,18 @@ export interface FileRoutesById {
   '/privacidade': typeof PrivacidadeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
   '/modelos/': typeof ModelosIndexRoute
+  '/api/public/model-images/$': typeof ApiPublicModelImagesSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/comparar'
     | '/contato'
     | '/faq'
@@ -147,13 +182,16 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sitemap.xml'
     | '/sobre'
+    | '/admin'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
     | '/modelos/'
+    | '/api/public/model-images/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/comparar'
     | '/contato'
     | '/faq'
@@ -162,13 +200,17 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sitemap.xml'
     | '/sobre'
+    | '/admin'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
     | '/modelos'
+    | '/api/public/model-images/$'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/comparar'
     | '/contato'
     | '/faq'
@@ -177,14 +219,18 @@ export interface FileRouteTypes {
     | '/privacidade'
     | '/sitemap.xml'
     | '/sobre'
+    | '/_authenticated/admin'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
     | '/modelos/'
+    | '/api/public/model-images/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   CompararRoute: typeof CompararRoute
   ContatoRoute: typeof ContatoRoute
   FaqRoute: typeof FaqRoute
@@ -197,6 +243,7 @@ export interface RootRouteChildren {
   ModelosSuduRoute: typeof ModelosSuduRoute
   ModelosYamahaRoute: typeof ModelosYamahaRoute
   ModelosIndexRoute: typeof ModelosIndexRoute
+  ApiPublicModelImagesSplatRoute: typeof ApiPublicModelImagesSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -257,6 +304,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompararRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -292,11 +353,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/model-images/$': {
+      id: '/api/public/model-images/$'
+      path: '/api/public/model-images/$'
+      fullPath: '/api/public/model-images/$'
+      preLoaderRoute: typeof ApiPublicModelImagesSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   CompararRoute: CompararRoute,
   ContatoRoute: ContatoRoute,
   FaqRoute: FaqRoute,
@@ -309,6 +397,7 @@ const rootRouteChildren: RootRouteChildren = {
   ModelosSuduRoute: ModelosSuduRoute,
   ModelosYamahaRoute: ModelosYamahaRoute,
   ModelosIndexRoute: ModelosIndexRoute,
+  ApiPublicModelImagesSplatRoute: ApiPublicModelImagesSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

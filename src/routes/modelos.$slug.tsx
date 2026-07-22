@@ -21,10 +21,11 @@ import {
 import {
   getModel,
   getGallery,
-  models,
+  models as staticModels,
   buildWhatsAppFallbackUrl,
   openWhatsAppWithFallback,
 } from "@/lib/models";
+import { usePublicModels } from "@/hooks/useDbModels";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
@@ -34,11 +35,11 @@ const BASE_URL = "https://proototipomotos.lovable.app";
 export const Route = createFileRoute("/modelos/$slug")({
   loader: ({ params }) => {
     const model = getModel(params.slug);
-    if (!model) throw redirect({ to: "/modelos" });
-    return { model };
+    // Allow unknown slugs to render — the component fetches from the DB.
+    return { model: model ?? null, slug: params.slug };
   },
   head: ({ loaderData, params }) => {
-    if (!loaderData) return { meta: [{ title: "Modelo — Klug Motors" }] };
+    if (!loaderData || !loaderData.model) return { meta: [{ title: "Modelo — Klug Motors" }] };
     const m = loaderData.model;
     const title = `${m.name} — ${m.tag} | Klug Motors`;
     const desc = `${m.short} A partir de ${m.price}. Autonomia ${m.range}, ${m.speed}. Financiamento facilitado em Joinville/SC.`;
