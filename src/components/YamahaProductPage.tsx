@@ -106,11 +106,26 @@ export function YamahaProductPage({
 
       {/* HERO — warm lifestyle stage inspired by yamaha-motor.com.br */}
       <section
-        className="relative overflow-hidden isolate text-white"
-        style={{
-          backgroundImage: `radial-gradient(ellipse 70% 90% at 78% 40%, #ffd9a8 0%, #f4a463 28%, #d96a26 60%, #7a2a0a 100%)`,
-        }}
+        className="relative overflow-hidden isolate text-white bg-[#7a2a0a]"
       >
+        {/* Base warm gradient */}
+        <div
+          aria-hidden
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse 70% 90% at 78% 40%, #ffd9a8 0%, #f4a463 28%, #d96a26 60%, #7a2a0a 100%)",
+          }}
+        />
+        {/* Variant tint layer — cross-fades on color change */}
+        <div
+          key={variant?.hex ?? "base"}
+          aria-hidden
+          className="absolute inset-0 z-0 mix-blend-overlay animate-[tintIn_700ms_ease-out_forwards] opacity-0"
+          style={{
+            backgroundImage: `radial-gradient(ellipse 60% 70% at 50% 55%, ${variant?.hex ?? "#ffffff"}80 0%, transparent 70%)`,
+          }}
+        />
         {/* Floating leaves */}
         <div aria-hidden className="pointer-events-none absolute inset-0 z-10">
           {[
@@ -164,6 +179,14 @@ export function YamahaProductPage({
             0%, 100% { transform: translate(0,0) rotate(var(--r,0deg)); }
             50% { transform: translate(6px,-10px) rotate(var(--r,0deg)); }
           }
+          @keyframes tintIn {
+            0% { opacity: 0; }
+            100% { opacity: 0.85; }
+          }
+          @keyframes heroImgIn {
+            0% { opacity: 0; transform: translateY(12px) scale(0.985); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
         `}</style>
 
         <div className="relative max-w-[1500px] mx-auto px-5 sm:px-10 pt-8 sm:pt-10 pb-10 min-h-[86svh] flex flex-col">
@@ -212,10 +235,10 @@ export function YamahaProductPage({
               </h2>
             </div>
 
-            {/* Ground reflection */}
+            {/* Ground reflection — tints with variant */}
             <div
-              className="absolute inset-x-12 bottom-4 h-12 rounded-[50%] blur-2xl opacity-70"
-              style={{ backgroundColor: "rgba(60,15,0,0.55)" }}
+              className="absolute inset-x-12 bottom-4 h-12 rounded-[50%] blur-2xl opacity-70 transition-[background-color] duration-700 ease-out"
+              style={{ backgroundColor: `${variant?.hex ?? "#3c0f00"}88` }}
             />
 
             {heroImg ? (
@@ -227,7 +250,7 @@ export function YamahaProductPage({
                 height={1000}
                 fetchPriority="high"
                 decoding="async"
-                className="relative z-30 w-full max-w-[860px] h-auto object-contain drop-shadow-[0_50px_60px_rgba(60,15,0,0.5)] transition-opacity duration-300"
+                className="relative z-30 w-full max-w-[860px] h-auto object-contain drop-shadow-[0_50px_60px_rgba(60,15,0,0.5)] animate-[heroImgIn_500ms_ease-out]"
               />
             ) : null}
 
