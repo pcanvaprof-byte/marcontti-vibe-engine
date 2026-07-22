@@ -213,44 +213,31 @@ function CatalogPage() {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
           <div
             role="tablist"
-            aria-label="Filtrar por tipo"
-            className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-display font-black uppercase tracking-widest"
+            aria-label="Filtrar por categoria"
+            className="flex flex-wrap gap-x-5 gap-y-2 text-[10px] font-display font-black uppercase tracking-widest"
           >
-            {TYPES.map((t) => (
-              <button
-                key={t}
-                role="tab"
-                aria-selected={type === t}
-                onClick={() => setType(t)}
-                className={`min-h-11 px-1 pb-1 transition-colors border-b-2 ${
-                  type === t
-                    ? "text-primary border-primary"
-                    : "text-white/40 hover:text-white border-transparent"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
+            {CATEGORY_TABS.map((c) => {
+              const active = activeKey === c.key;
+              return (
+                <Link
+                  key={c.key}
+                  to="/modelos"
+                  search={c.search}
+                  role="tab"
+                  aria-selected={active}
+                  className={`min-h-11 px-1 pb-1 inline-flex items-center transition-colors border-b-2 ${
+                    active
+                      ? "text-primary border-primary"
+                      : "text-white/40 hover:text-white border-transparent"
+                  }`}
+                >
+                  {c.label}
+                </Link>
+              );
+            })}
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <select
-              value={brand}
-              onChange={(e) => {
-                const value = e.target.value as BrandFilter;
-                navigate({
-                  to: "/modelos",
-                  search: { cat: search.cat, marca: BRAND_TO_MARCA[value] },
-                  replace: true,
-                });
-              }}
-              className="bg-card border border-border rounded-xl px-4 py-2 text-xs font-display font-bold uppercase tracking-wider text-white focus:border-primary focus:outline-none"
-              aria-label="Marca"
-            >
-              {BRANDS.map((b) => (
-                <option key={b} value={b}>{b === "Todas" ? "Todas as marcas" : b}</option>
-              ))}
-            </select>
             <select
               value={priceId}
               onChange={(e) => setPriceId(e.target.value as typeof priceId)}
@@ -273,6 +260,7 @@ function CatalogPage() {
             </select>
           </div>
         </div>
+
 
         <p className="text-[11px] uppercase tracking-widest font-bold text-white/50 mb-6">
           Mostrando <strong className="text-white">{filtered.length}</strong> de{" "}
