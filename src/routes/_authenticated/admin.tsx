@@ -290,6 +290,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   }
 
   const preview = d.colors?.[0]?.image;
+  const mainHidden = !!d.colors?.[0]?.hidden;
+  const galleryItems = normalizeGallery(d.gallery);
 
   return (
     <Dialog open onOpenChange={(o) => !o && onClose()}>
