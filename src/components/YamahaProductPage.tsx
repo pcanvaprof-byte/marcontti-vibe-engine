@@ -533,7 +533,15 @@ export function YamahaProductPage({
               <button
                 key={c.key}
                 type="button"
-                onClick={() => setModalOpen(c.key)}
+                onClick={() => {
+                  trackEvent("interest_click", {
+                    source: "product_payment_card",
+                    modelSlug: m.slug,
+                    metadata: { model: m.name, paymentType: c.key, cta: c.cta },
+                  });
+                  setModalOpen(c.key);
+                }}
+
                 className="group text-left rounded-3xl bg-card/60 border border-white/10 p-8 hover:border-primary/60 hover:bg-card transition-colors block w-full"
               >
                 <h4
