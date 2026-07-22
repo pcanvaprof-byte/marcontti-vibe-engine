@@ -14,9 +14,14 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
  */
 export function YamahaProductPage({ m }: { m: Model }) {
   const [selected, setSelected] = useState(0);
-  const gallery = useMemo(() => getGallery(m), [m]);
+  const modelGallery = useMemo(() => getGallery(m), [m]);
   const variant = m.colors[selected] ?? m.colors[0];
-  const heroImg = variant?.image ?? gallery[0];
+  // Per-color gallery takes precedence; fall back to the model-level gallery.
+  const activeGallery = useMemo(() => {
+    const vg = variant?.gallery?.filter(Boolean) ?? [];
+    return vg.length > 0 ? vg : modelGallery;
+  }, [variant, modelGallery]);
+  const heroImg = variant?.image ?? activeGallery[0];
 
   // Split description into paragraphs / sentences for the feature blocks.
   const sentences = useMemo(() => {
@@ -29,7 +34,7 @@ export function YamahaProductPage({ m }: { m: Model }) {
 
   // Build up to 3 alternating feature blocks pairing gallery images with copy.
   const featureBlocks = useMemo(() => {
-    const imgs = gallery.filter((g) => g && g !== heroImg).slice(0, 3);
+    const imgs = activeGallery.filter((g) => g && g !== heroImg).slice(0, 3);
     const highlights = [
       { kicker: "Design", title: "Presença que atravessa a cidade" },
       { kicker: "Performance", title: "Resposta afinada em cada acelerada" },
@@ -41,7 +46,7 @@ export function YamahaProductPage({ m }: { m: Model }) {
       title: highlights[i]?.title ?? m.name,
       copy: sentences[i + 1] ?? sentences[0],
     }));
-  }, [gallery, heroImg, sentences, m.name]);
+  }, [activeGallery, heroImg, sentences, m.name]);
 
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
