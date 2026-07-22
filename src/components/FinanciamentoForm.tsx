@@ -4,6 +4,7 @@ import { z } from "zod";
 import { models, openWhatsAppWithFallback, openWhatsAppNewTab, buildWhatsAppFallbackUrl } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
+import { buildFinanciamentoMessage } from "@/lib/whatsapp-templates";
 
 const PAYMENT_TYPES = ["Financiamento", "À vista", "Cartão de crédito"] as const;
 type PaymentType = (typeof PAYMENT_TYPES)[number];
