@@ -931,18 +931,17 @@ function PerksBar() {
 
 /* ---------------------------- Products grid ---------------------------- */
 
-const CATEGORIES = ["Todos", "Motos", "Scooters", "Triciclos", "Bicicletas", "Patinetes"] as const;
+const CATEGORIES = ["Todos", "Motos", "Scooters", "Triciclos"] as const;
 type Category = (typeof CATEGORIES)[number];
 
 function matchCategory(m: Model, cat: Category) {
   if (cat === "Todos") return true;
   const t = m.tag.toLowerCase();
-  if (cat === "Patinetes") return t.includes("patinete");
-  if (cat === "Bicicletas") return t.includes("bicicleta");
   if (cat === "Triciclos") return t.includes("triciclo");
   if (cat === "Scooters") return t.includes("scooter");
   if (cat === "Motos") return t.includes("moto elétrica") || t.startsWith("moto");
   return true;
+
 }
 
 /* ------------------------- Nossa Linha (featured) ------------------------- */
@@ -1690,11 +1689,11 @@ function RevealGrid({
 const CIRCLE_CATS = [
   { label: "Autopropelidos", to: "/modelos", filter: "autopropelido" },
   { label: "Motos", to: "/modelos", filter: "moto" },
-  { label: "Patinetes", to: "/modelos", filter: "patinete" },
   { label: "Scooters", to: "/modelos", filter: "scooter" },
   { label: "Triciclos", to: "/modelos", filter: "triciclo" },
   { label: "Todas Cat.", to: "/modelos", filter: "todos" },
 ] as const;
+
 
 function CategoryCircles() {
   return (
