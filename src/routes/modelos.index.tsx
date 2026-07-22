@@ -290,7 +290,27 @@ function CatalogPage() {
           {models.length} modelos
         </p>
 
-        {filtered.length === 0 ? (
+        {search.cat === "seminovos" ? (
+          <div className="border border-dashed border-primary/40 rounded-2xl p-16 text-center bg-card">
+            <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-3">
+              Novidade
+            </p>
+            <p className="font-display font-black uppercase tracking-wider text-2xl sm:text-3xl mb-3">
+              Motos Seminovas — em breve
+            </p>
+            <p className="text-white/60 text-sm max-w-md mx-auto mb-8">
+              Estamos preparando um catálogo exclusivo de motos seminovas revisadas e com garantia Klug Motors. Fale conosco no WhatsApp para consultar disponibilidade agora.
+            </p>
+            <a
+              href="https://wa.me/5547934293200?text=Ol%C3%A1%2C%20Klug%20Motors!%20Tenho%20interesse%20em%20motos%20seminovas.%20Podem%20me%20passar%20as%20op%C3%A7%C3%B5es%20dispon%C3%ADveis%3F"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110 transition"
+            >
+              <MessageCircle size={14} strokeWidth={2.5} /> Consultar no WhatsApp
+            </a>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="border border-dashed border-border rounded-2xl p-16 text-center bg-card">
             <p className="font-display font-black uppercase tracking-wider text-lg mb-2">
               Nenhum modelo encontrado
@@ -308,6 +328,7 @@ function CatalogPage() {
               Limpar filtros <ArrowRight size={14} />
             </button>
           </div>
+
 
         ) : (
           <CatalogGrid items={filtered} />
