@@ -182,7 +182,7 @@ export function YamahaProductPage({
       ) : null}
 
       {/* 3. MODOS DE CONDUÇÃO / VERSATILIDADE */}
-      <section className="border-t border-border bg-card/30">
+      <section id="modos" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div className="order-2 lg:order-1">
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
