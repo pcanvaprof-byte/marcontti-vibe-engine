@@ -4,6 +4,7 @@ import { ArrowLeft, MessageCircle, ChevronRight, Check } from "lucide-react";
 import type { Model } from "@/lib/models";
 import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
+import { View360Modal } from "@/components/View360Modal";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 
 /**
@@ -14,6 +15,7 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
  */
 export function YamahaProductPage({ m }: { m: Model }) {
   const [selected, setSelected] = useState(0);
+  const [view360Open, setView360Open] = useState(false);
   const modelGallery = useMemo(() => getGallery(m), [m]);
   const variant = m.colors[selected] ?? m.colors[0];
   // Per-color gallery takes precedence; fall back to the model-level gallery.
@@ -192,16 +194,18 @@ export function YamahaProductPage({ m }: { m: Model }) {
                   className="relative w-full h-auto object-contain drop-shadow-[0_35px_45px_rgba(15,23,42,0.35)] transition-opacity duration-300"
                 />
               ) : null}
-              {/* 360 badge — decorative */}
-              <div
-                aria-hidden
-                className="hidden sm:grid absolute right-[8%] top-1/2 -translate-y-1/2 w-16 h-16 place-items-center rounded-full bg-white/95 shadow-lg text-neutral-900"
+              {/* 360 badge — clicável, abre o modal de visualização 360° */}
+              <button
+                type="button"
+                onClick={() => setView360Open(true)}
+                aria-label="Abrir visualização 360 graus"
+                className="hidden sm:grid absolute right-[8%] top-1/2 -translate-y-1/2 w-16 h-16 place-items-center rounded-full bg-white/95 shadow-lg text-neutral-900 hover:scale-110 hover:bg-white transition-transform cursor-pointer"
               >
-                <div className="text-center leading-tight">
+                <div className="text-center leading-tight pointer-events-none">
                   <div className="text-[13px] font-black" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>360°</div>
                   <div className="text-[9px] uppercase tracking-widest text-neutral-500">view</div>
                 </div>
-              </div>
+              </button>
               {/* Rotation arrow — decorative */}
               <svg
                 aria-hidden
@@ -455,6 +459,13 @@ export function YamahaProductPage({ m }: { m: Model }) {
           <FinanciamentoForm defaultModel={m.name} />
         </div>
       </section>
+
+      <View360Modal
+        open={view360Open}
+        onClose={() => setView360Open(false)}
+        frames={activeGallery.filter(Boolean)}
+        title={`${m.name} — ${variant?.name ?? ""}`}
+      />
     </div>
   );
 }
