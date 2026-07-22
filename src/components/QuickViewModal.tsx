@@ -133,6 +133,7 @@ export function QuickViewModal({ product, open, onClose }: Props) {
                 <Link
                   to="/modelos/$slug"
                   params={{ slug: product.slug }}
+                  preload="intent"
                   onClick={onClose}
                   className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full transition"
                 >
