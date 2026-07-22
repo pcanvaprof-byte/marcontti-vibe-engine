@@ -659,6 +659,8 @@ export function FinanciamentoForm({
                       placeholder="Ex.: Rua das Palmeiras"
                       className={inputCls}
                       aria-invalid={!!errors.address_street}
+                      onInput={markUserEdited}
+
                     />
                     {errors.address_street && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_street}</p>}
                   </div>
