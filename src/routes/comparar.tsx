@@ -1,12 +1,21 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { X, Plus } from "lucide-react";
+import { zodValidator, fallback } from "@tanstack/zod-adapter";
+import { z } from "zod";
 import { PageLayout } from "@/components/PageLayout";
-import { models } from "@/lib/models";
+import { usePublicModels } from "@/hooks/useDbModels";
 
 const BASE_URL = "https://proototipomotos.lovable.app";
 
+const searchSchema = z.object({
+  a: fallback(z.string().optional(), undefined),
+  b: fallback(z.string().optional(), undefined),
+  c: fallback(z.string().optional(), undefined),
+});
+
 export const Route = createFileRoute("/comparar")({
+  validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
       { title: "Comparar Modelos — Klug Motors" },
@@ -21,31 +30,43 @@ export const Route = createFileRoute("/comparar")({
   component: CompararPage,
 });
 
-const SPEC_KEYS = ["Autonomia", "Velocidade máx.", "Potência", "Bateria", "Capacidade", "Habilitação"];
+const SPEC_KEYS = ["Autonomia", "Velocidade", "Potência", "Bateria", "Capacidade", "Habilitação"];
 
 function CompararPage() {
-  const [selected, setSelected] = useState<string[]>([
-    models[0]?.slug,
-    models[1]?.slug,
-    models[2]?.slug,
-  ].filter(Boolean) as string[]);
+  const { items: models } = usePublicModels();
+  const search = Route.useSearch();
+  const navigate = useNavigate({ from: "/comparar" });
 
-  const chosen = selected.map((s) => models.find((m) => m.slug === s)).filter(Boolean) as typeof models;
+  const selected = useMemo(() => {
+    const wanted = [search.a, search.b, search.c].filter(Boolean) as string[];
+    const valid = wanted.filter((s) => models.some((m) => m.slug === s));
+    if (valid.length) return valid;
+    return models.slice(0, 3).map((m) => m.slug);
+  }, [search.a, search.b, search.c, models]);
+
+  const chosen = selected
+    .map((s) => models.find((m) => m.slug === s))
+    .filter(Boolean) as typeof models;
+
+  function updateUrl(next: (string | undefined)[]) {
+    const [a, b, c] = next;
+    navigate({ search: { a, b, c }, replace: true });
+  }
 
   function setAt(i: number, slug: string) {
     const next = [...selected];
     next[i] = slug;
-    setSelected(next);
+    updateUrl(next);
   }
 
   function removeAt(i: number) {
-    setSelected(selected.filter((_, idx) => idx !== i));
+    updateUrl(selected.filter((_, idx) => idx !== i));
   }
 
   function addSlot() {
     if (selected.length >= 3) return;
     const first = models.find((m) => !selected.includes(m.slug));
-    if (first) setSelected([...selected, first.slug]);
+    if (first) updateUrl([...selected, first.slug]);
   }
 
   return (
@@ -64,7 +85,7 @@ function CompararPage() {
                 Especificação
               </th>
               {chosen.map((m, i) => (
-                <th key={m.slug} className="p-4 align-top border-l border-border">
+                <th key={`${m.slug}-${i}`} className="p-4 align-top border-l border-border">
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <select
                       value={m.slug}
@@ -95,6 +116,19 @@ function CompararPage() {
                       className="w-full aspect-square object-contain bg-background rounded-lg border border-border"
                     />
                   )}
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {m.colors.slice(0, 6).map((c) => (
+                      <span
+                        key={c.name}
+                        title={c.name}
+                        className="w-5 h-5 rounded-full border border-white/20"
+                        style={{ backgroundColor: c.hex }}
+                      />
+                    ))}
+                    {m.colors.length > 6 && (
+                      <span className="text-[10px] text-white/40 self-center">+{m.colors.length - 6}</span>
+                    )}
+                  </div>
                 </th>
               ))}
               {chosen.length < 3 && (
@@ -114,25 +148,33 @@ function CompararPage() {
           </thead>
           <tbody>
             <Row label="Preço a partir de">
-              {chosen.map((m) => (
-                <td key={m.slug} className="p-4 border-t border-l border-border text-primary font-display font-black text-lg">
+              {chosen.map((m, i) => (
+                <td key={`${m.slug}-${i}`} className="p-4 border-t border-l border-border text-primary font-display font-black text-lg">
                   {m.price}
                 </td>
               ))}
             </Row>
             <Row label="Categoria">
-              {chosen.map((m) => (
-                <td key={m.slug} className="p-4 border-t border-l border-border text-sm text-white/80">
+              {chosen.map((m, i) => (
+                <td key={`${m.slug}-${i}`} className="p-4 border-t border-l border-border text-sm text-white/80">
                   {m.tag}
+                </td>
+              ))}
+            </Row>
+            <Row label="Cores">
+              {chosen.map((m, i) => (
+                <td key={`${m.slug}-${i}`} className="p-4 border-t border-l border-border text-sm text-white/80">
+                  {m.colors.map((c) => c.name).join(", ") || "—"}
                 </td>
               ))}
             </Row>
             {SPEC_KEYS.map((label) => (
               <Row key={label} label={label}>
-                {chosen.map((m) => {
-                  const found = m.specs.find((s) => s.label.toLowerCase().includes(label.toLowerCase().split(" ")[0]));
+                {chosen.map((m, i) => {
+                  const key = label.toLowerCase().split(" ")[0];
+                  const found = m.specs.find((s) => s.label.toLowerCase().includes(key));
                   return (
-                    <td key={m.slug} className="p-4 border-t border-l border-border text-sm text-white/80">
+                    <td key={`${m.slug}-${i}`} className="p-4 border-t border-l border-border text-sm text-white/80">
                       {found?.value ?? "—"}
                     </td>
                   );
@@ -140,8 +182,8 @@ function CompararPage() {
               </Row>
             ))}
             <Row label="Ficha completa">
-              {chosen.map((m) => (
-                <td key={m.slug} className="p-4 border-t border-l border-border">
+              {chosen.map((m, i) => (
+                <td key={`${m.slug}-${i}`} className="p-4 border-t border-l border-border">
                   <Link
                     to="/modelos/$slug"
                     params={{ slug: m.slug }}

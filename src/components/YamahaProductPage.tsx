@@ -178,6 +178,7 @@ export function YamahaProductPage({
               <div className="mt-8 flex flex-col gap-3 max-w-[260px]">
                 <Link
                   to="/comparar"
+                  search={{ a: m.slug }}
                   className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary bg-white/60 backdrop-blur-sm font-display font-black uppercase tracking-wider text-[11px] px-5 py-3 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
                 >
                   Comparar este modelo
