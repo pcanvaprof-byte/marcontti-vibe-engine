@@ -34,6 +34,7 @@ import {
 } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
 import { usePublicInstagramPosts, type InstagramPost } from "@/hooks/useInstagramPosts";
+import { InstagramEmbed } from "@/components/InstagramEmbed";
 
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
@@ -1898,18 +1899,11 @@ function YoutubeShowcase() {
 
 function InstagramRow() {
   const { data: posts, isLoading } = usePublicInstagramPosts();
-  const hasPosts = !!posts && posts.length > 0;
-  const fallback = models.slice(0, 6).map((m, i) => ({
-    id: `fallback-${m.slug}`,
-    image_url: m.colors[0]?.image ?? "",
-    caption: m.name,
-    post_url: "https://www.instagram.com/klugmotors/",
-    sort_order: i,
-    is_active: true,
-    created_at: "",
-    updated_at: "",
-  }));
-  const items = hasPosts ? posts! : fallback;
+  // Only posts pointing to a specific instagram permalink (/p/ or /reel/) can be embedded.
+  const embeddable = (posts ?? []).filter((p) =>
+    /instagram\.com\/(p|reel|tv)\//i.test(p.post_url || ""),
+  );
+  const hasEmbeds = embeddable.length > 0;
 
   return (
     <section className="py-10 sm:py-12 bg-background border-b border-border">
@@ -1917,7 +1911,7 @@ function InstagramRow() {
         <h2 className="text-center font-display font-black uppercase text-white text-lg sm:text-xl tracking-widest mb-8">
           Siga nosso Instagram{" "}
           <a
-            href="https://www.instagram.com/klugmotors"
+            href="https://www.instagram.com/klugmotors/"
             target="_blank"
             rel="noreferrer"
             className="text-primary hover:underline"
@@ -1925,43 +1919,38 @@ function InstagramRow() {
             @klugmotors
           </a>
         </h2>
-        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
-          {isLoading && !hasPosts
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={`sk-${i}`}
-                  className="aspect-square bg-neutral-900 rounded-md border border-border animate-pulse"
-                />
-              ))
-            : items.map((p: InstagramPost) => (
-                <a
-                  key={p.id}
-                  href={p.post_url || "https://www.instagram.com/klugmotors"}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={p.caption || "Post no Instagram @klugmotors"}
-                  className="group relative aspect-square bg-white rounded-md overflow-hidden border border-border hover:border-primary/60 transition-colors"
-                >
-                  <img
-                    src={p.image_url}
-                    alt={p.caption || ""}
-                    className={`w-full h-full ${hasPosts ? "object-cover" : "object-contain p-2"} group-hover:scale-105 transition-transform duration-500`}
-                    loading="lazy"
-                  />
-                  <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/0 group-hover:bg-black/60 transition-colors p-3 text-center">
-                    <Instagram
-                      size={22}
-                      className="text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                    />
-                    {p.caption && (
-                      <span className="text-white text-[10px] leading-tight font-medium opacity-0 group-hover:opacity-100 transition-opacity line-clamp-3">
-                        {p.caption}
-                      </span>
-                    )}
-                  </span>
-                </a>
-              ))}
-        </div>
+
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={`sk-${i}`}
+                className="aspect-square bg-neutral-900 rounded-md border border-border animate-pulse"
+              />
+            ))}
+          </div>
+        ) : hasEmbeds ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+            {embeddable.slice(0, 6).map((p: InstagramPost) => (
+              <InstagramEmbed key={p.id} url={p.post_url} />
+            ))}
+          </div>
+        ) : (
+          <div className="max-w-2xl mx-auto text-center border border-border rounded-2xl p-8 sm:p-10 bg-card/60">
+            <Instagram size={32} className="mx-auto text-primary" />
+            <p className="mt-4 text-white/80 text-sm sm:text-base">
+              Acompanhe novidades, lançamentos e bastidores da Klug Motors direto no nosso perfil.
+            </p>
+            <a
+              href="https://www.instagram.com/klugmotors/"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-md hover:brightness-110"
+            >
+              <Instagram size={16} /> Seguir @klugmotors
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );
