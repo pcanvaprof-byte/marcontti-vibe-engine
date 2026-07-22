@@ -144,6 +144,9 @@ export function FinanciamentoForm({
     setSaveError(null);
     setSubmitting(true);
 
+    // Abre a aba do WhatsApp AGORA (dentro do gesto do usuário) para evitar bloqueio de pop-up.
+    const waWindow = typeof window !== "undefined" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
+
     const paymentLine =
       d.paymentType === "Financiamento"
         ? `*Financiamento* — entrada: ${d.entry} · prazo: ${d.term}`
