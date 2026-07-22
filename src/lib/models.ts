@@ -12,7 +12,6 @@ import miatriImg from "@/assets/motos/miatri.jpg.asset.json";
 import p10Img from "@/assets/motos/p10.jpg.asset.json";
 import popImg from "@/assets/motos/pop.jpg.asset.json";
 import x15Img from "@/assets/motos/x15.jpg.asset.json";
-import suduSportImg from "@/assets/motos/sudu-sport.jpg.asset.json";
 import suduA12Img from "@/assets/motos/sudu-a12.png.asset.json";
 import suduA10Img from "@/assets/motos/sudu-a10.png.asset.json";
 import suduA3PlusImg from "@/assets/motos/sudu-a3-plus.png.asset.json";
