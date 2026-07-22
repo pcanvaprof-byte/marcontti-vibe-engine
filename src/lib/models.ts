@@ -1411,8 +1411,30 @@ export function buildWhatsAppFallbackUrl(message: string, phone = WHATSAPP_NUMBE
   return `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
 }
 
-export function openWhatsAppWithFallback(message: string, phone = WHATSAPP_NUMBER): void {
+export function openWhatsAppWithFallback(
+  message: string,
+  phoneOrOpts?: string | { phone?: string; source?: string; modelSlug?: string; event?: string },
+): void {
   if (typeof window === "undefined") return;
+
+  const opts =
+    typeof phoneOrOpts === "string" || phoneOrOpts === undefined
+      ? { phone: (phoneOrOpts as string | undefined) ?? WHATSAPP_NUMBER }
+      : { phone: phoneOrOpts.phone ?? WHATSAPP_NUMBER, ...phoneOrOpts };
+  const phone = opts.phone ?? WHATSAPP_NUMBER;
+
+  // Fire-and-forget analytics — never blocks navigation
+  try {
+    // Lazy import so this module stays framework-agnostic
+    void import("@/lib/analytics").then(({ trackEvent }) => {
+      trackEvent(opts.event ?? "whatsapp_click", {
+        source: opts.source,
+        modelSlug: opts.modelSlug,
+      });
+    });
+  } catch {
+    /* noop */
+  }
 
   const primaryUrl = buildWhatsAppUrl(message, phone);
   const fallbackUrl = buildWhatsAppFallbackUrl(message, phone);
@@ -1429,3 +1451,4 @@ export function openWhatsAppWithFallback(message: string, phone = WHATSAPP_NUMBE
   window.addEventListener("blur", clearFallback, { once: true });
   window.location.assign(primaryUrl);
 }
+

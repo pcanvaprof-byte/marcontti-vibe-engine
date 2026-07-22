@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_name: string
+          id: string
+          meta: Json | null
+          model_slug: string | null
+          page: string | null
+          source: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_name: string
+          id?: string
+          meta?: Json | null
+          model_slug?: string | null
+          page?: string | null
+          source?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_name?: string
+          id?: string
+          meta?: Json | null
+          model_slug?: string | null
+          page?: string | null
+          source?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       instagram_posts: {
         Row: {
           caption: string

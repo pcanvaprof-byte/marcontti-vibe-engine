@@ -3,6 +3,7 @@ import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircl
 import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
+import { trackEvent } from "@/lib/analytics";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
@@ -109,6 +110,10 @@ export function FinanciamentoForm({
 
     setLastMessage(text);
     setSent(true);
+    trackEvent("financiamento_submit", {
+      source: "financiamento_form",
+      meta: { model: d.model, entry: d.entry, term: d.term },
+    });
   }
 
   function reset() {
