@@ -139,29 +139,7 @@ function ModelPage() {
   const gallery = useMemo(() => (m ? getGallery(m) : []), [m]);
   const [imgIndex, setImgIndex] = useState(0);
 
-  if (!m) {
-    if (dbLoading) {
-      return (
-        <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
-          <div className="h-8 w-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
-        </div>
-      );
-    }
-    return (
-      <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
-        <div>
-          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">404</p>
-          <h1 className="font-display font-black uppercase text-3xl tracking-tight mb-4">Modelo não encontrado</h1>
-          <Link to="/modelos" className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full">
-            Ver catálogo <ChevronRight size={14} />
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const variant = m.colors[selected] ?? m.colors[0];
-  const activeImage = gallery[imgIndex] ?? variant?.image;
+  const variant = m?.colors[selected] ?? m?.colors[0];
 
   useEffect(() => {
     if (!variant) return;
@@ -193,6 +171,30 @@ function ModelPage() {
       document.body.style.overflow = overflow;
     };
   }, [lightbox, prevImage, nextImage]);
+
+  if (!m) {
+    if (dbLoading) {
+      return (
+        <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
+          <div className="h-8 w-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+        </div>
+      );
+    }
+    return (
+      <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
+        <div>
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">404</p>
+          <h1 className="font-display font-black uppercase text-3xl tracking-tight mb-4">Modelo não encontrado</h1>
+          <Link to="/modelos" className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full">
+            Ver catálogo <ChevronRight size={14} />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const activeImage = gallery[imgIndex] ?? variant?.image;
+
 
   const whatsappMsg = `Olá! Tenho interesse no modelo *${m.name}* — ${m.price}. Pode me passar mais informações?`;
   const whatsappUrl = buildWhatsAppFallbackUrl(whatsappMsg);
