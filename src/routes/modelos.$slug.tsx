@@ -40,7 +40,20 @@ function humanizeSlug(slug: string) {
     .join(" ");
 }
 
+export const slugColor = (name: string) =>
+  name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+type SlugSearch = { cor?: string };
+
 export const Route = createFileRoute("/modelos/$slug")({
+  validateSearch: (s: Record<string, unknown>): SlugSearch => ({
+    cor: typeof s.cor === "string" && s.cor.length > 0 ? s.cor : undefined,
+  }),
   loader: ({ params }) => {
     const model = getModel(params.slug);
     // Allow unknown slugs to render — the component fetches from the DB.
