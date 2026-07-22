@@ -5,6 +5,7 @@ import { ArrowLeft, MessageCircle, ChevronRight, Check, Plus, Minus } from "luci
 import type { Model } from "@/lib/models";
 import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
+import { ConsorcioForm } from "@/components/ConsorcioForm";
 import { View360Modal } from "@/components/View360Modal";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
@@ -667,7 +668,7 @@ export function YamahaProductPage({
 
       {/* Modal: Consórcio */}
       <Dialog open={modalOpen === "consorcio"} onOpenChange={(o) => !o && setModalOpen(null)}>
-        <DialogContent className="max-w-2xl bg-neutral-950 border-white/10 text-white">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-neutral-950 border-white/10 text-white">
           <DialogHeader>
             <DialogTitle className="text-white uppercase tracking-tight" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "28px" }}>
               Consórcio Klug
@@ -700,34 +701,14 @@ export function YamahaProductPage({
               ))}
             </div>
 
-            <ul className="space-y-2 text-white/70 text-sm">
-              <li className="flex gap-2"><Check size={16} className="text-primary shrink-0 mt-0.5" /> Ideal para quem pode planejar a compra a médio prazo.</li>
-              <li className="flex gap-2"><Check size={16} className="text-primary shrink-0 mt-0.5" /> Aceita lance com FGTS, recursos próprios ou parcelas futuras.</li>
-              <li className="flex gap-2"><Check size={16} className="text-primary shrink-0 mt-0.5" /> Carta de crédito também pode ser usada para acessórios e emplacamento.</li>
-            </ul>
-
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <a
-                href={whatsappUrl}
-                onClick={handleWhats}
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
-              >
-                <MessageCircle size={14} fill="white" strokeWidth={0} /> Falar com consultor
-              </a>
-              <button
-                type="button"
-                onClick={() => setModalOpen(null)}
-                className="inline-flex items-center justify-center gap-2 border border-white/20 text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:border-primary hover:text-primary"
-              >
-                Fechar
-              </button>
+            <div className="pt-2 border-t border-white/10">
+              <p className="text-primary text-[11px] uppercase tracking-[0.3em] font-display font-black mb-3">
+                Solicite sua simulação
+              </p>
+              <ConsorcioForm defaultModel={m.name} />
             </div>
-
-            <p className="text-[11px] text-white/40 leading-relaxed">
-              Grupos administrados por administradoras autorizadas Bacen. Condições, prazos e taxa de
-              administração sujeitos à análise. Consulte o regulamento do grupo antes de aderir.
-            </p>
           </div>
+
         </DialogContent>
       </Dialog>
 
