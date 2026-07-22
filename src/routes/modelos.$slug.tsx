@@ -127,8 +127,22 @@ const TABS = [
 type Tab = (typeof TABS)[number];
 
 function ModelPage() {
-  const data = Route.useLoaderData() as { model: import("@/lib/models").Model };
-  const m = data.model;
+  const data = Route.useLoaderData() as { model: import("@/lib/models").Model | null; slug: string };
+  const { items: dbModels } = usePublicModels();
+  const m = data.model ?? dbModels.find((x) => x.slug === data.slug) ?? null;
+  if (!m) {
+    return (
+      <div className="min-h-dvh grid place-items-center bg-background p-6 text-center">
+        <div>
+          <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">404</p>
+          <h1 className="font-display font-black uppercase text-3xl tracking-tight mb-4">Modelo não encontrado</h1>
+          <Link to="/modelos" className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-5 py-3 rounded-full">
+            Ver catálogo <ChevronRight size={14} />
+          </Link>
+        </div>
+      </div>
+    );
+  }
   const [selected, setSelected] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [tab, setTab] = useState<Tab>("Descrição Geral");
