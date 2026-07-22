@@ -71,7 +71,7 @@ export function FinanciamentoForm({
   const [cepLoading, setCepLoading] = useState(false);
   const [cepError, setCepError] = useState<string | null>(null);
   const [neighborhoodOptions, setNeighborhoodOptions] = useState<string[]>([]);
-  const [cityOptions, setCityOptions] = useState<string[]>([]);
+
 
 
   const isFinancing = paymentType === "Financiamento";
