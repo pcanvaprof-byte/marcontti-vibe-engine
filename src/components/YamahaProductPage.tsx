@@ -788,3 +788,255 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
     </section>
   );
 }
+
+/* ---------------- Sub-nav with scroll-spy ---------------- */
+
+const SUBNAV_SECTIONS: { id: string; label: string }[] = [
+  { id: "eficiencia", label: "Eficiência elétrica" },
+  { id: "modos", label: "Modos de condução" },
+  { id: "tecnologia", label: "Tecnologia" },
+  { id: "comodidade", label: "Comodidade" },
+  { id: "conectividade", label: "Conectividade" },
+  { id: "baterias", label: "Baterias" },
+  { id: "modernidade", label: "Modernidade" },
+  { id: "inovacao", label: "Inovação" },
+  { id: "ficha-tecnica", label: "Ficha Técnica" },
+  { id: "faq", label: "FAQ" },
+];
+
+/** Highlights the anchor whose section currently sits under the sticky sub-nav. */
+function useScrollSpy(ids: string[], offset = 120) {
+  const [active, setActive] = useState<string>(ids[0] ?? "");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const targets = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => !!el);
+    if (targets.length === 0) return;
+
+    const compute = () => {
+      const y = window.scrollY + offset + 1;
+      let current = targets[0].id;
+      for (const el of targets) {
+        if (el.offsetTop <= y) current = el.id;
+        else break;
+      }
+      // Bottom-of-page: force last id (works even when the section is short).
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 4) {
+        current = targets[targets.length - 1].id;
+      }
+      setActive((prev) => (prev === current ? prev : current));
+    };
+
+    compute();
+    window.addEventListener("scroll", compute, { passive: true });
+    window.addEventListener("resize", compute);
+    return () => {
+      window.removeEventListener("scroll", compute);
+      window.removeEventListener("resize", compute);
+    };
+  }, [ids, offset]);
+  return active;
+}
+
+function SubNav({
+  model,
+  whatsappUrl,
+  onWhats,
+}: {
+  model: Model;
+  whatsappUrl: string;
+  onWhats: (e: MouseEvent<HTMLAnchorElement>) => void;
+}) {
+  const ids = useMemo(() => SUBNAV_SECTIONS.map((s) => s.id), []);
+  const active = useScrollSpy(ids, 120);
+  const listRef = useRef<HTMLDivElement | null>(null);
+
+  // Keep the active tab visible when scrolling changes it.
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const el = list.querySelector<HTMLAnchorElement>(`a[data-id="${active}"]`);
+    el?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }, [active]);
+
+  const scrollTo = (id: string) => (e: MouseEvent<HTMLAnchorElement>) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    const y = el.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: y, behavior: "smooth" });
+    history.replaceState(null, "", `#${id}`);
+  };
+
+  return (
+    <nav
+      aria-label="Seções da página"
+      className="border-b border-border bg-neutral-950/85 backdrop-blur-md sticky top-14 z-30"
+    >
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
+        <div
+          ref={listRef}
+          className="flex items-center gap-1 sm:gap-2 overflow-x-auto scrollbar-none -mx-2 px-2 h-full text-[11px] uppercase tracking-widest font-display font-black"
+        >
+          {SUBNAV_SECTIONS.map((s) => {
+            const isActive = s.id === active;
+            return (
+              <a
+                key={s.id}
+                data-id={s.id}
+                href={`#${s.id}`}
+                onClick={scrollTo(s.id)}
+                aria-current={isActive ? "true" : undefined}
+                className={[
+                  "relative h-full inline-flex items-center whitespace-nowrap px-3 transition-colors",
+                  isActive ? "text-white" : "text-white/55 hover:text-white/85",
+                ].join(" ")}
+              >
+                {s.label}
+                <span
+                  className={[
+                    "pointer-events-none absolute left-2 right-2 bottom-0 h-[2px] rounded-full origin-left transition-transform duration-300",
+                    isActive ? "bg-primary scale-x-100" : "bg-primary scale-x-0",
+                  ].join(" ")}
+                />
+              </a>
+            );
+          })}
+        </div>
+        <div className="hidden md:flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={() =>
+              openWhatsAppWithFallback(
+                `Olá! Quero agendar um Test-Ride da *${model.name}*. Pode me passar as opções?`,
+                { source: "yamaha_subnav_test_ride", event: "test_ride_click", modelSlug: model.slug },
+              )
+            }
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-white text-neutral-950 text-[11px] font-display font-black uppercase tracking-widest hover:brightness-90"
+          >
+            Agendar Test-Ride
+          </button>
+          <a
+            href="#financiamento"
+            className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/30 text-white text-[11px] font-display font-black uppercase tracking-widest hover:border-primary hover:text-primary"
+          >
+            Comprar online
+          </a>
+          <a
+            href={whatsappUrl}
+            onClick={onWhats}
+            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-black uppercase tracking-widest hover:brightness-110"
+          >
+            Receber contato
+          </a>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+/* ---------------- FAQ Accordion ---------------- */
+
+type FaqItem = { q: string; a: string };
+
+function FaqAccordion({ items }: { items: FaqItem[] }) {
+  const [open, setOpen] = useState<number | null>(0);
+
+  return (
+    <section id="faq" className="border-t border-border bg-card/30">
+      <div className="max-w-4xl mx-auto px-5 sm:px-10 py-20 sm:py-28">
+        <div className="text-center">
+          <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+            Perguntas frequentes
+          </p>
+          <h2
+            className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+            style={{
+              fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+              fontSize: "clamp(30px, 5vw, 56px)",
+            }}
+          >
+            Tire suas <span className="text-primary">dúvidas</span>
+          </h2>
+        </div>
+
+        <ul className="mt-10 sm:mt-12 divide-y divide-white/10 border-y border-white/10">
+          {items.map((f, i) => {
+            const isOpen = open === i;
+            const panelId = `faq-panel-${i}`;
+            const btnId = `faq-trigger-${i}`;
+            return (
+              <li key={i}>
+                <h3>
+                  <button
+                    id={btnId}
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    className="w-full text-left flex items-start justify-between gap-4 py-5 sm:py-6 group"
+                  >
+                    <span className="flex items-start gap-3 sm:gap-4 min-w-0">
+                      <span className="text-primary font-display font-black text-xs sm:text-sm mt-1 tracking-widest shrink-0">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-white text-sm sm:text-base font-semibold leading-snug">
+                        {f.q}
+                      </span>
+                    </span>
+                    <span
+                      className={[
+                        "shrink-0 mt-0.5 grid place-items-center h-8 w-8 rounded-full border transition-colors",
+                        isOpen
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-white/20 text-white/70 group-hover:border-primary group-hover:text-primary",
+                      ].join(" ")}
+                      aria-hidden="true"
+                    >
+                      {isOpen ? <Minus size={16} /> : <Plus size={16} />}
+                    </span>
+                  </button>
+                </h3>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={btnId}
+                  className={[
+                    "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+                    isOpen
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0",
+                  ].join(" ")}
+                >
+                  <div className="overflow-hidden">
+                    <p className="pb-6 pl-9 sm:pl-10 pr-2 text-white/70 text-sm sm:text-[15px] leading-relaxed">
+                      {f.a}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* SEO — FAQPage schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: items.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            }),
+          }}
+        />
+      </div>
+    </section>
+  );
+}
+
