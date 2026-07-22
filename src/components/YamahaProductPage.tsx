@@ -647,6 +647,136 @@ export function YamahaProductPage({
         frames={activeGallery.filter(Boolean)}
         title={`${m.name} — ${variant?.name ?? ""}`}
       />
+
+      {/* Modal: Financiamento */}
+      <Dialog open={modalOpen === "financiamento"} onOpenChange={(o) => !o && setModalOpen(null)}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-neutral-950 border-white/10 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-white uppercase tracking-tight" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "28px" }}>
+              Simular financiamento
+            </DialogTitle>
+            <DialogDescription className="text-white/60">
+              Preencha os dados e anexe seus documentos. Retornamos com a simulação em até 1 dia útil.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-2">
+            <FinanciamentoForm defaultModel={m.name} />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal: Consórcio */}
+      <Dialog open={modalOpen === "consorcio"} onOpenChange={(o) => !o && setModalOpen(null)}>
+        <DialogContent className="max-w-2xl bg-neutral-950 border-white/10 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-white uppercase tracking-tight" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "28px" }}>
+              Consórcio Klug
+            </DialogTitle>
+            <DialogDescription className="text-white/60">
+              Uma alternativa planejada e sem juros para conquistar sua {m.name.replace(/^Yamaha\s+/i, "")}.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-4 space-y-4 text-sm text-white/80 leading-relaxed">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-primary text-[11px] uppercase tracking-[0.3em] font-display font-black mb-2">Como funciona</p>
+              <p>
+                Você entra em um grupo de participantes, paga parcelas mensais reduzidas
+                (sem juros — apenas taxa de administração) e é contemplado por sorteio
+                ou lance com uma carta de crédito no valor do veículo.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-3 gap-3">
+              {[
+                { k: "Sem juros", v: "Apenas taxa de administração" },
+                { k: "Parcelas", v: "A partir de 60 meses" },
+                { k: "Contemplação", v: "Sorteio mensal ou lance" },
+              ].map((i) => (
+                <div key={i.k} className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-primary text-[10px] uppercase tracking-widest font-display font-black">{i.k}</p>
+                  <p className="mt-1 text-white text-sm">{i.v}</p>
+                </div>
+              ))}
+            </div>
+
+            <ul className="space-y-2 text-white/70 text-sm">
+              <li className="flex gap-2"><Check size={16} className="text-primary shrink-0 mt-0.5" /> Ideal para quem pode planejar a compra a médio prazo.</li>
+              <li className="flex gap-2"><Check size={16} className="text-primary shrink-0 mt-0.5" /> Aceita lance com FGTS, recursos próprios ou parcelas futuras.</li>
+              <li className="flex gap-2"><Check size={16} className="text-primary shrink-0 mt-0.5" /> Carta de crédito também pode ser usada para acessórios e emplacamento.</li>
+            </ul>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <a
+                href={whatsappUrl}
+                onClick={handleWhats}
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
+              >
+                <MessageCircle size={14} fill="white" strokeWidth={0} /> Falar com consultor
+              </a>
+              <button
+                type="button"
+                onClick={() => setModalOpen(null)}
+                className="inline-flex items-center justify-center gap-2 border border-white/20 text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:border-primary hover:text-primary"
+              >
+                Fechar
+              </button>
+            </div>
+
+            <p className="text-[11px] text-white/40 leading-relaxed">
+              Grupos administrados por administradoras autorizadas Bacen. Condições, prazos e taxa de
+              administração sujeitos à análise. Consulte o regulamento do grupo antes de aderir.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal: À vista / Cartão */}
+      <Dialog open={modalOpen === "avista"} onOpenChange={(o) => !o && setModalOpen(null)}>
+        <DialogContent className="max-w-lg bg-neutral-950 border-white/10 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-white uppercase tracking-tight" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "28px" }}>
+              À vista / Cartão
+            </DialogTitle>
+            <DialogDescription className="text-white/60">
+              Compra 100% online direto pelo site — em breve.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-4 space-y-4 text-sm text-white/80 leading-relaxed">
+            <div className="rounded-2xl border border-primary/30 bg-primary/10 p-5">
+              <p className="text-primary text-[11px] uppercase tracking-[0.3em] font-display font-black mb-2">Em breve</p>
+              <p>
+                Estamos preparando o checkout online da Klug Motors para pagamento via
+                <b className="text-white"> Pix, transferência e cartão de crédito</b> em até 12x,
+                com emissão de nota e entrega em todo o Brasil.
+              </p>
+            </div>
+
+            <p className="text-white/70">
+              Enquanto isso, nosso consultor finaliza sua compra pelo WhatsApp com as
+              mesmas condições — desconto especial no Pix e parcelamento no cartão.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <a
+                href={whatsappUrl}
+                onClick={handleWhats}
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
+              >
+                <MessageCircle size={14} fill="white" strokeWidth={0} /> Comprar pelo WhatsApp
+              </a>
+              <button
+                type="button"
+                onClick={() => setModalOpen(null)}
+                className="inline-flex items-center justify-center gap-2 border border-white/20 text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:border-primary hover:text-primary"
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
