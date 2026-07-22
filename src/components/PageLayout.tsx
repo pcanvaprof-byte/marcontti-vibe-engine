@@ -31,6 +31,8 @@ export function PageLayout({
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-[11px] font-display font-black uppercase tracking-widest text-white/70">
             <Link to="/modelos" className="hover:text-primary">Modelos</Link>
+            <Link to="/modelos/yamaha" className="hover:text-primary">Yamaha</Link>
+            <Link to="/modelos/sudu" className="hover:text-primary">SUDU</Link>
             <Link to="/comparar" className="hover:text-primary">Comparar</Link>
             <Link to="/financiamento" className="hover:text-primary">Financiamento</Link>
             <Link to="/garantia" className="hover:text-primary">Garantia</Link>

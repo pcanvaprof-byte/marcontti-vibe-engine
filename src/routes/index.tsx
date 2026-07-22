@@ -1501,6 +1501,8 @@ function Footer() {
             </h4>
             <ul className="space-y-3 text-sm text-white/70">
               <li><Link to="/modelos" className="story-link hover:text-primary">Catálogo</Link></li>
+              <li><Link to="/modelos/yamaha" className="story-link hover:text-primary">Yamaha</Link></li>
+              <li><Link to="/modelos/sudu" className="story-link hover:text-primary">SUDU</Link></li>
               <li><Link to="/comparar" className="story-link hover:text-primary">Comparar</Link></li>
               <li><Link to="/financiamento" className="story-link hover:text-primary">Financiamento</Link></li>
               <li><Link to="/garantia" className="story-link hover:text-primary">Garantia</Link></li>

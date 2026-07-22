@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /leads
+Disallow: /auth
+Disallow: /api/
 
-Sitemap: https://marcontti-vibe-engine.lovable.app/sitemap.xml
+Sitemap: https://althaciamoveis.shop/sitemap.xml
