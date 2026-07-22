@@ -82,6 +82,15 @@ export type Database = {
       }
       leads: {
         Row: {
+          address_city: string | null
+          address_complement: string | null
+          address_neighborhood: string | null
+          address_number: string | null
+          address_state: string | null
+          address_street: string | null
+          address_zip: string | null
+          birth_date: string | null
+          cpf: string | null
           created_at: string
           doc_address_url: string | null
           doc_income_url: string | null
@@ -89,16 +98,29 @@ export type Database = {
           email: string | null
           entry: string | null
           id: string
+          income: string | null
+          lgpd_consent: boolean
+          lgpd_consent_at: string | null
           message: string | null
           model: string | null
           name: string
           payment_type: string | null
           phone: string
+          rg: string | null
           source: string
           term: string | null
           updated_at: string
         }
         Insert: {
+          address_city?: string | null
+          address_complement?: string | null
+          address_neighborhood?: string | null
+          address_number?: string | null
+          address_state?: string | null
+          address_street?: string | null
+          address_zip?: string | null
+          birth_date?: string | null
+          cpf?: string | null
           created_at?: string
           doc_address_url?: string | null
           doc_income_url?: string | null
@@ -106,16 +128,29 @@ export type Database = {
           email?: string | null
           entry?: string | null
           id?: string
+          income?: string | null
+          lgpd_consent?: boolean
+          lgpd_consent_at?: string | null
           message?: string | null
           model?: string | null
           name: string
           payment_type?: string | null
           phone: string
+          rg?: string | null
           source?: string
           term?: string | null
           updated_at?: string
         }
         Update: {
+          address_city?: string | null
+          address_complement?: string | null
+          address_neighborhood?: string | null
+          address_number?: string | null
+          address_state?: string | null
+          address_street?: string | null
+          address_zip?: string | null
+          birth_date?: string | null
+          cpf?: string | null
           created_at?: string
           doc_address_url?: string | null
           doc_income_url?: string | null
@@ -123,11 +158,15 @@ export type Database = {
           email?: string | null
           entry?: string | null
           id?: string
+          income?: string | null
+          lgpd_consent?: boolean
+          lgpd_consent_at?: string | null
           message?: string | null
           model?: string | null
           name?: string
           payment_type?: string | null
           phone?: string
+          rg?: string | null
           source?: string
           term?: string | null
           updated_at?: string
