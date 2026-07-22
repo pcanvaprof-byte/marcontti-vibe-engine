@@ -681,8 +681,8 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
   const current = groups.find((g) => g.id === active) ?? groups[0];
 
   return (
-    <section id="ficha-tecnica" className="border-t border-border bg-white text-neutral-900">
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-10 py-16 sm:py-24">
+    <section id="ficha-tecnica" className="border-t border-border bg-white text-neutral-900 scroll-mt-20">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-10 py-12 sm:py-24">
         {/* Título centralizado com underline — padrão Yamaha */}
         <div className="text-center">
           <h2 className="inline-block text-neutral-900 text-base sm:text-lg font-medium tracking-wide pb-3 border-b border-neutral-900">
@@ -690,12 +690,21 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
           </h2>
         </div>
 
-        {/* Tabs centralizadas, pill preto no ativo */}
-        <div className="mt-10 flex justify-center">
+        {/* Tabs: strip com scroll-snap, fade nas bordas no mobile */}
+        <div className="mt-8 sm:mt-10 relative -mx-4 sm:mx-0">
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-white to-transparent sm:hidden z-10"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white to-transparent sm:hidden z-10"
+            aria-hidden
+          />
           <div
             role="tablist"
             aria-label="Categorias de especificações"
-            className="flex gap-2 sm:gap-4 overflow-x-auto scrollbar-none max-w-full px-2"
+            className="flex sm:justify-center gap-2 sm:gap-3 overflow-x-auto scrollbar-none px-4 sm:px-0 snap-x snap-mandatory scroll-smooth"
+            style={{ WebkitOverflowScrolling: "touch" }}
           >
             {groups.map((g) => {
               const isActive = g.id === current?.id;
@@ -706,10 +715,10 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
                   aria-selected={isActive}
                   onClick={() => setActive(g.id)}
                   className={[
-                    "shrink-0 whitespace-nowrap rounded-full px-5 sm:px-6 py-2.5 text-[12px] sm:text-[13px] font-semibold tracking-wide transition-all",
+                    "shrink-0 snap-start whitespace-nowrap rounded-full px-4 sm:px-6 py-2 sm:py-2.5 text-[12px] sm:text-[13px] font-semibold tracking-wide transition-all",
                     isActive
                       ? "bg-neutral-900 text-white shadow-sm"
-                      : "bg-transparent text-neutral-500 hover:text-neutral-900",
+                      : "bg-neutral-100 sm:bg-transparent text-neutral-500 hover:text-neutral-900",
                   ].join(" ")}
                 >
                   {g.label}
@@ -719,26 +728,26 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
           </div>
         </div>
 
-        {/* Tabela zebrada */}
+        {/* Tabela responsiva: stack no mobile, 2 colunas no desktop */}
         {current && (
           <div
             key={current.id}
-            className="mt-10 border border-neutral-200 rounded-md overflow-hidden animate-in fade-in duration-300"
+            className="mt-6 sm:mt-10 border border-neutral-200 rounded-lg overflow-hidden animate-in fade-in duration-300"
           >
             <dl>
               {current.items.map((s, i) => (
                 <div
                   key={`${s.label}-${i}`}
                   className={[
-                    "grid grid-cols-1 sm:grid-cols-2 items-center px-5 sm:px-8 py-4 sm:py-4 gap-1 sm:gap-6",
-                    i % 2 === 0 ? "bg-neutral-100" : "bg-white",
+                    "grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] items-start sm:items-center gap-1 sm:gap-6 px-4 sm:px-8 py-3 sm:py-4",
+                    i % 2 === 0 ? "bg-neutral-50" : "bg-white",
                     i !== current.items.length - 1 ? "border-b border-neutral-200/70" : "",
                   ].join(" ")}
                 >
-                  <dt className="text-neutral-900 text-[13px] sm:text-sm font-semibold">
+                  <dt className="min-w-0 text-neutral-900 text-[12px] sm:text-sm font-semibold uppercase tracking-wide sm:normal-case sm:tracking-normal">
                     {s.label}
                   </dt>
-                  <dd className="text-neutral-500 text-[13px] sm:text-sm sm:text-left break-words">
+                  <dd className="min-w-0 text-neutral-600 text-[13px] sm:text-sm leading-relaxed break-words">
                     {s.value}
                   </dd>
                 </div>
@@ -747,7 +756,7 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
           </div>
         )}
 
-        <p className="mt-6 text-[11px] text-neutral-400 leading-relaxed text-center">
+        <p className="mt-6 text-[11px] text-neutral-400 leading-relaxed text-center px-4">
           As informações técnicas podem sofrer alterações sem aviso prévio. Imagens meramente
           ilustrativas. Consulte a Klug Motors para condições e disponibilidade.
         </p>
@@ -755,6 +764,7 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
     </section>
   );
 }
+
 
 /* ---------------- Sub-nav with scroll-spy ---------------- */
 
