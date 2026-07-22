@@ -578,61 +578,27 @@ export function YamahaProductPage({
       </section>
 
       {/* 9. FAQ */}
-      <section className="border-t border-border bg-card/30">
-        <div className="max-w-4xl mx-auto px-5 sm:px-10 py-20 sm:py-28">
-          <div className="text-center">
-            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-              Perguntas frequentes
-            </p>
-            <h2
-              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(30px, 5vw, 56px)",
-              }}
-            >
-              Tire suas <span className="text-primary">dúvidas</span>
-            </h2>
-          </div>
+      <FaqAccordion
+        items={[
+          {
+            q: `Como faço para comprar a ${m.name.replace(/^Yamaha\s+/i, "")} na Klug?`,
+            a: "Basta falar com um dos nossos consultores pelo WhatsApp ou visitar nossa unidade em Joinville / SC. Emitimos nota, cuidamos do emplacamento e entregamos pronto para rodar.",
+          },
+          {
+            q: "Vocês entregam em outras cidades?",
+            a: "Sim. Realizamos entregas em todo o Brasil com transportadoras parceiras. Consulte o frete pelo WhatsApp informando o CEP de destino.",
+          },
+          {
+            q: "É necessária CNH para conduzir este modelo?",
+            a: "Sim, é necessária habilitação adequada conforme a legislação vigente e o uso obrigatório de equipamentos de segurança.",
+          },
+          {
+            q: "Qual é a garantia do veículo?",
+            a: "Todos os modelos comercializados pela Klug Motors possuem garantia oficial de fábrica. Fale com nosso consultor para conhecer as condições específicas deste modelo.",
+          },
+        ]}
+      />
 
-          <div className="mt-12 divide-y divide-white/10 border-y border-white/10">
-            {[
-              {
-                q: `Como faço para comprar a ${m.name.replace(/^Yamaha\s+/i, "")} na Klug?`,
-                a: "Basta falar com um dos nossos consultores pelo WhatsApp ou visitar nossa unidade em Joinville / SC. Emitimos nota, cuidamos do emplacamento e entregamos pronto para rodar.",
-              },
-              {
-                q: "Vocês entregam em outras cidades?",
-                a: "Sim. Realizamos entregas em todo o Brasil com transportadoras parceiras. Consulte o frete pelo WhatsApp informando o CEP de destino.",
-              },
-              {
-                q: "É necessária CNH para conduzir este modelo?",
-                a: "Sim, é necessária habilitação adequada conforme a legislação vigente e o uso obrigatório de equipamentos de segurança.",
-              },
-              {
-                q: "Qual é a garantia do veículo?",
-                a: "Todos os modelos comercializados pela Klug Motors possuem garantia oficial de fábrica. Fale com nosso consultor para conhecer as condições específicas deste modelo.",
-              },
-            ].map((f, i) => (
-              <details key={i} className="group py-5">
-                <summary className="cursor-pointer list-none flex items-start justify-between gap-4 text-white font-semibold">
-                  <span className="flex items-start gap-4">
-                    <span className="text-primary font-display font-black text-sm mt-0.5">
-                      {String(i + 1).padStart(2, "0")}.
-                    </span>
-                    <span>{f.q}</span>
-                  </span>
-                  <ChevronRight
-                    size={18}
-                    className="shrink-0 mt-1 text-primary transition-transform group-open:rotate-90"
-                  />
-                </summary>
-                <p className="mt-3 pl-10 text-white/70 text-sm leading-relaxed">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* 10. AVISO DE FRAUDE / DISCLAIMER */}
       <section className="border-t border-border bg-neutral-950">
