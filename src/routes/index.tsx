@@ -250,10 +250,10 @@ function PromoStrip() {
 /* --------------------------- Category nav (barra) --------------------------- */
 
 const CATEGORY_LINKS = [
-  { label: "Todos", search: { cat: "todos" } },
   { label: "Scooter Elétricas Moto Chefe", search: { marca: "klug" } },
-  { label: "Scooter Elétrica Sudu", search: { marca: "sudu" } },
-  { label: "Yamaha Novas", search: { marca: "yamaha" } },
+  { label: "Motos Elétricas Sudu", search: { marca: "sudu" } },
+  { label: "Motos Elétricas Triciclos", search: { cat: "triciclo" } },
+  { label: "Motos Yamaha 0km", search: { marca: "yamaha" } },
   { label: "Motos Seminovas", search: { cat: "seminovos" } },
 ] as const;
 
