@@ -26,6 +26,7 @@ import { Route as ModelosSuduRouteImport } from './routes/modelos.sudu'
 import { Route as ModelosSlugRouteImport } from './routes/modelos.$slug'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
 import { Route as AuthenticatedInstagramRouteImport } from './routes/_authenticated/instagram'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicModelImagesSplatRouteImport } from './routes/api/public/model-images/$'
 
@@ -113,6 +114,11 @@ const AuthenticatedInstagramRoute = AuthenticatedInstagramRouteImport.update({
   path: '/instagram',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/modelos/$slug': typeof ModelosSlugRoute
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
   '/leads': typeof AuthenticatedLeadsRoute
   '/modelos/$slug': typeof ModelosSlugRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/instagram': typeof AuthenticatedInstagramRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
   '/modelos/$slug': typeof ModelosSlugRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin'
+    | '/analytics'
     | '/instagram'
     | '/leads'
     | '/modelos/$slug'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/admin'
+    | '/analytics'
     | '/instagram'
     | '/leads'
     | '/modelos/$slug'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sobre'
     | '/_authenticated/admin'
+    | '/_authenticated/analytics'
     | '/_authenticated/instagram'
     | '/_authenticated/leads'
     | '/modelos/$slug'
@@ -391,6 +403,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedInstagramRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -410,12 +429,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedInstagramRoute: typeof AuthenticatedInstagramRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedInstagramRoute: AuthenticatedInstagramRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
 }
