@@ -40,6 +40,7 @@ import { BenefitsBar } from "@/components/BenefitsBar";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import type { Product } from "@/components/ProductCard";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
+import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
