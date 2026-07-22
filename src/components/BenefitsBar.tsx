@@ -42,8 +42,8 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
       <div ref={ref} className="max-w-7xl mx-auto px-4 sm:px-8 py-5 sm:py-6">
         <ul
           className="
-            flex md:grid md:grid-cols-5
-            gap-6 md:gap-4
+            flex md:grid md:grid-cols-3 lg:grid-cols-5
+            gap-6 md:gap-x-6 md:gap-y-5
             overflow-x-auto md:overflow-visible
             snap-x snap-mandatory md:snap-none
             scroll-px-4
@@ -53,7 +53,7 @@ export function BenefitsBar({ items = DEFAULT_BENEFITS }: { items?: Benefit[] })
           {items.map((b, i) => (
             <li
               key={b.id}
-              className="snap-start shrink-0 basis-[75%] sm:basis-[45%] md:basis-auto"
+              className="snap-start shrink-0 basis-[75%] sm:basis-[45%] md:basis-auto md:min-w-0"
               style={
                 inView
                   ? { animation: `fade-in 0.5s ease-out ${i * 80}ms both` }
