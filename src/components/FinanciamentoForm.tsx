@@ -698,6 +698,8 @@ export function FinanciamentoForm({
                       placeholder="Bairro"
                       className={inputCls}
                       aria-invalid={!!errors.address_neighborhood}
+                      onInput={markUserEdited}
+
                     />
                     {errors.address_neighborhood && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_neighborhood}</p>}
                   </div>
