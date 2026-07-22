@@ -93,7 +93,7 @@ export const Route = createFileRoute("/modelos/")({
   component: CatalogPage,
 });
 
-const TYPES = ["Todos", "Scooter", "Moto", "Triciclo", "Bicicleta", "Patinete"] as const;
+const TYPES = ["Todos", "Scooter", "Moto", "Triciclo"] as const;
 type TypeFilter = (typeof TYPES)[number];
 
 const BRANDS = ["Todas", "Klug", "SUDU", "Yamaha"] as const;
@@ -111,9 +111,6 @@ const CAT_TO_TYPE: Record<string, TypeFilter> = {
   scooter: "Scooter",
   moto: "Moto",
   triciclo: "Triciclo",
-  bicicleta: "Bicicleta",
-  patinete: "Patinete",
-  acessorios: "Todos",
 };
 
 const MARCA_TO_BRAND: Record<string, BrandFilter> = {
@@ -138,11 +135,10 @@ const PRICE_RANGES = [
 
 function typeOf(m: Model): TypeFilter {
   const t = m.tag.toLowerCase();
-  if (t.includes("patinete")) return "Patinete";
-  if (t.includes("bicicleta")) return "Bicicleta";
   if (t.includes("triciclo")) return "Triciclo";
   if (t.includes("scooter")) return "Scooter";
   if (t.includes("moto")) return "Moto";
+
   return "Todos";
 }
 
