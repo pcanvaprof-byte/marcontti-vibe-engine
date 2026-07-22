@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle, Upload, FileCheck2 } from "lucide-react";
 import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 
-const schema = z.object({
+const PAYMENT_TYPES = ["Financiamento", "À vista", "Cartão de crédito"] as const;
+type PaymentType = (typeof PAYMENT_TYPES)[number];
+
+const baseSchema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
   phone: z
     .string()
@@ -13,9 +16,11 @@ const schema = z.object({
     .min(8, "Telefone inválido")
     .max(20)
     .regex(/^[0-9()\s+-]+$/, "Use apenas números"),
+  email: z.string().trim().email("E-mail inválido").max(255),
   model: z.string().min(1, "Escolha um modelo"),
-  entry: z.string().min(1, "Selecione uma entrada"),
-  term: z.string().min(1, "Selecione um prazo"),
+  paymentType: z.enum(PAYMENT_TYPES, { message: "Escolha a forma de pagamento" }),
+  entry: z.string().optional(),
+  term: z.string().optional(),
   message: z.string().trim().max(500).optional(),
 });
 
@@ -27,13 +32,27 @@ const entries = [
   "Acima de R$ 5.000",
 ];
 
-const terms = [
-  "12x",
-  "18x",
-  "24x",
-  "36x",
-  "A combinar",
-];
+const terms = ["12x", "18x", "24x", "36x", "A combinar"];
+
+const MAX_FILE_MB = 10;
+const ACCEPTED = "image/png,image/jpeg,image/jpg,application/pdf";
+
+type DocKey = "photo" | "address" | "income";
+const DOC_LABELS: Record<DocKey, string> = {
+  photo: "Documento com foto (RG ou CNH)",
+  address: "Comprovante de residência",
+  income: "Comprovante de renda",
+};
+
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 40) || "lead";
+}
 
 export function FinanciamentoForm({
   defaultModel,
@@ -47,6 +66,37 @@ export function FinanciamentoForm({
   const [sent, setSent] = useState(false);
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [paymentType, setPaymentType] = useState<PaymentType | "">("");
+  const [files, setFiles] = useState<Record<DocKey, File | null>>({
+    photo: null,
+    address: null,
+    income: null,
+  });
+
+  const isFinancing = paymentType === "Financiamento";
+
+  function pickFile(key: DocKey, file: File | null) {
+    if (file && file.size > MAX_FILE_MB * 1024 * 1024) {
+      setErrors((prev) => ({ ...prev, [`doc_${key}`]: `Arquivo maior que ${MAX_FILE_MB}MB` }));
+      return;
+    }
+    setErrors((prev) => {
+      const n = { ...prev };
+      delete n[`doc_${key}`];
+      return n;
+    });
+    setFiles((prev) => ({ ...prev, [key]: file }));
+  }
+
+  async function uploadDoc(key: DocKey, file: File, folder: string): Promise<string | null> {
+    const ext = file.name.split(".").pop()?.toLowerCase() || "bin";
+    const path = `${folder}/${key}-${Date.now()}.${ext}`;
+    const { error } = await supabase.storage
+      .from("lead-documents")
+      .upload(path, file, { contentType: file.type, upsert: false });
+    if (error) return null;
+    return path;
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -54,37 +104,72 @@ export function FinanciamentoForm({
     const raw = {
       name: String(fd.get("name") ?? ""),
       phone: String(fd.get("phone") ?? ""),
+      email: String(fd.get("email") ?? ""),
       model: String(fd.get("model") ?? ""),
+      paymentType: String(fd.get("paymentType") ?? "") as PaymentType,
       entry: String(fd.get("entry") ?? ""),
       term: String(fd.get("term") ?? ""),
       message: String(fd.get("message") ?? ""),
     };
-    const parsed = schema.safeParse(raw);
+    const parsed = baseSchema.safeParse(raw);
+    const errs: Record<string, string> = {};
     if (!parsed.success) {
-      const errs: Record<string, string> = {};
       parsed.error.issues.forEach((i) => {
         errs[String(i.path[0])] = i.message;
       });
+    }
+    const d = parsed.success ? parsed.data : (raw as unknown as z.infer<typeof baseSchema>);
+
+    if (d.paymentType === "Financiamento") {
+      if (!d.entry) errs.entry = "Selecione uma entrada";
+      if (!d.term) errs.term = "Selecione um prazo";
+      (["photo", "address", "income"] as DocKey[]).forEach((k) => {
+        if (!files[k]) errs[`doc_${k}`] = "Envie este documento";
+      });
+    }
+
+    if (Object.keys(errs).length) {
       setErrors(errs);
-      const firstKey = parsed.error.issues[0]?.path[0];
-      if (typeof firstKey === "string") {
-        const el = document.getElementById(`fin-${firstKey}`) as HTMLElement | null;
-        el?.focus();
-      }
+      const firstKey = Object.keys(errs)[0];
+      const el = document.getElementById(`fin-${firstKey}`) as HTMLElement | null;
+      el?.focus();
       return;
     }
+
     setErrors({});
     setSaveError(null);
     setSubmitting(true);
-    const d = parsed.data;
+
+    const folder = `${slugify(d.name)}-${Date.now()}`;
+    const uploaded: Record<DocKey, string | null> = { photo: null, address: null, income: null };
+
+    if (d.paymentType === "Financiamento") {
+      for (const k of ["photo", "address", "income"] as DocKey[]) {
+        const f = files[k];
+        if (f) uploaded[k] = await uploadDoc(k, f, folder);
+      }
+      const failed = (["photo", "address", "income"] as DocKey[]).some((k) => !uploaded[k]);
+      if (failed) {
+        setSubmitting(false);
+        setSaveError("Falha ao enviar um dos documentos. Tente novamente.");
+        return;
+      }
+    }
+
+    const paymentLine =
+      d.paymentType === "Financiamento"
+        ? `*Financiamento* — entrada: ${d.entry} · prazo: ${d.term}`
+        : `*Forma de pagamento:* ${d.paymentType}`;
+
     const text = [
-      `Olá! Quero simular o financiamento de uma moto elétrica da Klug Motors.`,
+      `Olá! Quero uma proposta para uma moto elétrica da Klug Motors.`,
       ``,
       `*Nome:* ${d.name}`,
       `*Telefone:* ${d.phone}`,
+      `*E-mail:* ${d.email}`,
       `*Modelo:* ${d.model}`,
-      `*Entrada estimada:* ${d.entry}`,
-      `*Prazo desejado:* ${d.term}`,
+      paymentLine,
+      d.paymentType === "Financiamento" ? `*Documentos:* enviados pelo site` : null,
       d.message ? `*Observações:* ${d.message}` : null,
     ]
       .filter(Boolean)
@@ -93,11 +178,16 @@ export function FinanciamentoForm({
     const { error } = await supabase.from("leads").insert({
       name: d.name,
       phone: d.phone,
+      email: d.email,
       model: d.model,
-      entry: d.entry,
-      term: d.term,
+      payment_type: d.paymentType,
+      entry: d.paymentType === "Financiamento" ? d.entry : null,
+      term: d.paymentType === "Financiamento" ? d.term : null,
       message: d.message || null,
       source: "financiamento",
+      doc_photo_url: uploaded.photo,
+      doc_address_url: uploaded.address,
+      doc_income_url: uploaded.income,
     });
 
     setSubmitting(false);
@@ -112,7 +202,7 @@ export function FinanciamentoForm({
     setSent(true);
     trackEvent("financiamento_submit", {
       source: "financiamento_form",
-      meta: { model: d.model, entry: d.entry, term: d.term },
+      meta: { model: d.model, payment_type: d.paymentType, entry: d.entry, term: d.term },
     });
   }
 
@@ -121,6 +211,8 @@ export function FinanciamentoForm({
     setLastMessage(null);
     setSaveError(null);
     setErrors({});
+    setPaymentType("");
+    setFiles({ photo: null, address: null, income: null });
   }
 
   const inputCls =
@@ -150,8 +242,7 @@ export function FinanciamentoForm({
             Obrigado! Já recebemos seus dados
           </h3>
           <p className="text-white/70 text-sm max-w-sm mb-6">
-            Nossa equipe entrará em contato em breve pelo WhatsApp ou telefone informado.
-            Se preferir, envie os detalhes agora mesmo pelo WhatsApp da loja.
+            Nossa equipe entrará em contato em breve pelo WhatsApp, telefone ou e-mail informado.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <button
@@ -168,7 +259,7 @@ export function FinanciamentoForm({
               className="inline-flex items-center gap-2 border border-border text-white/80 hover:border-primary hover:text-primary font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <RotateCcw size={14} />
-              Nova simulação
+              Nova solicitação
             </button>
           </div>
         </div>
@@ -180,7 +271,7 @@ export function FinanciamentoForm({
     <form
       onSubmit={onSubmit}
       noValidate
-      aria-label="Simular financiamento"
+      aria-label="Solicitar proposta"
       className={
         compact
           ? "space-y-4"
@@ -193,10 +284,10 @@ export function FinanciamentoForm({
             Consulte agora
           </p>
           <h3 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-2">
-            Simule seu financiamento
+            Solicite sua proposta
           </h3>
           <p className="text-white/60 text-sm">
-            Preencha e nossa equipe entra em contato. Você também poderá enviar direto pelo WhatsApp após o envio.
+            Escolha a forma de pagamento. Se optar por financiamento, envie os documentos e agilizamos sua análise.
           </p>
         </div>
       )}
@@ -218,32 +309,37 @@ export function FinanciamentoForm({
             placeholder="Como podemos te chamar?"
             className={inputCls}
             aria-invalid={!!errors.name}
-            aria-describedby={errors.name ? "fin-name-err" : undefined}
           />
-          {errors.name && (
-            <p id="fin-name-err" role="alert" className="text-xs text-destructive mt-1.5">
-              {errors.name}
-            </p>
-          )}
+          {errors.name && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.name}</p>}
         </div>
 
-        <div>
-          <label htmlFor="fin-phone" className={labelCls}>WhatsApp</label>
-          <input
-            id="fin-phone"
-            name="phone"
-            type="tel"
-            maxLength={20}
-            placeholder="(DDD) + número"
-            className={inputCls}
-            aria-invalid={!!errors.phone}
-            aria-describedby={errors.phone ? "fin-phone-err" : undefined}
-          />
-          {errors.phone && (
-            <p id="fin-phone-err" role="alert" className="text-xs text-destructive mt-1.5">
-              {errors.phone}
-            </p>
-          )}
+        <div className="grid sm:grid-cols-2 gap-5">
+          <div>
+            <label htmlFor="fin-phone" className={labelCls}>WhatsApp</label>
+            <input
+              id="fin-phone"
+              name="phone"
+              type="tel"
+              maxLength={20}
+              placeholder="(DDD) + número"
+              className={inputCls}
+              aria-invalid={!!errors.phone}
+            />
+            {errors.phone && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.phone}</p>}
+          </div>
+          <div>
+            <label htmlFor="fin-email" className={labelCls}>E-mail</label>
+            <input
+              id="fin-email"
+              name="email"
+              type="email"
+              maxLength={255}
+              placeholder="voce@email.com"
+              className={inputCls}
+              aria-invalid={!!errors.email}
+            />
+            {errors.email && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.email}</p>}
+          </div>
         </div>
 
         <div>
@@ -261,55 +357,121 @@ export function FinanciamentoForm({
             ))}
             <option>Outro / Catálogo completo</option>
           </select>
-          {errors.model && (
-            <p role="alert" className="text-xs text-destructive mt-1.5">
-              {errors.model}
-            </p>
-          )}
+          {errors.model && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.model}</p>}
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-5">
-          <div>
-            <label htmlFor="fin-entry" className={labelCls}>Entrada estimada</label>
-            <select
-              id="fin-entry"
-              name="entry"
-              defaultValue=""
-              className={inputCls}
-              aria-invalid={!!errors.entry}
-            >
-              <option value="" disabled>Selecione</option>
-              {entries.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
-            {errors.entry && (
-              <p role="alert" className="text-xs text-destructive mt-1.5">
-                {errors.entry}
-              </p>
-            )}
+        <div>
+          <span className={labelCls}>Forma de pagamento</span>
+          <div
+            id="fin-paymentType"
+            role="radiogroup"
+            aria-invalid={!!errors.paymentType}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-2"
+          >
+            {PAYMENT_TYPES.map((p) => {
+              const active = paymentType === p;
+              return (
+                <label
+                  key={p}
+                  className={`cursor-pointer border px-4 py-3 text-center text-xs font-display font-black uppercase tracking-widest transition-all ${
+                    active
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border text-white/80 hover:border-primary/60"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="paymentType"
+                    value={p}
+                    className="sr-only"
+                    checked={active}
+                    onChange={() => setPaymentType(p)}
+                  />
+                  {p}
+                </label>
+              );
+            })}
           </div>
-          <div>
-            <label htmlFor="fin-term" className={labelCls}>Prazo desejado</label>
-            <select
-              id="fin-term"
-              name="term"
-              defaultValue=""
-              className={inputCls}
-              aria-invalid={!!errors.term}
-            >
-              <option value="" disabled>Selecione</option>
-              {terms.map((s) => (
-                <option key={s}>{s}</option>
-              ))}
-            </select>
-            {errors.term && (
-              <p role="alert" className="text-xs text-destructive mt-1.5">
-                {errors.term}
-              </p>
-            )}
-          </div>
+          {errors.paymentType && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.paymentType}</p>}
         </div>
+
+        {isFinancing && (
+          <>
+            <div className="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label htmlFor="fin-entry" className={labelCls}>Entrada estimada</label>
+                <select
+                  id="fin-entry"
+                  name="entry"
+                  defaultValue=""
+                  className={inputCls}
+                  aria-invalid={!!errors.entry}
+                >
+                  <option value="" disabled>Selecione</option>
+                  {entries.map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
+                </select>
+                {errors.entry && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.entry}</p>}
+              </div>
+              <div>
+                <label htmlFor="fin-term" className={labelCls}>Prazo desejado</label>
+                <select
+                  id="fin-term"
+                  name="term"
+                  defaultValue=""
+                  className={inputCls}
+                  aria-invalid={!!errors.term}
+                >
+                  <option value="" disabled>Selecione</option>
+                  {terms.map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
+                </select>
+                {errors.term && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.term}</p>}
+              </div>
+            </div>
+
+            <div className="border border-border/70 p-5 space-y-4">
+              <div>
+                <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-1">
+                  Documentos para análise
+                </p>
+                <p className="text-xs text-white/60">
+                  Envie fotos legíveis ou PDF. Máx {MAX_FILE_MB}MB por arquivo. Seus documentos ficam em ambiente privado, acessados apenas pela nossa equipe.
+                </p>
+              </div>
+              {(Object.keys(DOC_LABELS) as DocKey[]).map((k) => {
+                const f = files[k];
+                const err = errors[`doc_${k}`];
+                return (
+                  <div key={k}>
+                    <label htmlFor={`fin-doc_${k}`} className={labelCls}>{DOC_LABELS[k]}</label>
+                    <label
+                      htmlFor={`fin-doc_${k}`}
+                      className={`flex items-center gap-3 cursor-pointer border px-4 py-3 text-sm transition-colors ${
+                        f ? "border-primary/60 text-white" : "border-border text-white/70 hover:border-primary/60"
+                      }`}
+                    >
+                      {f ? <FileCheck2 size={18} className="text-primary shrink-0" /> : <Upload size={18} className="shrink-0" />}
+                      <span className="truncate">
+                        {f ? f.name : "Selecionar arquivo (JPG, PNG ou PDF)"}
+                      </span>
+                    </label>
+                    <input
+                      id={`fin-doc_${k}`}
+                      type="file"
+                      accept={ACCEPTED}
+                      className="sr-only"
+                      onChange={(e) => pickFile(k, e.currentTarget.files?.[0] ?? null)}
+                    />
+                    {err && <p role="alert" className="text-xs text-destructive mt-1.5">{err}</p>}
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
 
         <div>
           <label htmlFor="fin-msg" className={labelCls}>Observações (opcional)</label>
@@ -332,16 +494,15 @@ export function FinanciamentoForm({
             <>
               <Loader2 size={18} className="animate-spin" aria-hidden="true" />
               <span>Enviando…</span>
-              <span className="sr-only">Aguarde, enviando sua solicitação</span>
             </>
           ) : (
             <>
-              Solicitar Simulação <ArrowRight size={18} />
+              Enviar solicitação <ArrowRight size={18} />
             </>
           )}
         </button>
         <p className="text-[10px] text-white/60 text-center uppercase tracking-widest">
-          Ao enviar, seus dados ficam registrados e nossa equipe entra em contato
+          Seus dados e documentos são tratados com sigilo
         </p>
       </div>
     </form>
