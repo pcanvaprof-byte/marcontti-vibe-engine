@@ -105,6 +105,7 @@ function AdminPage() {
         </div>
         <div className="flex gap-2">
           <Link to="/"><Button variant="ghost" size="sm">Ver site</Button></Link>
+          <Link to="/leads"><Button variant="ghost" size="sm">Leads</Button></Link>
           <Button size="sm" onClick={() => setEditing({ ...emptyDraft })}>
             <Plus className="w-4 h-4 mr-1" /> Novo modelo
           </Button>

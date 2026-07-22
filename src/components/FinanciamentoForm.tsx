@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle } from "lucide-react";
 import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
@@ -44,8 +45,9 @@ export function FinanciamentoForm({
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
   const [lastMessage, setLastMessage] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const raw = {
@@ -71,6 +73,7 @@ export function FinanciamentoForm({
       return;
     }
     setErrors({});
+    setSaveError(null);
     setSubmitting(true);
     const d = parsed.data;
     const text = [
@@ -86,17 +89,32 @@ export function FinanciamentoForm({
       .filter(Boolean)
       .join("\n");
 
-    setTimeout(() => {
-      openWhatsAppWithFallback(text);
+    const { error } = await supabase.from("leads").insert({
+      name: d.name,
+      phone: d.phone,
+      model: d.model,
+      entry: d.entry,
+      term: d.term,
+      message: d.message || null,
+      source: "financiamento",
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      setSaveError("Não foi possível salvar sua solicitação. Tente novamente ou envie pelo WhatsApp.");
       setLastMessage(text);
-      setSubmitting(false);
-      setSent(true);
-    }, 400);
+      return;
+    }
+
+    setLastMessage(text);
+    setSent(true);
   }
 
   function reset() {
     setSent(false);
     setLastMessage(null);
+    setSaveError(null);
     setErrors({});
   }
 
@@ -121,14 +139,14 @@ export function FinanciamentoForm({
             <CheckCircle2 size={26} />
           </div>
           <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-3">
-            Solicitação enviada
+            Solicitação recebida
           </p>
           <h3 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tight mb-3">
-            Abrimos o WhatsApp pra você
+            Obrigado! Já recebemos seus dados
           </h3>
           <p className="text-white/70 text-sm max-w-sm mb-6">
-            Confirme o envio da mensagem no WhatsApp. Se a janela não abriu,
-            clique em "Reabrir" abaixo.
+            Nossa equipe entrará em contato em breve pelo WhatsApp ou telefone informado.
+            Se preferir, envie os detalhes agora mesmo pelo WhatsApp da loja.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <button
@@ -137,7 +155,7 @@ export function FinanciamentoForm({
               className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               <MessageCircle size={16} fill="white" strokeWidth={0} />
-              Reabrir WhatsApp
+              Enviar pelo WhatsApp
             </button>
             <button
               type="button"
@@ -173,8 +191,15 @@ export function FinanciamentoForm({
             Simule seu financiamento
           </h3>
           <p className="text-white/60 text-sm">
-            Preencha para receber as condições diretamente no WhatsApp da loja.
+            Preencha e nossa equipe entra em contato. Você também poderá enviar direto pelo WhatsApp após o envio.
           </p>
+        </div>
+      )}
+
+      {saveError && (
+        <div role="alert" className="mb-5 flex items-start gap-2 border border-destructive/50 bg-destructive/10 text-destructive text-xs p-3 rounded-md">
+          <AlertCircle size={16} className="shrink-0 mt-0.5" />
+          <span>{saveError}</span>
         </div>
       )}
 
@@ -311,7 +336,7 @@ export function FinanciamentoForm({
           )}
         </button>
         <p className="text-[10px] text-white/60 text-center uppercase tracking-widest">
-          Ao enviar, você será redirecionado para o WhatsApp
+          Ao enviar, seus dados ficam registrados e nossa equipe entra em contato
         </p>
       </div>
     </form>
