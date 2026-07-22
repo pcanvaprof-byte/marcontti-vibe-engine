@@ -336,7 +336,7 @@ export function FinanciamentoForm({
           )}
         </button>
         <p className="text-[10px] text-white/60 text-center uppercase tracking-widest">
-          Ao enviar, você será redirecionado para o WhatsApp
+          Ao enviar, seus dados ficam registrados e nossa equipe entra em contato
         </p>
       </div>
     </form>
