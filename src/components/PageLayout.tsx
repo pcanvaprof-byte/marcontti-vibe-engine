@@ -122,11 +122,14 @@ export function PageLayout({
           </div>
         </div>
         <div className="border-t border-white/10">
-          <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between gap-3">
-            <p className="text-[10px] text-white/40 uppercase tracking-[0.2em]">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] text-center sm:text-left">
               © {new Date().getFullYear()} Klug Motors · CNPJ 51.728.597/0001-26
             </p>
-            <img src={klugSymbol.url} alt="" aria-hidden="true" className="w-5 h-5 object-contain opacity-60" />
+            <div className="flex items-center gap-3">
+              <CreatedBy />
+              <img src={klugSymbol.url} alt="" aria-hidden="true" className="w-5 h-5 object-contain opacity-60" />
+            </div>
           </div>
         </div>
       </footer>
