@@ -15,6 +15,7 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
  */
 export function YamahaProductPage({ m }: { m: Model }) {
   const [selected, setSelected] = useState(0);
+  const [view360Open, setView360Open] = useState(false);
   const modelGallery = useMemo(() => getGallery(m), [m]);
   const variant = m.colors[selected] ?? m.colors[0];
   // Per-color gallery takes precedence; fall back to the model-level gallery.
