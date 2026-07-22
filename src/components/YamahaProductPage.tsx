@@ -104,39 +104,43 @@ export function YamahaProductPage({
         </div>
       </header>
 
-      {/* HERO — Yamaha editorial: light backdrop, oversized faded wordmark, side profile */}
-      <section className="relative overflow-hidden isolate bg-gradient-to-b from-[#e6ecf1] via-[#d9e0e6] to-[#c9d2da] text-neutral-900">
-        <div className="max-w-[1500px] mx-auto px-5 sm:px-10 pt-10 sm:pt-14 pb-10 sm:pb-16 min-h-[86svh] flex flex-col">
+      {/* HERO — cinematic dark stage, oversized wordmark, floating taglines */}
+      <section
+        className="relative overflow-hidden isolate bg-[#050708] text-white"
+        style={{
+          backgroundImage: `radial-gradient(ellipse 90% 70% at 50% 45%, ${variant?.hex ?? "#00c2c5"}33 0%, #0a1216 55%, #050708 100%)`,
+        }}
+      >
+        <div className="max-w-[1500px] mx-auto px-5 sm:px-10 pt-10 sm:pt-14 pb-8 sm:pb-10 min-h-[86svh] flex flex-col">
           {/* Oversized wordmark behind everything */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-[18%] flex flex-col items-center justify-center leading-[0.82] text-center select-none"
+            className="pointer-events-none absolute inset-x-0 top-[16%] flex items-center justify-center leading-none text-center select-none"
             style={{
               fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-              color: "rgba(30,41,59,0.10)",
-              letterSpacing: "-0.01em",
+              color: "rgba(255,255,255,0.05)",
+              letterSpacing: "-0.02em",
+              whiteSpace: "nowrap",
             }}
           >
-            {(() => {
-              const clean = m.name.replace(/^Yamaha\s+/i, "").toUpperCase();
-              const words = clean.split(" ");
-              const line1 = words[0] ?? clean;
-              const line2 = words.slice(1).join(" ");
-              return (
-                <>
-                  <span style={{ fontSize: "clamp(90px, 18vw, 260px)" }}>{line1}</span>
-                  {line2 ? (
-                    <span style={{ fontSize: "clamp(70px, 14vw, 210px)" }}>{line2}</span>
-                  ) : null}
-                </>
-              );
-            })()}
+            <span style={{ fontSize: "clamp(120px, 32vw, 520px)" }}>
+              {m.name.replace(/^Yamaha\s+/i, "").split(" ")[0].toUpperCase()}
+            </span>
           </div>
 
-          <div className="relative flex-1 grid lg:grid-cols-[minmax(240px,320px)_minmax(0,1fr)] gap-8 lg:gap-12 items-center">
+          {/* Category tag */}
+          <div className="relative z-20 mb-6">
+            <span className="inline-flex items-center gap-2 border border-primary/60 bg-primary/10 px-3 py-1.5 text-[10px] font-display font-black uppercase tracking-[0.3em] text-primary">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              {m.tag}
+            </span>
+          </div>
+
+          <div className="relative flex-1 grid lg:grid-cols-[minmax(220px,300px)_minmax(0,1fr)] gap-8 lg:gap-12 items-center">
             {/* Color selector column */}
-            <div className="relative z-10">
-              <ul className="space-y-5">
+            <div className="relative z-20">
+              <p className="text-[9px] uppercase tracking-[0.4em] text-white/40 font-black mb-5">Disponível em</p>
+              <ul className="space-y-4">
                 {m.colors.map((c, i) => {
                   const [title, subtitle] = c.name.includes("·")
                     ? c.name.split("·").map((s) => s.trim())
@@ -147,26 +151,29 @@ export function YamahaProductPage({
                       <button
                         type="button"
                         onClick={() => setSelected(i)}
-                        className="group flex items-center gap-4 text-left w-full"
+                        className={`group flex items-center gap-4 text-left w-full transition-opacity ${active ? "opacity-100" : "opacity-50 hover:opacity-100"}`}
                       >
                         <span
                           aria-hidden
                           className={`shrink-0 grid place-items-center rounded-full transition-all ${
-                            active ? "w-12 h-12 ring-2 ring-primary ring-offset-2 ring-offset-transparent" : "w-11 h-11 ring-1 ring-neutral-400/50"
+                            active ? "w-10 h-10 ring-2 ring-white ring-offset-4 ring-offset-transparent" : "w-8 h-8 ring-1 ring-white/30"
                           }`}
-                          style={{ backgroundColor: c.hex }}
+                          style={{
+                            backgroundColor: c.hex,
+                            boxShadow: active ? `0 0 24px ${c.hex}66` : undefined,
+                          }}
                         >
-                          {active ? <Check size={16} className="text-white mix-blend-difference" /> : null}
+                          {active ? <Check size={14} className="text-white mix-blend-difference" /> : null}
                         </span>
                         <span className="min-w-0">
                           <span
-                            className={`block uppercase tracking-wide font-black ${active ? "text-primary" : "text-neutral-900"}`}
-                            style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "20px", letterSpacing: "0.06em" }}
+                            className={`block uppercase tracking-wider font-black ${active ? "text-white" : "text-white/80"}`}
+                            style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "18px", letterSpacing: "0.08em" }}
                           >
                             {title}
                           </span>
                           {subtitle ? (
-                            <span className="block text-sm text-neutral-600 mt-0.5">{subtitle}</span>
+                            <span className="block text-[11px] text-white/50 mt-0.5">{subtitle}</span>
                           ) : null}
                         </span>
                       </button>
@@ -174,28 +181,39 @@ export function YamahaProductPage({
                   );
                 })}
               </ul>
-
-              <div className="mt-8 flex flex-col gap-3 max-w-[260px]">
-                <Link
-                  to="/comparar"
-                  search={{ a: m.slug }}
-                  className="inline-flex items-center justify-center gap-2 border-2 border-primary text-primary bg-white/60 backdrop-blur-sm font-display font-black uppercase tracking-wider text-[11px] px-5 py-3 rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  Comparar este modelo
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => openWhatsAppWithFallback(whatsappMsg)}
-                  className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-wider text-[11px] px-5 py-3 rounded-full hover:brightness-110"
-                >
-                  Consultar condições <ChevronRight size={14} />
-                </button>
-              </div>
             </div>
 
-            {/* Vehicle */}
+            {/* Vehicle stage */}
             <div className="relative">
-              <div className="absolute inset-x-6 bottom-4 h-10 rounded-[50%] bg-black/25 blur-2xl" />
+              {/* Floating tagline — left */}
+              <div
+                aria-hidden
+                className="hidden md:block absolute left-2 top-4 z-10 select-none"
+                style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
+              >
+                <h2 className="text-white/85 leading-none drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" style={{ fontSize: "clamp(36px, 5.5vw, 84px)", letterSpacing: "0.18em" }}>
+                  ELÉTRICA
+                </h2>
+              </div>
+
+              {/* Floating tagline — right */}
+              <div
+                aria-hidden
+                className="hidden md:block absolute right-2 bottom-16 z-10 text-right select-none"
+                style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}
+              >
+                <h2 className="text-white/90 leading-[0.85] drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]" style={{ fontSize: "clamp(30px, 4.6vw, 68px)", letterSpacing: "0.14em" }}>
+                  CARREGADA<br />
+                  <span style={{ color: variant?.hex ?? "#00c2c5" }}>DE ENERGIA</span>
+                </h2>
+              </div>
+
+              {/* Ground shadow */}
+              <div
+                className="absolute inset-x-8 bottom-2 h-10 rounded-[50%] blur-2xl"
+                style={{ backgroundColor: `${variant?.hex ?? "#000"}55` }}
+              />
+
               {heroImg ? (
                 <img
                   key={heroImg}
@@ -205,54 +223,67 @@ export function YamahaProductPage({
                   height={1000}
                   fetchPriority="high"
                   decoding="async"
-                  className="relative w-full h-auto object-contain drop-shadow-[0_35px_45px_rgba(15,23,42,0.35)] transition-opacity duration-300"
+                  className="relative z-20 w-full h-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.6)] transition-opacity duration-300"
                 />
               ) : null}
-              {/* 360 badge — clicável, abre o modal de visualização 360° */}
+
+              {/* 360 badge */}
               <button
                 type="button"
                 onClick={() => setView360Open(true)}
                 aria-label="Abrir visualização 360 graus"
-                className="hidden sm:grid absolute right-[8%] top-1/2 -translate-y-1/2 w-16 h-16 place-items-center rounded-full bg-white/95 shadow-lg text-neutral-900 hover:scale-110 hover:bg-white transition-transform cursor-pointer"
+                className="hidden sm:grid absolute right-[6%] top-1/2 -translate-y-1/2 z-30 w-16 h-16 place-items-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-primary hover:border-primary transition-all cursor-pointer"
               >
                 <div className="text-center leading-tight pointer-events-none">
                   <div className="text-[13px] font-black" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif" }}>360°</div>
-                  <div className="text-[9px] uppercase tracking-widest text-neutral-500">view</div>
+                  <div className="text-[9px] uppercase tracking-widest opacity-70">view</div>
                 </div>
               </button>
-              {/* Rotation arrow — decorative */}
-              <svg
-                aria-hidden
-                viewBox="0 0 400 60"
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-[70%] max-w-[520px] text-neutral-700/60"
-                fill="none"
-              >
-                <path d="M20 30 C 120 55, 280 55, 380 30" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M373 25 L 383 30 L 373 35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </div>
           </div>
 
-          {/* Bottom quick specs */}
-          <dl className="relative z-10 mt-8 grid grid-cols-3 gap-4 max-w-2xl mx-auto lg:mx-0">
-            {[
-              { l: "Autonomia", v: m.range },
-              { l: "Velocidade", v: m.speed },
-              { l: "Potência", v: m.power },
-            ].map((s) => (
-              <div key={s.l} className="border-l border-neutral-500/30 pl-3">
-                <dt className="text-[10px] uppercase tracking-widest text-neutral-600 font-bold">{s.l}</dt>
-                <dd
-                  className="text-neutral-900 mt-1"
-                  style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "22px", lineHeight: 1 }}
-                >
-                  {s.v}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          {/* Bottom strip: specs + CTAs */}
+          <div className="relative z-20 mt-8 pt-6 border-t border-white/10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-end">
+            <dl className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl">
+              {[
+                { l: "Autonomia", v: m.range },
+                { l: "Velocidade", v: m.speed },
+                { l: "Potência", v: m.power },
+              ].map((s, i) => (
+                <div key={s.l} className={i > 0 ? "border-l border-white/10 pl-4 sm:pl-6" : ""}>
+                  <dt className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-bold">{s.l}</dt>
+                  <dd
+                    className="text-white mt-1"
+                    style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "clamp(22px, 2.4vw, 32px)", lineHeight: 1, letterSpacing: "0.04em" }}
+                  >
+                    {s.v}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                to="/comparar"
+                search={{ a: m.slug }}
+                className="inline-flex items-center justify-center gap-2 border border-white/25 text-white font-display font-black uppercase tracking-wider text-[11px] px-6 py-3 rounded-full hover:bg-white hover:text-neutral-900 transition-colors"
+              >
+                Comparar este modelo
+              </Link>
+              <button
+                type="button"
+                onClick={() => openWhatsAppWithFallback(whatsappMsg)}
+                className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-wider text-[11px] px-6 py-3 rounded-full hover:brightness-110"
+              >
+                Consultar condições <ChevronRight size={14} />
+              </button>
+            </div>
+          </div>
         </div>
       </section>
+
+
+
 
 
       {/* INTRO */}
