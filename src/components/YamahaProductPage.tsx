@@ -668,7 +668,7 @@ export function YamahaProductPage({
 
       {/* Modal: Consórcio */}
       <Dialog open={modalOpen === "consorcio"} onOpenChange={(o) => !o && setModalOpen(null)}>
-        <DialogContent className="max-w-2xl bg-neutral-950 border-white/10 text-white">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-neutral-950 border-white/10 text-white">
           <DialogHeader>
             <DialogTitle className="text-white uppercase tracking-tight" style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "28px" }}>
               Consórcio Klug
