@@ -173,8 +173,16 @@ export function YamahaProductPage({
               Mobilidade <span className="text-primary">inteligente</span>
             </h2>
           </div>
-          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6">
-            {m.description}
+          <p
+            key={`intro-${selected}`}
+            className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6 transition-opacity duration-500 animate-in fade-in"
+          >
+            {activeTagline && (
+              <span className="block text-primary font-display font-black uppercase tracking-[0.3em] text-[11px] mb-3">
+                {activeTagline}
+              </span>
+            )}
+            {activeDescription}
           </p>
         </div>
       </section>
