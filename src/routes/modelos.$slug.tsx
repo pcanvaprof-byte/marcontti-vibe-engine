@@ -821,12 +821,20 @@ function ModelPage() {
               © {new Date().getFullYear()} Klug Motors · Joinville / SC
             </span>
           </div>
-          <Link
-            to="/privacidade"
-            className="text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
-          >
-            Privacidade
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link
+              to="/privacidade"
+              className="text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
+            >
+              Privacidade
+            </Link>
+            <Link
+              to="/admin"
+              className="text-[11px] font-display font-black uppercase tracking-widest text-white/50 hover:text-primary"
+            >
+              Admin
+            </Link>
+          </div>
         </div>
       </footer>
 
