@@ -71,6 +71,8 @@ export function ProductCard({ product }: { product: Product }) {
             <LazyImage
               src={product.imagem}
               alt={product.nome}
+              aspectRatio={null}
+              wrapperClassName="h-full items-end"
               className="
                 w-auto object-contain pointer-events-none
                 h-[135%] sm:h-[145%]
