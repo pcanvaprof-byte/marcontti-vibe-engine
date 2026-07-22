@@ -201,6 +201,19 @@ export function FinanciamentoForm({
       source: "financiamento_form",
       meta: { model: d.model, payment_type: d.paymentType, entry: d.entry, term: d.term },
     });
+    openWhatsAppNewTab(text, {
+      source: "financiamento_form",
+      event: "whatsapp_redirected",
+      meta: {
+        name: d.name,
+        phone: d.phone,
+        email: d.email,
+        model: d.model,
+        payment_type: d.paymentType,
+        entry: d.entry,
+        term: d.term,
+      },
+    });
   }
 
   function reset() {
