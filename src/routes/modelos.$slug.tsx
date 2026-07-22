@@ -196,7 +196,7 @@ function ModelPage() {
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-  const related = models.filter((x) => x.slug !== m.slug).slice(0, 4);
+  const related = (dbModels.length ? dbModels : staticModels).filter((x) => x.slug !== m.slug).slice(0, 4);
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
