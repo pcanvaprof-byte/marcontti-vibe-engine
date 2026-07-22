@@ -93,37 +93,28 @@ export const Route = createFileRoute("/modelos/")({
   component: CatalogPage,
 });
 
-const TYPES = ["Todos", "Scooter", "Moto", "Triciclo"] as const;
-type TypeFilter = (typeof TYPES)[number];
+const CATEGORY_TABS = [
+  { key: "todos", label: "Todos", search: {} as CatSearch },
+  { key: "klug", label: "Scooter Elétricas Moto Chefe", search: { marca: "klug" } as CatSearch },
+  { key: "sudu", label: "Scooter Elétricas Sudu", search: { marca: "sudu" } as CatSearch },
+  { key: "triciclo", label: "Triciclos Elétricos", search: { cat: "triciclo" } as CatSearch },
+  { key: "yamaha", label: "Motos Yamaha 0km", search: { marca: "yamaha" } as CatSearch },
+  { key: "seminovos", label: "Motos Seminovas", search: { cat: "seminovos" } as CatSearch },
+] as const;
 
-const BRANDS = ["Todas", "Klug", "SUDU", "Yamaha"] as const;
-type BrandFilter = (typeof BRANDS)[number];
+const VALID_MARCAS = ["klug", "sudu", "yamaha"] as const;
 
-const BRAND_TO_MARCA: Record<BrandFilter, string | undefined> = {
-  Todas: undefined,
-  Klug: "klug",
-  SUDU: "sudu",
-  Yamaha: "yamaha",
-};
-
-const CAT_TO_TYPE: Record<string, TypeFilter> = {
-  todos: "Todos",
-  scooter: "Scooter",
-  moto: "Moto",
-  triciclo: "Triciclo",
-};
-
-const MARCA_TO_BRAND: Record<string, BrandFilter> = {
-  klug: "Klug",
-  sudu: "SUDU",
-  yamaha: "Yamaha",
-};
-
-function brandOf(m: Model): BrandFilter {
+function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" {
   if (m.slug.startsWith("sudu")) return "SUDU";
   if (m.slug.startsWith("yamaha")) return "Yamaha";
   return "Klug";
 }
+
+const MARCA_LABEL: Record<string, "Klug" | "SUDU" | "Yamaha"> = {
+  klug: "Klug",
+  sudu: "SUDU",
+  yamaha: "Yamaha",
+};
 
 const PRICE_RANGES = [
   { id: "all", label: "Todos os preços", min: 0, max: Infinity },
@@ -133,42 +124,44 @@ const PRICE_RANGES = [
   { id: "16p", label: "Acima de R$ 16.000", min: 16000, max: Infinity },
 ] as const;
 
-function typeOf(m: Model): TypeFilter {
-  const t = m.tag.toLowerCase();
-  if (t.includes("triciclo")) return "Triciclo";
-  if (t.includes("scooter")) return "Scooter";
-  if (t.includes("moto")) return "Moto";
+function isTriciclo(m: Model): boolean {
+  return m.tag.toLowerCase().includes("triciclo");
+}
 
-  return "Todos";
+function activeCategoryKey(search: CatSearch): string {
+  if (search.cat === "triciclo") return "triciclo";
+  if (search.cat === "seminovos") return "seminovos";
+  const marca = search.marca?.toLowerCase();
+  if (marca && (VALID_MARCAS as readonly string[]).includes(marca)) return marca;
+  return "todos";
 }
 
 function CatalogPage() {
   const { items: models } = usePublicModels();
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/modelos" });
-  const initialType: TypeFilter = (search.cat && CAT_TO_TYPE[search.cat]) || "Todos";
-  const brand: BrandFilter = useMemo(() => {
-    const key = search.marca?.toLowerCase();
-    return (key && MARCA_TO_BRAND[key]) || "Todas";
-  }, [search.marca]);
-  const invalidMarca = Boolean(search.marca && brand === "Todas");
+  const activeKey = activeCategoryKey(search);
+  const invalidMarca = Boolean(
+    search.marca && !(VALID_MARCAS as readonly string[]).includes(search.marca.toLowerCase()),
+  );
 
-  const [type, setType] = useState<TypeFilter>(initialType);
   const [priceId, setPriceId] = useState<(typeof PRICE_RANGES)[number]["id"]>("all");
   const [sort, setSort] = useState<"relevance" | "price-asc" | "price-desc">("relevance");
 
   const filtered = useMemo(() => {
     const range = PRICE_RANGES.find((r) => r.id === priceId)!;
     let list = models.filter((m) => {
-      const typeOk = type === "Todos" || typeOf(m) === type;
-      const brandOk = brand === "Todas" || brandOf(m) === brand;
+      let catOk = true;
+      if (activeKey === "triciclo") catOk = isTriciclo(m);
+      else if (activeKey === "seminovos") catOk = false;
+      else if (activeKey !== "todos") catOk = brandOf(m) === MARCA_LABEL[activeKey];
       const priceOk = m.priceNumber >= range.min && m.priceNumber <= range.max;
-      return typeOk && brandOk && priceOk;
+      return catOk && priceOk;
     });
     if (sort === "price-asc") list = [...list].sort((a, b) => a.priceNumber - b.priceNumber);
     if (sort === "price-desc") list = [...list].sort((a, b) => b.priceNumber - a.priceNumber);
     return list;
-  }, [models, type, brand, priceId, sort]);
+  }, [models, activeKey, priceId, sort]);
 
 
   return (
