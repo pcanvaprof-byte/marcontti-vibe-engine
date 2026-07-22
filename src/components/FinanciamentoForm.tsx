@@ -7,6 +7,7 @@ import { models, openWhatsAppWithFallback, openWhatsAppNewTab, buildWhatsAppFall
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { buildFinanciamentoMessage } from "@/lib/whatsapp-templates";
+import { getAttribution, getOriginPage } from "@/lib/attribution";
 
 const PAYMENT_TYPES = ["Financiamento", "À vista", "Cartão de crédito"] as const;
 type PaymentType = (typeof PAYMENT_TYPES)[number];
