@@ -60,7 +60,7 @@ function GarantiaPage() {
 
       <SectionCard title="Como acionar a garantia">
         <ol className="list-decimal pl-5 space-y-2 text-[15px]">
-          <li>Entre em contato pelo WhatsApp <a href="tel:+5547934293200" className="text-primary underline">(47) 93429-3200</a> descrevendo o problema.</li>
+          <li>Entre em contato pelo WhatsApp <a href="tel:+554734293200" className="text-primary underline">(47) 3429-3200</a> descrevendo o problema.</li>
           <li>Traga o veículo até nossa loja em Joinville para diagnóstico gratuito.</li>
           <li>Se o defeito for coberto, realizamos o reparo ou substituição da peça sem custo.</li>
           <li>Peças de reposição fora da garantia têm preço tabelado e estoque local.</li>

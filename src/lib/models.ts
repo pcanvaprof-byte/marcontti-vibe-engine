@@ -1442,7 +1442,7 @@ export const models: Model[] = [
 ];
 
 // Klug Motors - Joinville
-export const WHATSAPP_NUMBER = "5547934293200";
+export const WHATSAPP_NUMBER = "554734293200";
 const WHATSAPP_FALLBACK_DELAY = 1800;
 
 export function getModel(slug: string): Model | undefined {

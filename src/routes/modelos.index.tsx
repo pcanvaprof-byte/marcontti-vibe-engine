@@ -298,7 +298,7 @@ function CatalogPage() {
               Estamos preparando um catálogo exclusivo de motos seminovas revisadas e com garantia Klug Motors. Fale conosco no WhatsApp para consultar disponibilidade agora.
             </p>
             <a
-              href="https://wa.me/5547934293200?text=Ol%C3%A1%2C%20Klug%20Motors!%20Tenho%20interesse%20em%20motos%20seminovas.%20Podem%20me%20passar%20as%20op%C3%A7%C3%B5es%20dispon%C3%ADveis%3F"
+              href="https://wa.me/554734293200?text=Ol%C3%A1%2C%20Klug%20Motors!%20Tenho%20interesse%20em%20motos%20seminovas.%20Podem%20me%20passar%20as%20op%C3%A7%C3%B5es%20dispon%C3%ADveis%3F"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110 transition"
