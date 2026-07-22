@@ -291,15 +291,15 @@ export function YamahaProductPage({
           </div>
 
           {/* Bottom strip: specs + CTAs */}
-          <div className="relative z-20 mt-8 pt-6 border-t border-white/10 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-end">
+          <div className="relative z-20 mt-8 pt-6 border-t border-white/25 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-6 items-end">
             <dl className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl">
               {[
                 { l: "Autonomia", v: m.range },
                 { l: "Velocidade", v: m.speed },
                 { l: "Potência", v: m.power },
               ].map((s, i) => (
-                <div key={s.l} className={i > 0 ? "border-l border-white/10 pl-4 sm:pl-6" : ""}>
-                  <dt className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-bold">{s.l}</dt>
+                <div key={s.l} className={i > 0 ? "border-l border-white/25 pl-4 sm:pl-6" : ""}>
+                  <dt className="text-[10px] uppercase tracking-[0.3em] text-white/75 font-bold">{s.l}</dt>
                   <dd
                     className="text-white mt-1"
                     style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "clamp(22px, 2.4vw, 32px)", lineHeight: 1, letterSpacing: "0.04em" }}
