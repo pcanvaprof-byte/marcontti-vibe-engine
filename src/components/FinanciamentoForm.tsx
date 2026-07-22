@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle, Upload, FileCheck2 } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle } from "lucide-react";
 import { z } from "zod";
 import { models, openWhatsAppWithFallback } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +7,13 @@ import { trackEvent } from "@/lib/analytics";
 
 const PAYMENT_TYPES = ["Financiamento", "À vista", "Cartão de crédito"] as const;
 type PaymentType = (typeof PAYMENT_TYPES)[number];
+
+const onlyDigits = (s: string) => s.replace(/\D+/g, "");
+
+const cpfSchema = z
+  .string()
+  .transform(onlyDigits)
+  .refine((v) => v.length === 11, "CPF deve ter 11 dígitos");
 
 const baseSchema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(100),
@@ -34,25 +41,15 @@ const entries = [
 
 const terms = ["12x", "18x", "24x", "36x", "A combinar"];
 
-const MAX_FILE_MB = 10;
-const ACCEPTED = "image/png,image/jpeg,image/jpg,application/pdf";
+const incomes = [
+  "Até R$ 1.500",
+  "R$ 1.500 – R$ 3.000",
+  "R$ 3.000 – R$ 5.000",
+  "R$ 5.000 – R$ 10.000",
+  "Acima de R$ 10.000",
+];
 
-type DocKey = "photo" | "address" | "income";
-const DOC_LABELS: Record<DocKey, string> = {
-  photo: "Documento com foto (RG ou CNH)",
-  address: "Comprovante de residência",
-  income: "Comprovante de renda",
-};
-
-function slugify(s: string) {
-  return s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40) || "lead";
-}
+const UFS = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
 
 export function FinanciamentoForm({
   defaultModel,
@@ -67,36 +64,9 @@ export function FinanciamentoForm({
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [paymentType, setPaymentType] = useState<PaymentType | "">("");
-  const [files, setFiles] = useState<Record<DocKey, File | null>>({
-    photo: null,
-    address: null,
-    income: null,
-  });
+  const [lgpd, setLgpd] = useState(false);
 
   const isFinancing = paymentType === "Financiamento";
-
-  function pickFile(key: DocKey, file: File | null) {
-    if (file && file.size > MAX_FILE_MB * 1024 * 1024) {
-      setErrors((prev) => ({ ...prev, [`doc_${key}`]: `Arquivo maior que ${MAX_FILE_MB}MB` }));
-      return;
-    }
-    setErrors((prev) => {
-      const n = { ...prev };
-      delete n[`doc_${key}`];
-      return n;
-    });
-    setFiles((prev) => ({ ...prev, [key]: file }));
-  }
-
-  async function uploadDoc(key: DocKey, file: File, folder: string): Promise<string | null> {
-    const ext = file.name.split(".").pop()?.toLowerCase() || "bin";
-    const path = `${folder}/${key}-${Date.now()}.${ext}`;
-    const { error } = await supabase.storage
-      .from("lead-documents")
-      .upload(path, file, { contentType: file.type, upsert: false });
-    if (error) return null;
-    return path;
-  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -120,12 +90,46 @@ export function FinanciamentoForm({
     }
     const d = parsed.success ? parsed.data : (raw as unknown as z.infer<typeof baseSchema>);
 
+    // Financiamento extras
+    let cpfDigits = "";
+    let rg = "";
+    let birthDate = "";
+    let income = "";
+    const addr = {
+      street: String(fd.get("address_street") ?? "").trim(),
+      number: String(fd.get("address_number") ?? "").trim(),
+      complement: String(fd.get("address_complement") ?? "").trim(),
+      neighborhood: String(fd.get("address_neighborhood") ?? "").trim(),
+      city: String(fd.get("address_city") ?? "").trim(),
+      state: String(fd.get("address_state") ?? "").trim(),
+      zip: onlyDigits(String(fd.get("address_zip") ?? "")),
+    };
+
     if (d.paymentType === "Financiamento") {
       if (!d.entry) errs.entry = "Selecione uma entrada";
       if (!d.term) errs.term = "Selecione um prazo";
-      (["photo", "address", "income"] as DocKey[]).forEach((k) => {
-        if (!files[k]) errs[`doc_${k}`] = "Envie este documento";
-      });
+
+      const cpfParse = cpfSchema.safeParse(String(fd.get("cpf") ?? ""));
+      if (!cpfParse.success) errs.cpf = cpfParse.error.issues[0].message;
+      else cpfDigits = cpfParse.data;
+
+      rg = String(fd.get("rg") ?? "").trim();
+      if (rg.length < 5) errs.rg = "Informe o RG";
+
+      birthDate = String(fd.get("birth_date") ?? "");
+      if (!birthDate) errs.birth_date = "Informe a data de nascimento";
+
+      income = String(fd.get("income") ?? "");
+      if (!income) errs.income = "Selecione sua renda";
+
+      if (!addr.street) errs.address_street = "Informe a rua";
+      if (!addr.number) errs.address_number = "Nº";
+      if (!addr.neighborhood) errs.address_neighborhood = "Bairro";
+      if (!addr.city) errs.address_city = "Cidade";
+      if (!addr.state) errs.address_state = "UF";
+      if (addr.zip.length !== 8) errs.address_zip = "CEP inválido";
+
+      if (!lgpd) errs.lgpd = "É necessário aceitar o compartilhamento dos dados";
     }
 
     if (Object.keys(errs).length) {
@@ -140,22 +144,6 @@ export function FinanciamentoForm({
     setSaveError(null);
     setSubmitting(true);
 
-    const folder = `${slugify(d.name)}-${Date.now()}`;
-    const uploaded: Record<DocKey, string | null> = { photo: null, address: null, income: null };
-
-    if (d.paymentType === "Financiamento") {
-      for (const k of ["photo", "address", "income"] as DocKey[]) {
-        const f = files[k];
-        if (f) uploaded[k] = await uploadDoc(k, f, folder);
-      }
-      const failed = (["photo", "address", "income"] as DocKey[]).some((k) => !uploaded[k]);
-      if (failed) {
-        setSubmitting(false);
-        setSaveError("Falha ao enviar um dos documentos. Tente novamente.");
-        return;
-      }
-    }
-
     const paymentLine =
       d.paymentType === "Financiamento"
         ? `*Financiamento* — entrada: ${d.entry} · prazo: ${d.term}`
@@ -169,7 +157,6 @@ export function FinanciamentoForm({
       `*E-mail:* ${d.email}`,
       `*Modelo:* ${d.model}`,
       paymentLine,
-      d.paymentType === "Financiamento" ? `*Documentos:* enviados pelo site` : null,
       d.message ? `*Observações:* ${d.message}` : null,
     ]
       .filter(Boolean)
@@ -185,9 +172,19 @@ export function FinanciamentoForm({
       term: d.paymentType === "Financiamento" ? d.term : null,
       message: d.message || null,
       source: "financiamento",
-      doc_photo_url: uploaded.photo,
-      doc_address_url: uploaded.address,
-      doc_income_url: uploaded.income,
+      cpf: d.paymentType === "Financiamento" ? cpfDigits : null,
+      rg: d.paymentType === "Financiamento" ? rg : null,
+      birth_date: d.paymentType === "Financiamento" ? birthDate : null,
+      income: d.paymentType === "Financiamento" ? income : null,
+      address_street: d.paymentType === "Financiamento" ? addr.street : null,
+      address_number: d.paymentType === "Financiamento" ? addr.number : null,
+      address_complement: d.paymentType === "Financiamento" ? (addr.complement || null) : null,
+      address_neighborhood: d.paymentType === "Financiamento" ? addr.neighborhood : null,
+      address_city: d.paymentType === "Financiamento" ? addr.city : null,
+      address_state: d.paymentType === "Financiamento" ? addr.state.toUpperCase() : null,
+      address_zip: d.paymentType === "Financiamento" ? addr.zip : null,
+      lgpd_consent: d.paymentType === "Financiamento" ? lgpd : false,
+      lgpd_consent_at: d.paymentType === "Financiamento" && lgpd ? new Date().toISOString() : null,
     });
 
     setSubmitting(false);
@@ -212,7 +209,7 @@ export function FinanciamentoForm({
     setSaveError(null);
     setErrors({});
     setPaymentType("");
-    setFiles({ photo: null, address: null, income: null });
+    setLgpd(false);
   }
 
   const inputCls =
@@ -287,7 +284,7 @@ export function FinanciamentoForm({
             Solicite sua proposta
           </h3>
           <p className="text-white/60 text-sm">
-            Escolha a forma de pagamento. Se optar por financiamento, envie os documentos e agilizamos sua análise.
+            Escolha a forma de pagamento. Se optar por financiamento, preencha os dados para análise de crédito.
           </p>
         </div>
       )}
@@ -432,43 +429,203 @@ export function FinanciamentoForm({
               </div>
             </div>
 
-            <div className="border border-border/70 p-5 space-y-4">
+            <div className="border border-border/70 p-5 space-y-5">
               <div>
                 <p className="text-[10px] text-primary font-display font-black uppercase tracking-[0.3em] mb-1">
-                  Documentos para análise
+                  Dados para análise de crédito
                 </p>
                 <p className="text-xs text-white/60">
-                  Envie fotos legíveis ou PDF. Máx {MAX_FILE_MB}MB por arquivo. Seus documentos ficam em ambiente privado, acessados apenas pela nossa equipe.
+                  Suas informações são usadas apenas para análise de financiamento e ficam protegidas conforme a LGPD.
                 </p>
               </div>
-              {(Object.keys(DOC_LABELS) as DocKey[]).map((k) => {
-                const f = files[k];
-                const err = errors[`doc_${k}`];
-                return (
-                  <div key={k}>
-                    <label htmlFor={`fin-doc_${k}`} className={labelCls}>{DOC_LABELS[k]}</label>
-                    <label
-                      htmlFor={`fin-doc_${k}`}
-                      className={`flex items-center gap-3 cursor-pointer border px-4 py-3 text-sm transition-colors ${
-                        f ? "border-primary/60 text-white" : "border-border text-white/70 hover:border-primary/60"
-                      }`}
-                    >
-                      {f ? <FileCheck2 size={18} className="text-primary shrink-0" /> : <Upload size={18} className="shrink-0" />}
-                      <span className="truncate">
-                        {f ? f.name : "Selecionar arquivo (JPG, PNG ou PDF)"}
-                      </span>
-                    </label>
+
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label htmlFor="fin-cpf" className={labelCls}>CPF</label>
+                  <input
+                    id="fin-cpf"
+                    name="cpf"
+                    inputMode="numeric"
+                    maxLength={14}
+                    placeholder="000.000.000-00"
+                    className={inputCls}
+                    aria-invalid={!!errors.cpf}
+                  />
+                  {errors.cpf && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.cpf}</p>}
+                </div>
+                <div>
+                  <label htmlFor="fin-rg" className={labelCls}>RG</label>
+                  <input
+                    id="fin-rg"
+                    name="rg"
+                    maxLength={20}
+                    placeholder="Número + órgão emissor"
+                    className={inputCls}
+                    aria-invalid={!!errors.rg}
+                  />
+                  {errors.rg && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.rg}</p>}
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label htmlFor="fin-birth_date" className={labelCls}>Data de nascimento</label>
+                  <input
+                    id="fin-birth_date"
+                    name="birth_date"
+                    type="date"
+                    className={inputCls}
+                    aria-invalid={!!errors.birth_date}
+                  />
+                  {errors.birth_date && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.birth_date}</p>}
+                </div>
+                <div>
+                  <label htmlFor="fin-income" className={labelCls}>Renda mensal</label>
+                  <select
+                    id="fin-income"
+                    name="income"
+                    defaultValue=""
+                    className={inputCls}
+                    aria-invalid={!!errors.income}
+                  >
+                    <option value="" disabled>Selecione</option>
+                    {incomes.map((s) => (
+                      <option key={s}>{s}</option>
+                    ))}
+                  </select>
+                  {errors.income && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.income}</p>}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <p className="text-[10px] uppercase font-display font-black text-white/70 tracking-widest">
+                  Endereço completo
+                </p>
+
+                <div className="grid sm:grid-cols-[1fr_120px] gap-5">
+                  <div>
+                    <label htmlFor="fin-address_zip" className={labelCls}>CEP</label>
                     <input
-                      id={`fin-doc_${k}`}
-                      type="file"
-                      accept={ACCEPTED}
-                      className="sr-only"
-                      onChange={(e) => pickFile(k, e.currentTarget.files?.[0] ?? null)}
+                      id="fin-address_zip"
+                      name="address_zip"
+                      inputMode="numeric"
+                      maxLength={9}
+                      placeholder="00000-000"
+                      className={inputCls}
+                      aria-invalid={!!errors.address_zip}
                     />
-                    {err && <p role="alert" className="text-xs text-destructive mt-1.5">{err}</p>}
+                    {errors.address_zip && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_zip}</p>}
                   </div>
-                );
-              })}
+                  <div>
+                    <label htmlFor="fin-address_state" className={labelCls}>UF</label>
+                    <select
+                      id="fin-address_state"
+                      name="address_state"
+                      defaultValue=""
+                      className={inputCls}
+                      aria-invalid={!!errors.address_state}
+                    >
+                      <option value="" disabled>—</option>
+                      {UFS.map((u) => <option key={u}>{u}</option>)}
+                    </select>
+                    {errors.address_state && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_state}</p>}
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-[1fr_120px] gap-5">
+                  <div>
+                    <label htmlFor="fin-address_street" className={labelCls}>Rua / Logradouro</label>
+                    <input
+                      id="fin-address_street"
+                      name="address_street"
+                      maxLength={150}
+                      placeholder="Ex.: Rua das Palmeiras"
+                      className={inputCls}
+                      aria-invalid={!!errors.address_street}
+                    />
+                    {errors.address_street && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_street}</p>}
+                  </div>
+                  <div>
+                    <label htmlFor="fin-address_number" className={labelCls}>Número</label>
+                    <input
+                      id="fin-address_number"
+                      name="address_number"
+                      maxLength={10}
+                      placeholder="123"
+                      className={inputCls}
+                      aria-invalid={!!errors.address_number}
+                    />
+                    {errors.address_number && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_number}</p>}
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label htmlFor="fin-address_complement" className={labelCls}>Complemento (opcional)</label>
+                    <input
+                      id="fin-address_complement"
+                      name="address_complement"
+                      maxLength={80}
+                      placeholder="Apto, bloco, etc."
+                      className={inputCls}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="fin-address_neighborhood" className={labelCls}>Bairro</label>
+                    <input
+                      id="fin-address_neighborhood"
+                      name="address_neighborhood"
+                      maxLength={80}
+                      placeholder="Bairro"
+                      className={inputCls}
+                      aria-invalid={!!errors.address_neighborhood}
+                    />
+                    {errors.address_neighborhood && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_neighborhood}</p>}
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="fin-address_city" className={labelCls}>Cidade</label>
+                  <input
+                    id="fin-address_city"
+                    name="address_city"
+                    maxLength={80}
+                    placeholder="Cidade"
+                    className={inputCls}
+                    aria-invalid={!!errors.address_city}
+                  />
+                  {errors.address_city && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_city}</p>}
+                </div>
+              </div>
+
+              <label
+                htmlFor="fin-lgpd"
+                className={`flex items-start gap-3 cursor-pointer border p-4 transition-colors ${
+                  errors.lgpd ? "border-destructive/60" : "border-border hover:border-primary/60"
+                }`}
+              >
+                <input
+                  id="fin-lgpd"
+                  type="checkbox"
+                  checked={lgpd}
+                  onChange={(e) => {
+                    setLgpd(e.currentTarget.checked);
+                    if (e.currentTarget.checked) {
+                      setErrors((prev) => {
+                        const n = { ...prev };
+                        delete n.lgpd;
+                        return n;
+                      });
+                    }
+                  }}
+                  className="mt-0.5 h-4 w-4 accent-primary shrink-0"
+                />
+                <span className="text-xs text-white/80 leading-relaxed">
+                  Autorizo a Klug Motors a coletar, tratar e compartilhar meus dados pessoais com instituições financeiras parceiras para análise de crédito e formalização do financiamento, conforme a{" "}
+                  <strong className="text-white">Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018)</strong>. Confirmo que as informações fornecidas são verdadeiras.
+                </span>
+              </label>
+              {errors.lgpd && <p role="alert" className="text-xs text-destructive -mt-2">{errors.lgpd}</p>}
             </div>
           </>
         )}
@@ -502,7 +659,7 @@ export function FinanciamentoForm({
           )}
         </button>
         <p className="text-[10px] text-white/60 text-center uppercase tracking-widest">
-          Seus dados e documentos são tratados com sigilo
+          Seus dados são tratados com sigilo conforme a LGPD
         </p>
       </div>
     </form>
