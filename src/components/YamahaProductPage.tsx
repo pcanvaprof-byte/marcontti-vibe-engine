@@ -681,29 +681,21 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
   const current = groups.find((g) => g.id === active) ?? groups[0];
 
   return (
-    <section id="ficha-tecnica" className="border-t border-border bg-neutral-950">
-      <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
-        <div className="max-w-3xl">
-          <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-            Ficha Técnica
-          </p>
-          <h2
-            className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-            style={{
-              fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-              fontSize: "clamp(32px, 5vw, 64px)",
-            }}
-          >
-            Cada número, uma <span className="text-primary">promessa</span>
+    <section id="ficha-tecnica" className="border-t border-border bg-white text-neutral-900">
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-10 py-16 sm:py-24">
+        {/* Título centralizado com underline — padrão Yamaha */}
+        <div className="text-center">
+          <h2 className="inline-block text-neutral-900 text-base sm:text-lg font-medium tracking-wide pb-3 border-b border-neutral-900">
+            Especificações Técnicas
           </h2>
         </div>
 
-        {/* Tabs — horizontal scroll on mobile */}
-        <div className="mt-10 -mx-5 sm:mx-0 border-b border-white/10">
+        {/* Tabs centralizadas, pill preto no ativo */}
+        <div className="mt-10 flex justify-center">
           <div
             role="tablist"
             aria-label="Categorias de especificações"
-            className="flex gap-1 overflow-x-auto scrollbar-none px-5 sm:px-0 snap-x snap-mandatory"
+            className="flex gap-2 sm:gap-4 overflow-x-auto scrollbar-none max-w-full px-2"
           >
             {groups.map((g) => {
               const isActive = g.id === current?.id;
@@ -714,10 +706,10 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
                   aria-selected={isActive}
                   onClick={() => setActive(g.id)}
                   className={[
-                    "shrink-0 snap-start px-4 sm:px-5 py-3 text-[12px] sm:text-sm uppercase tracking-[0.18em] font-bold font-display whitespace-nowrap transition-colors border-b-2 -mb-px",
+                    "shrink-0 whitespace-nowrap rounded-full px-5 sm:px-6 py-2.5 text-[12px] sm:text-[13px] font-semibold tracking-wide transition-all",
                     isActive
-                      ? "text-white border-primary"
-                      : "text-white/50 border-transparent hover:text-white/80",
+                      ? "bg-neutral-900 text-white shadow-sm"
+                      : "bg-transparent text-neutral-500 hover:text-neutral-900",
                   ].join(" ")}
                 >
                   {g.label}
@@ -727,29 +719,35 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
           </div>
         </div>
 
-        {/* Rows */}
+        {/* Tabela zebrada */}
         {current && (
-          <dl
+          <div
             key={current.id}
-            className="mt-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-14 animate-in fade-in duration-300"
+            className="mt-10 border border-neutral-200 rounded-md overflow-hidden animate-in fade-in duration-300"
           >
-            {current.items.map((s, i) => (
-              <div
-                key={`${s.label}-${i}`}
-                className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:gap-6 py-4 border-b border-white/10"
-              >
-                <dt className="min-w-0 text-white/60 text-[11px] sm:text-xs uppercase tracking-[0.18em] font-bold leading-relaxed">
-                  {s.label}
-                </dt>
-                <dd className="text-white font-semibold text-sm sm:text-base text-right break-words max-w-[62%] sm:max-w-[70%]">
-                  {s.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+            <dl>
+              {current.items.map((s, i) => (
+                <div
+                  key={`${s.label}-${i}`}
+                  className={[
+                    "grid grid-cols-1 sm:grid-cols-2 items-center px-5 sm:px-8 py-4 sm:py-4 gap-1 sm:gap-6",
+                    i % 2 === 0 ? "bg-neutral-100" : "bg-white",
+                    i !== current.items.length - 1 ? "border-b border-neutral-200/70" : "",
+                  ].join(" ")}
+                >
+                  <dt className="text-neutral-900 text-[13px] sm:text-sm font-semibold">
+                    {s.label}
+                  </dt>
+                  <dd className="text-neutral-500 text-[13px] sm:text-sm sm:text-left break-words">
+                    {s.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         )}
 
-        <p className="mt-8 text-[11px] text-white/40 leading-relaxed">
+        <p className="mt-6 text-[11px] text-neutral-400 leading-relaxed text-center">
           As informações técnicas podem sofrer alterações sem aviso prévio. Imagens meramente
           ilustrativas. Consulte a Klug Motors para condições e disponibilidade.
         </p>
