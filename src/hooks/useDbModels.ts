@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { models as staticModels, type Model } from "@/lib/models";
 
+export type GalleryItem = { url: string; hidden?: boolean };
+
 export type DbModel = {
   id: string;
   slug: string;
@@ -15,15 +17,21 @@ export type DbModel = {
   power: string;
   short_description: string;
   description: string;
-  colors: { name: string; hex: string; image: string }[];
+  colors: { name: string; hex: string; image: string; hidden?: boolean }[];
   specs: { label: string; value: string }[];
   features: string[];
-  gallery: string[];
+  gallery: Array<string | GalleryItem>;
   is_active: boolean;
   sort_order: number;
 };
 
+export function normalizeGallery(raw: DbModel["gallery"] | null | undefined): GalleryItem[] {
+  return (raw ?? []).map((g) => (typeof g === "string" ? { url: g } : { url: g.url, hidden: !!g.hidden }));
+}
+
 export function dbToModel(m: DbModel): Model {
+  const visibleGallery = normalizeGallery(m.gallery).filter((g) => !g.hidden).map((g) => g.url);
+  const colors = (m.colors ?? []).map((c) => (c.hidden ? { ...c, image: "" } : c));
   return {
     slug: m.slug,
     name: m.name,
@@ -35,10 +43,10 @@ export function dbToModel(m: DbModel): Model {
     power: m.power,
     short: m.short_description,
     description: m.description,
-    colors: m.colors ?? [],
+    colors,
     specs: m.specs ?? [],
     features: m.features ?? [],
-    gallery: m.gallery && m.gallery.length ? m.gallery : undefined,
+    gallery: visibleGallery.length ? visibleGallery : undefined,
   };
 }
 
