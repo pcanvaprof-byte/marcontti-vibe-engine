@@ -40,20 +40,16 @@ export function YamahaProductPage({
   }, [variant, modelGallery]);
   const heroImg = variant?.image ?? activeGallery[0];
 
-  // Text swaps with the selected color when the variant provides its own copy.
-  const activeDescription = variant?.description?.trim() || m.description;
-  const activeTagline = variant?.tagline?.trim() || "";
-  // Split description into paragraphs / sentences for the feature blocks.
+  // Textos das seções Intro/Versatilidade/Tecnologia são fixos (não trocam por cor)
+  // — evita re-render/piscada de várias seções a cada clique na cor.
+  const baseDescription = m.description;
   const sentences = useMemo(() => {
-    const parts = activeDescription
+    const parts = baseDescription
       .split(/(?<=[.!?])\s+/)
       .map((s) => s.trim())
       .filter(Boolean);
-    return parts.length ? parts : [activeDescription];
-  }, [activeDescription]);
-
-
-
+    return parts.length ? parts : [baseDescription];
+  }, [baseDescription]);
 
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -65,12 +61,14 @@ export function YamahaProductPage({
     openWhatsAppWithFallback(whatsappMsg);
   };
 
-  // Prefetch the variant image swap.
+  // Pré-carrega TODAS as imagens de variantes no mount — troca de cor fica instantânea.
   useEffect(() => {
-    if (!variant?.image) return;
-    const i = new Image();
-    i.src = variant.image;
-  }, [variant?.image]);
+    m.colors.forEach((c) => {
+      if (!c?.image) return;
+      const i = new Image();
+      i.src = c.image;
+    });
+  }, [m.colors]);
 
   return (
     <div className="min-h-dvh bg-background text-foreground">
@@ -133,16 +131,8 @@ export function YamahaProductPage({
               Mobilidade <span className="text-primary">inteligente</span>
             </h2>
           </div>
-          <p
-            key={`intro-${selected}`}
-            className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6 transition-opacity duration-500 animate-in fade-in"
-          >
-            {activeTagline && (
-              <span className="block text-primary font-display font-black uppercase tracking-[0.3em] text-[11px] mb-3">
-                {activeTagline}
-              </span>
-            )}
-            {activeDescription}
+          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6">
+            {baseDescription}
           </p>
         </div>
       </section>
@@ -180,10 +170,7 @@ export function YamahaProductPage({
             >
               Versatilidade em <span className="text-primary">cada viagem</span>
             </h3>
-            <p
-              key={`sen1-${selected}`}
-              className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg transition-opacity duration-500 animate-in fade-in"
-            >
+            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg">
               {sentences[1] ?? sentences[0]}
             </p>
             {m.features.length > 0 && (
@@ -229,10 +216,7 @@ export function YamahaProductPage({
                 A escolha certa para <span className="text-primary">mobilidade urbana</span>
               </h3>
             </div>
-            <p
-              key={`sen2-${selected}`}
-              className="text-white/75 leading-relaxed lg:pt-6 transition-opacity duration-500 animate-in fade-in"
-            >
+            <p className="text-white/75 leading-relaxed lg:pt-6">
               {sentences[2] ?? sentences[0]}
             </p>
           </div>
