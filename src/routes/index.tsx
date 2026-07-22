@@ -1246,7 +1246,7 @@ function Contact() {
             <ContactRow
               icon={Clock}
               label="Horários"
-              value="Seg–Sex 08:30–18:30 (sem fechar p/ almoço) · Sáb 08:30–13:00"
+              value="Seg a Sex 08:30–18:30 (sem fechar p/ almoço) · Sáb 08:30–13:00 · Dom fechado"
             />
             <ContactRow
               icon={Mail}
