@@ -751,8 +751,15 @@ export function FinanciamentoForm({
                       className={inputCls}
                       aria-invalid={!!errors.address_neighborhood}
                       onInput={markUserEdited}
-
+                      list="fin-neighborhood-options"
+                      autoComplete="address-level3"
                     />
+                    <datalist id="fin-neighborhood-options">
+                      {neighborhoodOptions.map((b) => (
+                        <option key={b} value={b} />
+                      ))}
+                    </datalist>
+
                     {errors.address_neighborhood && <p role="alert" className="text-xs text-destructive mt-1.5">{errors.address_neighborhood}</p>}
                   </div>
                 </div>
