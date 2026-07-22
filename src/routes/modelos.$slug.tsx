@@ -206,14 +206,16 @@ function ModelPage() {
     (i: number) => {
       setSelectedState(i);
       const color = m?.colors[i];
-      if (!color) return;
-      navigate({
-        search: (prev: SlugSearch) => ({ ...prev, cor: slugColor(color.name) }),
-        replace: true,
-      });
+      if (!color || typeof window === "undefined") return;
+      // Atualiza apenas o ?cor= via history API — evita re-render de rota,
+      // re-run de loader e qualquer sensação de "reload" ao trocar de cor.
+      const url = new URL(window.location.href);
+      url.searchParams.set("cor", slugColor(color.name));
+      window.history.replaceState(window.history.state, "", url.toString());
     },
-    [m, navigate],
+    [m],
   );
+
 
   const variant = m?.colors[selected] ?? m?.colors[0];
 
