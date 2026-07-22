@@ -66,10 +66,11 @@ export const Route = createFileRoute("/modelos/")({
     cat: typeof s.cat === "string" ? s.cat : undefined,
     marca: typeof s.marca === "string" ? s.marca : undefined,
   }),
-  loaderDeps: ({ search }) => ({ marca: search.marca }),
-  loader: ({ deps }) => ({ marca: deps.marca }),
+  loaderDeps: ({ search }) => ({ marca: search.marca, cat: search.cat }),
+  loader: ({ deps }) => ({ marca: deps.marca, cat: deps.cat }),
   head: ({ loaderData }) => {
     const marca = loaderData?.marca;
+    const cat = loaderData?.cat;
     const valid = isValidBrand(marca);
     const meta = brandMeta(marca);
     const url = valid ? `${BASE_URL}/modelos?marca=${marca.toLowerCase()}` : `${BASE_URL}/modelos`;
@@ -82,7 +83,9 @@ export const Route = createFileRoute("/modelos/")({
       { property: "og:url", content: url },
       { name: "twitter:card", content: "summary_large_image" },
     ];
-    if (!valid && marca) {
+    // Não indexa marca inválida nem categoria "seminovos" (placeholder — sem
+    // conteúdo real). Evita páginas vazias no índice do Google.
+    if ((!valid && marca) || cat === "seminovos") {
       metaTags.push({ name: "robots", content: "noindex, follow" });
     }
     return {
