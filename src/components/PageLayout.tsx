@@ -3,6 +3,7 @@ import { ArrowLeft, MapPin, Phone, Mail, Clock, Instagram, MessageCircle } from 
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
+import { CreatedBy } from "@/components/CreatedBy";
 
 export function PageLayout({
   eyebrow,
