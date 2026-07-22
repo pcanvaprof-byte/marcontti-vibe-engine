@@ -474,12 +474,18 @@ export function YamahaProductPage({
             </div>
 
             <div className="mt-12 relative rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 p-6 sm:p-12">
-              <div className="min-h-[280px] sm:min-h-[420px] grid place-items-center">
+              <div className="relative min-h-[280px] sm:min-h-[420px] grid place-items-center">
+                {/* Anel tracejado 360° — padrão site oficial Yamaha */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-[560px] aspect-[2/1] rounded-[50%] border border-dashed border-white/25"
+                  style={{ maskImage: "linear-gradient(to bottom, transparent 0%, transparent 55%, black 60%, black 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, transparent 55%, black 60%, black 100%)" }}
+                />
                 {variant?.image ? (
                   <img
                     src={variant.image}
                     alt={`${m.name} — ${variant.name}`}
-                    className="max-h-[420px] w-auto object-contain transition-opacity duration-300"
+                    className="relative max-h-[420px] w-auto object-contain transition-opacity duration-300"
                   />
                 ) : null}
               </div>
