@@ -110,6 +110,10 @@ export function FinanciamentoForm({
 
     setLastMessage(text);
     setSent(true);
+    trackEvent("financiamento_submit", {
+      source: "financiamento_form",
+      meta: { model: d.model, entry: d.entry, term: d.term },
+    });
   }
 
   function reset() {
