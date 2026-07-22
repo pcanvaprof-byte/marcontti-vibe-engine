@@ -577,7 +577,7 @@ export const models: Model[] = [
     priceNumber: 10990,
     range: "até 55 km",
     speed: "32 km/h",
-    power: "1.000W",
+    power: "800W",
     short: "Triciclo SUDU A13T — 3 lugares e capacidade de 186 kg.",
     description:
       "SUDU A13T é o triciclo elétrico para famílias e transporte utilitário. Comporta até 3 lugares, capacidade de 186 kg, NFC e bateria 60V 24Ah.",
