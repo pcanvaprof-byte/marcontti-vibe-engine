@@ -39,14 +39,17 @@ export function YamahaProductPage({
   }, [variant, modelGallery]);
   const heroImg = variant?.image ?? activeGallery[0];
 
+  // Text swaps with the selected color when the variant provides its own copy.
+  const activeDescription = variant?.description?.trim() || m.description;
+  const activeTagline = variant?.tagline?.trim() || "";
   // Split description into paragraphs / sentences for the feature blocks.
   const sentences = useMemo(() => {
-    const parts = m.description
+    const parts = activeDescription
       .split(/(?<=[.!?])\s+/)
       .map((s) => s.trim())
       .filter(Boolean);
-    return parts.length ? parts : [m.description];
-  }, [m.description]);
+    return parts.length ? parts : [activeDescription];
+  }, [activeDescription]);
 
 
 
@@ -170,8 +173,16 @@ export function YamahaProductPage({
               Mobilidade <span className="text-primary">inteligente</span>
             </h2>
           </div>
-          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6">
-            {m.description}
+          <p
+            key={`intro-${selected}`}
+            className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6 transition-opacity duration-500 animate-in fade-in"
+          >
+            {activeTagline && (
+              <span className="block text-primary font-display font-black uppercase tracking-[0.3em] text-[11px] mb-3">
+                {activeTagline}
+              </span>
+            )}
+            {activeDescription}
           </p>
         </div>
       </section>
@@ -209,7 +220,10 @@ export function YamahaProductPage({
             >
               Versatilidade em <span className="text-primary">cada viagem</span>
             </h3>
-            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg">
+            <p
+              key={`sen1-${selected}`}
+              className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg transition-opacity duration-500 animate-in fade-in"
+            >
               {sentences[1] ?? sentences[0]}
             </p>
             {m.features.length > 0 && (
@@ -255,7 +269,10 @@ export function YamahaProductPage({
                 A escolha certa para <span className="text-primary">mobilidade urbana</span>
               </h3>
             </div>
-            <p className="text-white/75 leading-relaxed lg:pt-6">
+            <p
+              key={`sen2-${selected}`}
+              className="text-white/75 leading-relaxed lg:pt-6 transition-opacity duration-500 animate-in fade-in"
+            >
               {sentences[2] ?? sentences[0]}
             </p>
           </div>

@@ -29,7 +29,14 @@ import yamahaFactorImg from "@/assets/motos/yamaha-factor-150.png.asset.json";
 import yamahaFactorDxImg from "@/assets/motos/yamaha-factor-150-dx.png.asset.json";
 import yamahaFz25Img from "@/assets/motos/yamaha-fz25.png.asset.json";
 
-export type ColorVariant = { name: string; hex: string; image: string; gallery?: string[] };
+export type ColorVariant = {
+  name: string;
+  hex: string;
+  image: string;
+  gallery?: string[];
+  tagline?: string;
+  description?: string;
+};
 
 export type Model = {
   slug: string;
