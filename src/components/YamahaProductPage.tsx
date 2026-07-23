@@ -135,7 +135,7 @@ export function YamahaProductPage({
             <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-14 sm:py-20 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-                  {m.tag || "Yamaha"}
+                  {m.tag || (m.slug.startsWith("sudu-") ? "Sudu" : m.slug.startsWith("yamaha-") ? "Yamaha" : "Klug")}
                 </p>
                 <h1
                   className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
