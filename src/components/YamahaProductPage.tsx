@@ -371,53 +371,55 @@ export function YamahaProductPage({
         </div>
       </section>
 
-      {/* 6. BATERIAS / AUTONOMIA — DUAL BATTERY */}
-      <section id="baterias" className="border-t border-border bg-neutral-950">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-              Baterias
-            </p>
-            <h2
-              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(32px, 5vw, 64px)",
-              }}
-            >
-              Autonomia máxima com <span className="text-primary">Dual Battery</span>
-            </h2>
-            <p className="mt-6 text-white/75 leading-relaxed">
-              Duas baterias removíveis de íon-lítio, carregáveis diretamente no veículo ou levadas
-              para casa. Localizadas sob o banco para acesso fácil, garantem praticidade e alcance
-              impressionante em cada trajeto.
-            </p>
-          </div>
-
-          <div className="mt-14 grid sm:grid-cols-3 gap-6">
-            {[
-              activeGallery[7] ?? activeGallery[0],
-              activeGallery[8] ?? activeGallery[1] ?? activeGallery[0],
-              activeGallery[9] ?? activeGallery[2] ?? activeGallery[0],
-            ].map((img, i) => (
-              <div
-                key={i}
-                className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 aspect-[4/3] grid place-items-center"
+      {/* 6. BATERIAS / AUTONOMIA — DUAL BATTERY (somente Neo's) */}
+      {isDualBattery && (
+        <section id="baterias" className="border-t border-border bg-neutral-950">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+            <div className="text-center max-w-3xl mx-auto">
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Baterias
+              </p>
+              <h2
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                style={{
+                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                  fontSize: "clamp(32px, 5vw, 64px)",
+                }}
               >
-                {img ? (
-                  <img
-                    src={img}
-                    alt={`Bateria ${i + 1}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-contain p-6"
-                  />
-                ) : null}
-              </div>
-            ))}
+                Autonomia máxima com <span className="text-primary">Dual Battery</span>
+              </h2>
+              <p className="mt-6 text-white/75 leading-relaxed">
+                Duas baterias removíveis de íon-lítio, carregáveis diretamente no veículo ou levadas
+                para casa. Localizadas sob o banco para acesso fácil, garantem praticidade e alcance
+                impressionante em cada trajeto.
+              </p>
+            </div>
+
+            <div className="mt-14 grid sm:grid-cols-3 gap-6">
+              {[
+                activeGallery[7] ?? activeGallery[0],
+                activeGallery[8] ?? activeGallery[1] ?? activeGallery[0],
+                activeGallery[9] ?? activeGallery[2] ?? activeGallery[0],
+              ].map((img, i) => (
+                <div
+                  key={i}
+                  className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 aspect-[4/3] grid place-items-center"
+                >
+                  {img ? (
+                    <img
+                      src={img}
+                      alt={`Bateria ${i + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-contain p-6"
+                    />
+                  ) : null}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 7. MODERNIDADE — PAINEL 100% DIGITAL */}
       <section id="modernidade" className="border-t border-border bg-card/30">
