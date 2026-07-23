@@ -45,6 +45,14 @@ export function YamahaProductPage({
   }, [variant, modelGallery]);
   const heroImg = variant?.image ?? activeGallery[0];
 
+  // O hero oficial só se aplica ao Neo's Connected. Demais modelos usam a
+  // arte do próprio produto (variant.image / galeria) sobre fundo escuro.
+  const isNeos = m.slug === "yamaha-neos-connected";
+  // "Dual Battery" e cópia elétrica só fazem sentido para modelos elétricos.
+  // Uma heurística segura: apenas o Neo's é 100% elétrico com baterias
+  // removíveis no catálogo Yamaha atual — demais são combustão/híbridos.
+  const isDualBattery = isNeos;
+
   // Textos das seções Intro/Versatilidade/Tecnologia são fixos (não trocam por cor)
   // — evita re-render/piscada de várias seções a cada clique na cor.
   const baseDescription = m.description;
