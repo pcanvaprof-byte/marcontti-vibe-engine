@@ -517,13 +517,18 @@ function ModelPage() {
                 </p>
               </div>
 
-              <button
-                type="button"
-                onClick={() => openWhatsAppWithFallback(whatsappMsg)}
+              <a
+                href="#financiamento"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document
+                    .getElementById("financiamento")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
                 className="w-full inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm py-3 rounded-md hover:brightness-110 transition-all"
               >
                 <ShoppingCart size={16} /> Comprar
-              </button>
+              </a>
 
               <a
                 href={whatsappUrl}
