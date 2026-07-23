@@ -45,6 +45,14 @@ export function YamahaProductPage({
   }, [variant, modelGallery]);
   const heroImg = variant?.image ?? activeGallery[0];
 
+  // O hero oficial só se aplica ao Neo's Connected. Demais modelos usam a
+  // arte do próprio produto (variant.image / galeria) sobre fundo escuro.
+  const isNeos = m.slug === "yamaha-neos-connected";
+  // "Dual Battery" e cópia elétrica só fazem sentido para modelos elétricos.
+  // Uma heurística segura: apenas o Neo's é 100% elétrico com baterias
+  // removíveis no catálogo Yamaha atual — demais são combustão/híbridos.
+  const isDualBattery = isNeos;
+
   // Textos das seções Intro/Versatilidade/Tecnologia são fixos (não trocam por cor)
   // — evita re-render/piscada de várias seções a cada clique na cor.
   const baseDescription = m.description;
@@ -107,16 +115,70 @@ export function YamahaProductPage({
       />
 
 
-      {/* HERO — official artwork, matches yamaha-motor.com.br */}
+      {/* HERO — official artwork for Neo's; per-model artwork for the rest */}
       <section className="relative overflow-hidden isolate text-white bg-neutral-950">
-        <img
-          src={neosHeroOfficial.url}
-          alt={`${m.name} — elétrica, carregada de energia`}
-          fetchPriority="high"
-          decoding="async"
-          className="block w-full h-auto select-none"
-          draggable={false}
-        />
+        {isNeos ? (
+          <img
+            src={neosHeroOfficial.url}
+            alt={`${m.name} — elétrica, carregada de energia`}
+            fetchPriority="high"
+            decoding="async"
+            className="block w-full h-auto select-none"
+            draggable={false}
+          />
+        ) : (
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_60%)]"
+            />
+            <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-14 sm:py-20 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                  {m.tag || "Yamaha"}
+                </p>
+                <h1
+                  className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                  style={{
+                    fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                    fontSize: "clamp(44px, 7vw, 96px)",
+                  }}
+                >
+                  {m.name.replace(/^Yamaha\s+/i, "")}
+                </h1>
+                <p className="mt-6 text-white/75 text-base sm:text-lg leading-relaxed max-w-xl">
+                  {m.short || m.description}
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href="#financiamento"
+                    className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
+                  >
+                    Comprar online <ChevronRight size={14} />
+                  </a>
+                  <a
+                    href={whatsappUrl}
+                    onClick={handleWhats}
+                    className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
+                  >
+                    <MessageCircle size={14} fill="white" strokeWidth={0} /> WhatsApp
+                  </a>
+                </div>
+              </div>
+              <div className="relative min-h-[280px] sm:min-h-[420px] grid place-items-center">
+                {heroImg ? (
+                  <img
+                    src={heroImg}
+                    alt={`${m.name}`}
+                    fetchPriority="high"
+                    decoding="async"
+                    className="relative max-h-[460px] w-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.6)]"
+                  />
+                ) : null}
+              </div>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* 1. INTRO — MOBILIDADE INTELIGENTE (2-col: título esquerda / texto direita) */}
@@ -309,53 +371,55 @@ export function YamahaProductPage({
         </div>
       </section>
 
-      {/* 6. BATERIAS / AUTONOMIA — DUAL BATTERY */}
-      <section id="baterias" className="border-t border-border bg-neutral-950">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-              Baterias
-            </p>
-            <h2
-              className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-              style={{
-                fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                fontSize: "clamp(32px, 5vw, 64px)",
-              }}
-            >
-              Autonomia máxima com <span className="text-primary">Dual Battery</span>
-            </h2>
-            <p className="mt-6 text-white/75 leading-relaxed">
-              Duas baterias removíveis de íon-lítio, carregáveis diretamente no veículo ou levadas
-              para casa. Localizadas sob o banco para acesso fácil, garantem praticidade e alcance
-              impressionante em cada trajeto.
-            </p>
-          </div>
-
-          <div className="mt-14 grid sm:grid-cols-3 gap-6">
-            {[
-              activeGallery[7] ?? activeGallery[0],
-              activeGallery[8] ?? activeGallery[1] ?? activeGallery[0],
-              activeGallery[9] ?? activeGallery[2] ?? activeGallery[0],
-            ].map((img, i) => (
-              <div
-                key={i}
-                className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 aspect-[4/3] grid place-items-center"
+      {/* 6. BATERIAS / AUTONOMIA — DUAL BATTERY (somente Neo's) */}
+      {isDualBattery && (
+        <section id="baterias" className="border-t border-border bg-neutral-950">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+            <div className="text-center max-w-3xl mx-auto">
+              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                Baterias
+              </p>
+              <h2
+                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
+                style={{
+                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                  fontSize: "clamp(32px, 5vw, 64px)",
+                }}
               >
-                {img ? (
-                  <img
-                    src={img}
-                    alt={`Bateria ${i + 1}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-contain p-6"
-                  />
-                ) : null}
-              </div>
-            ))}
+                Autonomia máxima com <span className="text-primary">Dual Battery</span>
+              </h2>
+              <p className="mt-6 text-white/75 leading-relaxed">
+                Duas baterias removíveis de íon-lítio, carregáveis diretamente no veículo ou levadas
+                para casa. Localizadas sob o banco para acesso fácil, garantem praticidade e alcance
+                impressionante em cada trajeto.
+              </p>
+            </div>
+
+            <div className="mt-14 grid sm:grid-cols-3 gap-6">
+              {[
+                activeGallery[7] ?? activeGallery[0],
+                activeGallery[8] ?? activeGallery[1] ?? activeGallery[0],
+                activeGallery[9] ?? activeGallery[2] ?? activeGallery[0],
+              ].map((img, i) => (
+                <div
+                  key={i}
+                  className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 aspect-[4/3] grid place-items-center"
+                >
+                  {img ? (
+                    <img
+                      src={img}
+                      alt={`Bateria ${i + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-contain p-6"
+                    />
+                  ) : null}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 7. MODERNIDADE — PAINEL 100% DIGITAL */}
       <section id="modernidade" className="border-t border-border bg-card/30">
@@ -894,13 +958,13 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
 
 /* ---------------- Sub-nav with scroll-spy ---------------- */
 
-const SUBNAV_SECTIONS: { id: string; label: string }[] = [
-  { id: "eficiencia", label: "Eficiência elétrica" },
+const SUBNAV_SECTIONS_ALL: { id: string; label: string; neosOnly?: boolean; firstLabel?: string }[] = [
+  { id: "eficiencia", label: "Eficiência elétrica", firstLabel: "Destaques" },
   { id: "modos", label: "Modos de condução" },
   { id: "tecnologia", label: "Tecnologia" },
   { id: "comodidade", label: "Comodidade" },
   { id: "conectividade", label: "Conectividade" },
-  { id: "baterias", label: "Baterias" },
+  { id: "baterias", label: "Baterias", neosOnly: true },
   { id: "modernidade", label: "Modernidade" },
   { id: "inovacao", label: "Inovação" },
   { id: "ficha-tecnica", label: "Ficha Técnica" },
@@ -951,7 +1015,16 @@ function SubNav({
   whatsappUrl: string;
   onWhats: (e: MouseEvent<HTMLAnchorElement>) => void;
 }) {
-  const ids = useMemo(() => SUBNAV_SECTIONS.map((s) => s.id), []);
+  const isNeos = model.slug === "yamaha-neos-connected";
+  const sections = useMemo(
+    () =>
+      SUBNAV_SECTIONS_ALL.filter((s) => (s.neosOnly ? isNeos : true)).map((s) => ({
+        id: s.id,
+        label: !isNeos && s.firstLabel ? s.firstLabel : s.label,
+      })),
+    [isNeos],
+  );
+  const ids = useMemo(() => sections.map((s) => s.id), [sections]);
   const active = useScrollSpy(ids, 120);
   const listRef = useRef<HTMLDivElement | null>(null);
 
@@ -982,7 +1055,7 @@ function SubNav({
           ref={listRef}
           className="flex items-center gap-1 sm:gap-2 overflow-x-auto scrollbar-none -mx-2 px-2 h-full text-[11px] uppercase tracking-widest font-display font-black"
         >
-          {SUBNAV_SECTIONS.map((s) => {
+          {sections.map((s) => {
             const isActive = s.id === active;
             return (
               <a
