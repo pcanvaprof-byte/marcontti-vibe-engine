@@ -1015,7 +1015,16 @@ function SubNav({
   whatsappUrl: string;
   onWhats: (e: MouseEvent<HTMLAnchorElement>) => void;
 }) {
-  const ids = useMemo(() => SUBNAV_SECTIONS.map((s) => s.id), []);
+  const isNeos = model.slug === "yamaha-neos-connected";
+  const sections = useMemo(
+    () =>
+      SUBNAV_SECTIONS_ALL.filter((s) => (s.neosOnly ? isNeos : true)).map((s) => ({
+        id: s.id,
+        label: !isNeos && s.firstLabel ? s.firstLabel : s.label,
+      })),
+    [isNeos],
+  );
+  const ids = useMemo(() => sections.map((s) => s.id), [sections]);
   const active = useScrollSpy(ids, 120);
   const listRef = useRef<HTMLDivElement | null>(null);
 
