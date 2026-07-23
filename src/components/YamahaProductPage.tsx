@@ -1055,7 +1055,7 @@ function SubNav({
           ref={listRef}
           className="flex items-center gap-1 sm:gap-2 overflow-x-auto scrollbar-none -mx-2 px-2 h-full text-[11px] uppercase tracking-widest font-display font-black"
         >
-          {SUBNAV_SECTIONS.map((s) => {
+          {sections.map((s) => {
             const isActive = s.id === active;
             return (
               <a
