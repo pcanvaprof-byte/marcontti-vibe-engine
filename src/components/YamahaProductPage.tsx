@@ -958,13 +958,13 @@ function SpecSheet({ specs }: { specs: Spec[] }) {
 
 /* ---------------- Sub-nav with scroll-spy ---------------- */
 
-const SUBNAV_SECTIONS: { id: string; label: string }[] = [
-  { id: "eficiencia", label: "Eficiência elétrica" },
+const SUBNAV_SECTIONS_ALL: { id: string; label: string; neosOnly?: boolean; firstLabel?: string }[] = [
+  { id: "eficiencia", label: "Eficiência elétrica", firstLabel: "Destaques" },
   { id: "modos", label: "Modos de condução" },
   { id: "tecnologia", label: "Tecnologia" },
   { id: "comodidade", label: "Comodidade" },
   { id: "conectividade", label: "Conectividade" },
-  { id: "baterias", label: "Baterias" },
+  { id: "baterias", label: "Baterias", neosOnly: true },
   { id: "modernidade", label: "Modernidade" },
   { id: "inovacao", label: "Inovação" },
   { id: "ficha-tecnica", label: "Ficha Técnica" },
