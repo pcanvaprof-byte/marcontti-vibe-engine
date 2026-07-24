@@ -31,7 +31,8 @@ export function usePublicInstagramPosts() {
   return useQuery({
     queryKey: ["instagram_posts", "public"],
     queryFn: () => fetchPosts(false),
-    staleTime: 60_000,
+    staleTime: 5_000,
+    refetchOnWindowFocus: true,
   });
 }
 
