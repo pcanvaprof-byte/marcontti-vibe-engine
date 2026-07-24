@@ -5,6 +5,7 @@ export type InstagramPost = {
   id: string;
   image_url: string;
   media_type: "image" | "video";
+  thumbnail_url: string | null;
   caption: string;
   post_url: string;
   sort_order: number;
