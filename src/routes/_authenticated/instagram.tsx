@@ -335,7 +335,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     const payload = {
       image_url: d.image_url,
       media_type: d.media_type ?? "image",
-      thumbnail_url: d.media_type === "video" ? (d.thumbnail_url ?? null) : null,
+      thumbnail_url: d.thumbnail_url ?? null,
       caption: d.caption ?? "",
       post_url: d.post_url || "https://www.instagram.com/klugmotors/",
       sort_order: d.sort_order ?? 0,
@@ -413,9 +413,9 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             </div>
           </div>
 
-          {d.media_type === "video" && (
+          {(d.media_type === "video" || /instagram\.com\/(p|reel|tv)\//i.test(d.image_url ?? "")) && (
             <div>
-              <Label>Capa do vídeo (thumbnail)</Label>
+              <Label>Capa personalizada (thumbnail)</Label>
               <div className="mt-2 flex items-start gap-3">
                 <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
                   {d.thumbnail_url ? (
@@ -454,7 +454,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                     </button>
                   )}
                   <p className="text-[10px] text-neutral-500">
-                    Ao enviar o vídeo, geramos uma capa automática do primeiro frame. Envie uma imagem para substituir.
+                    Para vídeos enviados, geramos capa automática. Para links do Instagram (/p/, /reel/), envie uma capa manual — evita depender do embed.
                   </p>
                 </div>
               </div>
