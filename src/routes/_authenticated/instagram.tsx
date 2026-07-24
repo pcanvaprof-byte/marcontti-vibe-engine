@@ -26,11 +26,58 @@ type Draft = Partial<InstagramPost>;
 const emptyDraft: Draft = {
   image_url: "",
   media_type: "image",
+  thumbnail_url: null,
   caption: "",
   post_url: "https://www.instagram.com/klugmotors/",
   sort_order: 0,
   is_active: true,
 };
+
+/** Extrai um frame do vídeo (blob) e devolve como File PNG para servir de capa. */
+async function captureVideoPoster(file: File): Promise<File | null> {
+  return new Promise((resolve) => {
+    try {
+      const url = URL.createObjectURL(file);
+      const video = document.createElement("video");
+      video.preload = "auto";
+      video.muted = true;
+      video.playsInline = true;
+      video.src = url;
+      video.crossOrigin = "anonymous";
+      const cleanup = () => URL.revokeObjectURL(url);
+      video.onloadeddata = () => {
+        try {
+          video.currentTime = Math.min(0.1, (video.duration || 1) / 2);
+        } catch {
+          cleanup();
+          resolve(null);
+        }
+      };
+      video.onseeked = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth || 720;
+        canvas.height = video.videoHeight || 1280;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          cleanup();
+          return resolve(null);
+        }
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => {
+          cleanup();
+          if (!blob) return resolve(null);
+          resolve(new File([blob], "poster.jpg", { type: "image/jpeg" }));
+        }, "image/jpeg", 0.82);
+      };
+      video.onerror = () => {
+        cleanup();
+        resolve(null);
+      };
+    } catch {
+      resolve(null);
+    }
+  });
+}
 
 function InstagramAdminPage() {
   const navigate = useNavigate();
