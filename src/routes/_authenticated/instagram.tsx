@@ -25,6 +25,7 @@ type Draft = Partial<InstagramPost>;
 
 const emptyDraft: Draft = {
   image_url: "",
+  media_type: "image",
   caption: "",
   post_url: "https://www.instagram.com/klugmotors/",
   sort_order: 0,
@@ -124,9 +125,13 @@ function InstagramAdminPage() {
               <div key={p.id} className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900">
                 <div className="relative aspect-square bg-neutral-800">
                   {p.image_url ? (
-                    <img src={p.image_url} alt="" className="w-full h-full object-cover" />
+                    p.media_type === "video" ? (
+                      <video src={p.image_url} className="w-full h-full object-cover" muted playsInline preload="metadata" />
+                    ) : (
+                      <img src={p.image_url} alt="" className="w-full h-full object-cover" />
+                    )
                   ) : (
-                    <div className="w-full h-full grid place-items-center text-neutral-600 text-xs">Sem imagem</div>
+                    <div className="w-full h-full grid place-items-center text-neutral-600 text-xs">Sem mídia</div>
                   )}
                   {!p.is_active && (
                     <div className="absolute inset-0 bg-black/60 grid place-items-center text-xs uppercase tracking-widest text-white/70 font-bold">
@@ -206,11 +211,19 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   async function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    const isVideo = file.type.startsWith("video/");
+    const isImage = file.type.startsWith("image/");
+    if (!isVideo && !isImage) {
+      toast.error("Envie uma imagem ou vídeo");
+      e.target.value = "";
+      return;
+    }
     setUploading(true);
     try {
       const url = await uploadFile(file);
       set("image_url", url);
-      toast.success("Imagem enviada");
+      set("media_type", isVideo ? "video" : "image");
+      toast.success(isVideo ? "Vídeo enviado" : "Imagem enviada");
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
@@ -221,12 +234,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
   async function save() {
     if (!d.image_url) {
-      toast.error("Envie uma imagem antes de salvar");
+      toast.error("Envie uma mídia antes de salvar");
       return;
     }
     setSaving(true);
     const payload = {
       image_url: d.image_url,
+      media_type: d.media_type ?? "image",
       caption: d.caption ?? "",
       post_url: d.post_url || "https://www.instagram.com/klugmotors/",
       sort_order: d.sort_order ?? 0,
@@ -252,29 +266,47 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
         <div className="space-y-4">
           <div>
-            <Label>Imagem</Label>
+            <Label>Imagem ou vídeo</Label>
             <div className="mt-2 flex items-start gap-3">
               <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
                 {d.image_url ? (
-                  <img src={d.image_url} alt="" className="w-full h-full object-cover" />
+                  d.media_type === "video" ? (
+                    <video src={d.image_url} className="w-full h-full object-cover" muted playsInline controls />
+                  ) : (
+                    <img src={d.image_url} alt="" className="w-full h-full object-cover" />
+                  )
                 ) : (
                   <div className="w-full h-full grid place-items-center text-[10px] text-neutral-600">
-                    sem imagem
+                    sem mídia
                   </div>
                 )}
               </div>
               <div className="flex-1 space-y-2">
                 <label className="inline-flex items-center gap-2 text-xs cursor-pointer bg-neutral-800 hover:bg-neutral-700 px-3 py-2 rounded">
                   <Upload className="w-3.5 h-3.5" />
-                  {uploading ? "Enviando..." : "Enviar imagem"}
-                  <input type="file" accept="image/*" className="hidden" onChange={onUpload} disabled={uploading} />
+                  {uploading ? "Enviando..." : "Enviar imagem ou vídeo"}
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    className="hidden"
+                    onChange={onUpload}
+                    disabled={uploading}
+                  />
                 </label>
                 <Input
-                  placeholder="ou cole uma URL"
+                  placeholder="ou cole uma URL (imagem ou vídeo)"
                   value={d.image_url ?? ""}
-                  onChange={(e) => set("image_url", e.target.value)}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    set("image_url", v);
+                    if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(v)) set("media_type", "video");
+                    else if (/\.(png|jpe?g|gif|webp|avif)(\?|$)/i.test(v)) set("media_type", "image");
+                  }}
                   className="text-xs"
                 />
+                <p className="text-[10px] text-neutral-500">
+                  MP4/WebM até ~50MB recomendado. Vídeos são exibidos silenciados no preview.
+                </p>
               </div>
             </div>
           </div>

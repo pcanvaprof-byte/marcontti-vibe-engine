@@ -54,6 +54,7 @@ export type Database = {
           id: string
           image_url: string
           is_active: boolean
+          media_type: string
           post_url: string
           sort_order: number
           updated_at: string
@@ -64,6 +65,7 @@ export type Database = {
           id?: string
           image_url: string
           is_active?: boolean
+          media_type?: string
           post_url?: string
           sort_order?: number
           updated_at?: string
@@ -74,6 +76,7 @@ export type Database = {
           id?: string
           image_url?: string
           is_active?: boolean
+          media_type?: string
           post_url?: string
           sort_order?: number
           updated_at?: string
