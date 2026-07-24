@@ -1902,7 +1902,7 @@ function InstagramRow() {
 
   return (
     <section className="py-10 sm:py-12 bg-background border-b border-border">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="max-w-4xl mx-auto px-5 sm:px-8">
         <h2 className="text-center font-display font-black uppercase text-white text-lg sm:text-xl tracking-widest mb-8">
           Siga nosso Instagram{" "}
           <a
@@ -1916,7 +1916,7 @@ function InstagramRow() {
         </h2>
 
         {isLoading ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
             {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={`sk-${i}`}
@@ -1925,11 +1925,12 @@ function InstagramRow() {
             ))}
           </div>
         ) : hasTiles ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
             {tiles.map((p: InstagramPost) => (
               <InstagramMediaTile key={p.id} post={p} />
             ))}
           </div>
+
         ) : (
           <div className="max-w-2xl mx-auto text-center border border-border rounded-2xl p-8 sm:p-10 bg-card/60">
             <Instagram size={32} className="mx-auto text-primary" />
