@@ -1965,15 +1965,20 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
     extractInstagramShortcode(postLinkForHref) || extractInstagramShortcode(mediaUrl);
   const href = postLinkForHref || (shortcode ? `https://www.instagram.com/p/${shortcode}/` : "https://www.instagram.com/klugmotors/");
   const embedUrl = shortcode ? `https://www.instagram.com/p/${shortcode}/embed/captioned/` : null;
+  // Capa oficial do post no IG (funciona também para vídeos/reels — retorna o
+  // primeiro frame). Usada quando o admin não subiu thumbnail manualmente.
+  const igCoverUrl = shortcode ? `https://www.instagram.com/p/${shortcode}/media/?size=l` : null;
   const hasDirectMedia = isDirectInstagramMediaUrl(mediaUrl, post.media_type);
-  const posterUrl = post.thumbnail_url?.trim() || undefined;
+  const posterUrl = post.thumbnail_url?.trim() || igCoverUrl || undefined;
 
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+  const [coverErrored, setCoverErrored] = useState(false);
 
-  // Priority: direct media file > IG embed iframe > text fallback
+  // Priority: direct media file > IG cover image > IG embed iframe > text fallback
   const showDirect = hasDirectMedia && !errored;
-  const showEmbed = !showDirect && !!embedUrl && !errored;
+  const showCover = !showDirect && !!shortcode && !!posterUrl && !coverErrored;
+  const showEmbed = !showDirect && !showCover && !!embedUrl && !errored;
 
   // Reels/vídeos usam 4:5 (padrão IG portrait); imagens ficam quadradas.
   const aspectClass = isVideo ? "aspect-[4/5]" : "aspect-square";
@@ -2027,6 +2032,16 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           onLoad={() => setLoaded(true)}
           onError={() => setErrored(true)}
         />
+      ) : showCover ? (
+        <img
+          src={posterUrl!}
+          alt={post.caption || "Post do Instagram"}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          onLoad={() => setLoaded(true)}
+          onError={() => setCoverErrored(true)}
+        />
       ) : showEmbed ? (
         <>
           <iframe
@@ -2063,7 +2078,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           </div>
         </div>
       )}
-      {(showDirect || showEmbed) && !loaded && (
+      {(showDirect || showCover || showEmbed) && !loaded && (
         <div
           aria-hidden
           className="absolute inset-0 animate-pulse bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-800"
@@ -2073,7 +2088,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           </div>
         </div>
       )}
-      {showDirect && isVideo && (
+      {isVideo && (showDirect || showCover) && (
         <span className="absolute top-2 right-2 flex items-center gap-1 text-[10px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
           Vídeo
