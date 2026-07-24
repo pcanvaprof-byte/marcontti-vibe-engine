@@ -1,0 +1,1 @@
+UPDATE public.instagram_posts SET thumbnail_url = '/__l5e/assets-v1/51d66bfe-10f0-4606-b16c-93d94b6a3ea9/instagram-cover-dbjf3t4bjzb.png', updated_at = now() WHERE id = '2a6d3b88-3f29-4f61-b5b1-76bc6679d6dc';
