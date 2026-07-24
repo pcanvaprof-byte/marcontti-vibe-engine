@@ -254,9 +254,25 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [d, setD] = useState<Draft>(draft);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [fetchingCover, setFetchingCover] = useState(false);
+  const runFetchCover = useServerFn(fetchInstagramCover);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
+  }
+
+  async function autoFetchCover(url: string) {
+    if (!/instagram\.com\/(p|reel|tv)\//i.test(url)) return;
+    setFetchingCover(true);
+    try {
+      const { thumbnail_url } = await runFetchCover({ data: { url } });
+      setD((prev) => ({ ...prev, thumbnail_url }));
+      toast.success("Capa importada do Instagram");
+    } catch (err: any) {
+      toast.error(err?.message ?? "Não consegui buscar a capa automaticamente");
+    } finally {
+      setFetchingCover(false);
+    }
   }
 
   async function uploadFile(file: File): Promise<string> {
