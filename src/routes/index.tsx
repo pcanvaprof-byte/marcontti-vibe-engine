@@ -1951,17 +1951,29 @@ function InstagramRow() {
   );
 }
 
+function extractInstagramShortcode(url: string): string | null {
+  const m = url.match(/instagram\.com\/(?:p|reel|tv)\/([A-Za-z0-9_-]+)/i);
+  return m?.[1] ?? null;
+}
+
 function InstagramMediaTile({ post }: { post: InstagramPost }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const isVideo = post.media_type === "video";
-  const href = post.post_url || "https://www.instagram.com/klugmotors/";
   const mediaUrl = post.image_url?.trim() ?? "";
+  const postLinkForHref = post.post_url?.trim() || mediaUrl;
+  const shortcode =
+    extractInstagramShortcode(postLinkForHref) || extractInstagramShortcode(mediaUrl);
+  const href = postLinkForHref || (shortcode ? `https://www.instagram.com/p/${shortcode}/` : "https://www.instagram.com/klugmotors/");
+  const embedUrl = shortcode ? `https://www.instagram.com/p/${shortcode}/embed/captioned/` : null;
   const hasDirectMedia = isDirectInstagramMediaUrl(mediaUrl, post.media_type);
   const posterUrl = post.thumbnail_url?.trim() || undefined;
 
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
-  const showMedia = hasDirectMedia && !errored;
+
+  // Priority: direct media file > IG embed iframe > text fallback
+  const showDirect = hasDirectMedia && !errored;
+  const showEmbed = !showDirect && !!embedUrl && !errored;
 
   return (
     <a
@@ -1982,7 +1994,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
       }}
       aria-label={post.caption || "Post do Instagram"}
     >
-      {showMedia && isVideo ? (
+      {showDirect && isVideo ? (
         <video
           ref={videoRef}
           src={mediaUrl}
@@ -1995,7 +2007,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           onLoadedData={() => setLoaded(true)}
           onError={() => setErrored(true)}
         />
-      ) : showMedia ? (
+      ) : showDirect ? (
         <img
           src={mediaUrl}
           alt={post.caption || "Post do Instagram"}
@@ -2004,6 +2016,23 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           onLoad={() => setLoaded(true)}
           onError={() => setErrored(true)}
         />
+      ) : showEmbed ? (
+        <>
+          <iframe
+            src={embedUrl!}
+            title={post.caption || "Post do Instagram"}
+            loading="lazy"
+            scrolling="no"
+            allow="encrypted-media; picture-in-picture; web-share"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-0 pointer-events-none"
+            style={{ width: "110%", height: "130%" }}
+            onLoad={() => setLoaded(true)}
+            onError={() => setErrored(true)}
+          />
+          {/* Click-catcher over the iframe so the tile behaves as a link */}
+          <span aria-hidden className="absolute inset-0" />
+        </>
       ) : (
         <div className="w-full h-full grid place-items-center bg-neutral-950 p-5 text-center transition-transform duration-500 group-hover:scale-105">
           <div>
@@ -2019,7 +2048,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           </div>
         </div>
       )}
-      {showMedia && !loaded && (
+      {(showDirect || showEmbed) && !loaded && (
         <div
           aria-hidden
           className="absolute inset-0 animate-pulse bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-800"
@@ -2029,7 +2058,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           </div>
         </div>
       )}
-      {showMedia && isVideo && (
+      {showDirect && isVideo && (
         <span className="absolute top-2 right-2 flex items-center gap-1 text-[10px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
           Vídeo
@@ -2046,11 +2075,12 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
 
 function isDirectInstagramMediaUrl(url: string, mediaType: InstagramPost["media_type"]) {
   if (!url) return false;
-  if (/instagram\.com\/p\//i.test(url) || /instagram\.com\/reel\//i.test(url)) return false;
+  if (/instagram\.com\/(p|reel|tv)\//i.test(url)) return false;
   if (/^\/api\/public\/model-images\//i.test(url)) return true;
   if (/^blob:|^data:/i.test(url)) return true;
   if (mediaType === "video") return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(url);
   return /\.(png|jpe?g|gif|webp|avif)(\?|#|$)/i.test(url);
 }
+
 
 
