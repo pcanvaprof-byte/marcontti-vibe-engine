@@ -125,9 +125,13 @@ function InstagramAdminPage() {
               <div key={p.id} className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900">
                 <div className="relative aspect-square bg-neutral-800">
                   {p.image_url ? (
-                    <img src={p.image_url} alt="" className="w-full h-full object-cover" />
+                    p.media_type === "video" ? (
+                      <video src={p.image_url} className="w-full h-full object-cover" muted playsInline preload="metadata" />
+                    ) : (
+                      <img src={p.image_url} alt="" className="w-full h-full object-cover" />
+                    )
                   ) : (
-                    <div className="w-full h-full grid place-items-center text-neutral-600 text-xs">Sem imagem</div>
+                    <div className="w-full h-full grid place-items-center text-neutral-600 text-xs">Sem mídia</div>
                   )}
                   {!p.is_active && (
                     <div className="absolute inset-0 bg-black/60 grid place-items-center text-xs uppercase tracking-widest text-white/70 font-bold">
