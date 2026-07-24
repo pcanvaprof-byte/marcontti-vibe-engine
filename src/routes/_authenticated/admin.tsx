@@ -92,6 +92,84 @@ function SortableGalleryTile({
   );
 }
 
+const BRAND_GROUPS: { key: string; label: string; match: (m: DbModel) => boolean }[] = [
+  { key: "klug-scooter", label: "Scooter Elétricas Moto Chefe", match: (m) => m.brand === "klug" && !/tricicl/i.test(m.tag ?? "") },
+  { key: "sudu-scooter", label: "Scooter Elétricas Sudu", match: (m) => m.brand === "sudu" && !/tricicl/i.test(m.tag ?? "") },
+  { key: "triciclo", label: "Triciclos Elétricos", match: (m) => /tricicl/i.test(m.tag ?? "") },
+  { key: "yamaha", label: "Motos Yamaha 0km", match: (m) => m.brand === "yamaha" },
+];
+
+function ModelsByCategory({
+  rows,
+  onEdit,
+  onDelete,
+  onToggle,
+}: {
+  rows: DbModel[];
+  onEdit: (m: DbModel) => void;
+  onDelete: (m: DbModel) => void;
+  onToggle: (m: DbModel) => void;
+}) {
+  const groups = BRAND_GROUPS.map((g) => ({ ...g, items: rows.filter(g.match) }));
+  const grouped = new Set(groups.flatMap((g) => g.items.map((m) => m.id)));
+  const others = rows.filter((m) => !grouped.has(m.id));
+  const all = [...groups, ...(others.length ? [{ key: "outros", label: "Outros", items: others }] : [])];
+
+  return (
+    <div className="space-y-10">
+      {all.map((g) => (
+        g.items.length === 0 ? null : (
+          <section key={g.key}>
+            <div className="flex items-baseline justify-between mb-4">
+              <h2 className="text-sm font-bold uppercase tracking-widest text-neutral-300">{g.label}</h2>
+              <span className="text-xs text-neutral-500">{g.items.length} modelo(s)</span>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {g.items.map((m) => (
+                <article
+                  key={m.id}
+                  className={`group relative rounded-xl border border-neutral-800 bg-neutral-900/50 overflow-hidden flex flex-col hover:border-neutral-600 transition-colors ${!m.is_active ? "opacity-60" : ""}`}
+                >
+                  <div className="aspect-[4/3] bg-neutral-800 relative overflow-hidden">
+                    {m.colors?.[0]?.image ? (
+                      <img src={m.colors[0].image} alt={m.name} className="w-full h-full object-contain p-3" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-neutral-600 text-xs">Sem imagem</div>
+                    )}
+                    <span className="absolute top-2 left-2 text-[10px] uppercase tracking-wider bg-neutral-950/80 px-2 py-0.5 rounded">{m.brand}</span>
+                  </div>
+                  <div className="p-4 flex-1 flex flex-col gap-2">
+                    <div>
+                      <h3 className="font-semibold text-sm leading-tight">{m.name}</h3>
+                      <p className="text-xs text-neutral-500 mt-0.5">/{m.slug}</p>
+                    </div>
+                    <p className="text-xs text-neutral-400">{m.price}</p>
+                    <div className="mt-auto pt-3 flex items-center justify-between border-t border-neutral-800">
+                      <label className="flex items-center gap-2 text-xs text-neutral-400">
+                        <Switch checked={m.is_active} onCheckedChange={() => onToggle(m)} />
+                        {m.is_active ? "Ativo" : "Inativo"}
+                      </label>
+                      <div className="flex gap-1">
+                        <Button size="sm" variant="ghost" onClick={() => onEdit(m)} aria-label="Editar">
+                          <Pencil className="w-4 h-4" />
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => onDelete(m)} aria-label="Excluir">
+                          <Trash2 className="w-4 h-4 text-red-400" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )
+      ))}
+      {rows.length === 0 && <p className="text-neutral-500 text-sm">Nenhum modelo encontrado.</p>}
+    </div>
+  );
+}
+
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
