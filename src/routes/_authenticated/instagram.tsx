@@ -26,11 +26,58 @@ type Draft = Partial<InstagramPost>;
 const emptyDraft: Draft = {
   image_url: "",
   media_type: "image",
+  thumbnail_url: null,
   caption: "",
   post_url: "https://www.instagram.com/klugmotors/",
   sort_order: 0,
   is_active: true,
 };
+
+/** Extrai um frame do vídeo (blob) e devolve como File PNG para servir de capa. */
+async function captureVideoPoster(file: File): Promise<File | null> {
+  return new Promise((resolve) => {
+    try {
+      const url = URL.createObjectURL(file);
+      const video = document.createElement("video");
+      video.preload = "auto";
+      video.muted = true;
+      video.playsInline = true;
+      video.src = url;
+      video.crossOrigin = "anonymous";
+      const cleanup = () => URL.revokeObjectURL(url);
+      video.onloadeddata = () => {
+        try {
+          video.currentTime = Math.min(0.1, (video.duration || 1) / 2);
+        } catch {
+          cleanup();
+          resolve(null);
+        }
+      };
+      video.onseeked = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth || 720;
+        canvas.height = video.videoHeight || 1280;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          cleanup();
+          return resolve(null);
+        }
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => {
+          cleanup();
+          if (!blob) return resolve(null);
+          resolve(new File([blob], "poster.jpg", { type: "image/jpeg" }));
+        }, "image/jpeg", 0.82);
+      };
+      video.onerror = () => {
+        cleanup();
+        resolve(null);
+      };
+    } catch {
+      resolve(null);
+    }
+  });
+}
 
 function InstagramAdminPage() {
   const navigate = useNavigate();
@@ -126,7 +173,19 @@ function InstagramAdminPage() {
                 <div className="relative aspect-square bg-neutral-800">
                   {p.image_url ? (
                     p.media_type === "video" ? (
-                      <video src={p.image_url} className="w-full h-full object-cover" muted playsInline preload="metadata" />
+                      <>
+                        <video
+                          src={p.image_url}
+                          poster={p.thumbnail_url ?? undefined}
+                          className="w-full h-full object-cover"
+                          muted
+                          playsInline
+                          preload="metadata"
+                        />
+                        <span className="absolute bottom-1 right-1 text-[9px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
+                          Vídeo
+                        </span>
+                      </>
                     ) : (
                       <img src={p.image_url} alt="" className="w-full h-full object-cover" />
                     )
@@ -223,7 +282,42 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       const url = await uploadFile(file);
       set("image_url", url);
       set("media_type", isVideo ? "video" : "image");
+      if (isVideo) {
+        // captura o primeiro frame como poster
+        const posterFile = await captureVideoPoster(file);
+        if (posterFile) {
+          try {
+            const posterUrl = await uploadFile(posterFile);
+            set("thumbnail_url", posterUrl);
+          } catch {
+            /* falha silenciosa — usuário pode enviar manualmente */
+          }
+        }
+      } else {
+        set("thumbnail_url", null);
+      }
       toast.success(isVideo ? "Vídeo enviado" : "Imagem enviada");
+    } catch (err: any) {
+      toast.error(err.message ?? "Falha no upload");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  }
+
+  async function onUploadThumb(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("A capa precisa ser uma imagem");
+      e.target.value = "";
+      return;
+    }
+    setUploading(true);
+    try {
+      const url = await uploadFile(file);
+      set("thumbnail_url", url);
+      toast.success("Capa atualizada");
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
@@ -241,6 +335,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     const payload = {
       image_url: d.image_url,
       media_type: d.media_type ?? "image",
+      thumbnail_url: d.media_type === "video" ? (d.thumbnail_url ?? null) : null,
       caption: d.caption ?? "",
       post_url: d.post_url || "https://www.instagram.com/klugmotors/",
       sort_order: d.sort_order ?? 0,
@@ -271,7 +366,14 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
                 {d.image_url ? (
                   d.media_type === "video" ? (
-                    <video src={d.image_url} className="w-full h-full object-cover" muted playsInline controls />
+                    <video
+                      src={d.image_url}
+                      poster={d.thumbnail_url ?? undefined}
+                      className="w-full h-full object-cover"
+                      muted
+                      playsInline
+                      controls
+                    />
                   ) : (
                     <img src={d.image_url} alt="" className="w-full h-full object-cover" />
                   )
@@ -310,6 +412,54 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               </div>
             </div>
           </div>
+
+          {d.media_type === "video" && (
+            <div>
+              <Label>Capa do vídeo (thumbnail)</Label>
+              <div className="mt-2 flex items-start gap-3">
+                <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
+                  {d.thumbnail_url ? (
+                    <img src={d.thumbnail_url} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full grid place-items-center text-[10px] text-neutral-600 text-center px-1">
+                      capa gerada automaticamente
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 space-y-2">
+                  <label className="inline-flex items-center gap-2 text-xs cursor-pointer bg-neutral-800 hover:bg-neutral-700 px-3 py-2 rounded">
+                    <Upload className="w-3.5 h-3.5" />
+                    {uploading ? "Enviando..." : "Enviar capa personalizada"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={onUploadThumb}
+                      disabled={uploading}
+                    />
+                  </label>
+                  <Input
+                    placeholder="ou cole uma URL de imagem"
+                    value={d.thumbnail_url ?? ""}
+                    onChange={(e) => set("thumbnail_url", e.target.value || null)}
+                    className="text-xs"
+                  />
+                  {d.thumbnail_url && (
+                    <button
+                      type="button"
+                      onClick={() => set("thumbnail_url", null)}
+                      className="text-[10px] text-neutral-500 hover:text-neutral-300 underline"
+                    >
+                      Remover capa
+                    </button>
+                  )}
+                  <p className="text-[10px] text-neutral-500">
+                    Ao enviar o vídeo, geramos uma capa automática do primeiro frame. Envie uma imagem para substituir.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div>
             <Label>Legenda (opcional)</Label>

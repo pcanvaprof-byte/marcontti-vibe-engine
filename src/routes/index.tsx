@@ -34,7 +34,7 @@ import {
 } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
 import { usePublicInstagramPosts, type InstagramPost } from "@/hooks/useInstagramPosts";
-import { InstagramEmbed } from "@/components/InstagramEmbed";
+
 
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
@@ -1897,11 +1897,8 @@ function YoutubeShowcase() {
 
 function InstagramRow() {
   const { data: posts, isLoading } = usePublicInstagramPosts();
-  // Only posts pointing to a specific instagram permalink (/p/ or /reel/) can be embedded.
-  const embeddable = (posts ?? []).filter((p) =>
-    /instagram\.com\/(p|reel|tv)\//i.test(p.post_url || ""),
-  );
-  const hasEmbeds = embeddable.length > 0;
+  const tiles = (posts ?? []).filter((p) => !!p.image_url).slice(0, 6);
+  const hasTiles = tiles.length > 0;
 
   return (
     <section className="py-10 sm:py-12 bg-background border-b border-border">
@@ -1919,18 +1916,18 @@ function InstagramRow() {
         </h2>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Array.from({ length: 3 }).map((_, i) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={`sk-${i}`}
                 className="aspect-square bg-neutral-900 rounded-md border border-border animate-pulse"
               />
             ))}
           </div>
-        ) : hasEmbeds ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {embeddable.slice(0, 6).map((p: InstagramPost) => (
-              <InstagramEmbed key={p.id} url={p.post_url} />
+        ) : hasTiles ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+            {tiles.map((p: InstagramPost) => (
+              <InstagramMediaTile key={p.id} post={p} />
             ))}
           </div>
         ) : (
@@ -1953,4 +1950,63 @@ function InstagramRow() {
     </section>
   );
 }
+
+function InstagramMediaTile({ post }: { post: InstagramPost }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const isVideo = post.media_type === "video";
+  const href = post.post_url || "https://www.instagram.com/klugmotors/";
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="group relative aspect-square overflow-hidden rounded-md border border-border bg-neutral-900 block"
+      onMouseEnter={() => {
+        const v = videoRef.current;
+        if (v) v.play().catch(() => {});
+      }}
+      onMouseLeave={() => {
+        const v = videoRef.current;
+        if (v) {
+          v.pause();
+          try { v.currentTime = 0; } catch { /* ignore */ }
+        }
+      }}
+      aria-label={post.caption || "Post do Instagram"}
+    >
+      {isVideo ? (
+        <video
+          ref={videoRef}
+          src={post.image_url}
+          poster={post.thumbnail_url ?? undefined}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          muted
+          playsInline
+          loop
+          preload="metadata"
+        />
+      ) : (
+        <img
+          src={post.image_url}
+          alt={post.caption || "Post do Instagram"}
+          loading="lazy"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      )}
+      {isVideo && (
+        <span className="absolute top-2 right-2 flex items-center gap-1 text-[10px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
+          Vídeo
+        </span>
+      )}
+      {post.caption && (
+        <div className="absolute inset-x-0 bottom-0 p-2 text-[11px] text-white bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity line-clamp-2">
+          {post.caption}
+        </div>
+      )}
+    </a>
+  );
+}
+
 
