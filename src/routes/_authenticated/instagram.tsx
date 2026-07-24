@@ -1,7 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminInstagramPosts, type InstagramPost } from "@/hooks/useInstagramPosts";
+import { fetchInstagramCover } from "@/lib/instagram-cover.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Plus, Pencil, Trash2, Upload, ExternalLink, Instagram as InstagramIcon } from "lucide-react";
+import { LogOut, Plus, Pencil, Trash2, Upload, ExternalLink, Instagram as InstagramIcon, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/instagram")({
   head: () => ({
