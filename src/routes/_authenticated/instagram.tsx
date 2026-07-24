@@ -173,7 +173,19 @@ function InstagramAdminPage() {
                 <div className="relative aspect-square bg-neutral-800">
                   {p.image_url ? (
                     p.media_type === "video" ? (
-                      <video src={p.image_url} className="w-full h-full object-cover" muted playsInline preload="metadata" />
+                      <>
+                        <video
+                          src={p.image_url}
+                          poster={p.thumbnail_url ?? undefined}
+                          className="w-full h-full object-cover"
+                          muted
+                          playsInline
+                          preload="metadata"
+                        />
+                        <span className="absolute bottom-1 right-1 text-[9px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
+                          Vídeo
+                        </span>
+                      </>
                     ) : (
                       <img src={p.image_url} alt="" className="w-full h-full object-cover" />
                     )
