@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminModels, normalizeGallery, type DbModel, type GalleryItem } from "@/hooks/useDbModels";
@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search } from "lucide-react";
+import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
 import {
   DndContext,
   closestCenter,
@@ -256,31 +257,44 @@ function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100">
-      <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold">Painel de Modelos</h1>
-          <p className="text-xs text-neutral-500">{data?.length ?? 0} modelos no catálogo</p>
+    <AdminShell
+      title="Painel de Modelos"
+      subtitle={`${data?.length ?? 0} modelos no catálogo`}
+      actions={
+        <Button size="sm" onClick={() => setEditing({ ...emptyDraft })} className="gap-1">
+          <Plus className="w-4 h-4" /> <span className="hidden sm:inline">Novo modelo</span>
+        </Button>
+      }
+    >
+      <div className="space-y-6">
+        <div className="relative max-w-md">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 pointer-events-none" />
+          <Input
+            placeholder="Buscar por nome, slug ou marca..."
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="pl-9"
+            aria-label="Buscar modelos"
+          />
         </div>
-        <div className="flex gap-2">
-          <Link to="/"><Button variant="ghost" size="sm">Ver site</Button></Link>
-          <Link to="/instagram"><Button variant="ghost" size="sm">Instagram</Button></Link>
-          <Link to="/leads"><Button variant="ghost" size="sm">Leads</Button></Link>
-          
-          <Button size="sm" onClick={() => setEditing({ ...emptyDraft })}>
-            <Plus className="w-4 h-4 mr-1" /> Novo modelo
-          </Button>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}>
-            <LogOut className="w-4 h-4" />
-          </Button>
-        </div>
-      </header>
-
-      <div className="p-6 space-y-6">
-        <Input placeholder="Buscar por nome, slug ou marca..." value={filter} onChange={(e) => setFilter(e.target.value)} className="max-w-md" />
 
         {isLoading ? (
-          <p className="text-neutral-500">Carregando...</p>
+          <CardSkeleton count={12} />
+        ) : rows.length === 0 ? (
+          <EmptyState
+            icon={Bike}
+            title={filter ? "Nada encontrado" : "Nenhum modelo cadastrado"}
+            description={
+              filter
+                ? "Tente ajustar sua busca ou limpar o filtro."
+                : "Cadastre o primeiro modelo para começar a popular o catálogo."
+            }
+            action={
+              <Button size="sm" onClick={() => setEditing({ ...emptyDraft })}>
+                <Plus className="w-4 h-4 mr-1" /> Novo modelo
+              </Button>
+            }
+          />
         ) : (
           <ModelsByCategory
             rows={rows}
@@ -298,7 +312,7 @@ function AdminPage() {
           onSaved={() => { setEditing(null); refetch(); }}
         />
       )}
-    </div>
+    </AdminShell>
   );
 }
 

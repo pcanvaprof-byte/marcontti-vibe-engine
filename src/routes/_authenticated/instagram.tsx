@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,7 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Plus, Pencil, Trash2, Upload, ExternalLink, Instagram as InstagramIcon, Sparkles } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, ExternalLink, Instagram as InstagramIcon, Sparkles } from "lucide-react";
+import { AdminShell, EmptyState } from "@/components/admin/AdminShell";
 
 export const Route = createFileRoute("/_authenticated/instagram")({
   head: () => ({
@@ -132,112 +133,127 @@ function InstagramAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100">
-      <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <InstagramIcon className="w-5 h-5 text-primary" />
-          <div>
-            <h1 className="text-xl font-bold">Posts do Instagram</h1>
-            <p className="text-xs text-neutral-500">{rows.length} posts cadastrados · aparecem na home</p>
-          </div>
+    <AdminShell
+      title="Posts do Instagram"
+      subtitle={`${rows.length} posts cadastrados · aparecem na home`}
+      actions={
+        <Button size="sm" onClick={() => setEditing({ ...emptyDraft })} className="gap-1">
+          <Plus className="w-4 h-4" /> <span className="hidden sm:inline">Novo post</span>
+        </Button>
+      }
+    >
+      {isLoading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900/40">
+              <div className="aspect-square bg-neutral-800/60 animate-pulse" />
+              <div className="p-3 space-y-2">
+                <div className="h-3 rounded bg-neutral-800/70 animate-pulse" />
+                <div className="h-3 w-2/3 rounded bg-neutral-800/50 animate-pulse" />
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex gap-2">
-          <Link to="/admin"><Button variant="ghost" size="sm">Modelos</Button></Link>
-          <Link to="/leads"><Button variant="ghost" size="sm">Leads</Button></Link>
-          <Link to="/"><Button variant="ghost" size="sm">Ver site</Button></Link>
-          <Button size="sm" onClick={() => setEditing({ ...emptyDraft })}>
-            <Plus className="w-4 h-4 mr-1" /> Novo post
-          </Button>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}>
-            <LogOut className="w-4 h-4" />
-          </Button>
-        </div>
-      </header>
-
-      <div className="p-6">
-        {isLoading ? (
-          <p className="text-neutral-500">Carregando...</p>
-        ) : rows.length === 0 ? (
-          <div className="border border-dashed border-neutral-800 rounded-xl p-12 text-center space-y-3">
-            <InstagramIcon className="w-8 h-8 mx-auto text-neutral-600" />
-            <p className="text-neutral-400">Nenhum post cadastrado ainda.</p>
-            <p className="text-xs text-neutral-500">
-              Enquanto a lista estiver vazia, a home usa as fotos dos modelos como preview.
-            </p>
+      ) : rows.length === 0 ? (
+        <EmptyState
+          icon={InstagramIcon}
+          title="Nenhum post cadastrado ainda"
+          description="Enquanto a lista estiver vazia, a home usa as fotos dos modelos como preview."
+          action={
             <Button size="sm" onClick={() => setEditing({ ...emptyDraft })}>
               <Plus className="w-4 h-4 mr-1" /> Adicionar primeiro post
             </Button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-            {rows.map((p) => (
-              <div key={p.id} className="border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900">
-                <div className="relative aspect-square bg-neutral-800">
-                  {p.image_url ? (
-                    p.media_type === "video" ? (
-                      <>
-                        <video
-                          src={p.image_url}
-                          poster={p.thumbnail_url ?? undefined}
-                          className="w-full h-full object-cover"
-                          muted
-                          playsInline
-                          preload="metadata"
-                        />
-                        <span className="absolute bottom-1 right-1 text-[9px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
-                          Vídeo
-                        </span>
-                      </>
-                    ) : (
-                      <img src={p.image_url} alt="" className="w-full h-full object-cover" />
-                    )
+          }
+        />
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+          {rows.map((p) => (
+            <div
+              key={p.id}
+              className="group border border-neutral-800 rounded-lg overflow-hidden bg-neutral-900 hover:border-neutral-700 transition-colors"
+            >
+              <div className="relative aspect-square bg-neutral-800">
+                {p.image_url ? (
+                  p.media_type === "video" ? (
+                    <>
+                      <video
+                        src={p.image_url}
+                        poster={p.thumbnail_url ?? undefined}
+                        className="w-full h-full object-cover"
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+                      <span className="absolute bottom-1 right-1 text-[9px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
+                        Vídeo
+                      </span>
+                    </>
                   ) : (
-                    <div className="w-full h-full grid place-items-center text-neutral-600 text-xs">Sem mídia</div>
-                  )}
-                  {!p.is_active && (
-                    <div className="absolute inset-0 bg-black/60 grid place-items-center text-xs uppercase tracking-widest text-white/70 font-bold">
-                      Oculto
-                    </div>
-                  )}
-                </div>
-                <div className="p-3 space-y-2">
-                  <p className="text-xs text-neutral-400 line-clamp-2 min-h-[2.5em]">
-                    {p.caption || <span className="text-neutral-600 italic">sem legenda</span>}
-                  </p>
-                  <div className="flex items-center justify-between gap-2">
-                    <Switch checked={p.is_active} onCheckedChange={() => handleToggle(p)} />
-                    <div className="flex gap-1">
-                      <a href={p.post_url} target="_blank" rel="noreferrer" className="p-1.5 hover:bg-neutral-800 rounded">
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-                      <button onClick={() => setEditing(p)} className="p-1.5 hover:bg-neutral-800 rounded">
-                        <Pencil className="w-3.5 h-3.5" />
-                      </button>
-                      <button onClick={() => handleDelete(p)} className="p-1.5 hover:bg-neutral-800 rounded">
-                        <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                      </button>
-                    </div>
+                    <img
+                      src={p.image_url}
+                      alt=""
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )
+                ) : (
+                  <div className="w-full h-full grid place-items-center text-neutral-600 text-xs">Sem mídia</div>
+                )}
+                {!p.is_active && (
+                  <div className="absolute inset-0 bg-black/60 grid place-items-center text-xs uppercase tracking-widest text-white/70 font-bold">
+                    Oculto
                   </div>
-                  <Input
-                    type="number"
-                    value={p.sort_order}
-                    onChange={async (e) => {
-                      const v = Number(e.target.value) || 0;
-                      await supabase.from("instagram_posts")
-                        .update({ sort_order: v })
-                        .eq("id", p.id);
-                      refetch();
-                    }}
-
-                    className="h-7 text-xs"
-                    aria-label="Ordem"
-                  />
-                </div>
+                )}
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+              <div className="p-3 space-y-2">
+                <p className="text-xs text-neutral-400 line-clamp-2 min-h-[2.5em]">
+                  {p.caption || <span className="text-neutral-600 italic">sem legenda</span>}
+                </p>
+                <div className="flex items-center justify-between gap-2">
+                  <Switch checked={p.is_active} onCheckedChange={() => handleToggle(p)} aria-label="Publicar" />
+                  <div className="flex gap-1">
+                    <a
+                      href={p.post_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="p-1.5 hover:bg-neutral-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500"
+                      aria-label="Abrir post"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                    <button
+                      onClick={() => setEditing(p)}
+                      className="p-1.5 hover:bg-neutral-800 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500"
+                      aria-label="Editar post"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(p)}
+                      className="p-1.5 hover:bg-red-500/10 rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                      aria-label="Excluir post"
+                    >
+                      <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                    </button>
+                  </div>
+                </div>
+                <Input
+                  type="number"
+                  value={p.sort_order}
+                  onChange={async (e) => {
+                    const v = Number(e.target.value) || 0;
+                    await supabase.from("instagram_posts")
+                      .update({ sort_order: v })
+                      .eq("id", p.id);
+                    refetch();
+                  }}
+                  className="h-7 text-xs"
+                  aria-label="Ordem"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {editing && (
         <EditDialog
@@ -246,7 +262,7 @@ function InstagramAdminPage() {
           onSaved={() => { setEditing(null); refetch(); }}
         />
       )}
-    </div>
+    </AdminShell>
   );
 }
 

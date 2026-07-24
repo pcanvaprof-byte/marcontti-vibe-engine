@@ -1,9 +1,10 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { LogOut, Trash2, ArrowLeft, RefreshCw } from "lucide-react";
+import { Trash2, RefreshCw, BarChart3 } from "lucide-react";
+import { AdminShell, StatCard, EmptyState, RowSkeleton } from "@/components/admin/AdminShell";
 
 export const Route = createFileRoute("/_authenticated/analytics")({
   head: () => ({
@@ -98,103 +99,135 @@ function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100">
-      <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between flex-wrap gap-3">
-        <div className="flex items-center gap-3">
-          <Link to="/admin"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4 mr-1" /> Modelos</Button></Link>
-          <Link to="/leads"><Button variant="ghost" size="sm">Leads</Button></Link>
-          <div>
-            <h1 className="text-xl font-bold">Conversões</h1>
-            <p className="text-xs text-neutral-500">{events.length} eventos nos últimos {range} dias</p>
+    <AdminShell
+      title="Conversões"
+      subtitle={`${events.length} eventos nos últimos ${range} dias`}
+      actions={
+        <div className="flex gap-1 items-center">
+          <div className="flex bg-neutral-900 rounded-md p-0.5 border border-neutral-800">
+            {[7, 30, 90].map((n) => (
+              <button
+                key={n}
+                onClick={() => setRange(n as 7 | 30 | 90)}
+                className={`px-2.5 py-1 text-xs font-medium rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 ${
+                  range === n
+                    ? "bg-neutral-100 text-neutral-950"
+                    : "text-neutral-400 hover:text-neutral-100"
+                }`}
+                aria-pressed={range === n}
+              >
+                {n}d
+              </button>
+            ))}
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={load}
+            aria-label="Recarregar"
+            className="text-neutral-400 hover:text-neutral-100"
+          >
+            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearAll}
+            title="Apagar período"
+            aria-label="Apagar eventos do período"
+            className="hover:bg-red-500/10"
+          >
+            <Trash2 className="w-4 h-4 text-red-400" />
+          </Button>
         </div>
-        <div className="flex gap-2 items-center">
-          {[7, 30, 90].map((n) => (
-            <Button
-              key={n}
-              size="sm"
-              variant={range === n ? "default" : "ghost"}
-              onClick={() => setRange(n as 7 | 30 | 90)}
-            >
-              {n}d
-            </Button>
-          ))}
-          <Button variant="ghost" size="sm" onClick={load}><RefreshCw className="w-4 h-4" /></Button>
-          <Button variant="ghost" size="sm" onClick={clearAll} title="Apagar período"><Trash2 className="w-4 h-4 text-red-400" /></Button>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}><LogOut className="w-4 h-4" /></Button>
+      }
+    >
+      {loading ? (
+        <div className="space-y-8">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-24 rounded-xl border border-neutral-800 bg-neutral-900/40 animate-pulse"
+              />
+            ))}
+          </div>
+          <RowSkeleton rows={6} cols={4} />
         </div>
-      </header>
+      ) : (
+        <div className="space-y-8">
+          <section>
+            <h2 className="text-[11px] uppercase tracking-widest text-neutral-400 mb-3">Totais por evento</h2>
+            {counts.length === 0 ? (
+              <EmptyState
+                icon={BarChart3}
+                title="Sem eventos no período"
+                description="Ainda não recebemos cliques rastreáveis nesta janela. Aumente o período ou aguarde novas interações."
+              />
+            ) : (
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {counts.map(([name, n]) => (
+                  <StatCard key={name} label={name} value={n} />
+                ))}
+              </div>
+            )}
+          </section>
 
-      <div className="p-6 space-y-8">
-        {loading ? (
-          <p className="text-neutral-500">Carregando...</p>
-        ) : (
-          <>
-            <section>
-              <h2 className="text-sm uppercase tracking-widest text-neutral-400 mb-3">Totais por evento</h2>
-              {counts.length === 0 ? (
-                <p className="text-neutral-500 text-sm">Nenhum evento no período.</p>
-              ) : (
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {counts.map(([name, n]) => (
-                    <div key={name} className="border border-neutral-800 rounded-xl p-4 bg-neutral-900/50">
-                      <div className="text-xs uppercase tracking-widest text-neutral-400">{name}</div>
-                      <div className="text-3xl font-bold mt-1">{n}</div>
-                    </div>
-                  ))}
+          {counts.length > 0 && (
+            <>
+              <section>
+                <h2 className="text-[11px] uppercase tracking-widest text-neutral-400 mb-3">Top origens</h2>
+                <div className="border border-neutral-800 rounded-xl overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead className="bg-neutral-900/80 text-neutral-400">
+                      <tr>
+                        <th className="text-left p-3 font-medium">Evento · Origem</th>
+                        <th className="text-right p-3 font-medium">Cliques</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bySource.map(([k, n]) => (
+                        <tr key={k} className="border-t border-neutral-800 hover:bg-neutral-900/60 transition-colors">
+                          <td className="p-3 text-xs">{k}</td>
+                          <td className="p-3 text-right font-medium tabular-nums">{n}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              )}
-            </section>
+              </section>
 
-            <section>
-              <h2 className="text-sm uppercase tracking-widest text-neutral-400 mb-3">Top origens</h2>
-              <div className="border border-neutral-800 rounded-xl overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead className="bg-neutral-900 text-neutral-400">
-                    <tr><th className="text-left p-3">Evento · Origem</th><th className="text-right p-3">Cliques</th></tr>
-                  </thead>
-                  <tbody>
-                    {bySource.map(([k, n]) => (
-                      <tr key={k} className="border-t border-neutral-800">
-                        <td className="p-3 text-xs">{k}</td>
-                        <td className="p-3 text-right font-medium">{n}</td>
+              <section>
+                <h2 className="text-[11px] uppercase tracking-widest text-neutral-400 mb-3">Últimos eventos</h2>
+                <div className="border border-neutral-800 rounded-xl overflow-x-auto">
+                  <table className="w-full text-sm min-w-[720px]">
+                    <thead className="bg-neutral-900/80 text-neutral-400">
+                      <tr>
+                        <th className="text-left p-3 font-medium">Data</th>
+                        <th className="text-left p-3 font-medium">Evento</th>
+                        <th className="text-left p-3 font-medium">Origem</th>
+                        <th className="text-left p-3 font-medium">Modelo</th>
+                        <th className="text-left p-3 font-medium">Página</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-
-            <section>
-              <h2 className="text-sm uppercase tracking-widest text-neutral-400 mb-3">Últimos eventos</h2>
-              <div className="border border-neutral-800 rounded-xl overflow-x-auto">
-                <table className="w-full text-sm min-w-[720px]">
-                  <thead className="bg-neutral-900 text-neutral-400">
-                    <tr>
-                      <th className="text-left p-3">Data</th>
-                      <th className="text-left p-3">Evento</th>
-                      <th className="text-left p-3">Origem</th>
-                      <th className="text-left p-3">Modelo</th>
-                      <th className="text-left p-3">Página</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {events.slice(0, 200).map((e) => (
-                      <tr key={e.id} className="border-t border-neutral-800 hover:bg-neutral-900/60">
-                        <td className="p-3 text-xs text-neutral-400 whitespace-nowrap">{new Date(e.created_at).toLocaleString("pt-BR")}</td>
-                        <td className="p-3 text-xs uppercase">{e.event_name}</td>
-                        <td className="p-3 text-xs text-neutral-400">{e.source ?? "—"}</td>
-                        <td className="p-3 text-xs text-neutral-400">{e.model_slug ?? "—"}</td>
-                        <td className="p-3 text-xs text-neutral-400 truncate max-w-xs">{e.page ?? "—"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </>
-        )}
-      </div>
-    </div>
+                    </thead>
+                    <tbody>
+                      {events.slice(0, 200).map((e) => (
+                        <tr key={e.id} className="border-t border-neutral-800 hover:bg-neutral-900/60 transition-colors">
+                          <td className="p-3 text-xs text-neutral-400 whitespace-nowrap tabular-nums">{new Date(e.created_at).toLocaleString("pt-BR")}</td>
+                          <td className="p-3 text-xs uppercase">{e.event_name}</td>
+                          <td className="p-3 text-xs text-neutral-400">{e.source ?? "—"}</td>
+                          <td className="p-3 text-xs text-neutral-400">{e.model_slug ?? "—"}</td>
+                          <td className="p-3 text-xs text-neutral-400 truncate max-w-xs">{e.page ?? "—"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </>
+          )}
+        </div>
+      )}
+    </AdminShell>
   );
 }
