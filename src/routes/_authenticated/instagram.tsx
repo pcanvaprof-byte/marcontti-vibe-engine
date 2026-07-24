@@ -335,7 +335,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     const payload = {
       image_url: d.image_url,
       media_type: d.media_type ?? "image",
-      thumbnail_url: d.media_type === "video" ? (d.thumbnail_url ?? null) : null,
+      thumbnail_url: d.thumbnail_url ?? null,
       caption: d.caption ?? "",
       post_url: d.post_url || "https://www.instagram.com/klugmotors/",
       sort_order: d.sort_order ?? 0,
