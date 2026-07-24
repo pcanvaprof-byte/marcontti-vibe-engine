@@ -454,7 +454,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                     </button>
                   )}
                   <p className="text-[10px] text-neutral-500">
-                    Ao enviar o vídeo, geramos uma capa automática do primeiro frame. Envie uma imagem para substituir.
+                    Para vídeos enviados, geramos capa automática. Para links do Instagram (/p/, /reel/), envie uma capa manual — evita depender do embed.
                   </p>
                 </div>
               </div>
