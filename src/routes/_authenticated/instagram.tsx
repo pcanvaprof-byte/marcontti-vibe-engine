@@ -468,17 +468,28 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                     onChange={(e) => set("thumbnail_url", e.target.value || null)}
                     className="text-xs"
                   />
+                  {/instagram\.com\/(p|reel|tv)\//i.test(d.image_url ?? "") && (
+                    <button
+                      type="button"
+                      onClick={() => autoFetchCover(d.image_url!)}
+                      disabled={fetchingCover}
+                      className="inline-flex items-center gap-1 text-[11px] bg-primary/20 hover:bg-primary/30 text-primary px-2 py-1 rounded disabled:opacity-50"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      {fetchingCover ? "Buscando capa..." : "Buscar capa do Instagram"}
+                    </button>
+                  )}
                   {d.thumbnail_url && (
                     <button
                       type="button"
                       onClick={() => set("thumbnail_url", null)}
-                      className="text-[10px] text-neutral-500 hover:text-neutral-300 underline"
+                      className="text-[10px] text-neutral-500 hover:text-neutral-300 underline block"
                     >
                       Remover capa
                     </button>
                   )}
                   <p className="text-[10px] text-neutral-500">
-                    Para vídeos enviados, geramos capa automática. Para links do Instagram (/p/, /reel/), envie uma capa manual — evita depender do embed.
+                    Para links do Instagram, a capa é importada automaticamente ao colar. Se falhar, clique em "Buscar capa" ou envie uma manual.
                   </p>
                 </div>
               </div>
