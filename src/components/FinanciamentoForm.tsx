@@ -280,8 +280,6 @@ export function FinanciamentoForm({
     setSaveError(null);
     setSubmitting(true);
 
-    // Abre a aba do WhatsApp AGORA (dentro do gesto do usuário) para evitar bloqueio de pop-up.
-    const waWindow = typeof window !== "undefined" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
 
     const text = buildFinanciamentoMessage({
       name: d.name,
@@ -338,9 +336,8 @@ export function FinanciamentoForm({
     setSubmitting(false);
 
     if (error) {
-      setSaveError("Não foi possível salvar sua solicitação. Tente novamente ou envie pelo WhatsApp.");
+      setSaveError("Não foi possível salvar sua solicitação. Tente novamente em alguns instantes.");
       setLastMessage(text);
-      if (waWindow) waWindow.close();
       return;
     }
 
@@ -349,20 +346,6 @@ export function FinanciamentoForm({
     trackEvent("financiamento_submit", {
       source: "financiamento_form",
       meta: { model: d.model, payment_type: d.paymentType, entry: d.entry, term: d.term },
-    });
-    const waUrl = buildWhatsAppFallbackUrl(text);
-    if (waWindow && !waWindow.closed) {
-      waWindow.location.href = waUrl;
-    } else {
-      openWhatsAppNewTab(text, {
-        source: "financiamento_form",
-        event: "whatsapp_redirected",
-        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
-      });
-    }
-    trackEvent("whatsapp_redirected", {
-      source: "financiamento_form",
-      meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
     });
   }
 
@@ -405,14 +388,6 @@ export function FinanciamentoForm({
             Nossa equipe entrará em contato em breve pelo WhatsApp, telefone ou e-mail informado.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => lastMessage && openWhatsAppWithFallback(lastMessage)}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            >
-              <MessageCircle size={16} fill="white" strokeWidth={0} />
-              Enviar pelo WhatsApp
-            </button>
             <button
               type="button"
               onClick={reset}
