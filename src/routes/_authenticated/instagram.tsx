@@ -1,7 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminInstagramPosts, type InstagramPost } from "@/hooks/useInstagramPosts";
+import { fetchInstagramCover } from "@/lib/instagram-cover.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { LogOut, Plus, Pencil, Trash2, Upload, ExternalLink, Instagram as InstagramIcon } from "lucide-react";
+import { LogOut, Plus, Pencil, Trash2, Upload, ExternalLink, Instagram as InstagramIcon, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/instagram")({
   head: () => ({
@@ -252,9 +254,25 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [d, setD] = useState<Draft>(draft);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [fetchingCover, setFetchingCover] = useState(false);
+  const runFetchCover = useServerFn(fetchInstagramCover);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
+  }
+
+  async function autoFetchCover(url: string) {
+    if (!/instagram\.com\/(p|reel|tv)\//i.test(url)) return;
+    setFetchingCover(true);
+    try {
+      const { thumbnail_url } = await runFetchCover({ data: { url } });
+      setD((prev) => ({ ...prev, thumbnail_url }));
+      toast.success("Capa importada do Instagram");
+    } catch (err: any) {
+      toast.error(err?.message ?? "Não consegui buscar a capa automaticamente");
+    } finally {
+      setFetchingCover(false);
+    }
   }
 
   async function uploadFile(file: File): Promise<string> {
@@ -396,7 +414,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                   />
                 </label>
                 <Input
-                  placeholder="ou cole uma URL (imagem ou vídeo)"
+                  placeholder="ou cole uma URL (imagem, vídeo ou link do Instagram)"
                   value={d.image_url ?? ""}
                   onChange={(e) => {
                     const v = e.target.value;
@@ -404,10 +422,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                     if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(v)) set("media_type", "video");
                     else if (/\.(png|jpe?g|gif|webp|avif)(\?|$)/i.test(v)) set("media_type", "image");
                   }}
+                  onBlur={(e) => {
+                    const v = e.target.value;
+                    if (/instagram\.com\/(p|reel|tv)\//i.test(v) && !d.thumbnail_url) {
+                      autoFetchCover(v);
+                    }
+                  }}
                   className="text-xs"
                 />
                 <p className="text-[10px] text-neutral-500">
-                  MP4/WebM até ~50MB recomendado. Vídeos são exibidos silenciados no preview.
+                  Colou link do Instagram? A capa é buscada automaticamente. Ou envie MP4/WebM até ~50MB.
                 </p>
               </div>
             </div>
@@ -444,17 +468,28 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                     onChange={(e) => set("thumbnail_url", e.target.value || null)}
                     className="text-xs"
                   />
+                  {/instagram\.com\/(p|reel|tv)\//i.test(d.image_url ?? "") && (
+                    <button
+                      type="button"
+                      onClick={() => autoFetchCover(d.image_url!)}
+                      disabled={fetchingCover}
+                      className="inline-flex items-center gap-1 text-[11px] bg-primary/20 hover:bg-primary/30 text-primary px-2 py-1 rounded disabled:opacity-50"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      {fetchingCover ? "Buscando capa..." : "Buscar capa do Instagram"}
+                    </button>
+                  )}
                   {d.thumbnail_url && (
                     <button
                       type="button"
                       onClick={() => set("thumbnail_url", null)}
-                      className="text-[10px] text-neutral-500 hover:text-neutral-300 underline"
+                      className="text-[10px] text-neutral-500 hover:text-neutral-300 underline block"
                     >
                       Remover capa
                     </button>
                   )}
                   <p className="text-[10px] text-neutral-500">
-                    Para vídeos enviados, geramos capa automática. Para links do Instagram (/p/, /reel/), envie uma capa manual — evita depender do embed.
+                    Para links do Instagram, a capa é importada automaticamente ao colar. Se falhar, clique em "Buscar capa" ou envie uma manual.
                   </p>
                 </div>
               </div>
