@@ -142,7 +142,7 @@ function activeCategoryKey(search: CatSearch): string {
 function CatalogPage() {
   const { items: models } = usePublicModels();
   const search = Route.useSearch();
-  const navigate = useNavigate({ from: "/modelos" });
+  const navigate = useNavigate({ from: "/modelos/" });
   const activeKey = activeCategoryKey(search);
   const invalidMarca = Boolean(
     search.marca && !(VALID_MARCAS as readonly string[]).includes(search.marca.toLowerCase()),
@@ -306,7 +306,7 @@ function CatalogPage() {
             <button
               onClick={() => {
                 setPriceId("all");
-                navigate({ to: "/modelos", search: {}, replace: true });
+                navigate({ to: "/modelos", search: () => ({}), replace: true });
               }}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full"
             >

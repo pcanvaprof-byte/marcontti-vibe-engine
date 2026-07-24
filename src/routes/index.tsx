@@ -1897,7 +1897,7 @@ function YoutubeShowcase() {
 
 function InstagramRow() {
   const { data: posts, isLoading } = usePublicInstagramPosts();
-  const tiles = (posts ?? []).filter((p) => !!p.image_url).slice(0, 6);
+  const tiles = (posts ?? []).slice(0, 6);
   const hasTiles = tiles.length > 0;
 
   return (
@@ -1955,6 +1955,8 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const isVideo = post.media_type === "video";
   const href = post.post_url || "https://www.instagram.com/klugmotors/";
+  const mediaUrl = post.image_url?.trim() ?? "";
+  const hasDirectMedia = isDirectInstagramMediaUrl(mediaUrl, post.media_type);
 
   return (
     <a
@@ -1975,10 +1977,10 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
       }}
       aria-label={post.caption || "Post do Instagram"}
     >
-      {isVideo ? (
+      {hasDirectMedia && isVideo ? (
         <video
           ref={videoRef}
-          src={post.image_url}
+          src={mediaUrl}
           poster={post.thumbnail_url ?? undefined}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           muted
@@ -1986,15 +1988,29 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           loop
           preload="metadata"
         />
-      ) : (
+      ) : hasDirectMedia ? (
         <img
-          src={post.image_url}
+          src={mediaUrl}
           alt={post.caption || "Post do Instagram"}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+      ) : (
+        <div className="w-full h-full grid place-items-center bg-neutral-950 p-5 text-center transition-transform duration-500 group-hover:scale-105">
+          <div>
+            <Instagram className="mx-auto mb-3 text-primary" size={28} />
+            <p className="font-display text-xs uppercase tracking-widest text-white">
+              Ver post no Instagram
+            </p>
+            {post.caption && (
+              <p className="mt-2 text-[11px] leading-snug text-white/60 line-clamp-2">
+                {post.caption}
+              </p>
+            )}
+          </div>
+        </div>
       )}
-      {isVideo && (
+      {hasDirectMedia && isVideo && (
         <span className="absolute top-2 right-2 flex items-center gap-1 text-[10px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
           Vídeo
@@ -2007,6 +2023,15 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
       )}
     </a>
   );
+}
+
+function isDirectInstagramMediaUrl(url: string, mediaType: InstagramPost["media_type"]) {
+  if (!url) return false;
+  if (/instagram\.com\/p\//i.test(url) || /instagram\.com\/reel\//i.test(url)) return false;
+  if (/^\/api\/public\/model-images\//i.test(url)) return true;
+  if (/^blob:|^data:/i.test(url)) return true;
+  if (mediaType === "video") return /\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(url);
+  return /\.(png|jpe?g|gif|webp|avif)(\?|#|$)/i.test(url);
 }
 
 
