@@ -15,12 +15,12 @@ export const fetchInstagramCover = createServerFn({ method: "POST" })
     if (!match) throw new Error("URL do Instagram inválida");
     const shortcode = match[1];
 
-    // Verifica se o usuário é admin antes de escrever
-    const { data: isAdmin } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    if (!isAdmin) throw new Error("Forbidden");
+    // Verifica se o usuário é admin antes de escrever (RLS aplicada)
+    const { data: roles } = await context.supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", context.userId);
+    if (!roles?.some((r) => r.role === "admin")) throw new Error("Forbidden");
 
     // 1) Tenta oEmbed público do Instagram (sem token) — em geral falha, então
     //    caímos direto no scrape do HTML público.
