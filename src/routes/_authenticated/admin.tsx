@@ -198,57 +198,18 @@ function AdminPage() {
         </div>
       </header>
 
-      <div className="p-6 space-y-4">
+      <div className="p-6 space-y-6">
         <Input placeholder="Buscar por nome, slug ou marca..." value={filter} onChange={(e) => setFilter(e.target.value)} className="max-w-md" />
 
         {isLoading ? (
           <p className="text-neutral-500">Carregando...</p>
         ) : (
-          <div className="border border-neutral-800 rounded-xl overflow-hidden">
-            <table className="w-full text-sm">
-              <thead className="bg-neutral-900 text-neutral-400">
-                <tr>
-                  <th className="text-left p-3">Modelo</th>
-                  <th className="text-left p-3">Marca</th>
-                  <th className="text-left p-3">Preço</th>
-                  <th className="text-left p-3">Ativo</th>
-                  <th className="text-right p-3">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((m) => (
-                  <tr key={m.id} className="border-t border-neutral-800 hover:bg-neutral-900/60">
-                    <td className="p-3">
-                      <div className="flex items-center gap-3">
-                        {m.colors?.[0]?.image ? (
-                          <img src={m.colors[0].image} alt="" className="w-12 h-12 rounded object-cover bg-neutral-800" />
-                        ) : (
-                          <div className="w-12 h-12 rounded bg-neutral-800" />
-                        )}
-                        <div>
-                          <div className="font-medium">{m.name}</div>
-                          <div className="text-xs text-neutral-500">/{m.slug}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-3 uppercase text-xs">{m.brand}</td>
-                    <td className="p-3">{m.price}</td>
-                    <td className="p-3">
-                      <Switch checked={m.is_active} onCheckedChange={() => handleToggle(m)} />
-                    </td>
-                    <td className="p-3 text-right">
-                      <Button size="sm" variant="ghost" onClick={() => setEditing(m)}>
-                        <Pencil className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="ghost" onClick={() => handleDelete(m)}>
-                        <Trash2 className="w-4 h-4 text-red-400" />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ModelsByCategory
+            rows={rows}
+            onEdit={(m) => setEditing(m)}
+            onDelete={handleDelete}
+            onToggle={handleToggle}
+          />
         )}
       </div>
 
