@@ -34,7 +34,7 @@ import {
 } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
 import { usePublicInstagramPosts, type InstagramPost } from "@/hooks/useInstagramPosts";
-import { InstagramEmbed } from "@/components/InstagramEmbed";
+
 
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
