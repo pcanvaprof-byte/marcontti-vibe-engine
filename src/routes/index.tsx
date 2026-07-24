@@ -2032,6 +2032,16 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           onLoad={() => setLoaded(true)}
           onError={() => setErrored(true)}
         />
+      ) : showCover ? (
+        <img
+          src={posterUrl!}
+          alt={post.caption || "Post do Instagram"}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          onLoad={() => setLoaded(true)}
+          onError={() => setCoverErrored(true)}
+        />
       ) : showEmbed ? (
         <>
           <iframe
