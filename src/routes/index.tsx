@@ -1975,12 +1975,23 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
   const showDirect = hasDirectMedia && !errored;
   const showEmbed = !showDirect && !!embedUrl && !errored;
 
+  // Reels/vídeos usam 4:5 (padrão IG portrait); imagens ficam quadradas.
+  const aspectClass = isVideo ? "aspect-[4/5]" : "aspect-square";
+
+  // IG embed exige ~326px de largura mínima para renderizar corretamente.
+  // Fixamos a iframe em pixels e escalamos via container-query para preencher
+  // qualquer tamanho de tile mantendo a proporção do conteúdo.
+  const IFRAME_W = 340;
+  // Altura aproximada do conteúdo (mídia + header). Rodapé com legenda é cortado
+  // pelo overflow-hidden do container.
+  const IFRAME_H = isVideo ? Math.round(IFRAME_W * 1.25) + 96 : IFRAME_W + 96;
+
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="group relative aspect-square overflow-hidden rounded-md border border-border bg-neutral-900 block"
+      className={`group relative ${aspectClass} overflow-hidden rounded-md border border-border bg-neutral-900 block [container-type:inline-size]`}
       onMouseEnter={() => {
         const v = videoRef.current;
         if (v) v.play().catch(() => {});
@@ -1999,7 +2010,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           ref={videoRef}
           src={mediaUrl}
           poster={posterUrl}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           muted
           playsInline
           loop
@@ -2012,7 +2023,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           src={mediaUrl}
           alt={post.caption || "Post do Instagram"}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           onLoad={() => setLoaded(true)}
           onError={() => setErrored(true)}
         />
@@ -2025,16 +2036,20 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
             scrolling="no"
             allow="encrypted-media; picture-in-picture; web-share"
             referrerPolicy="no-referrer-when-downgrade"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-0 pointer-events-none"
-            style={{ width: "110%", height: "130%" }}
+            className="absolute top-0 left-0 border-0 pointer-events-none origin-top-left"
+            style={{
+              width: `${IFRAME_W}px`,
+              height: `${IFRAME_H}px`,
+              transform: `scale(calc(100cqw / ${IFRAME_W}))`,
+            }}
             onLoad={() => setLoaded(true)}
             onError={() => setErrored(true)}
           />
-          {/* Click-catcher over the iframe so the tile behaves as a link */}
+          {/* Click-catcher sobre o iframe */}
           <span aria-hidden className="absolute inset-0" />
         </>
       ) : (
-        <div className="w-full h-full grid place-items-center bg-neutral-950 p-5 text-center transition-transform duration-500 group-hover:scale-105">
+        <div className="absolute inset-0 grid place-items-center bg-neutral-950 p-5 text-center transition-transform duration-500 group-hover:scale-105">
           <div>
             <Instagram className="mx-auto mb-3 text-primary" size={28} />
             <p className="font-display text-xs uppercase tracking-widest text-white">
