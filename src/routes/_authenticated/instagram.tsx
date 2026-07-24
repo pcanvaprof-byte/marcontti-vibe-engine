@@ -211,11 +211,19 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   async function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    const isVideo = file.type.startsWith("video/");
+    const isImage = file.type.startsWith("image/");
+    if (!isVideo && !isImage) {
+      toast.error("Envie uma imagem ou vídeo");
+      e.target.value = "";
+      return;
+    }
     setUploading(true);
     try {
       const url = await uploadFile(file);
       set("image_url", url);
-      toast.success("Imagem enviada");
+      set("media_type", isVideo ? "video" : "image");
+      toast.success(isVideo ? "Vídeo enviado" : "Imagem enviada");
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
@@ -226,12 +234,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
   async function save() {
     if (!d.image_url) {
-      toast.error("Envie uma imagem antes de salvar");
+      toast.error("Envie uma mídia antes de salvar");
       return;
     }
     setSaving(true);
     const payload = {
       image_url: d.image_url,
+      media_type: d.media_type ?? "image",
       caption: d.caption ?? "",
       post_url: d.post_url || "https://www.instagram.com/klugmotors/",
       sort_order: d.sort_order ?? 0,
