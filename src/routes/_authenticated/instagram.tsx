@@ -415,7 +415,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
           {(d.media_type === "video" || /instagram\.com\/(p|reel|tv)\//i.test(d.image_url ?? "")) && (
             <div>
-              <Label>Capa do vídeo (thumbnail)</Label>
+              <Label>Capa personalizada (thumbnail)</Label>
               <div className="mt-2 flex items-start gap-3">
                 <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
                   {d.thumbnail_url ? (
