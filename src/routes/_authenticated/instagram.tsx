@@ -282,7 +282,42 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       const url = await uploadFile(file);
       set("image_url", url);
       set("media_type", isVideo ? "video" : "image");
+      if (isVideo) {
+        // captura o primeiro frame como poster
+        const posterFile = await captureVideoPoster(file);
+        if (posterFile) {
+          try {
+            const posterUrl = await uploadFile(posterFile);
+            set("thumbnail_url", posterUrl);
+          } catch {
+            /* falha silenciosa — usuário pode enviar manualmente */
+          }
+        }
+      } else {
+        set("thumbnail_url", null);
+      }
       toast.success(isVideo ? "Vídeo enviado" : "Imagem enviada");
+    } catch (err: any) {
+      toast.error(err.message ?? "Falha no upload");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  }
+
+  async function onUploadThumb(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("A capa precisa ser uma imagem");
+      e.target.value = "";
+      return;
+    }
+    setUploading(true);
+    try {
+      const url = await uploadFile(file);
+      set("thumbnail_url", url);
+      toast.success("Capa atualizada");
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
@@ -300,6 +335,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     const payload = {
       image_url: d.image_url,
       media_type: d.media_type ?? "image",
+      thumbnail_url: d.media_type === "video" ? (d.thumbnail_url ?? null) : null,
       caption: d.caption ?? "",
       post_url: d.post_url || "https://www.instagram.com/klugmotors/",
       sort_order: d.sort_order ?? 0,
