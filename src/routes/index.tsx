@@ -1965,15 +1965,20 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
     extractInstagramShortcode(postLinkForHref) || extractInstagramShortcode(mediaUrl);
   const href = postLinkForHref || (shortcode ? `https://www.instagram.com/p/${shortcode}/` : "https://www.instagram.com/klugmotors/");
   const embedUrl = shortcode ? `https://www.instagram.com/p/${shortcode}/embed/captioned/` : null;
+  // Capa oficial do post no IG (funciona também para vídeos/reels — retorna o
+  // primeiro frame). Usada quando o admin não subiu thumbnail manualmente.
+  const igCoverUrl = shortcode ? `https://www.instagram.com/p/${shortcode}/media/?size=l` : null;
   const hasDirectMedia = isDirectInstagramMediaUrl(mediaUrl, post.media_type);
-  const posterUrl = post.thumbnail_url?.trim() || undefined;
+  const posterUrl = post.thumbnail_url?.trim() || igCoverUrl || undefined;
 
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+  const [coverErrored, setCoverErrored] = useState(false);
 
-  // Priority: direct media file > IG embed iframe > text fallback
+  // Priority: direct media file > IG cover image > IG embed iframe > text fallback
   const showDirect = hasDirectMedia && !errored;
-  const showEmbed = !showDirect && !!embedUrl && !errored;
+  const showCover = !showDirect && !!shortcode && !!posterUrl && !coverErrored;
+  const showEmbed = !showDirect && !showCover && !!embedUrl && !errored;
 
   // Reels/vídeos usam 4:5 (padrão IG portrait); imagens ficam quadradas.
   const aspectClass = isVideo ? "aspect-[4/5]" : "aspect-square";
