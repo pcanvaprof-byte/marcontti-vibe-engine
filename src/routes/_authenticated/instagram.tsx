@@ -413,7 +413,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             </div>
           </div>
 
-          {d.media_type === "video" && (
+          {(d.media_type === "video" || /instagram\.com\/(p|reel|tv)\//i.test(d.image_url ?? "")) && (
             <div>
               <Label>Capa do vídeo (thumbnail)</Label>
               <div className="mt-2 flex items-start gap-3">
