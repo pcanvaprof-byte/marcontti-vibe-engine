@@ -2078,7 +2078,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           </div>
         </div>
       )}
-      {(showDirect || showEmbed) && !loaded && (
+      {(showDirect || showCover || showEmbed) && !loaded && (
         <div
           aria-hidden
           className="absolute inset-0 animate-pulse bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-800"
@@ -2088,7 +2088,7 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           </div>
         </div>
       )}
-      {showDirect && isVideo && (
+      {isVideo && (showDirect || showCover) && (
         <span className="absolute top-2 right-2 flex items-center gap-1 text-[10px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
           Vídeo
