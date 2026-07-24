@@ -414,7 +414,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                   />
                 </label>
                 <Input
-                  placeholder="ou cole uma URL (imagem ou vídeo)"
+                  placeholder="ou cole uma URL (imagem, vídeo ou link do Instagram)"
                   value={d.image_url ?? ""}
                   onChange={(e) => {
                     const v = e.target.value;
@@ -422,10 +422,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                     if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(v)) set("media_type", "video");
                     else if (/\.(png|jpe?g|gif|webp|avif)(\?|$)/i.test(v)) set("media_type", "image");
                   }}
+                  onBlur={(e) => {
+                    const v = e.target.value;
+                    if (/instagram\.com\/(p|reel|tv)\//i.test(v) && !d.thumbnail_url) {
+                      autoFetchCover(v);
+                    }
+                  }}
                   className="text-xs"
                 />
                 <p className="text-[10px] text-neutral-500">
-                  MP4/WebM até ~50MB recomendado. Vídeos são exibidos silenciados no preview.
+                  Colou link do Instagram? A capa é buscada automaticamente. Ou envie MP4/WebM até ~50MB.
                 </p>
               </div>
             </div>
