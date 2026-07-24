@@ -25,6 +25,7 @@ type Draft = Partial<InstagramPost>;
 
 const emptyDraft: Draft = {
   image_url: "",
+  media_type: "image",
   caption: "",
   post_url: "https://www.instagram.com/klugmotors/",
   sort_order: 0,
