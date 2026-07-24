@@ -1957,6 +1957,11 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
   const href = post.post_url || "https://www.instagram.com/klugmotors/";
   const mediaUrl = post.image_url?.trim() ?? "";
   const hasDirectMedia = isDirectInstagramMediaUrl(mediaUrl, post.media_type);
+  const posterUrl = post.thumbnail_url?.trim() || undefined;
+
+  const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const showMedia = hasDirectMedia && !errored;
 
   return (
     <a
@@ -1977,23 +1982,27 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
       }}
       aria-label={post.caption || "Post do Instagram"}
     >
-      {hasDirectMedia && isVideo ? (
+      {showMedia && isVideo ? (
         <video
           ref={videoRef}
           src={mediaUrl}
-          poster={post.thumbnail_url ?? undefined}
+          poster={posterUrl}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           muted
           playsInline
           loop
           preload="metadata"
+          onLoadedData={() => setLoaded(true)}
+          onError={() => setErrored(true)}
         />
-      ) : hasDirectMedia ? (
+      ) : showMedia ? (
         <img
           src={mediaUrl}
           alt={post.caption || "Post do Instagram"}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          onLoad={() => setLoaded(true)}
+          onError={() => setErrored(true)}
         />
       ) : (
         <div className="w-full h-full grid place-items-center bg-neutral-950 p-5 text-center transition-transform duration-500 group-hover:scale-105">
@@ -2010,7 +2019,17 @@ function InstagramMediaTile({ post }: { post: InstagramPost }) {
           </div>
         </div>
       )}
-      {hasDirectMedia && isVideo && (
+      {showMedia && !loaded && (
+        <div
+          aria-hidden
+          className="absolute inset-0 animate-pulse bg-gradient-to-br from-neutral-800 via-neutral-900 to-neutral-800"
+        >
+          <div className="absolute inset-0 grid place-items-center">
+            <Instagram className="text-white/20" size={28} />
+          </div>
+        </div>
+      )}
+      {showMedia && isVideo && (
         <span className="absolute top-2 right-2 flex items-center gap-1 text-[10px] uppercase tracking-widest bg-black/70 text-white px-1.5 py-0.5 rounded">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
           Vídeo
