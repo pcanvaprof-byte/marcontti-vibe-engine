@@ -366,7 +366,14 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
                 {d.image_url ? (
                   d.media_type === "video" ? (
-                    <video src={d.image_url} className="w-full h-full object-cover" muted playsInline controls />
+                    <video
+                      src={d.image_url}
+                      poster={d.thumbnail_url ?? undefined}
+                      className="w-full h-full object-cover"
+                      muted
+                      playsInline
+                      controls
+                    />
                   ) : (
                     <img src={d.image_url} alt="" className="w-full h-full object-cover" />
                   )
@@ -405,6 +412,54 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               </div>
             </div>
           </div>
+
+          {d.media_type === "video" && (
+            <div>
+              <Label>Capa do vídeo (thumbnail)</Label>
+              <div className="mt-2 flex items-start gap-3">
+                <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
+                  {d.thumbnail_url ? (
+                    <img src={d.thumbnail_url} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full grid place-items-center text-[10px] text-neutral-600 text-center px-1">
+                      capa gerada automaticamente
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 space-y-2">
+                  <label className="inline-flex items-center gap-2 text-xs cursor-pointer bg-neutral-800 hover:bg-neutral-700 px-3 py-2 rounded">
+                    <Upload className="w-3.5 h-3.5" />
+                    {uploading ? "Enviando..." : "Enviar capa personalizada"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={onUploadThumb}
+                      disabled={uploading}
+                    />
+                  </label>
+                  <Input
+                    placeholder="ou cole uma URL de imagem"
+                    value={d.thumbnail_url ?? ""}
+                    onChange={(e) => set("thumbnail_url", e.target.value || null)}
+                    className="text-xs"
+                  />
+                  {d.thumbnail_url && (
+                    <button
+                      type="button"
+                      onClick={() => set("thumbnail_url", null)}
+                      className="text-[10px] text-neutral-500 hover:text-neutral-300 underline"
+                    >
+                      Remover capa
+                    </button>
+                  )}
+                  <p className="text-[10px] text-neutral-500">
+                    Ao enviar o vídeo, geramos uma capa automática do primeiro frame. Envie uma imagem para substituir.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div>
             <Label>Legenda (opcional)</Label>
