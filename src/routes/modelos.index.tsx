@@ -306,7 +306,7 @@ function CatalogPage() {
             <button
               onClick={() => {
                 setPriceId("all");
-                navigate({ to: "/modelos/", search: () => ({}), replace: true });
+                navigate({ to: "/modelos", search: () => ({}), replace: true });
               }}
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full"
             >
