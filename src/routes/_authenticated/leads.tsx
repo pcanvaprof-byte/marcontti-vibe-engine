@@ -93,47 +93,67 @@ function LeadsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100">
-      <header className="border-b border-neutral-800 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link to="/admin"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4 mr-1" /> Modelos</Button></Link>
-          <div>
-            <h1 className="text-xl font-bold">Leads recebidos</h1>
-            <p className="text-xs text-neutral-500">{leads.length} solicitações</p>
-          </div>
+    <AdminShell
+      title="Leads recebidos"
+      subtitle={`${leads.length} solicitações`}
+      actions={
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={load}
+          aria-label="Recarregar leads"
+          className="text-neutral-400 hover:text-neutral-100"
+        >
+          <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+        </Button>
+      }
+    >
+      <div className="space-y-4">
+        <div className="relative max-w-md">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 pointer-events-none" />
+          <Input
+            placeholder="Buscar por nome, telefone ou modelo..."
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="pl-9"
+            aria-label="Buscar leads"
+          />
         </div>
-        <div className="flex gap-2">
-          <Button variant="ghost" size="sm" onClick={load}><RefreshCw className="w-4 h-4" /></Button>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}><LogOut className="w-4 h-4" /></Button>
-        </div>
-      </header>
-
-      <div className="p-6 space-y-4">
-        <Input placeholder="Buscar por nome, telefone ou modelo..." value={filter} onChange={(e) => setFilter(e.target.value)} className="max-w-md" />
 
         {loading ? (
-          <p className="text-neutral-500">Carregando...</p>
+          <RowSkeleton rows={6} cols={6} />
         ) : rows.length === 0 ? (
-          <p className="text-neutral-500 text-sm">Nenhum lead ainda.</p>
+          <EmptyState
+            icon={Users}
+            title={filter ? "Nada encontrado" : "Nenhum lead ainda"}
+            description={
+              filter
+                ? "Tente ajustar sua busca."
+                : "As solicitações de financiamento e consórcio aparecem aqui em tempo real."
+            }
+          />
         ) : (
           <div className="border border-neutral-800 rounded-xl overflow-x-auto">
             <table className="w-full text-sm min-w-[900px]">
-              <thead className="bg-neutral-900 text-neutral-400">
+              <thead className="bg-neutral-900/80 text-neutral-400 sticky top-0">
                 <tr>
-                  <th className="text-left p-3">Data</th>
-                  <th className="text-left p-3">Nome</th>
-                  <th className="text-left p-3">WhatsApp</th>
-                  <th className="text-left p-3">Modelo</th>
-                  <th className="text-left p-3">Entrada</th>
-                  <th className="text-left p-3">Prazo</th>
-                  <th className="text-left p-3">Origem</th>
-                  <th className="text-right p-3">Ações</th>
+                  <th className="text-left p-3 font-medium">Data</th>
+                  <th className="text-left p-3 font-medium">Nome</th>
+                  <th className="text-left p-3 font-medium">WhatsApp</th>
+                  <th className="text-left p-3 font-medium">Modelo</th>
+                  <th className="text-left p-3 font-medium">Entrada</th>
+                  <th className="text-left p-3 font-medium">Prazo</th>
+                  <th className="text-left p-3 font-medium">Origem</th>
+                  <th className="text-right p-3 font-medium">Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((l) => (
-                  <tr key={l.id} className="border-t border-neutral-800 hover:bg-neutral-900/60 align-top">
-                    <td className="p-3 text-xs text-neutral-400 whitespace-nowrap">
+                  <tr
+                    key={l.id}
+                    className="border-t border-neutral-800 hover:bg-neutral-900/60 align-top transition-colors"
+                  >
+                    <td className="p-3 text-xs text-neutral-400 whitespace-nowrap tabular-nums">
                       {new Date(l.created_at).toLocaleString("pt-BR")}
                     </td>
                     <td className="p-3">
@@ -145,7 +165,7 @@ function LeadsPage() {
                         href={`https://wa.me/55${l.phone.replace(/\D/g, "")}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-primary hover:underline"
+                        className="text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
                       >
                         {l.phone}
                       </a>
@@ -155,7 +175,13 @@ function LeadsPage() {
                     <td className="p-3 text-xs">{l.term ?? "—"}</td>
                     <td className="p-3 text-xs uppercase text-neutral-400">{l.source}</td>
                     <td className="p-3 text-right">
-                      <Button size="sm" variant="ghost" onClick={() => handleDelete(l)}>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => handleDelete(l)}
+                        aria-label={`Excluir lead ${l.name}`}
+                        className="h-8 w-8 hover:bg-red-500/10"
+                      >
                         <Trash2 className="w-4 h-4 text-red-400" />
                       </Button>
                     </td>
@@ -166,6 +192,6 @@ function LeadsPage() {
           </div>
         )}
       </div>
-    </div>
+    </AdminShell>
   );
 }
