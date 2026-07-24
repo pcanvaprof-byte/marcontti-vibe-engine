@@ -67,6 +67,9 @@ export function FinanciamentoForm({
   const [sent, setSent] = useState(false);
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [protocol, setProtocol] = useState<string | null>(null);
+  const [sentAt, setSentAt] = useState<Date | null>(null);
+  const [summary, setSummary] = useState<{ name: string; phone: string; model: string; lgpd: boolean } | null>(null);
   const [paymentType, setPaymentType] = useState<PaymentType | "">("");
   const [lgpd, setLgpd] = useState(false);
   const [cepLoading, setCepLoading] = useState(false);
