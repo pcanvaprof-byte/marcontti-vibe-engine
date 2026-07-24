@@ -266,29 +266,47 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
         <div className="space-y-4">
           <div>
-            <Label>Imagem</Label>
+            <Label>Imagem ou vídeo</Label>
             <div className="mt-2 flex items-start gap-3">
               <div className="w-24 h-24 rounded bg-neutral-900 border border-neutral-800 overflow-hidden shrink-0">
                 {d.image_url ? (
-                  <img src={d.image_url} alt="" className="w-full h-full object-cover" />
+                  d.media_type === "video" ? (
+                    <video src={d.image_url} className="w-full h-full object-cover" muted playsInline controls />
+                  ) : (
+                    <img src={d.image_url} alt="" className="w-full h-full object-cover" />
+                  )
                 ) : (
                   <div className="w-full h-full grid place-items-center text-[10px] text-neutral-600">
-                    sem imagem
+                    sem mídia
                   </div>
                 )}
               </div>
               <div className="flex-1 space-y-2">
                 <label className="inline-flex items-center gap-2 text-xs cursor-pointer bg-neutral-800 hover:bg-neutral-700 px-3 py-2 rounded">
                   <Upload className="w-3.5 h-3.5" />
-                  {uploading ? "Enviando..." : "Enviar imagem"}
-                  <input type="file" accept="image/*" className="hidden" onChange={onUpload} disabled={uploading} />
+                  {uploading ? "Enviando..." : "Enviar imagem ou vídeo"}
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    className="hidden"
+                    onChange={onUpload}
+                    disabled={uploading}
+                  />
                 </label>
                 <Input
-                  placeholder="ou cole uma URL"
+                  placeholder="ou cole uma URL (imagem ou vídeo)"
                   value={d.image_url ?? ""}
-                  onChange={(e) => set("image_url", e.target.value)}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    set("image_url", v);
+                    if (/\.(mp4|webm|mov|m4v)(\?|$)/i.test(v)) set("media_type", "video");
+                    else if (/\.(png|jpe?g|gif|webp|avif)(\?|$)/i.test(v)) set("media_type", "image");
+                  }}
                   className="text-xs"
                 />
+                <p className="text-[10px] text-neutral-500">
+                  MP4/WebM até ~50MB recomendado. Vídeos são exibidos silenciados no preview.
+                </p>
               </div>
             </div>
           </div>
