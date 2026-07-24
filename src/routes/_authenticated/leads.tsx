@@ -1,10 +1,11 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { LogOut, Trash2, ArrowLeft, RefreshCw } from "lucide-react";
+import { Trash2, RefreshCw, Users, Search } from "lucide-react";
+import { AdminShell, RowSkeleton, EmptyState } from "@/components/admin/AdminShell";
 
 export const Route = createFileRoute("/_authenticated/leads")({
   head: () => ({
