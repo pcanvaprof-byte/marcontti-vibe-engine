@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ArrowRight, Loader2, CheckCircle2, RotateCcw, AlertCircle } from "lucide-react";
+import { ArrowRight, Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle } from "lucide-react";
 import { z } from "zod";
-import { models } from "@/lib/models";
+import { models, openWhatsAppWithFallback, openWhatsAppNewTab, buildWhatsAppFallbackUrl } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { buildFinanciamentoMessage } from "@/lib/whatsapp-templates";
@@ -67,9 +67,6 @@ export function FinanciamentoForm({
   const [sent, setSent] = useState(false);
   const [lastMessage, setLastMessage] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
-  const [protocol, setProtocol] = useState<string | null>(null);
-  const [sentAt, setSentAt] = useState<Date | null>(null);
-  const [summary, setSummary] = useState<{ name: string; phone: string; model: string; lgpd: boolean } | null>(null);
   const [paymentType, setPaymentType] = useState<PaymentType | "">("");
   const [lgpd, setLgpd] = useState(false);
   const [cepLoading, setCepLoading] = useState(false);
@@ -283,6 +280,8 @@ export function FinanciamentoForm({
     setSaveError(null);
     setSubmitting(true);
 
+    // Abre a aba do WhatsApp AGORA (dentro do gesto do usuário) para evitar bloqueio de pop-up.
+    const waWindow = typeof window !== "undefined" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
 
     const text = buildFinanciamentoMessage({
       name: d.name,
@@ -339,8 +338,9 @@ export function FinanciamentoForm({
     setSubmitting(false);
 
     if (error) {
-      setSaveError("Não foi possível salvar sua solicitação. Tente novamente em alguns instantes.");
+      setSaveError("Não foi possível salvar sua solicitação. Tente novamente ou envie pelo WhatsApp.");
       setLastMessage(text);
+      if (waWindow) waWindow.close();
       return;
     }
 
@@ -349,6 +349,20 @@ export function FinanciamentoForm({
     trackEvent("financiamento_submit", {
       source: "financiamento_form",
       meta: { model: d.model, payment_type: d.paymentType, entry: d.entry, term: d.term },
+    });
+    const waUrl = buildWhatsAppFallbackUrl(text);
+    if (waWindow && !waWindow.closed) {
+      waWindow.location.href = waUrl;
+    } else {
+      openWhatsAppNewTab(text, {
+        source: "financiamento_form",
+        event: "whatsapp_redirected",
+        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
+      });
+    }
+    trackEvent("whatsapp_redirected", {
+      source: "financiamento_form",
+      meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
     });
   }
 
@@ -391,6 +405,14 @@ export function FinanciamentoForm({
             Nossa equipe entrará em contato em breve pelo WhatsApp, telefone ou e-mail informado.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => lastMessage && openWhatsAppWithFallback(lastMessage)}
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3 transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              <MessageCircle size={16} fill="white" strokeWidth={0} />
+              Enviar pelo WhatsApp
+            </button>
             <button
               type="button"
               onClick={reset}
