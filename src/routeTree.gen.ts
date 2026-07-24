@@ -24,7 +24,6 @@ import { Route as ModelosIndexRouteImport } from './routes/modelos.index'
 import { Route as ModelosYamahaRouteImport } from './routes/modelos.yamaha'
 import { Route as ModelosSuduRouteImport } from './routes/modelos.sudu'
 import { Route as ModelosSlugRouteImport } from './routes/modelos.$slug'
-import { Route as AuthenticatedWhatsappRouteImport } from './routes/_authenticated/whatsapp'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
 import { Route as AuthenticatedInstagramRouteImport } from './routes/_authenticated/instagram'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
@@ -105,11 +104,6 @@ const ModelosSlugRoute = ModelosSlugRouteImport.update({
   path: '/modelos/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedWhatsappRoute = AuthenticatedWhatsappRouteImport.update({
-  id: '/whatsapp',
-  path: '/whatsapp',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
@@ -152,7 +146,6 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
   '/leads': typeof AuthenticatedLeadsRoute
-  '/whatsapp': typeof AuthenticatedWhatsappRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
@@ -174,7 +167,6 @@ export interface FileRoutesByTo {
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
   '/leads': typeof AuthenticatedLeadsRoute
-  '/whatsapp': typeof AuthenticatedWhatsappRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
@@ -198,7 +190,6 @@ export interface FileRoutesById {
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/instagram': typeof AuthenticatedInstagramRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
-  '/_authenticated/whatsapp': typeof AuthenticatedWhatsappRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
@@ -222,7 +213,6 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/instagram'
     | '/leads'
-    | '/whatsapp'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
@@ -244,7 +234,6 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/instagram'
     | '/leads'
-    | '/whatsapp'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
@@ -267,7 +256,6 @@ export interface FileRouteTypes {
     | '/_authenticated/analytics'
     | '/_authenticated/instagram'
     | '/_authenticated/leads'
-    | '/_authenticated/whatsapp'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
@@ -401,13 +389,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/whatsapp': {
-      id: '/_authenticated/whatsapp'
-      path: '/whatsapp'
-      fullPath: '/whatsapp'
-      preLoaderRoute: typeof AuthenticatedWhatsappRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/leads': {
       id: '/_authenticated/leads'
       path: '/leads'
@@ -451,7 +432,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedInstagramRoute: typeof AuthenticatedInstagramRoute
   AuthenticatedLeadsRoute: typeof AuthenticatedLeadsRoute
-  AuthenticatedWhatsappRoute: typeof AuthenticatedWhatsappRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -459,7 +439,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedInstagramRoute: AuthenticatedInstagramRoute,
   AuthenticatedLeadsRoute: AuthenticatedLeadsRoute,
-  AuthenticatedWhatsappRoute: AuthenticatedWhatsappRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
