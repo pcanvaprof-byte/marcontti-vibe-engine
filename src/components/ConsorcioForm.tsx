@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 
-import { Loader2, CheckCircle2, MessageCircle, RotateCcw, AlertCircle, ArrowRight } from "lucide-react";
+import { Loader2, CheckCircle2, RotateCcw, AlertCircle, ArrowRight } from "lucide-react";
 import { z } from "zod";
-import { models, openWhatsAppWithFallback, openWhatsAppNewTab, buildWhatsAppFallbackUrl } from "@/lib/models";
+import { models } from "@/lib/models";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent } from "@/lib/analytics";
 import { getAttribution, getOriginPage } from "@/lib/attribution";
@@ -89,9 +89,6 @@ export function ConsorcioForm({
     setSaveError(null);
     setSubmitting(true);
 
-    // Abre a aba do WhatsApp AGORA (dentro do gesto do usuário) para evitar bloqueio de pop-up.
-    // A URL final é definida após o insert.
-    const waWindow = typeof window !== "undefined" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
 
     const text = [
       `Olá! Tenho interesse em Consórcio Klug.`,
@@ -139,9 +136,8 @@ export function ConsorcioForm({
     setSubmitting(false);
 
     if (error) {
-      setSaveError("Não foi possível salvar sua solicitação. Tente novamente ou envie pelo WhatsApp.");
+      setSaveError("Não foi possível salvar sua solicitação. Tente novamente em alguns instantes.");
       setLastMessage(text);
-      if (waWindow) waWindow.close();
       return;
     }
 
@@ -162,22 +158,6 @@ export function ConsorcioForm({
         utm_campaign: attr.utm_campaign,
         origin_page: originPage,
       },
-    });
-    // Redireciona a aba pré-aberta para o WhatsApp com a mensagem pronta.
-    const waUrl = buildWhatsAppFallbackUrl(text);
-    if (waWindow && !waWindow.closed) {
-      waWindow.location.href = waUrl;
-    } else {
-      // Fallback: pop-up foi bloqueado — abre agora (pode disparar bloqueador em alguns navegadores).
-      openWhatsAppNewTab(text, {
-        source: "consorcio_form",
-        event: "whatsapp_redirected",
-        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: "Consórcio" },
-      });
-    }
-    trackEvent("whatsapp_redirected", {
-      source: "consorcio_form",
-      meta: { name: d.name, phone: d.phone, model: d.model, payment_type: "Consórcio", origin_page: originPage },
     });
   }
 
@@ -252,14 +232,6 @@ export function ConsorcioForm({
         )}
 
         <div className="flex flex-wrap justify-center gap-3 pt-1">
-          <button
-            type="button"
-            onClick={() => lastMessage && openWhatsAppWithFallback(lastMessage)}
-            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase text-xs tracking-widest px-6 py-3"
-          >
-            <MessageCircle size={16} fill="white" strokeWidth={0} />
-            Enviar pelo WhatsApp
-          </button>
           <button
             type="button"
             onClick={reset}
