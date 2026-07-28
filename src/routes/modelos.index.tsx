@@ -412,7 +412,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
                     </span>
                   </div>
                 </div>
-                <div class="px-4 pt-3">
+                <div className="px-4 pt-3">
                   <p className="text-primary text-[9px] font-display font-black uppercase tracking-widest mb-1">
                     {m.tag}
                   </p>
