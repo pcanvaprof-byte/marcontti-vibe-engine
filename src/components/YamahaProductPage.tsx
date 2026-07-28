@@ -12,6 +12,7 @@ import { View360Modal } from "@/components/View360Modal";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import neosHeroOfficial from "@/assets/neos-hero-official.png.asset.json";
+import tenereNobg from "@/assets/seminovas/tenere-250-seminova-nobg.png";
 
 /**
  * Yamaha-style editorial product page.
@@ -95,7 +96,9 @@ export function YamahaProductPage({
     const vg = variant?.gallery?.filter(Boolean) ?? [];
     return vg.length > 0 ? vg : modelGallery;
   }, [variant, modelGallery]);
-  const heroImg = variant?.image ?? activeGallery[0];
+  const isTenereSeminova = m.slug === "semi-nova-yamaha-tenere-250";
+  const heroImg = isTenereSeminova ? tenereNobg : (variant?.image ?? activeGallery[0]);
+
 
   // O hero oficial só se aplica ao Neo's Connected. Demais modelos usam a
   // arte do próprio produto (variant.image / galeria) sobre fundo escuro.
