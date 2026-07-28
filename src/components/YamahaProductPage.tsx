@@ -243,7 +243,7 @@ export function YamahaProductPage({
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                 </div>
 
-                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-8 items-center">
+                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-4 sm:py-6 lg:py-8 grid lg:grid-cols-[1fr_1.2fr] gap-4 lg:gap-6 items-center">
                   {/* Máscara de legibilidade do lado esquerdo */}
                   <div
                     aria-hidden
@@ -263,12 +263,12 @@ export function YamahaProductPage({
 
                     <ModelNameTitle name={m.name} />
 
-                    <p className="mt-6 text-white/75 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                    <p className="mt-4 text-white/75 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
                       {heroDescription}
                     </p>
 
                     {/* Barra de benefícios */}
-                    <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 max-w-xl mx-auto lg:mx-0">
+                    <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 max-w-xl mx-auto lg:mx-0">
                       {benefits.map((b) => (
                         <li key={b} className="flex items-center gap-2 text-white/85 text-sm">
                           <span className="grid place-items-center w-5 h-5 rounded-full bg-primary/15 text-primary">
@@ -280,7 +280,7 @@ export function YamahaProductPage({
                     </ul>
 
                     {/* CTAs — premium, responsive, hierarchy */}
-                    <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                    <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                       <a
                         href="#financiamento"
                         onClick={() =>
@@ -314,7 +314,7 @@ export function YamahaProductPage({
 
 
                     {/* Linha inferior com ícones de serviços */}
-                    <div className="mt-10 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-white/70">
+                    <div className="mt-8 pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-white/70">
                       {[
                         { Icon: ShieldCheck, label: "Garantia" },
                         { Icon: CreditCard, label: "Financiamento facilitado" },
@@ -332,7 +332,7 @@ export function YamahaProductPage({
                   </div>
 
                   {/* LADO DIREITO — imagem da moto */}
-                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[720px] grid place-items-center lg:items-center lg:justify-items-end">
+                  <div className="relative order-1 lg:order-2 min-h-[240px] sm:min-h-[320px] lg:min-h-[680px] grid place-items-center lg:items-center lg:justify-items-end">
                     {/* Glow primário denso atrás da moto */}
                     <div
                       aria-hidden
