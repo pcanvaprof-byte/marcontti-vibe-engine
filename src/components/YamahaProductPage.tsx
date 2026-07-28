@@ -243,7 +243,7 @@ export function YamahaProductPage({
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                 </div>
 
-                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-2 gap-10 lg:gap-8 items-center">
+                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-8 items-center">
                   {/* LADO ESQUERDO */}
                   <div className="animate-fade-in order-2 lg:order-1 text-center lg:text-left">
                     <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary border border-primary/30 bg-primary/5 px-3 py-1.5 rounded-full">
@@ -307,21 +307,21 @@ export function YamahaProductPage({
                   </div>
 
                   {/* LADO DIREITO — imagem da moto */}
-                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[560px] grid place-items-center">
+                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[720px] grid place-items-center lg:items-center lg:justify-items-end">
                     {/* Glow lateral atrás da moto */}
                     <div
                       aria-hidden
                       className="absolute inset-0 pointer-events-none"
                       style={{
                         background:
-                          "radial-gradient(50% 55% at 55% 55%, rgba(255,107,26,0.35) 0%, rgba(255,107,26,0.12) 40%, transparent 75%)",
+                          "radial-gradient(55% 60% at 65% 55%, rgba(255,107,26,0.40) 0%, rgba(255,107,26,0.15) 40%, transparent 75%)",
                         filter: "blur(20px)",
                       }}
                     />
                     {/* Piso reflexivo */}
                     <div
                       aria-hidden
-                      className="absolute bottom-[6%] left-[10%] right-[10%] h-6 rounded-[50%] bg-black/70 blur-2xl"
+                      className="absolute bottom-[4%] left-[10%] right-[2%] h-6 rounded-[50%] bg-black/70 blur-2xl"
                     />
                     {heroImg ? (
                       <img
@@ -329,7 +329,7 @@ export function YamahaProductPage({
                         alt={m.name}
                         fetchPriority="high"
                         decoding="async"
-                        className="relative z-10 w-full max-w-[720px] max-h-[320px] sm:max-h-[460px] lg:max-h-[600px] object-contain animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)]"
+                        className="relative z-10 w-full max-w-[720px] lg:max-w-none max-h-[340px] sm:max-h-[480px] lg:max-h-[720px] object-contain animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)] lg:scale-[1.2] lg:origin-left"
                         style={{
                           filter:
                             "drop-shadow(-30px 0 40px rgba(255,107,26,0.25)) drop-shadow(0 20px 30px rgba(0,0,0,0.6))",
