@@ -179,51 +179,168 @@ export function YamahaProductPage({
             draggable={false}
           />
         ) : (
-          <div className="relative">
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_60%)]"
-            />
-            <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-10 sm:py-16 lg:py-20 grid lg:grid-cols-[1fr_1.25fr] gap-8 lg:gap-12 items-center">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-white/60">
-                  {m.tag || (m.slug.startsWith("sudu-") ? "Sudu" : m.slug.startsWith("yamaha-") ? "Yamaha" : "Klug")}
-                </p>
-                <ModelNameTitle name={m.name} />
-                <p className="mt-6 text-white/75 text-base sm:text-lg leading-relaxed max-w-xl">
-                  {m.short || m.description}
-                </p>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a
-                    href="#financiamento"
-                    className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
+          (() => {
+            const categoryLabel = m.slug.startsWith("semi-nova-")
+              ? "Motos Semi Novas"
+              : m.slug.startsWith("yamaha-")
+                ? "Motos Yamaha 0km"
+                : m.slug.startsWith("sudu-")
+                  ? "Scooter Elétrica Sudu"
+                  : m.slug.startsWith("moto-chefe-") || m.slug.startsWith("chefe-")
+                    ? "Scooter Elétrica Moto Chefe"
+                    : m.tag || "Klug Motors";
+            const isSeminova = m.slug.startsWith("semi-nova-");
+            const heroDescription = isSeminova
+              ? `${m.name} semi nova, revisada e pronta para aventura. Trail robusta, econômica e confortável para cidade, estrada e terra.`
+              : (m.short || m.description);
+            const benefits = isSeminova
+              ? [
+                  "Revisada e aprovada",
+                  "Motor confiável",
+                  "Economia e desempenho",
+                  "Pronta para qualquer terreno",
+                ]
+              : [
+                  "Modelo oficial",
+                  "Garantia de fábrica",
+                  "Entrega imediata",
+                  "Assistência autorizada",
+                ];
+            return (
+              <div className="relative bg-[#050505]">
+                {/* Camadas de fundo: gradientes + glow laranja + streaks + marca d'água */}
+                <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+                  {/* Gradiente vertical sutil */}
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,#050505_0%,#0a0705_55%,#050505_100%)]" />
+                  {/* Vinheta lateral esquerda para dar profundidade ao texto */}
+                  <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_10%_50%,rgba(255,255,255,0.05),transparent_70%)]" />
+                  {/* Glow laranja atrás da moto (direita) */}
+                  <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 w-[80vw] max-w-[900px] aspect-square rounded-full bg-[radial-gradient(circle,rgba(255,107,26,0.35)_0%,rgba(255,107,26,0.12)_35%,transparent_70%)] blur-3xl" />
+                  {/* Streaks de luz laranja */}
+                  <div className="hidden md:block absolute right-[8%] top-[38%] h-[2px] w-[38%] bg-gradient-to-r from-transparent via-primary/70 to-transparent blur-[1px] rotate-[-6deg]" />
+                  <div className="hidden md:block absolute right-[4%] top-[58%] h-[1px] w-[28%] bg-gradient-to-r from-transparent via-primary/50 to-transparent blur-[1px] rotate-[-3deg]" />
+                  <div className="hidden md:block absolute right-[12%] top-[72%] h-[1px] w-[22%] bg-gradient-to-r from-transparent via-primary/40 to-transparent blur-[1px] rotate-[-8deg]" />
+                  {/* Marca d'água gigante KLUG */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{
+                      fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+                      fontSize: "clamp(180px, 28vw, 460px)",
+                      lineHeight: 1,
+                      letterSpacing: "-0.04em",
+                      color: "#ffffff",
+                      opacity: 0.04,
+                      userSelect: "none",
+                      whiteSpace: "nowrap",
+                    }}
                   >
-                    Comprar online <ChevronRight size={14} />
-                  </a>
-                  <a
-                    href={whatsappUrl}
-                    onClick={handleWhats}
-                    className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
-                  >
-                    <MessageCircle size={14} fill="white" strokeWidth={0} /> WhatsApp
-                  </a>
+                    KLUG
+                  </div>
+                  {/* Linha laranja decorativa no topo */}
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+                </div>
+
+                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-2 gap-10 lg:gap-8 items-center">
+                  {/* LADO ESQUERDO */}
+                  <div className="animate-fade-in order-2 lg:order-1 text-center lg:text-left">
+                    <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary border border-primary/30 bg-primary/5 px-3 py-1.5 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                      {categoryLabel}
+                    </div>
+
+                    <ModelNameTitle name={m.name} />
+
+                    <p className="mt-6 text-white/75 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">
+                      {heroDescription}
+                    </p>
+
+                    {/* Barra de benefícios */}
+                    <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 max-w-xl mx-auto lg:mx-0">
+                      {benefits.map((b) => (
+                        <li key={b} className="flex items-center gap-2 text-white/85 text-sm">
+                          <span className="grid place-items-center w-5 h-5 rounded-full bg-primary/15 text-primary">
+                            <Check size={12} strokeWidth={3} />
+                          </span>
+                          <span className="font-medium">{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* CTAs */}
+                    <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                      <a
+                        href="#financiamento"
+                        onClick={() => trackEvent("cta_click", { cta: "comprar_online", model: m.slug })}
+                        className="group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm sm:text-base px-7 py-4 rounded-full shadow-[0_10px_30px_-8px_rgba(255,107,26,0.6)] hover:shadow-[0_14px_40px_-6px_rgba(255,107,26,0.8)] hover:brightness-110 transition-all"
+                      >
+                        Comprar online
+                        <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
+                      </a>
+                      <a
+                        href={whatsappUrl}
+                        onClick={handleWhats}
+                        className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm sm:text-base px-7 py-4 rounded-full shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] hover:brightness-110 transition-all"
+                      >
+                        <MessageCircle size={16} fill="white" strokeWidth={0} /> Falar no WhatsApp
+                      </a>
+                    </div>
+
+                    {/* Linha inferior com ícones de serviços */}
+                    <div className="mt-10 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-white/70">
+                      {[
+                        { Icon: ShieldCheck, label: "Garantia" },
+                        { Icon: CreditCard, label: "Financiamento facilitado" },
+                        { Icon: Headphones, label: "Atendimento especializado" },
+                        { Icon: Truck, label: "Entrega para todo Brasil" },
+                      ].map(({ Icon, label }) => (
+                        <div key={label} className="flex flex-col items-center lg:items-start gap-1.5 text-center lg:text-left">
+                          <Icon size={20} className="text-primary" strokeWidth={1.75} />
+                          <span className="text-[11px] uppercase tracking-widest font-display font-bold leading-tight">
+                            {label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* LADO DIREITO — imagem da moto */}
+                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[560px] grid place-items-center">
+                    {/* Glow lateral atrás da moto */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          "radial-gradient(50% 55% at 55% 55%, rgba(255,107,26,0.35) 0%, rgba(255,107,26,0.12) 40%, transparent 75%)",
+                        filter: "blur(20px)",
+                      }}
+                    />
+                    {/* Piso reflexivo */}
+                    <div
+                      aria-hidden
+                      className="absolute bottom-[6%] left-[10%] right-[10%] h-6 rounded-[50%] bg-black/70 blur-2xl"
+                    />
+                    {heroImg ? (
+                      <img
+                        src={heroImg}
+                        alt={m.name}
+                        fetchPriority="high"
+                        decoding="async"
+                        className="relative z-10 w-full max-w-[720px] max-h-[320px] sm:max-h-[460px] lg:max-h-[600px] object-contain animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)]"
+                        style={{
+                          filter:
+                            "drop-shadow(-30px 0 40px rgba(255,107,26,0.25)) drop-shadow(0 20px 30px rgba(0,0,0,0.6))",
+                        }}
+                      />
+                    ) : null}
+                  </div>
                 </div>
               </div>
-              <div className="relative min-h-[320px] sm:min-h-[460px] lg:min-h-[520px] grid place-items-center lg:place-items-end">
-                {heroImg ? (
-                  <img
-                    src={heroImg}
-                    alt={`${m.name}`}
-                    fetchPriority="high"
-                    decoding="async"
-                    className="relative max-h-[360px] sm:max-h-[460px] lg:max-h-[640px] w-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.6)] lg:translate-x-[5%]"
-                  />
-                ) : null}
-              </div>
-            </div>
-          </div>
+            );
+          })()
         )}
       </section>
+
 
       {/* 1. INTRO — MOBILIDADE INTELIGENTE (2-col: título esquerda / texto direita) */}
       <section id="eficiencia" className="border-t border-border bg-neutral-950">
