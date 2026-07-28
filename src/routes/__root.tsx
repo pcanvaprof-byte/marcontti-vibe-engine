@@ -11,7 +11,6 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import infindaLogo from "../assets/infinda-logo.png.asset.json";
 import klugSymbol from "../assets/klug/klug-symbol.png.asset.json";
 import { BackToTop } from "../components/BackToTop";
 import { CookieConsent } from "../components/CookieConsent";
