@@ -314,12 +314,11 @@ export function YamahaProductPage({
 
 
                     {/* Linha inferior com ícones de serviços */}
-                    <div className="mt-8 pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-white/70">
+                    <div className="mt-8 pt-4 border-t border-white/10 grid grid-cols-2 sm:grid-cols-3 gap-4 text-white/70">
                       {[
                         { Icon: ShieldCheck, label: "Garantia" },
                         { Icon: CreditCard, label: "Financiamento facilitado" },
                         { Icon: Headphones, label: "Atendimento especializado" },
-                        { Icon: Truck, label: "Entrega para todo Brasil" },
                       ].map(({ Icon, label }) => (
                         <div key={label} className="flex flex-col items-center lg:items-start gap-1.5 text-center lg:text-left">
                           <Icon size={20} className="text-primary" strokeWidth={1.75} />
