@@ -562,16 +562,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           )}
         </div>
 
-        <Field label="Specs (JSON: [{label, value}])">
-          <Textarea rows={4} value={JSON.stringify(d.specs ?? [], null, 2)}
-            onChange={(e) => { try { set("specs", JSON.parse(e.target.value)); } catch {} }} />
-        </Field>
-        <Field label="Features (JSON: string[])">
-          <Textarea rows={3} value={JSON.stringify(d.features ?? [], null, 2)}
-            onChange={(e) => { try { set("features", JSON.parse(e.target.value)); } catch {} }} />
-        </Field>
-        <Field label='Cores (JSON avançado — permite imagem e galeria por cor: [{"name","hex","image","gallery":["url1","url2"],"hidden":false}])'>
-          <Textarea rows={8} value={JSON.stringify(d.colors ?? [], null, 2)}
+        <SpecsEditor
+          specs={(d.specs as Array<{ label: string; value: string }>) ?? []}
+          onChange={(v) => set("specs", v as any)}
+        />
+        <FeaturesEditor
+          features={(d.features as string[]) ?? []}
+          onChange={(v) => set("features", v as any)}
+        />
+        <Field label='Cores (avançado — JSON: [{"name","hex","image","gallery":["url"],"hidden":false}])'>
+          <Textarea rows={6} value={JSON.stringify(d.colors ?? [], null, 2)}
             onChange={(e) => { try { set("colors", JSON.parse(e.target.value)); } catch {} }} />
         </Field>
 
