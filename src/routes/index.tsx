@@ -1648,7 +1648,6 @@ function Index() {
         <Hero />
         <BenefitsBar />
         <DestaquesGrid />
-        <CategoryCircles />
         <MaisVendidosGrid />
         <YoutubeShowcase />
         <InstagramRow />
