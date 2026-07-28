@@ -26,9 +26,13 @@ export function PageLayout({
   return (
     <div className="min-h-dvh bg-background text-foreground flex flex-col">
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors — início">
-            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between gap-3 sm:gap-4">
+          <Link
+            to="/"
+            className="flex items-center gap-2 shrink-0 min-w-0"
+            aria-label="Klug Motors — início"
+          >
+            <img src={klugLogo.url} alt="Klug Motors" className="h-7 sm:h-8 w-auto object-contain" />
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-[11px] font-display font-black uppercase tracking-widest text-white/70">
             <Link to="/modelos" className="hover:text-primary">Modelos</Link>
@@ -41,7 +45,7 @@ export function PageLayout({
             <Link to="/faq" className="hover:text-primary">FAQ</Link>
             <Link to="/contato" className="hover:text-primary">Contato</Link>
           </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
               type="button"
               onClick={() =>
@@ -50,15 +54,17 @@ export function PageLayout({
                   { source: "header_test_ride", event: "test_ride_click" },
                 )
               }
-              className="hidden sm:inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-[11px] font-display font-black uppercase tracking-widest text-primary-foreground hover:brightness-110"
+              className="hidden sm:inline-flex h-10 items-center gap-2 rounded-full bg-primary px-4 md:px-5 text-[11px] font-display font-black uppercase tracking-widest text-primary-foreground hover:brightness-110"
             >
               Agendar Test-Ride
             </button>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
+              aria-label="Voltar para a home"
+              className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 px-3 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary hover:border-primary/50 transition-colors"
             >
-              <ArrowLeft className="w-4 h-4" /> Home
+              <ArrowLeft className="w-4 h-4" />
+              <span>Home</span>
             </Link>
           </div>
         </div>

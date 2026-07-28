@@ -185,15 +185,21 @@ function CatalogPage() {
     <div className="min-h-dvh bg-background text-foreground">
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors — início">
-            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between gap-3">
+          <Link
+            to="/"
+            className="flex items-center gap-2 shrink-0 min-w-0"
+            aria-label="Klug Motors — início"
+          >
+            <img src={klugLogo.url} alt="Klug Motors" className="h-7 sm:h-8 w-auto object-contain" />
           </Link>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary"
+            aria-label="Voltar para a home"
+            className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 px-3 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary hover:border-primary/50 transition-colors shrink-0"
           >
-            <ArrowLeft className="w-4 h-4" /> Home
+            <ArrowLeft className="w-4 h-4" />
+            <span>Home</span>
           </Link>
         </div>
       </header>
