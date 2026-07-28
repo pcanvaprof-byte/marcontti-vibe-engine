@@ -450,7 +450,7 @@ export function YamahaProductPage({
 
       {/* 1. INTRO — MOBILIDADE INTELIGENTE (2-col: título esquerda / texto direita) */}
       <section id="eficiencia" className="border-t border-border bg-neutral-950">
-        <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28 grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-20 items-start">
           <div>
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
               {isCombustion ? "Trail robusta" : "Eficiência elétrica"}
@@ -484,7 +484,7 @@ export function YamahaProductPage({
 
       {/* 3. MODOS DE CONDUÇÃO / VERSATILIDADE */}
       <section id="modos" className="border-t border-border bg-card/30">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28 grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
           <div className="order-2 lg:order-1">
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
               Experiência
@@ -547,8 +547,8 @@ export function YamahaProductPage({
 
       {/* 4. TECNOLOGIA — cabeçalho 2-col + 3 imagens sem legendas */}
       <section id="tecnologia" className="border-t border-border bg-neutral-950">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-20 items-start">
             <div>
               <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
                 Tecnologia
@@ -577,7 +577,7 @@ export function YamahaProductPage({
             </p>
           </div>
 
-          <div className="mt-14 grid sm:grid-cols-2 gap-6 items-stretch">
+          <div className="mt-8 sm:mt-14 grid sm:grid-cols-2 gap-6 items-stretch">
             {[
               activeGallery[2] ?? activeGallery[0],
               activeGallery[4] ?? activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
@@ -605,8 +605,8 @@ export function YamahaProductPage({
 
       {/* 5. COMODIDADE + CONECTIVIDADE — dois blocos alternados */}
       <section id="comodidade" className="border-t border-border bg-card/30">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 space-y-20 sm:space-y-28">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28 space-y-12 sm:space-y-20 lg:space-y-28">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
             <div className="relative rounded-3xl bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center h-[260px] sm:h-[340px] lg:h-[440px]">
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent animate-pulse" />
               <img
@@ -637,7 +637,7 @@ export function YamahaProductPage({
             </div>
           </div>
 
-          <div id="conectividade" className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center scroll-mt-28">
+          <div id="conectividade" className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center scroll-mt-28">
             <div className="order-2 lg:order-1">
               <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
                 Conectividade
@@ -682,7 +682,7 @@ export function YamahaProductPage({
       {/* 6. BATERIAS / AUTONOMIA — DUAL BATTERY (somente Neo's) */}
       {isDualBattery && (
         <section id="baterias" className="border-t border-border bg-neutral-950">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28">
             <div className="text-center max-w-3xl mx-auto">
               <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
                 Baterias
@@ -703,7 +703,7 @@ export function YamahaProductPage({
               </p>
             </div>
 
-            <div className="mt-14 grid sm:grid-cols-3 gap-6 items-stretch">
+            <div className="mt-8 sm:mt-14 grid sm:grid-cols-3 gap-6 items-stretch">
               {[
                 activeGallery[7] ?? activeGallery[0],
                 activeGallery[8] ?? activeGallery[1] ?? activeGallery[0],
@@ -732,7 +732,7 @@ export function YamahaProductPage({
 
       {/* 7. MODERNIDADE — PAINEL 100% DIGITAL */}
       <section id="modernidade" className="border-t border-border bg-card/30">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28 grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
           <div className="relative rounded-3xl bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center h-[260px] sm:h-[340px] lg:h-[440px]">
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent animate-pulse" />
             <img
@@ -766,7 +766,7 @@ export function YamahaProductPage({
 
       {/* 8. INOVAÇÃO — MANUAL INTERATIVO */}
       <section id="inovacao" className="border-t border-border bg-neutral-950">
-        <div className="max-w-[1200px] mx-auto px-5 sm:px-10 py-20 sm:py-28 text-center">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28 text-center">
           <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
             Inovação
           </p>
@@ -797,7 +797,7 @@ export function YamahaProductPage({
 
       {/* 7. CONDIÇÕES — Financiamento / Consórcio / Consultoria */}
       <section className="border-t border-border bg-neutral-950">
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28">
           <div className="text-center max-w-3xl mx-auto">
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
               Condições Klug
@@ -816,7 +816,7 @@ export function YamahaProductPage({
             </p>
           </div>
 
-          <div className="mt-14 grid md:grid-cols-3 gap-6">
+          <div className="mt-8 sm:mt-14 grid md:grid-cols-3 gap-6">
             {[
               {
                 key: "financiamento" as const,
@@ -919,7 +919,7 @@ export function YamahaProductPage({
         id="financiamento"
         className="border-t border-border"
       >
-        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-16 sm:py-24 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-10 sm:py-16 lg:py-24 grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
             <p className="text-[10px] uppercase tracking-[0.35em] font-display font-black text-primary">
               Fale com um especialista
@@ -1372,7 +1372,7 @@ function FaqAccordion({ items }: { items: FaqItem[] }) {
 
   return (
     <section id="faq" className="border-t border-border bg-card/30">
-      <div className="max-w-4xl mx-auto px-5 sm:px-10 py-20 sm:py-28">
+      <div className="max-w-4xl mx-auto px-5 sm:px-10 py-12 sm:py-20 lg:py-28">
         <div className="text-center">
           <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
             Perguntas frequentes
