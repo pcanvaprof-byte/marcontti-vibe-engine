@@ -18,28 +18,8 @@ import { CookieConsent } from "../components/CookieConsent";
 import { captureAttribution } from "../lib/attribution";
 
 const PUBLIC_ORIGIN = "https://althaciamoveis.shop";
-const INFINDA_LOGO_URL = `${PUBLIC_ORIGIN}${infindaLogo.url}`;
 
-function InfindaCredit() {
-  return (
-    <a
-      href="https://infindadigital.store"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{ mixBlendMode: "difference" }}
-      className="fixed bottom-2 left-2 z-50 flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-white"
-      aria-label="Criado por Infinda Digital — infindadigital.store"
-    >
-      <img
-        src={INFINDA_LOGO_URL}
-        alt="Infinda Digital"
-        className="h-4 w-4 object-contain"
-        style={{ filter: "invert(1) grayscale(1) contrast(1000%)" }}
-      />
-      <span>Criado por infindadigital.store</span>
-    </a>
-  );
-}
+function ScrollProgress() {
 
 /** Slim top progress bar that reflects vertical scroll position. */
 function ScrollProgress() {
