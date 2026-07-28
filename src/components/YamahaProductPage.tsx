@@ -471,10 +471,10 @@ export function YamahaProductPage({
           </h2>
           <p className="mt-6 text-white/75 leading-relaxed max-w-2xl mx-auto">
             Nossos consultores apresentam cada recurso e cuidam de todo o processo — da escolha à
-            entrega — com garantia oficial de fábrica e suporte da Klug Motors.
+            entrega — com suporte da Klug Motors.
           </p>
           <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-primary/40 bg-primary/10 px-5 py-2 text-primary text-[11px] font-display font-black uppercase tracking-widest">
-            <Check size={14} /> Garantia oficial de fábrica
+            <Check size={14} /> Revisada e pronta para uso
           </div>
         </div>
       </section>
