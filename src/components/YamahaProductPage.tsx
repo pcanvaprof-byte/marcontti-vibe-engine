@@ -127,8 +127,11 @@ export function YamahaProductPage({
   const fmtBRL = (n: number) =>
     n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+  const isAeroxSeminova = m.slug === "semi-nova-yamaha-aerox-160-abs";
   const whatsappMsg = isTenereSeminova
     ? `Olá! Tenho interesse na *Yamaha Ténéré 250* — Ano/Modelo: 2019 — ${m.price}. Poderia me informar a quilometragem atual, estado de conservação e condições de pagamento?`
+    : isAeroxSeminova
+    ? `Olá! Tenho interesse na *Yamaha Aerox ABS Connected 2026* na cor *Racing Blue*. Poderia me informar a disponibilidade, quilometragem atual e as condições de pagamento?`
     : `Olá! Tenho interesse na *${m.name}* — ${m.price}. Pode me passar mais informações e condições?`;
   const whatsappUrl = buildWhatsAppFallbackUrl(whatsappMsg);
   const handleWhats = (e: MouseEvent<HTMLAnchorElement>) => {
