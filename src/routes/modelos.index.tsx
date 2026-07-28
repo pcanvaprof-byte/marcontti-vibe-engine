@@ -107,11 +107,17 @@ const CATEGORY_TABS = [
 
 const VALID_MARCAS = ["klug", "sudu", "yamaha"] as const;
 
-function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" {
+function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" | "Seminovas" {
+  if (m.slug.startsWith("seminova")) return "Seminovas";
   if (m.slug.startsWith("sudu")) return "SUDU";
   if (m.slug.startsWith("yamaha")) return "Yamaha";
   return "Klug";
 }
+
+function isSeminova(m: Model): boolean {
+  return m.slug.startsWith("seminova");
+}
+
 
 const MARCA_LABEL: Record<string, "Klug" | "SUDU" | "Yamaha"> = {
   klug: "Klug",
@@ -155,13 +161,14 @@ function CatalogPage() {
     const range = PRICE_RANGES.find((r) => r.id === priceId)!;
     let list = models.filter((m) => {
       let catOk = true;
-      if (activeKey === "triciclo") catOk = isTriciclo(m);
-      else if (activeKey === "seminovos") catOk = false;
+      if (activeKey === "triciclo") catOk = isTriciclo(m) && !isSeminova(m);
+      else if (activeKey === "seminovos") catOk = isSeminova(m);
       else if (activeKey === "klug" || activeKey === "sudu") {
-        // Abas de scooter: excluir triciclos da mesma marca (vão para aba Triciclos)
         catOk = brandOf(m) === MARCA_LABEL[activeKey] && !isTriciclo(m);
-      } else if (activeKey !== "todos") {
-        catOk = brandOf(m) === MARCA_LABEL[activeKey];
+      } else if (activeKey === "yamaha") {
+        catOk = brandOf(m) === "Yamaha";
+      } else if (activeKey === "todos") {
+        catOk = !isSeminova(m);
       }
       const priceOk = m.priceNumber >= range.min && m.priceNumber <= range.max;
       return catOk && priceOk;
@@ -170,6 +177,7 @@ function CatalogPage() {
     if (sort === "price-desc") list = [...list].sort((a, b) => b.priceNumber - a.priceNumber);
     return list;
   }, [models, activeKey, priceId, sort]);
+
 
 
   return (
@@ -275,7 +283,7 @@ function CatalogPage() {
           {models.length} modelos
         </p>
 
-        {search.cat === "seminovos" ? (
+        {search.cat === "seminovos" && filtered.length === 0 ? (
           <div className="border border-dashed border-primary/40 rounded-2xl p-16 text-center bg-card">
             <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-3">
               Novidade
@@ -295,6 +303,7 @@ function CatalogPage() {
               <MessageCircle size={14} strokeWidth={2.5} /> Consultar no WhatsApp
             </a>
           </div>
+
         ) : filtered.length === 0 ? (
           <div className="border border-dashed border-border rounded-2xl p-16 text-center bg-card">
             <p className="font-display font-black uppercase tracking-wider text-lg mb-2">
