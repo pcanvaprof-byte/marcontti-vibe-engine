@@ -77,24 +77,20 @@ export function ProductCard({ product }: { product: Product }) {
         aria-label={`Ver detalhes de ${product.nome}`}
         className="relative z-[2] block mx-3 mt-3 sm:mx-4 sm:mt-4"
       >
-        <div className="relative aspect-[4/3] rounded-[12px] bg-white overflow-visible shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
-          <div className="absolute inset-0 flex items-end justify-center overflow-visible">
-            <LazyImage
-              src={product.imagem}
-              alt={product.nome}
-              aspectRatio={null}
-              wrapperClassName="h-full items-end !overflow-visible"
-              sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 40vw, 85vw"
-              className="
-                w-auto object-contain pointer-events-none
-                h-[135%] sm:h-[145%]
-                -translate-y-[6%] sm:-translate-y-[8%]
-                drop-shadow-[0_20px_25px_rgba(0,0,0,0.35)]
-                transition-transform duration-500 motion-safe:group-hover:scale-[1.06] motion-safe:group-hover:-translate-y-[10%]
-              "
-            />
-          </div>
+        <div className="relative aspect-[4/3] rounded-[12px] bg-white overflow-hidden shadow-[0_10px_25px_-15px_rgba(0,0,0,0.6)_inset]">
+          <LazyImage
+            src={product.imagem}
+            alt={product.nome}
+            aspectRatio={null}
+            wrapperClassName="absolute inset-0 w-full h-full"
+            sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 40vw, 85vw"
+            className="
+              absolute inset-0 w-full h-full object-cover pointer-events-none
+              transition-transform duration-500 motion-safe:group-hover:scale-[1.05]
+            "
+          />
         </div>
+
       </Link>
 
       {/* MOBILE — bloco inferior em fluxo, altura automática, sem clipping */}
