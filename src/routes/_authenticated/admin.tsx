@@ -439,6 +439,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         gallery: d.gallery ?? [],
         is_active: d.is_active ?? true,
         sort_order: d.sort_order ?? 0,
+        condition: d.condition ?? "zero_km",
       };
       const { error } = d.id
         ? await supabase.from("models").update(payload).eq("id", d.id)
