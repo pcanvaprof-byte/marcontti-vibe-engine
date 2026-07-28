@@ -207,6 +207,7 @@ export type Database = {
         Row: {
           brand: string
           colors: Json
+          condition: Database["public"]["Enums"]["model_condition"]
           created_at: string
           description: string
           features: Json
@@ -229,6 +230,7 @@ export type Database = {
         Insert: {
           brand?: string
           colors?: Json
+          condition?: Database["public"]["Enums"]["model_condition"]
           created_at?: string
           description?: string
           features?: Json
@@ -251,6 +253,7 @@ export type Database = {
         Update: {
           brand?: string
           colors?: Json
+          condition?: Database["public"]["Enums"]["model_condition"]
           created_at?: string
           description?: string
           features?: Json
@@ -302,6 +305,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      model_condition: "zero_km" | "semi_nova"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -430,6 +434,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      model_condition: ["zero_km", "semi_nova"],
     },
   },
 } as const
