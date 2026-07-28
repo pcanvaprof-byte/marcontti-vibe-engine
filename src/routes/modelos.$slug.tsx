@@ -31,6 +31,7 @@ import { YamahaProductPage } from "@/components/YamahaProductPage";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
+import tenereNobgOptimized from "@/assets/seminovas/tenere-250-seminova-nobg.png?w=320;480;640;800;1024;1280&format=webp&quality=90&as=img";
 
 const BASE_URL = "https://althaciamoveis.shop";
 
@@ -93,6 +94,8 @@ export const Route = createFileRoute("/modelos/$slug")({
         ? rawImg
         : `${BASE_URL}${rawImg}`
       : undefined;
+    const isTenere = params.slug === "semi-nova-yamaha-tenere-250";
+    const tenereImg = isTenere ? tenereNobgOptimized : null;
     return {
       meta: [
         { title },
@@ -111,7 +114,20 @@ export const Route = createFileRoute("/modelos/$slug")({
       ],
       links: [
         { rel: "canonical", href: url },
-        ...(img ? [{ rel: "preload", as: "image", href: img, fetchpriority: "high" }] : []),
+        ...(tenereImg
+          ? [
+              {
+                rel: "preload",
+                as: "image",
+                href: tenereImg.src,
+                imagesrcset: tenereImg.srcset,
+                imagesizes: "(max-width: 1024px) 95vw, 50vw",
+                fetchpriority: "high",
+              },
+            ]
+          : img
+          ? [{ rel: "preload", as: "image", href: img, fetchpriority: "high" }]
+          : []),
       ],
       scripts: [
         {

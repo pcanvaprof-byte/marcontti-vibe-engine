@@ -263,10 +263,9 @@ export function FinanciamentoForm({
       if (addr.zip.length !== 8) errs.address_zip = "CEP inválido";
       if (cepError) errs.address_zip = cepError;
       if (cepLoading) errs.address_zip = "Aguarde a consulta do CEP finalizar";
-
-
-      if (!lgpd) errs.lgpd = "É necessário aceitar o compartilhamento dos dados";
     }
+
+    if (!lgpd) errs.lgpd = "É necessário aceitar o compartilhamento dos dados";
 
     if (Object.keys(errs).length) {
       setErrors(errs);
@@ -323,8 +322,8 @@ export function FinanciamentoForm({
       address_city: d.paymentType === "Financiamento" ? addr.city : null,
       address_state: d.paymentType === "Financiamento" ? addr.state.toUpperCase() : null,
       address_zip: d.paymentType === "Financiamento" ? addr.zip : null,
-      lgpd_consent: d.paymentType === "Financiamento" ? lgpd : false,
-      lgpd_consent_at: d.paymentType === "Financiamento" && lgpd ? new Date().toISOString() : null,
+      lgpd_consent: lgpd,
+      lgpd_consent_at: lgpd ? new Date().toISOString() : null,
       utm_source: attr.utm_source,
       utm_medium: attr.utm_medium,
       utm_campaign: attr.utm_campaign,
@@ -792,37 +791,38 @@ export function FinanciamentoForm({
 
               </div>
 
-              <label
-                htmlFor="fin-lgpd"
-                className={`flex items-start gap-3 cursor-pointer border p-4 transition-colors ${
-                  errors.lgpd ? "border-destructive/60" : "border-border hover:border-primary/60"
-                }`}
-              >
-                <input
-                  id="fin-lgpd"
-                  type="checkbox"
-                  checked={lgpd}
-                  onChange={(e) => {
-                    setLgpd(e.currentTarget.checked);
-                    if (e.currentTarget.checked) {
-                      setErrors((prev) => {
-                        const n = { ...prev };
-                        delete n.lgpd;
-                        return n;
-                      });
-                    }
-                  }}
-                  className="mt-0.5 h-4 w-4 accent-primary shrink-0"
-                />
-                <span className="text-xs text-white/80 leading-relaxed">
-                  Autorizo a Klug Motors a coletar, tratar e compartilhar meus dados pessoais com instituições financeiras parceiras para análise de crédito e formalização do financiamento, conforme a{" "}
-                  <strong className="text-white">Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018)</strong>. Confirmo que as informações fornecidas são verdadeiras.
-                </span>
-              </label>
-              {errors.lgpd && <p role="alert" className="text-xs text-destructive -mt-2">{errors.lgpd}</p>}
             </div>
           </>
         )}
+
+        <label
+          htmlFor="fin-lgpd"
+          className={`flex items-start gap-3 cursor-pointer border p-4 transition-colors ${
+            errors.lgpd ? "border-destructive/60" : "border-border hover:border-primary/60"
+          }`}
+        >
+          <input
+            id="fin-lgpd"
+            type="checkbox"
+            checked={lgpd}
+            onChange={(e) => {
+              setLgpd(e.currentTarget.checked);
+              if (e.currentTarget.checked) {
+                setErrors((prev) => {
+                  const n = { ...prev };
+                  delete n.lgpd;
+                  return n;
+                });
+              }
+            }}
+            className="mt-0.5 h-4 w-4 accent-primary shrink-0"
+          />
+          <span className="text-xs text-white/80 leading-relaxed">
+            Autorizo a Klug Motors a coletar, tratar e compartilhar meus dados pessoais com instituições financeiras parceiras para análise de crédito e formalização do financiamento, conforme a{" "}
+            <strong className="text-white">Lei Geral de Proteção de Dados (LGPD — Lei 13.709/2018)</strong>. Confirmo que as informações fornecidas são verdadeiras.
+          </span>
+        </label>
+        {errors.lgpd && <p role="alert" className="text-xs text-destructive -mt-2">{errors.lgpd}</p>}
 
         <div>
           <label htmlFor="fin-msg" className={labelCls}>Observações (opcional)</label>
