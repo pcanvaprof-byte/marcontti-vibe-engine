@@ -660,13 +660,13 @@ export function YamahaProductPage({
                 Falar com um consultor Klug <ChevronRight size={14} />
               </a>
             </div>
-            <div className="order-1 lg:order-2 rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
+            <div className="order-1 lg:order-2 rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center">
               <img
                 src={activeGallery[6] ?? activeGallery[1] ?? heroImg}
                 alt="Conectividade"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-contain"
+                className="max-h-[260px] sm:max-h-[360px] lg:max-h-[420px] w-auto h-auto max-w-full object-contain"
               />
             </div>
           </div>
