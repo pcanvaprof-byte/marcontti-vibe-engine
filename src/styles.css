@@ -196,6 +196,9 @@
 .animate-float    { animation: float 3.5s ease-in-out infinite; }
 .animate-pulse-ring { animation: pulse-ring 1.6s ease-out infinite; }
 .animate-marquee  { animation: marquee 40s linear infinite; }
+.animate-streak-drift { animation: streak-drift 8s ease-in-out infinite; }
+.animate-glow-breathe { animation: glow-breathe 6s ease-in-out infinite; }
+.animate-flare-sweep { animation: flare-sweep 7s ease-in-out infinite; }
 
 /* Skeleton shimmer utility */
 .shimmer {
