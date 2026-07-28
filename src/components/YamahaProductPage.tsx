@@ -894,21 +894,28 @@ export function YamahaProductPage({
               Consulte disponibilidade, condições de pagamento e financiamento na Klug
               Motors — unidade Joinville / SC.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <a
                 href={whatsappUrl}
                 onClick={handleWhats}
-                className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110"
+                className="group btn-premium-whatsapp w-full sm:w-auto text-xs sm:text-sm px-6 sm:px-7 py-3.5 sm:py-4"
               >
-                <MessageCircle size={14} fill="white" strokeWidth={0} /> Falar no WhatsApp
+                <MessageCircle
+                  size={16}
+                  fill="white"
+                  strokeWidth={0}
+                  className="shrink-0"
+                />
+                Falar no WhatsApp
               </a>
               <Link
                 to="/modelos"
-                className="inline-flex items-center gap-2 border border-white/20 text-white font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:border-primary hover:text-primary"
+                className="btn-premium-ghost w-full sm:w-auto text-xs sm:text-sm px-6 sm:px-7 py-3.5 sm:py-4"
               >
                 Ver outros modelos
               </Link>
             </div>
+
           </div>
 
           <FinanciamentoForm defaultModel={m.name} />
