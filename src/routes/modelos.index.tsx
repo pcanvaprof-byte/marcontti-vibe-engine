@@ -107,11 +107,17 @@ const CATEGORY_TABS = [
 
 const VALID_MARCAS = ["klug", "sudu", "yamaha"] as const;
 
-function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" {
+function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" | "Seminovas" {
+  if (m.slug.startsWith("seminova")) return "Seminovas";
   if (m.slug.startsWith("sudu")) return "SUDU";
   if (m.slug.startsWith("yamaha")) return "Yamaha";
   return "Klug";
 }
+
+function isSeminova(m: Model): boolean {
+  return m.slug.startsWith("seminova");
+}
+
 
 const MARCA_LABEL: Record<string, "Klug" | "SUDU" | "Yamaha"> = {
   klug: "Klug",
