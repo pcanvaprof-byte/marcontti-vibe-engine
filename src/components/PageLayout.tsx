@@ -64,7 +64,7 @@ export function PageLayout({
               className="inline-flex h-10 items-center gap-1.5 rounded-full border border-white/10 px-3 text-[11px] font-display font-black uppercase tracking-widest text-white/70 hover:text-primary hover:border-primary/50 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="hidden xs:inline sm:inline">Home</span>
+              <span>Home</span>
             </Link>
           </div>
         </div>
