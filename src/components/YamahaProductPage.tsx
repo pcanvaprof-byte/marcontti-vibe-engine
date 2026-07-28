@@ -531,13 +531,13 @@ export function YamahaProductPage({
             )}
           </div>
           <div className="order-1 lg:order-2">
-            <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
+            <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center">
               <img
                 src={activeGallery[1] ?? activeGallery[0] ?? heroImg}
                 alt={`${m.name} — modos de condução`}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-contain"
+                className="max-h-[260px] sm:max-h-[360px] lg:max-h-[420px] w-auto h-auto max-w-full object-contain"
               />
             </div>
           </div>
@@ -583,7 +583,7 @@ export function YamahaProductPage({
             ].map((img, i) => (
               <div
                 key={i}
-                className="rounded-3xl bg-neutral-900 border border-white/10 p-4 sm:p-6 flex items-center justify-center"
+                className="rounded-3xl bg-neutral-900 border border-white/10 p-3 sm:p-4 flex items-center justify-center"
               >
                 {img ? (
                   <img
@@ -591,7 +591,7 @@ export function YamahaProductPage({
                     alt={`${m.name} — detalhe ${i + 1}`}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-auto max-w-full object-contain"
+                    className="max-h-[220px] sm:max-h-[300px] lg:max-h-[360px] w-auto h-auto max-w-full object-contain"
                   />
                 ) : null}
               </div>
@@ -605,13 +605,13 @@ export function YamahaProductPage({
       <section id="comodidade" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 space-y-20 sm:space-y-28">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
+            <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center">
               <img
                 src={activeGallery[5] ?? activeGallery[0] ?? heroImg}
                 alt="Comodidade"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-contain"
+                className="max-h-[260px] sm:max-h-[360px] lg:max-h-[420px] w-auto h-auto max-w-full object-contain"
               />
             </div>
             <div>
@@ -660,13 +660,13 @@ export function YamahaProductPage({
                 Falar com um consultor Klug <ChevronRight size={14} />
               </a>
             </div>
-            <div className="order-1 lg:order-2 rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
+            <div className="order-1 lg:order-2 rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center">
               <img
                 src={activeGallery[6] ?? activeGallery[1] ?? heroImg}
                 alt="Conectividade"
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-contain"
+                className="max-h-[260px] sm:max-h-[360px] lg:max-h-[420px] w-auto h-auto max-w-full object-contain"
               />
             </div>
           </div>
@@ -705,7 +705,7 @@ export function YamahaProductPage({
               ].map((img, i) => (
                 <div
                   key={i}
-                  className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 aspect-[4/3] grid place-items-center"
+                  className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 aspect-[4/3] grid place-items-center p-3 sm:p-4"
                 >
                   {img ? (
                     <img
@@ -713,7 +713,7 @@ export function YamahaProductPage({
                       alt={`Bateria ${i + 1}`}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-contain p-6"
+                      className="max-h-[160px] sm:max-h-[200px] lg:max-h-[240px] w-auto h-auto max-w-full object-contain"
                     />
                   ) : null}
                 </div>
@@ -726,13 +726,13 @@ export function YamahaProductPage({
       {/* 7. MODERNIDADE — PAINEL 100% DIGITAL */}
       <section id="modernidade" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
+          <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center">
             <img
               src={activeGallery[10] ?? activeGallery[2] ?? heroImg}
               alt={`${m.name} — painel 100% digital`}
               loading="lazy"
               decoding="async"
-              className="w-full h-auto object-contain"
+              className="max-h-[260px] sm:max-h-[360px] lg:max-h-[420px] w-auto h-auto max-w-full object-contain"
             />
           </div>
           <div>
