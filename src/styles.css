@@ -222,6 +222,131 @@
   box-shadow: 0 20px 40px -20px color-mix(in oklab, var(--primary) 40%, transparent);
 }
 
+/* Premium CTA buttons — lift, glow and micro-shine */
+@utility btn-premium-ember {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--gradient-primary);
+  color: var(--primary-foreground);
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 0 10px 30px -8px color-mix(in oklab, var(--primary) 60%, transparent);
+  transition: transform 300ms var(--transition-smooth),
+              box-shadow 300ms var(--transition-smooth),
+              filter 300ms var(--transition-smooth);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 18px 50px -8px color-mix(in oklab, var(--primary) 85%, transparent),
+                0 0 0 1px color-mix(in oklab, var(--primary) 40%, transparent);
+    filter: brightness(1.08);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      color-mix(in oklab, var(--primary-foreground) 25%, transparent) 50%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    mix-blend-mode: screen;
+  }
+
+  &:hover::before {
+    transform: translateX(120%);
+  }
+}
+
+@utility btn-premium-whatsapp {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #25D366;
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 0 10px 30px -10px rgba(37, 211, 102, 0.6);
+  transition: transform 300ms var(--transition-smooth),
+              box-shadow 300ms var(--transition-smooth),
+              filter 300ms var(--transition-smooth);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 18px 50px -10px rgba(37, 211, 102, 0.85),
+                0 0 0 1px rgba(37, 211, 102, 0.45);
+    filter: brightness(1.08);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    mix-blend-mode: screen;
+  }
+
+  &:hover::before {
+    transform: translateX(120%);
+  }
+}
+
+@utility btn-premium-ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 20%, transparent);
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: transform 300ms var(--transition-smooth),
+              border-color 300ms var(--transition-smooth),
+              color 300ms var(--transition-smooth),
+              box-shadow 300ms var(--transition-smooth);
+
+  &:hover {
+    transform: translateY(-2px) scale(1.02);
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 14px 40px -15px color-mix(in oklab, var(--primary) 25%, transparent);
+  }
+}
+
+
 /* Klug diamond mark used across nav/footer */
 .klug-mark {
   width: 1.75rem;
