@@ -23,6 +23,7 @@ export type DbModel = {
   gallery: Array<string | GalleryItem>;
   is_active: boolean;
   sort_order: number;
+  condition: "zero_km" | "semi_nova";
 };
 
 export function normalizeGallery(raw: DbModel["gallery"] | null | undefined): GalleryItem[] {

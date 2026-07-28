@@ -93,7 +93,8 @@ function SortableGalleryTile({
   );
 }
 
-const isSemiNova = (m: DbModel) => m.slug.startsWith("semi-nova-") || /semi\s*nova/i.test(m.tag ?? "");
+const isSemiNova = (m: DbModel) =>
+  m.condition === "semi_nova" || m.slug.startsWith("semi-nova-") || /semi\s*nova/i.test(m.tag ?? "");
 
 const BRAND_GROUPS: { key: string; label: string; match: (m: DbModel) => boolean }[] = [
   { key: "klug-scooter", label: "Scooter Elétricas Moto Chefe", match: (m) => m.brand === "klug" && !/tricicl/i.test(m.tag ?? "") && !isSemiNova(m) },
@@ -204,6 +205,7 @@ const emptyDraft: Draft = {
   gallery: [],
   is_active: true,
   sort_order: 0,
+  condition: "zero_km",
 };
 
 function AdminPage() {
@@ -437,6 +439,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         gallery: d.gallery ?? [],
         is_active: d.is_active ?? true,
         sort_order: d.sort_order ?? 0,
+        condition: d.condition ?? "zero_km",
       };
       const { error } = d.id
         ? await supabase.from("models").update(payload).eq("id", d.id)
@@ -471,6 +474,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <option value="klug">Klug</option>
               <option value="sudu">SUDU</option>
               <option value="yamaha">Yamaha</option>
+            </select>
+          </Field>
+          <Field label="Status">
+            <select
+              value={d.condition ?? "zero_km"}
+              onChange={(e) => set("condition", e.target.value as "zero_km" | "semi_nova")}
+              className="w-full h-10 rounded-md border border-neutral-800 bg-neutral-900 px-3 text-sm"
+            >
+              <option value="zero_km">0km (Nova)</option>
+              <option value="semi_nova">Semi Nova</option>
             </select>
           </Field>
           <Field label="Nome"><Input value={d.name} onChange={(e) => set("name", e.target.value)} /></Field>
