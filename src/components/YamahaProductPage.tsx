@@ -108,6 +108,7 @@ export function YamahaProductPage({
   // Uma heurística segura: apenas o Neo's é 100% elétrico com baterias
   // removíveis no catálogo Yamaha atual — demais são combustão/híbridos.
   const isDualBattery = isNeos;
+  const isCombustion = isTenereSeminova || m.slug.startsWith("yamaha-") || m.slug.startsWith("semi-nova-");
 
   // Textos das seções Intro/Versatilidade/Tecnologia são fixos (não trocam por cor)
   // — evita re-render/piscada de várias seções a cada clique na cor.
