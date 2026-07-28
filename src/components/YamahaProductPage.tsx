@@ -531,13 +531,13 @@ export function YamahaProductPage({
             )}
           </div>
           <div className="order-1 lg:order-2">
-            <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
+            <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center">
               <img
                 src={activeGallery[1] ?? activeGallery[0] ?? heroImg}
                 alt={`${m.name} — modos de condução`}
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-contain"
+                className="max-h-[260px] sm:max-h-[360px] lg:max-h-[420px] w-auto h-auto max-w-full object-contain"
               />
             </div>
           </div>
