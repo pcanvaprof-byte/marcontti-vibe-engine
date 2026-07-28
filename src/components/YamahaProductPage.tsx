@@ -491,9 +491,17 @@ export function YamahaProductPage({
                 fontSize: "clamp(30px, 4.5vw, 60px)",
               }}
             >
-              Versatilidade em <span className="text-primary">cada viagem</span>
+              {isCombustion ? (
+                <>
+                  Pronta para <span className="text-primary">qualquer terreno</span>
+                </>
+              ) : (
+                <>
+                  Versatilidade em <span className="text-primary">cada viagem</span>
+                </>
+              )}
             </h3>
-            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg">
+            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg whitespace-pre-line">
               {sentences[1] ?? sentences[0]}
             </p>
             {m.features.length > 0 && (
