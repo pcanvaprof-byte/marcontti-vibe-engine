@@ -146,7 +146,8 @@ function activeCategoryKey(search: CatSearch): string {
 }
 
 function CatalogPage() {
-  const { items: models } = usePublicModels();
+  const { items: models, isLoading, isFetching, data: dbData } = usePublicModels();
+  const dataReady = Boolean(dbData);
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/modelos/" });
   const activeKey = activeCategoryKey(search);
