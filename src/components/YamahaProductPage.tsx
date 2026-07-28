@@ -216,7 +216,7 @@ export function YamahaProductPage({
                   "Assistência autorizada",
                 ];
             return (
-              <div className="relative bg-[#050505]">
+              <div className="relative bg-[#050505] min-h-[520px] sm:min-h-[600px] lg:min-h-[720px] flex items-center">
                 {/* Camadas de fundo: gradientes + glow laranja + streaks + marca d'água */}
                 <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
                   {/* Gradiente vertical sutil */}
