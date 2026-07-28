@@ -243,7 +243,7 @@ export function YamahaProductPage({
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                 </div>
 
-                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-8 items-center">
+                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-6 sm:py-8 lg:py-12 grid lg:grid-cols-[1fr_1.2fr] gap-6 lg:gap-8 items-center">
                   {/* Máscara de legibilidade do lado esquerdo */}
                   <div
                     aria-hidden
