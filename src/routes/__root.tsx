@@ -189,7 +189,7 @@ function RootComponent() {
       <Outlet />
       <BackToTop />
       <CookieConsent />
-      <InfindaCredit />
     </QueryClientProvider>
   );
+
 }
