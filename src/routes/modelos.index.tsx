@@ -107,15 +107,19 @@ const CATEGORY_TABS = [
 
 const VALID_MARCAS = ["klug", "sudu", "yamaha"] as const;
 
+function isSemiNova(m: Model): boolean {
+  return (
+    m.slug.startsWith("semi-nova") ||
+    /semi\s*nova/i.test(m.tag ?? "") ||
+    (m as unknown as { condition?: string }).condition === "semi_nova"
+  );
+}
+
 function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" | "Semi Novas" {
-  if (m.slug.startsWith("semi-nova")) return "Semi Novas";
+  if (isSemiNova(m)) return "Semi Novas";
   if (m.slug.startsWith("sudu")) return "SUDU";
   if (m.slug.startsWith("yamaha")) return "Yamaha";
   return "Klug";
-}
-
-function isSemiNova(m: Model): boolean {
-  return m.slug.startsWith("semi-nova");
 }
 
 
