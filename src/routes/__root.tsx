@@ -19,8 +19,6 @@ import { captureAttribution } from "../lib/attribution";
 
 const PUBLIC_ORIGIN = "https://althaciamoveis.shop";
 
-function ScrollProgress() {
-
 /** Slim top progress bar that reflects vertical scroll position. */
 function ScrollProgress() {
   const [progress, setProgress] = useState(0);
