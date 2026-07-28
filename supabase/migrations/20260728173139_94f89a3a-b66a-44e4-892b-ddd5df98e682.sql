@@ -1,0 +1,3 @@
+UPDATE public.models
+SET description = 'Trail robusta para uso misto: motor 249 cc, 4 tempos, SOHC, refrigeração a ar e injeção eletrônica BlueFlex. Entrega 20,9 cv e 2,10 kgf.m de torque, com câmbio de 5 marchas. Pesa apenas 154 kg, tanque de 16 litros e autonomia que ultrapassa 450 km. Suspensão de longo curso, freios a disco e ergonomia confortável para cidade e estrada de terra. Acompanha baú traseiro, protetores de mão SCAM e proteção de motor. Consulte disponibilidade, quilometragem e condições pelo WhatsApp.'
+WHERE slug = 'semi-nova-yamaha-tenere-250';
