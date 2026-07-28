@@ -194,9 +194,8 @@ export function YamahaProductPage({
                     ? "Scooter Elétrica Moto Chefe"
                     : m.tag || "Klug Motors";
             const isSeminova = m.slug.startsWith("semi-nova-");
-            const heroDescription = isSeminova
-              ? `${m.name} semi nova, revisada e pronta para aventura. Trail robusta, econômica e confortável para cidade, estrada e terra.`
-              : (m.short || m.description);
+            const isYamaha = m.slug.startsWith("yamaha-");
+            const heroDescription = m.short || m.description;
             const benefits = isSeminova
               ? [
                   "Revisada e aprovada",
