@@ -554,10 +554,19 @@ export function YamahaProductPage({
                   fontSize: "clamp(30px, 4.5vw, 60px)",
                 }}
               >
-                A escolha certa para <span className="text-primary">mobilidade urbana</span>
+                {isCombustion ? (
+                  <>
+                    Tecnologia e <span className="text-primary">conforto</span>
+                  </>
+                ) : (
+                  <>
+                    A escolha certa para{" "}
+                    <span className="text-primary">mobilidade urbana</span>
+                  </>
+                )}
               </h3>
             </div>
-            <p className="text-white/75 leading-relaxed lg:pt-6">
+            <p className="text-white/75 leading-relaxed lg:pt-6 whitespace-pre-line">
               {sentences[2] ?? sentences[0]}
             </p>
           </div>
