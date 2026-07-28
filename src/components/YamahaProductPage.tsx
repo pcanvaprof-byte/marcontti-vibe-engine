@@ -279,24 +279,39 @@ export function YamahaProductPage({
                       ))}
                     </ul>
 
-                    {/* CTAs */}
-                    <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                    {/* CTAs — premium, responsive, hierarchy */}
+                    <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                       <a
                         href="#financiamento"
-                        onClick={() => trackEvent("cta_click", { modelSlug: m.slug, meta: { cta: "comprar_online" } })}
-                        className="group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm sm:text-base px-7 py-4 rounded-full shadow-[0_10px_30px_-8px_rgba(255,107,26,0.6)] hover:shadow-[0_14px_40px_-6px_rgba(255,107,26,0.8)] hover:brightness-110 transition-all"
+                        onClick={() =>
+                          trackEvent("cta_click", {
+                            modelSlug: m.slug,
+                            meta: { cta: "comprar_online" },
+                          })
+                        }
+                        className="group btn-premium-ember w-full sm:w-auto text-xs sm:text-sm lg:text-base px-7 sm:px-8 py-4 sm:py-[18px]"
                       >
                         Comprar online
-                        <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
+                        <ChevronRight
+                          size={16}
+                          className="shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+                        />
                       </a>
                       <a
                         href={whatsappUrl}
                         onClick={handleWhats}
-                        className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-sm sm:text-base px-7 py-4 rounded-full shadow-[0_10px_30px_-10px_rgba(37,211,102,0.6)] hover:brightness-110 transition-all"
+                        className="group btn-premium-whatsapp w-full sm:w-auto text-xs sm:text-sm lg:text-base px-7 sm:px-8 py-4 sm:py-[18px]"
                       >
-                        <MessageCircle size={16} fill="white" strokeWidth={0} /> Falar no WhatsApp
+                        <MessageCircle
+                          size={16}
+                          fill="white"
+                          strokeWidth={0}
+                          className="shrink-0"
+                        />
+                        Falar no WhatsApp
                       </a>
                     </div>
+
 
                     {/* Linha inferior com ícones de serviços */}
                     <div className="mt-10 pt-6 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-4 text-white/70">
