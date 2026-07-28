@@ -307,21 +307,21 @@ export function YamahaProductPage({
                   </div>
 
                   {/* LADO DIREITO — imagem da moto */}
-                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[560px] grid place-items-center">
+                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[680px] grid place-items-center lg:items-center lg:justify-items-end">
                     {/* Glow lateral atrás da moto */}
                     <div
                       aria-hidden
                       className="absolute inset-0 pointer-events-none"
                       style={{
                         background:
-                          "radial-gradient(50% 55% at 55% 55%, rgba(255,107,26,0.35) 0%, rgba(255,107,26,0.12) 40%, transparent 75%)",
+                          "radial-gradient(55% 60% at 65% 55%, rgba(255,107,26,0.40) 0%, rgba(255,107,26,0.15) 40%, transparent 75%)",
                         filter: "blur(20px)",
                       }}
                     />
                     {/* Piso reflexivo */}
                     <div
                       aria-hidden
-                      className="absolute bottom-[6%] left-[10%] right-[10%] h-6 rounded-[50%] bg-black/70 blur-2xl"
+                      className="absolute bottom-[4%] left-[10%] right-[2%] h-6 rounded-[50%] bg-black/70 blur-2xl"
                     />
                     {heroImg ? (
                       <img
@@ -329,7 +329,7 @@ export function YamahaProductPage({
                         alt={m.name}
                         fetchPriority="high"
                         decoding="async"
-                        className="relative z-10 w-full max-w-[720px] max-h-[320px] sm:max-h-[460px] lg:max-h-[600px] object-contain animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)]"
+                        className="relative z-10 w-full max-w-[720px] lg:max-w-none max-h-[340px] sm:max-h-[480px] lg:max-h-[720px] object-contain animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)]"
                         style={{
                           filter:
                             "drop-shadow(-30px 0 40px rgba(255,107,26,0.25)) drop-shadow(0 20px 30px rgba(0,0,0,0.6))",
