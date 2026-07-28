@@ -146,7 +146,8 @@ function activeCategoryKey(search: CatSearch): string {
 }
 
 function CatalogPage() {
-  const { items: models } = usePublicModels();
+  const { items: models, isLoading, isFetching, data: dbData } = usePublicModels();
+  const dataReady = Boolean(dbData);
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/modelos/" });
   const activeKey = activeCategoryKey(search);
@@ -283,7 +284,16 @@ function CatalogPage() {
           {models.length} modelos
         </p>
 
-        {search.cat === "seminovos" && filtered.length === 0 ? (
+        {!dataReady && (isLoading || isFetching) ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="rounded-2xl border border-border bg-card/60 h-80 animate-pulse"
+              />
+            ))}
+          </div>
+        ) : search.cat === "seminovos" && filtered.length === 0 ? (
           <div className="border border-dashed border-primary/40 rounded-2xl p-16 text-center bg-card">
             <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-3">
               Novidade
@@ -303,6 +313,7 @@ function CatalogPage() {
               <MessageCircle size={14} strokeWidth={2.5} /> Consultar no WhatsApp
             </a>
           </div>
+
 
         ) : filtered.length === 0 ? (
           <div className="border border-dashed border-border rounded-2xl p-16 text-center bg-card">
