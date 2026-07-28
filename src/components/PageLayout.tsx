@@ -26,9 +26,9 @@ export function PageLayout({
   return (
     <div className="min-h-dvh bg-background text-foreground flex flex-col">
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2" aria-label="Klug Motors — início">
-            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 md:h-20 flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="Klug Motors — início">
+            <img src={klugLogo.url} alt="Klug Motors" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
           <nav className="hidden lg:flex items-center gap-6 text-[11px] font-display font-black uppercase tracking-widest text-white/70">
             <Link to="/modelos" className="hover:text-primary">Modelos</Link>
