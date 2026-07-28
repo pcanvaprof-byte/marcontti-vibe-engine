@@ -12,7 +12,8 @@ import { View360Modal } from "@/components/View360Modal";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import neosHeroOfficial from "@/assets/neos-hero-official.png.asset.json";
-import tenereNobg from "@/assets/seminovas/tenere-250-seminova-nobg.png";
+import tenereNobgFallback from "@/assets/seminovas/tenere-250-seminova-nobg.png";
+import tenereNobgOptimized from "@/assets/seminovas/tenere-250-seminova-nobg.png?w=320;480;640;800;1024;1280&format=webp&quality=90&as=img";
 
 /**
  * Yamaha-style editorial product page.
@@ -97,7 +98,7 @@ export function YamahaProductPage({
     return vg.length > 0 ? vg : modelGallery;
   }, [variant, modelGallery]);
   const isTenereSeminova = m.slug === "semi-nova-yamaha-tenere-250";
-  const heroImg = isTenereSeminova ? tenereNobg : (variant?.image ?? activeGallery[0]);
+  const heroImg = isTenereSeminova ? tenereNobgFallback : (variant?.image ?? activeGallery[0]);
 
 
   // O hero oficial só se aplica ao Neo's Connected. Demais modelos usam a
@@ -420,6 +421,12 @@ export function YamahaProductPage({
                         alt={m.name}
                         fetchPriority="high"
                         decoding="async"
+                        {...(isTenereSeminova && {
+                          srcSet: tenereNobgOptimized.srcset,
+                          sizes: "(max-width: 1024px) 95vw, 50vw",
+                          width: tenereNobgOptimized.w,
+                          height: tenereNobgOptimized.h,
+                        })}
                         className="relative z-10 w-full max-w-[720px] lg:max-w-none max-h-[340px] sm:max-h-[480px] lg:max-h-[720px] object-contain animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)] lg:scale-[1.2] lg:origin-left"
                         style={{
                           filter:

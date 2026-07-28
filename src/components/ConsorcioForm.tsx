@@ -134,6 +134,8 @@ export function ConsorcioForm({
       referrer: attr.referrer,
       landing_page: attr.landing_page,
       origin_page: originPage,
+      lgpd_consent: d.lgpd,
+      lgpd_consent_at: d.lgpd ? new Date().toISOString() : null,
     });
 
     setSubmitting(false);
