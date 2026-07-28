@@ -205,6 +205,7 @@ const emptyDraft: Draft = {
   gallery: [],
   is_active: true,
   sort_order: 0,
+  condition: "zero_km",
 };
 
 function AdminPage() {
