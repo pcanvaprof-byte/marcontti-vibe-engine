@@ -448,7 +448,7 @@ export function YamahaProductPage({
         <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
           <div>
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-              Eficiência elétrica
+              {isCombustion ? "Trail robusta" : "Eficiência elétrica"}
             </p>
             <h2
               className="mt-5 text-white uppercase leading-[0.9] tracking-tight"
@@ -457,10 +457,18 @@ export function YamahaProductPage({
                 fontSize: "clamp(36px, 5.5vw, 76px)",
               }}
             >
-              Mobilidade <span className="text-primary">inteligente</span>
+              {isCombustion ? (
+                <>
+                  Performance <span className="text-primary">na medida</span>
+                </>
+              ) : (
+                <>
+                  Mobilidade <span className="text-primary">inteligente</span>
+                </>
+              )}
             </h2>
           </div>
-          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6">
+          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6 whitespace-pre-line">
             {baseDescription}
           </p>
         </div>
