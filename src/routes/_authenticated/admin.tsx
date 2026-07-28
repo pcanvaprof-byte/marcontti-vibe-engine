@@ -93,11 +93,14 @@ function SortableGalleryTile({
   );
 }
 
+const isSemiNova = (m: DbModel) => m.slug.startsWith("semi-nova-") || /semi\s*nova/i.test(m.tag ?? "");
+
 const BRAND_GROUPS: { key: string; label: string; match: (m: DbModel) => boolean }[] = [
-  { key: "klug-scooter", label: "Scooter Elétricas Moto Chefe", match: (m) => m.brand === "klug" && !/tricicl/i.test(m.tag ?? "") },
-  { key: "sudu-scooter", label: "Scooter Elétricas Sudu", match: (m) => m.brand === "sudu" && !/tricicl/i.test(m.tag ?? "") },
-  { key: "triciclo", label: "Triciclos Elétricos", match: (m) => /tricicl/i.test(m.tag ?? "") },
-  { key: "yamaha", label: "Motos Yamaha 0km", match: (m) => m.brand === "yamaha" },
+  { key: "klug-scooter", label: "Scooter Elétricas Moto Chefe", match: (m) => m.brand === "klug" && !/tricicl/i.test(m.tag ?? "") && !isSemiNova(m) },
+  { key: "sudu-scooter", label: "Scooter Elétricas Sudu", match: (m) => m.brand === "sudu" && !/tricicl/i.test(m.tag ?? "") && !isSemiNova(m) },
+  { key: "triciclo", label: "Triciclos Elétricos", match: (m) => /tricicl/i.test(m.tag ?? "") && !isSemiNova(m) },
+  { key: "yamaha", label: "Motos Yamaha 0km", match: (m) => m.brand === "yamaha" && !isSemiNova(m) },
+  { key: "semi-novas", label: "Motos Semi Novas", match: isSemiNova },
 ];
 
 function ModelsByCategory({
