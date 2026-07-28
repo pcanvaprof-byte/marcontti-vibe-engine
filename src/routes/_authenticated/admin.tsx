@@ -562,16 +562,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           )}
         </div>
 
-        <Field label="Specs (JSON: [{label, value}])">
-          <Textarea rows={4} value={JSON.stringify(d.specs ?? [], null, 2)}
-            onChange={(e) => { try { set("specs", JSON.parse(e.target.value)); } catch {} }} />
-        </Field>
-        <Field label="Features (JSON: string[])">
-          <Textarea rows={3} value={JSON.stringify(d.features ?? [], null, 2)}
-            onChange={(e) => { try { set("features", JSON.parse(e.target.value)); } catch {} }} />
-        </Field>
-        <Field label='Cores (JSON avançado — permite imagem e galeria por cor: [{"name","hex","image","gallery":["url1","url2"],"hidden":false}])'>
-          <Textarea rows={8} value={JSON.stringify(d.colors ?? [], null, 2)}
+        <SpecsEditor
+          specs={(d.specs as Array<{ label: string; value: string }>) ?? []}
+          onChange={(v) => set("specs", v as any)}
+        />
+        <FeaturesEditor
+          features={(d.features as string[]) ?? []}
+          onChange={(v) => set("features", v as any)}
+        />
+        <Field label='Cores (avançado — JSON: [{"name","hex","image","gallery":["url"],"hidden":false}])'>
+          <Textarea rows={6} value={JSON.stringify(d.colors ?? [], null, 2)}
             onChange={(e) => { try { set("colors", JSON.parse(e.target.value)); } catch {} }} />
         </Field>
 
@@ -594,6 +594,96 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     <div className="space-y-1.5">
       <Label className="text-xs text-neutral-400">{label}</Label>
       {children}
+    </div>
+  );
+}
+
+function SpecsEditor({
+  specs,
+  onChange,
+}: {
+  specs: Array<{ label: string; value: string }>;
+  onChange: (v: Array<{ label: string; value: string }>) => void;
+}) {
+  const rows = Array.isArray(specs) ? specs : [];
+  const update = (i: number, patch: Partial<{ label: string; value: string }>) =>
+    onChange(rows.map((r, idx) => (idx === i ? { ...r, ...patch } : r)));
+  const remove = (i: number) => onChange(rows.filter((_, idx) => idx !== i));
+  const add = () => onChange([...rows, { label: "", value: "" }]);
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <Label className="text-xs text-neutral-400">
+          Ficha técnica ({rows.length} {rows.length === 1 ? "item" : "itens"})
+        </Label>
+        <Button type="button" size="sm" variant="secondary" onClick={add}>
+          <Plus className="w-3.5 h-3.5 mr-1" /> Adicionar spec
+        </Button>
+      </div>
+      {rows.length === 0 && (
+        <p className="text-xs text-neutral-500">Nenhuma spec ainda. Ex.: Motor / 149 cc, Potência / 12,9 cv.</p>
+      )}
+      <div className="space-y-2">
+        {rows.map((r, i) => (
+          <div key={i} className="grid grid-cols-[1fr_1fr_auto] gap-2">
+            <Input
+              placeholder="Rótulo (ex: Motor)"
+              value={r.label}
+              onChange={(e) => update(i, { label: e.target.value })}
+            />
+            <Input
+              placeholder="Valor (ex: 149 cc, 4 tempos)"
+              value={r.value}
+              onChange={(e) => update(i, { value: e.target.value })}
+            />
+            <Button type="button" size="icon" variant="ghost" onClick={() => remove(i)} title="Remover">
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FeaturesEditor({
+  features,
+  onChange,
+}: {
+  features: string[];
+  onChange: (v: string[]) => void;
+}) {
+  const rows = Array.isArray(features) ? features : [];
+  const update = (i: number, v: string) => onChange(rows.map((r, idx) => (idx === i ? v : r)));
+  const remove = (i: number) => onChange(rows.filter((_, idx) => idx !== i));
+  const add = () => onChange([...rows, ""]);
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <Label className="text-xs text-neutral-400">
+          Destaques ({rows.length} {rows.length === 1 ? "item" : "itens"})
+        </Label>
+        <Button type="button" size="sm" variant="secondary" onClick={add}>
+          <Plus className="w-3.5 h-3.5 mr-1" /> Adicionar destaque
+        </Button>
+      </div>
+      {rows.length === 0 && (
+        <p className="text-xs text-neutral-500">Ex.: "Freio a disco dianteiro", "Injeção eletrônica".</p>
+      )}
+      <div className="space-y-2">
+        {rows.map((r, i) => (
+          <div key={i} className="grid grid-cols-[1fr_auto] gap-2">
+            <Input
+              placeholder="Destaque (ex: Partida elétrica)"
+              value={r}
+              onChange={(e) => update(i, e.target.value)}
+            />
+            <Button type="button" size="icon" variant="ghost" onClick={() => remove(i)} title="Remover">
+              <Trash2 className="w-4 h-4" />
+            </Button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
