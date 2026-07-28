@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState, type MouseEvent } from "react";
 import {
   ArrowLeft,
@@ -55,6 +55,12 @@ export const Route = createFileRoute("/modelos/$slug")({
   validateSearch: (s: Record<string, unknown>): SlugSearch => ({
     cor: typeof s.cor === "string" && s.cor.length > 0 ? s.cor : undefined,
   }),
+  beforeLoad: ({ params, search }) => {
+    if (params.slug.startsWith("seminova-")) {
+      const newSlug = params.slug.replace("seminova-", "semi-nova-");
+      throw redirect({ to: `/modelos/${newSlug}`, search });
+    }
+  },
   loader: ({ params }) => {
     const model = getModel(params.slug);
     // Allow unknown slugs to render — the component fetches from the DB.
