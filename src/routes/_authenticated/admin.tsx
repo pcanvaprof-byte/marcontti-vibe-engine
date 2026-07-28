@@ -326,11 +326,24 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     setD((prev) => ({ ...prev, [k]: v }));
   }
 
-  async function uploadFile(file: File): Promise<string> {
-    const ext = file.name.split(".").pop() || "jpg";
+  async function removeBg(file: File): Promise<File> {
+    try {
+      const { removeBackground } = await import("@imgly/background-removal");
+      const blob = await removeBackground(file, { output: { format: "image/png" } });
+      const base = file.name.replace(/\.[^.]+$/, "");
+      return new File([blob], `${base}-nobg.png`, { type: "image/png" });
+    } catch (err) {
+      console.error("[bg-removal] falhou, enviando original:", err);
+      return file;
+    }
+  }
+
+  async function uploadFile(file: File, opts?: { removeBackground?: boolean }): Promise<string> {
+    const finalFile = opts?.removeBackground ? await removeBg(file) : file;
+    const ext = finalFile.name.split(".").pop() || "jpg";
     const safe = (d.slug || "novo").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
     const path = `${safe}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const { error } = await supabase.storage.from("model-images").upload(path, file, { upsert: true, contentType: file.type });
+    const { error } = await supabase.storage.from("model-images").upload(path, finalFile, { upsert: true, contentType: finalFile.type });
     if (error) throw error;
     return `/api/public/model-images/${path}`;
   }
@@ -340,13 +353,14 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     if (!file) return;
     setUploadingMain(true);
     try {
-      const url = await uploadFile(file);
+      toast.info("Removendo fundo da imagem hero...");
+      const url = await uploadFile(file, { removeBackground: true });
       const currentColors = d.colors ?? [];
       const newColors = currentColors.length > 0
         ? currentColors.map((c, i) => i === 0 ? { ...c, image: url } : c)
         : [{ name: "Padrão", hex: "#1a1a1a", image: url }];
       set("colors", newColors);
-      toast.success("Imagem principal enviada");
+      toast.success("Imagem principal enviada (fundo removido)");
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
