@@ -476,6 +476,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <option value="yamaha">Yamaha</option>
             </select>
           </Field>
+          <Field label="Status">
+            <select
+              value={d.condition ?? "zero_km"}
+              onChange={(e) => set("condition", e.target.value as "zero_km" | "semi_nova")}
+              className="w-full h-10 rounded-md border border-neutral-800 bg-neutral-900 px-3 text-sm"
+            >
+              <option value="zero_km">0km (Nova)</option>
+              <option value="semi_nova">Semi Nova</option>
+            </select>
+          </Field>
           <Field label="Nome"><Input value={d.name} onChange={(e) => set("name", e.target.value)} /></Field>
           <Field label="Tag / Categoria"><Input value={d.tag ?? ""} onChange={(e) => set("tag", e.target.value)} /></Field>
           <Field label="Preço (texto)"><Input value={d.price ?? ""} onChange={(e) => set("price", e.target.value)} /></Field>
