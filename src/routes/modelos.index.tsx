@@ -161,13 +161,14 @@ function CatalogPage() {
     const range = PRICE_RANGES.find((r) => r.id === priceId)!;
     let list = models.filter((m) => {
       let catOk = true;
-      if (activeKey === "triciclo") catOk = isTriciclo(m);
-      else if (activeKey === "seminovos") catOk = false;
+      if (activeKey === "triciclo") catOk = isTriciclo(m) && !isSeminova(m);
+      else if (activeKey === "seminovos") catOk = isSeminova(m);
       else if (activeKey === "klug" || activeKey === "sudu") {
-        // Abas de scooter: excluir triciclos da mesma marca (vão para aba Triciclos)
         catOk = brandOf(m) === MARCA_LABEL[activeKey] && !isTriciclo(m);
-      } else if (activeKey !== "todos") {
-        catOk = brandOf(m) === MARCA_LABEL[activeKey];
+      } else if (activeKey === "yamaha") {
+        catOk = brandOf(m) === "Yamaha";
+      } else if (activeKey === "todos") {
+        catOk = !isSeminova(m);
       }
       const priceOk = m.priceNumber >= range.min && m.priceNumber <= range.max;
       return catOk && priceOk;
@@ -176,6 +177,7 @@ function CatalogPage() {
     if (sort === "price-desc") list = [...list].sort((a, b) => b.priceNumber - a.priceNumber);
     return list;
   }, [models, activeKey, priceId, sort]);
+
 
 
   return (
