@@ -644,7 +644,7 @@ export function YamahaProductPage({
           },
           {
             q: "Qual é a garantia do veículo?",
-            a: "Todos os modelos comercializados pela Klug Motors possuem garantia oficial de fábrica. Fale com nosso consultor para conhecer as condições específicas deste modelo.",
+            a: "As condições de garantia variam conforme o modelo. Veículos novos contam com garantia oficial do fabricante. Modelos semi novos possuem garantia de revisão e suporte técnico da Klug Motors. Fale com nosso consultor para conhecer as condições específicas deste modelo.",
           },
         ]}
       />
