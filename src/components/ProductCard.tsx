@@ -82,11 +82,11 @@ export function ProductCard({ product }: { product: Product }) {
             src={product.imagem}
             alt={product.nome}
             aspectRatio={null}
-            wrapperClassName="absolute inset-0 w-full h-full"
+            wrapperClassName="absolute inset-0 w-full h-full grid place-items-center p-3 sm:p-4"
             sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 40vw, 85vw"
             className="
-              absolute inset-0 w-full h-full object-cover pointer-events-none
-              transition-transform duration-500 motion-safe:group-hover:scale-[1.05]
+              max-w-full max-h-full w-auto h-auto object-contain pointer-events-none
+              transition-transform duration-500 motion-safe:group-hover:scale-[1.03]
             "
           />
         </div>
