@@ -481,78 +481,11 @@ export function YamahaProductPage({
 
 
 
-      {/* 6. CORES */}
-      {m.colors.length > 0 && (
-        <section className="border-t border-border bg-neutral-950">
-          <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
-            <div className="text-center max-w-3xl mx-auto">
-              <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-                Cores
-              </p>
-              <h2
-                className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-                style={{
-                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                  fontSize: "clamp(32px, 5vw, 64px)",
-                }}
-              >
-                Escolha o seu <span className="text-primary">estilo</span>
-              </h2>
-            </div>
-
-            <div className="mt-12 relative rounded-3xl bg-gradient-to-b from-white/5 to-transparent border border-white/10 p-6 sm:p-12">
-              <div className="relative min-h-[280px] sm:min-h-[420px] grid place-items-center">
-                {/* Anel tracejado 360° — padrão site oficial Yamaha */}
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] max-w-[560px] aspect-[2/1] rounded-[50%] border border-dashed border-white/25"
-                  style={{ maskImage: "linear-gradient(to bottom, transparent 0%, transparent 55%, black 60%, black 100%)", WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, transparent 55%, black 60%, black 100%)" }}
-                />
-                {variant?.image ? (
-                  <img
-                    src={variant.image}
-                    alt={`${m.name} — ${variant.name}`}
-                    className="relative max-h-[420px] w-auto object-contain transition-opacity duration-300"
-                  />
-                ) : null}
-              </div>
-              <p
-                className="text-center mt-6 text-white uppercase"
-                style={{
-                  fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                  fontSize: "32px",
-                  lineHeight: 1,
-                }}
-              >
-                {variant?.name}
-              </p>
-              <div className="mt-6 flex flex-wrap justify-center gap-3">
-                {m.colors.map((c, i) => (
-                  <button
-                    key={c.name + i}
-                    type="button"
-                    onClick={() => setSelected(i)}
-                    aria-label={c.name}
-                    title={c.name}
-                    className={`w-12 h-12 rounded-full border-2 transition-all ${
-                      i === selected
-                        ? "border-primary scale-110"
-                        : "border-white/20 hover:border-primary/60"
-                    }`}
-                    style={{ backgroundColor: c.hex }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 7. FICHA TÉCNICA */}
+      {/* 6. FICHA TÉCNICA */}
       {m.specs.length > 0 && <SpecSheet specs={m.specs} />}
 
 
-      {/* 8. CONDIÇÕES — Financiamento / Consórcio / Consultoria */}
+      {/* 7. CONDIÇÕES — Financiamento / Consórcio / Consultoria */}
       <section className="border-t border-border bg-neutral-950">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28">
           <div className="text-center max-w-3xl mx-auto">
