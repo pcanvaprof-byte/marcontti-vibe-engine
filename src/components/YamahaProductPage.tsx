@@ -243,7 +243,7 @@ export function YamahaProductPage({
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                 </div>
 
-                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-[1fr_1.35fr] gap-10 lg:gap-8 items-center">
+                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-8 items-center">
                   {/* LADO ESQUERDO */}
                   <div className="animate-fade-in order-2 lg:order-1 text-center lg:text-left">
                     <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary border border-primary/30 bg-primary/5 px-3 py-1.5 rounded-full">
