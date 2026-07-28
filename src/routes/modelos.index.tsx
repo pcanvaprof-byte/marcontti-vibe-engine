@@ -283,7 +283,7 @@ function CatalogPage() {
           {models.length} modelos
         </p>
 
-        {search.cat === "seminovos" ? (
+        {search.cat === "seminovos" && filtered.length === 0 ? (
           <div className="border border-dashed border-primary/40 rounded-2xl p-16 text-center bg-card">
             <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-3">
               Novidade
@@ -303,6 +303,7 @@ function CatalogPage() {
               <MessageCircle size={14} strokeWidth={2.5} /> Consultar no WhatsApp
             </a>
           </div>
+
         ) : filtered.length === 0 ? (
           <div className="border border-dashed border-border rounded-2xl p-16 text-center bg-card">
             <p className="font-display font-black uppercase tracking-wider text-lg mb-2">
