@@ -216,7 +216,7 @@ export function YamahaProductPage({
                   "Assistência autorizada",
                 ];
             return (
-              <div className="relative bg-[#050505]">
+              <div className="relative bg-[#050505] min-h-[520px] sm:min-h-[600px] lg:min-h-[720px] flex items-center">
                 {/* Camadas de fundo: gradientes + glow laranja + streaks + marca d'água */}
                 <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
                   {/* Gradiente vertical sutil */}
@@ -249,7 +249,7 @@ export function YamahaProductPage({
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
                 </div>
 
-                <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-4 sm:py-6 lg:py-8 grid lg:grid-cols-[1fr_1.2fr] gap-4 lg:gap-6 items-center">
+                <div className="relative w-full max-w-[1400px] mx-auto px-5 sm:px-10 py-6 sm:py-8 lg:py-10 grid lg:grid-cols-[1fr_1.2fr] gap-4 lg:gap-6 items-center">
                   {/* Máscara de legibilidade do lado esquerdo */}
                   <div
                     aria-hidden
@@ -337,7 +337,7 @@ export function YamahaProductPage({
                   </div>
 
                   {/* LADO DIREITO — imagem da moto */}
-                  <div className="relative order-1 lg:order-2 min-h-[240px] sm:min-h-[320px] lg:min-h-[680px] grid place-items-center lg:items-center lg:justify-items-end">
+                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[560px] grid place-items-center lg:items-center lg:justify-items-end">
                     {/* Glow primário denso atrás da moto */}
                     <div
                       aria-hidden
