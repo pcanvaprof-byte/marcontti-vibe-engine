@@ -19,6 +19,58 @@ import neosHeroOfficial from "@/assets/neos-hero-official.png.asset.json";
  * typography, alternating feature blocks driven by the model's gallery, big
  * color selector, spec table and a final CTA. Uses existing DB fields only.
  */
+function parseModelName(name: string) {
+  let brand = "";
+  let rest = name;
+  const brandMatch = name.match(/^Yamaha\s+/i);
+  if (brandMatch) {
+    brand = "Yamaha";
+    rest = name.slice(brandMatch[0].length).trim();
+  }
+  let year = "";
+  const yearMatch = rest.match(/\s(\d{4})$/);
+  if (yearMatch) {
+    year = yearMatch[1];
+    rest = rest.slice(0, yearMatch.index).trim();
+  }
+  return { brand, model: rest, year };
+}
+
+function ModelNameTitle({ name }: { name: string }) {
+  const { brand, model, year } = parseModelName(name);
+  const baseStyle = {
+    fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+    lineHeight: 0.9,
+    letterSpacing: "-0.02em",
+  } as React.CSSProperties;
+  return (
+    <h1 className="mt-4 flex flex-col text-white uppercase">
+      {brand ? (
+        <span
+          className="text-[clamp(28px,4vw,56px)]"
+          style={baseStyle}
+        >
+          {brand}
+        </span>
+      ) : null}
+      <span
+        className="text-primary text-[clamp(52px,9vw,128px)]"
+        style={baseStyle}
+      >
+        {model}
+      </span>
+      {year ? (
+        <span
+          className="text-[clamp(24px,3.5vw,48px)] text-white/80"
+          style={baseStyle}
+        >
+          {year}
+        </span>
+      ) : null}
+    </h1>
+  );
+}
+
 export function YamahaProductPage({
   m,
   selected: selectedProp,
@@ -132,20 +184,12 @@ export function YamahaProductPage({
               aria-hidden
               className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,transparent_60%)]"
             />
-            <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-14 sm:py-20 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-10 sm:py-16 lg:py-20 grid lg:grid-cols-[1fr_1.25fr] gap-8 lg:gap-12 items-center">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
+                <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-white/60">
                   {m.tag || (m.slug.startsWith("sudu-") ? "Sudu" : m.slug.startsWith("yamaha-") ? "Yamaha" : "Klug")}
                 </p>
-                <h1
-                  className="mt-4 text-white uppercase leading-[0.9] tracking-tight"
-                  style={{
-                    fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
-                    fontSize: "clamp(44px, 7vw, 96px)",
-                  }}
-                >
-                  {m.name.replace(/^Yamaha\s+/i, "")}
-                </h1>
+                <ModelNameTitle name={m.name} />
                 <p className="mt-6 text-white/75 text-base sm:text-lg leading-relaxed max-w-xl">
                   {m.short || m.description}
                 </p>
@@ -165,14 +209,14 @@ export function YamahaProductPage({
                   </a>
                 </div>
               </div>
-              <div className="relative min-h-[280px] sm:min-h-[420px] grid place-items-center">
+              <div className="relative min-h-[320px] sm:min-h-[460px] lg:min-h-[520px] grid place-items-center lg:place-items-end">
                 {heroImg ? (
                   <img
                     src={heroImg}
                     alt={`${m.name}`}
                     fetchPriority="high"
                     decoding="async"
-                    className="relative max-h-[460px] w-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.6)]"
+                    className="relative max-h-[360px] sm:max-h-[460px] lg:max-h-[640px] w-auto object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.6)] lg:translate-x-[5%]"
                   />
                 ) : null}
               </div>
