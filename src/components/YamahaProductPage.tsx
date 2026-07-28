@@ -244,8 +244,18 @@ export function YamahaProductPage({
                 </div>
 
                 <div className="relative max-w-[1400px] mx-auto px-5 sm:px-10 py-12 sm:py-16 lg:py-24 grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-8 items-center">
+                  {/* Máscara de legibilidade do lado esquerdo */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 pointer-events-none hidden lg:block"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 25% 50%, color-mix(in oklab, var(--background) 92%, transparent) 0%, color-mix(in oklab, var(--background) 70%, transparent) 35%, transparent 70%)",
+                    }}
+                  />
+
                   {/* LADO ESQUERDO */}
-                  <div className="animate-fade-in order-2 lg:order-1 text-center lg:text-left">
+                  <div className="relative animate-fade-in order-2 lg:order-1 text-center lg:text-left">
                     <div className="inline-flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary border border-primary/30 bg-primary/5 px-3 py-1.5 rounded-full">
                       <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                       {categoryLabel}
@@ -308,16 +318,83 @@ export function YamahaProductPage({
 
                   {/* LADO DIREITO — imagem da moto */}
                   <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[720px] grid place-items-center lg:items-center lg:justify-items-end">
-                    {/* Glow lateral atrás da moto */}
+                    {/* Glow primário denso atrás da moto */}
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 pointer-events-none animate-glow-breathe"
+                      style={{
+                        background:
+                          "radial-gradient(55% 60% at 65% 55%, color-mix(in oklab, var(--primary) 50%, transparent) 0%, color-mix(in oklab, var(--primary) 20%, transparent) 40%, transparent 75%)",
+                        filter: "blur(28px)",
+                      }}
+                    />
+                    {/* Glow secundário mais amplo para atmosfera */}
                     <div
                       aria-hidden
                       className="absolute inset-0 pointer-events-none"
                       style={{
                         background:
-                          "radial-gradient(55% 60% at 65% 55%, rgba(255,107,26,0.40) 0%, rgba(255,107,26,0.15) 40%, transparent 75%)",
-                        filter: "blur(20px)",
+                          "radial-gradient(70% 80% at 60% 50%, color-mix(in oklab, var(--primary-glow) 18%, transparent) 0%, color-mix(in oklab, var(--primary) 8%, transparent) 50%, transparent 80%)",
+                        filter: "blur(60px)",
                       }}
                     />
+                    {/* Núcleo quente próximo à moto */}
+                    <div
+                      aria-hidden
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] h-[55%] pointer-events-none rounded-full animate-glow-breathe"
+                      style={{
+                        background: "color-mix(in oklab, var(--primary) 35%, transparent)",
+                        filter: "blur(80px)",
+                        animationDelay: "1.5s",
+                      }}
+                    />
+                    {/* Streaks de luz diagonais */}
+                    <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
+                      <div
+                        className="absolute top-[28%] -left-[20%] w-[140%] h-[2px] animate-streak-drift"
+                        style={{
+                          background: "linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--primary) 45%, transparent) 40%, color-mix(in oklab, var(--primary) 25%, transparent) 60%, transparent 100%)",
+                          transform: "rotate(-14deg)",
+                          filter: "blur(1px)",
+                        }}
+                      />
+                      <div
+                        className="absolute top-[42%] -left-[10%] w-[130%] h-[1px] animate-streak-drift"
+                        style={{
+                          background: "linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--primary-glow) 35%, transparent) 35%, color-mix(in oklab, var(--primary) 20%, transparent) 65%, transparent 100%)",
+                          transform: "rotate(-10deg)",
+                          filter: "blur(0.5px)",
+                          animationDelay: "2.5s",
+                        }}
+                      />
+                      <div
+                        className="absolute top-[58%] -left-[30%] w-[150%] h-[3px] animate-streak-drift"
+                        style={{
+                          background: "linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--primary) 30%, transparent) 45%, transparent 100%)",
+                          transform: "rotate(-16deg)",
+                          filter: "blur(2px)",
+                          animationDelay: "1.2s",
+                        }}
+                      />
+                      <div
+                        className="absolute top-[70%] -left-[15%] w-[120%] h-[1px] animate-streak-drift"
+                        style={{
+                          background: "linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--primary-glow) 40%, transparent) 50%, transparent 100%)",
+                          transform: "rotate(-12deg)",
+                          filter: "blur(1px)",
+                          animationDelay: "3.8s",
+                        }}
+                      />
+                      {/* Flare de luz que atravessa a tela */}
+                      <div
+                        className="absolute top-[48%] -left-[10%] w-[40%] h-[80px] animate-flare-sweep"
+                        style={{
+                          background: "linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 20%, transparent), transparent)",
+                          transform: "rotate(-12deg)",
+                          filter: "blur(18px)",
+                        }}
+                      />
+                    </div>
                     {/* Piso reflexivo */}
                     <div
                       aria-hidden
