@@ -382,7 +382,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
 
   return (
     <>
-      <div ref={ref} className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div ref={ref} className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
         {items.map((m, i) => {
           const waMsg = `Olá, Klug Motors! Tenho interesse na *${m.name}*${m.price ? ` (${m.price})` : ""}. Pode me passar mais informações?`;
           return (
@@ -397,7 +397,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
                 className="block"
                 aria-label={`Ver detalhes de ${m.name}`}
               >
-                <div className="relative aspect-[4/3] p-3">
+                <div className="relative aspect-[16/10] p-2">
                   <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
                     <LazyImage
                       src={m.colors[0]?.image ?? ""}
@@ -405,31 +405,31 @@ function CatalogGrid({ items }: { items: Model[] }) {
                       wrapperClassName="w-full h-full rounded-xl"
                       loadingLabel="Carregando"
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-700"
                     />
-                    <span className="absolute bottom-3 left-3 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
+                    <span className="absolute bottom-2 left-2 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
                       <Zap size={10} className="text-primary" /> {m.power}
                     </span>
                   </div>
                 </div>
-                <div className="px-6 pt-4">
-                  <p className="text-primary text-[10px] font-display font-black uppercase tracking-widest mb-2">
+                <div class="px-4 pt-3">
+                  <p className="text-primary text-[9px] font-display font-black uppercase tracking-widest mb-1">
                     {m.tag}
                   </p>
-                  <h2 className="font-display font-black uppercase text-xl tracking-tight">
+                  <h2 className="font-display font-black uppercase text-lg tracking-tight">
                     {m.name}
                   </h2>
-                  <p className="mt-2 text-sm text-white/60 line-clamp-2">{m.short}</p>
+                  <p className="mt-1.5 text-xs text-white/60 line-clamp-2">{m.short}</p>
                 </div>
               </Link>
 
-              <div className="px-6 pb-6 pt-4 mt-auto">
-                <div className="pt-5 border-t border-border flex items-center justify-between gap-3 mb-4">
+              <div className="px-4 pb-4 pt-3 mt-auto">
+                <div className="pt-3 border-t border-border flex items-center justify-between gap-3 mb-3">
                   <div>
                     <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
                       A partir de
                     </span>
-                    <span className="font-display font-black text-lg">{m.price}</span>
+                    <span className="font-display font-black text-base">{m.price}</span>
                   </div>
                   <Link
                     to="/modelos/$slug"
@@ -444,7 +444,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
                   <button
                     type="button"
                     onClick={() => setQuickView(m)}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] px-3 py-2.5 rounded-full hover:brightness-110 transition"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[9px] px-3 py-2 rounded-full hover:brightness-110 transition"
                   >
                     Saiba mais
                   </button>
@@ -457,7 +457,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Falar no WhatsApp sobre ${m.name}`}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe57] text-black font-display font-black uppercase tracking-widest text-[10px] px-3 py-2.5 rounded-full transition"
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe57] text-black font-display font-black uppercase tracking-widest text-[9px] px-3 py-2 rounded-full transition"
                   >
                     <MessageCircle size={12} strokeWidth={2.5} /> WhatsApp
                   </a>
