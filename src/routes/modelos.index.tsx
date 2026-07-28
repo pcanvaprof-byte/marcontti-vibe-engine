@@ -171,7 +171,7 @@ function CatalogPage() {
       else if (activeKey === "klug" || activeKey === "sudu") {
         catOk = brandOf(m) === MARCA_LABEL[activeKey] && !isTriciclo(m);
       } else if (activeKey === "yamaha") {
-        catOk = brandOf(m) === "Yamaha";
+        catOk = brandOf(m) === "Yamaha" && !isSemiNova(m);
       } else if (activeKey === "todos") {
         catOk = !isSemiNova(m);
       }
