@@ -583,7 +583,7 @@ export function YamahaProductPage({
             ].map((img, i) => (
               <div
                 key={i}
-                className="rounded-3xl overflow-hidden bg-neutral-900 border border-white/10 aspect-[4/3] grid place-items-center"
+                className="rounded-3xl overflow-hidden bg-neutral-900 border border-white/10 aspect-[4/3] grid place-items-center p-4 sm:p-6"
               >
                 {img ? (
                   <img
@@ -591,7 +591,7 @@ export function YamahaProductPage({
                     alt={`${m.name} — detalhe ${i + 1}`}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-contain"
+                    className="max-w-full max-h-full w-auto h-auto object-contain"
                   />
                 ) : null}
               </div>
