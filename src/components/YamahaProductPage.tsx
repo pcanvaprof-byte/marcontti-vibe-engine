@@ -228,12 +228,22 @@ export function YamahaProductPage({
             </p>
             {m.features.length > 0 && (
               <ul className="mt-8 grid sm:grid-cols-2 gap-3 max-w-lg">
-                {m.features.slice(0, 6).map((it) => (
-                  <li key={it} className="flex gap-2 text-sm text-white/85">
-                    <Check size={16} className="text-primary shrink-0 mt-0.5" />
-                    <span>{it}</span>
-                  </li>
-                ))}
+                {m.features.slice(0, 6).map((it, idx) => {
+                  const label =
+                    typeof it === "string"
+                      ? it
+                      : ((it as { text?: string; label?: string; name?: string })?.text ??
+                          (it as { label?: string })?.label ??
+                          (it as { name?: string })?.name ??
+                          "");
+                  if (!label) return null;
+                  return (
+                    <li key={`${label}-${idx}`} className="flex gap-2 text-sm text-white/85">
+                      <Check size={16} className="text-primary shrink-0 mt-0.5" />
+                      <span>{label}</span>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>
