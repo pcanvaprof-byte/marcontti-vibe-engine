@@ -102,20 +102,20 @@ const CATEGORY_TABS = [
   { key: "sudu", label: "Scooter Elétricas Sudu", search: { marca: "sudu" } as CatSearch },
   { key: "triciclo", label: "Triciclos Elétricos", search: { cat: "triciclo" } as CatSearch },
   { key: "yamaha", label: "Motos Yamaha 0km", search: { marca: "yamaha" } as CatSearch },
-  { key: "seminovos", label: "Motos Seminovas", search: { cat: "seminovos" } as CatSearch },
+  { key: "seminovos", label: "Motos Semi Novas", search: { cat: "seminovos" } as CatSearch },
 ] as const;
 
 const VALID_MARCAS = ["klug", "sudu", "yamaha"] as const;
 
-function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" | "Seminovas" {
-  if (m.slug.startsWith("seminova")) return "Seminovas";
+function brandOf(m: Model): "Klug" | "SUDU" | "Yamaha" | "Semi Novas" {
+  if (m.slug.startsWith("semi-nova")) return "Semi Novas";
   if (m.slug.startsWith("sudu")) return "SUDU";
   if (m.slug.startsWith("yamaha")) return "Yamaha";
   return "Klug";
 }
 
-function isSeminova(m: Model): boolean {
-  return m.slug.startsWith("seminova");
+function isSemiNova(m: Model): boolean {
+  return m.slug.startsWith("semi-nova");
 }
 
 
@@ -161,14 +161,14 @@ function CatalogPage() {
     const range = PRICE_RANGES.find((r) => r.id === priceId)!;
     let list = models.filter((m) => {
       let catOk = true;
-      if (activeKey === "triciclo") catOk = isTriciclo(m) && !isSeminova(m);
-      else if (activeKey === "seminovos") catOk = isSeminova(m);
+      if (activeKey === "triciclo") catOk = isTriciclo(m) && !isSemiNova(m);
+      else if (activeKey === "seminovos") catOk = isSemiNova(m);
       else if (activeKey === "klug" || activeKey === "sudu") {
         catOk = brandOf(m) === MARCA_LABEL[activeKey] && !isTriciclo(m);
       } else if (activeKey === "yamaha") {
         catOk = brandOf(m) === "Yamaha";
       } else if (activeKey === "todos") {
-        catOk = !isSeminova(m);
+        catOk = !isSemiNova(m);
       }
       const priceOk = m.priceNumber >= range.min && m.priceNumber <= range.max;
       return catOk && priceOk;
@@ -289,13 +289,13 @@ function CatalogPage() {
               Novidade
             </p>
             <p className="font-display font-black uppercase tracking-wider text-2xl sm:text-3xl mb-3">
-              Motos Seminovas — em breve
+              Motos Semi Novas — em breve
             </p>
             <p className="text-white/60 text-sm max-w-md mx-auto mb-8">
-              Estamos preparando um catálogo exclusivo de motos seminovas revisadas e com garantia Klug Motors. Fale conosco no WhatsApp para consultar disponibilidade agora.
+              Estamos preparando um catálogo exclusivo de motos semi novas revisadas e com garantia Klug Motors. Fale conosco no WhatsApp para consultar disponibilidade agora.
             </p>
             <a
-              href="https://wa.me/554734293200?text=Ol%C3%A1%2C%20Klug%20Motors!%20Tenho%20interesse%20em%20motos%20seminovas.%20Podem%20me%20passar%20as%20op%C3%A7%C3%B5es%20dispon%C3%ADveis%3F"
+              href="https://wa.me/554734293200?text=Ol%C3%A1%2C%20Klug%20Motors!%20Tenho%20interesse%20em%20motos%20semi%20novas.%20Podem%20me%20passar%20as%20op%C3%A7%C3%B5es%20dispon%C3%ADveis%3F"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-3 rounded-full hover:brightness-110 transition"
