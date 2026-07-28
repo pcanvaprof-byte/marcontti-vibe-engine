@@ -19,6 +19,58 @@ import neosHeroOfficial from "@/assets/neos-hero-official.png.asset.json";
  * typography, alternating feature blocks driven by the model's gallery, big
  * color selector, spec table and a final CTA. Uses existing DB fields only.
  */
+function parseModelName(name: string) {
+  let brand = "";
+  let rest = name;
+  const brandMatch = name.match(/^Yamaha\s+/i);
+  if (brandMatch) {
+    brand = "Yamaha";
+    rest = name.slice(brandMatch[0].length).trim();
+  }
+  let year = "";
+  const yearMatch = rest.match(/\s(\d{4})$/);
+  if (yearMatch) {
+    year = yearMatch[1];
+    rest = rest.slice(0, yearMatch.index).trim();
+  }
+  return { brand, model: rest, year };
+}
+
+function ModelNameTitle({ name }: { name: string }) {
+  const { brand, model, year } = parseModelName(name);
+  const baseStyle = {
+    fontFamily: "'Bebas Neue', 'Urbanist', sans-serif",
+    lineHeight: 0.9,
+    letterSpacing: "-0.02em",
+  } as React.CSSProperties;
+  return (
+    <h1 className="mt-4 flex flex-col text-white uppercase">
+      {brand ? (
+        <span
+          className="text-[clamp(28px,4vw,56px)]"
+          style={baseStyle}
+        >
+          {brand}
+        </span>
+      ) : null}
+      <span
+        className="text-primary text-[clamp(52px,9vw,128px)]"
+        style={baseStyle}
+      >
+        {model}
+      </span>
+      {year ? (
+        <span
+          className="text-[clamp(24px,3.5vw,48px)] text-white/80"
+          style={baseStyle}
+        >
+          {year}
+        </span>
+      ) : null}
+    </h1>
+  );
+}
+
 export function YamahaProductPage({
   m,
   selected: selectedProp,
