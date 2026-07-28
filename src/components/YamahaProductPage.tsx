@@ -1295,24 +1295,25 @@ function SubNav({
                 { source: "yamaha_subnav_test_ride", event: "test_ride_click", modelSlug: model.slug },
               )
             }
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-white text-neutral-950 text-[11px] font-display font-black uppercase tracking-widest hover:brightness-90"
+            className="group inline-flex items-center px-4 py-1.5 rounded-full bg-white text-neutral-950 text-[11px] font-display font-black uppercase tracking-widest transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-white/20"
           >
             Agendar Test-Ride
           </button>
           <a
             href="#financiamento"
-            className="inline-flex items-center px-4 py-1.5 rounded-full border border-white/30 text-white text-[11px] font-display font-black uppercase tracking-widest hover:border-primary hover:text-primary"
+            className="group btn-premium-ember px-4 py-1.5 text-[11px]"
           >
             Comprar online
           </a>
           <a
             href={whatsappUrl}
             onClick={onWhats}
-            className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-[11px] font-display font-black uppercase tracking-widest hover:brightness-110"
+            className="group btn-premium-whatsapp px-4 py-1.5 text-[11px]"
           >
             Receber contato
           </a>
         </div>
+
       </div>
     </nav>
   );
