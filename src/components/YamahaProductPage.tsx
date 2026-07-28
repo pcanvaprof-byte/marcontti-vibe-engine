@@ -270,7 +270,7 @@ export function YamahaProductPage({
                     <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
                       <a
                         href="#financiamento"
-                        onClick={() => trackEvent("cta_click", { cta: "comprar_online", model: m.slug })}
+                        onClick={() => trackEvent("cta_click", { modelSlug: m.slug, meta: { cta: "comprar_online" } })}
                         className="group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-sm sm:text-base px-7 py-4 rounded-full shadow-[0_10px_30px_-8px_rgba(255,107,26,0.6)] hover:shadow-[0_14px_40px_-6px_rgba(255,107,26,0.8)] hover:brightness-110 transition-all"
                       >
                         Comprar online
