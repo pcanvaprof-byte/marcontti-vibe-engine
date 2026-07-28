@@ -108,6 +108,7 @@ export function YamahaProductPage({
   // Uma heurística segura: apenas o Neo's é 100% elétrico com baterias
   // removíveis no catálogo Yamaha atual — demais são combustão/híbridos.
   const isDualBattery = isNeos;
+  const isCombustion = isTenereSeminova || m.slug.startsWith("yamaha-") || m.slug.startsWith("semi-nova-");
 
   // Textos das seções Intro/Versatilidade/Tecnologia são fixos (não trocam por cor)
   // — evita re-render/piscada de várias seções a cada clique na cor.
@@ -194,9 +195,8 @@ export function YamahaProductPage({
                     ? "Scooter Elétrica Moto Chefe"
                     : m.tag || "Klug Motors";
             const isSeminova = m.slug.startsWith("semi-nova-");
-            const heroDescription = isSeminova
-              ? `${m.name} semi nova, revisada e pronta para aventura. Trail robusta, econômica e confortável para cidade, estrada e terra.`
-              : (m.short || m.description);
+            const isYamaha = m.slug.startsWith("yamaha-");
+            const heroDescription = m.short || m.description;
             const benefits = isSeminova
               ? [
                   "Revisada e aprovada",
@@ -448,7 +448,7 @@ export function YamahaProductPage({
         <div className="max-w-6xl mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-10 lg:gap-20 items-start">
           <div>
             <p className="text-[11px] uppercase tracking-[0.4em] font-display font-black text-primary">
-              Eficiência elétrica
+              {isCombustion ? "Trail robusta" : "Eficiência elétrica"}
             </p>
             <h2
               className="mt-5 text-white uppercase leading-[0.9] tracking-tight"
@@ -457,10 +457,18 @@ export function YamahaProductPage({
                 fontSize: "clamp(36px, 5.5vw, 76px)",
               }}
             >
-              Mobilidade <span className="text-primary">inteligente</span>
+              {isCombustion ? (
+                <>
+                  Performance <span className="text-primary">na medida</span>
+                </>
+              ) : (
+                <>
+                  Mobilidade <span className="text-primary">inteligente</span>
+                </>
+              )}
             </h2>
           </div>
-          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6">
+          <p className="text-white/75 text-base sm:text-lg leading-relaxed lg:pt-6 whitespace-pre-line">
             {baseDescription}
           </p>
         </div>
@@ -483,9 +491,17 @@ export function YamahaProductPage({
                 fontSize: "clamp(30px, 4.5vw, 60px)",
               }}
             >
-              Versatilidade em <span className="text-primary">cada viagem</span>
+              {isCombustion ? (
+                <>
+                  Pronta para <span className="text-primary">qualquer terreno</span>
+                </>
+              ) : (
+                <>
+                  Versatilidade em <span className="text-primary">cada viagem</span>
+                </>
+              )}
             </h3>
-            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg">
+            <p className="mt-6 text-white/75 leading-relaxed text-base sm:text-lg whitespace-pre-line">
               {sentences[1] ?? sentences[0]}
             </p>
             {m.features.length > 0 && (
@@ -538,10 +554,19 @@ export function YamahaProductPage({
                   fontSize: "clamp(30px, 4.5vw, 60px)",
                 }}
               >
-                A escolha certa para <span className="text-primary">mobilidade urbana</span>
+                {isCombustion ? (
+                  <>
+                    Tecnologia e <span className="text-primary">conforto</span>
+                  </>
+                ) : (
+                  <>
+                    A escolha certa para{" "}
+                    <span className="text-primary">mobilidade urbana</span>
+                  </>
+                )}
               </h3>
             </div>
-            <p className="text-white/75 leading-relaxed lg:pt-6">
+            <p className="text-white/75 leading-relaxed lg:pt-6 whitespace-pre-line">
               {sentences[2] ?? sentences[0]}
             </p>
           </div>
