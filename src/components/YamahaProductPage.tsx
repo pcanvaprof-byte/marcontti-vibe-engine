@@ -726,13 +726,13 @@ export function YamahaProductPage({
       {/* 7. MODERNIDADE — PAINEL 100% DIGITAL */}
       <section id="modernidade" className="border-t border-border bg-card/30">
         <div className="max-w-[1400px] mx-auto px-5 sm:px-10 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10">
+          <div className="rounded-3xl overflow-hidden bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center">
             <img
               src={activeGallery[10] ?? activeGallery[2] ?? heroImg}
               alt={`${m.name} — painel 100% digital`}
               loading="lazy"
               decoding="async"
-              className="w-full h-auto object-contain"
+              className="max-h-[260px] sm:max-h-[360px] lg:max-h-[420px] w-auto h-auto max-w-full object-contain"
             />
           </div>
           <div>
