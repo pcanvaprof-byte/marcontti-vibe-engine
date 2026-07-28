@@ -1648,7 +1648,6 @@ function Index() {
         <Hero />
         <BenefitsBar />
         <DestaquesGrid />
-        <CategoryCircles />
         <MaisVendidosGrid />
         <YoutubeShowcase />
         <InstagramRow />
@@ -1684,49 +1683,6 @@ function RevealGrid({
 /* ============================================================
  * Reference-style home sections (Klug identity)
  * ============================================================ */
-
-const CIRCLE_CATS = [
-  { label: "Autopropelidos", to: "/modelos", filter: "autopropelido" },
-  { label: "Motos", to: "/modelos", filter: "moto" },
-  { label: "Scooters", to: "/modelos", filter: "scooter" },
-  { label: "Triciclos", to: "/modelos", filter: "triciclo" },
-  { label: "Todas Cat.", to: "/modelos", filter: "todos" },
-] as const;
-
-
-function CategoryCircles() {
-  return (
-    <section className="py-10 sm:py-12 bg-background border-b border-border">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <h2 className="text-center font-display font-black uppercase text-white text-xl sm:text-2xl tracking-widest mb-10">
-          Escolha por <span className="text-primary">categoria</span>
-        </h2>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 sm:gap-6">
-          {CIRCLE_CATS.map((c) => (
-            <Link
-              key={c.label}
-              to={c.to}
-              className="group flex flex-col items-center gap-3"
-            >
-              <span
-                className="grid place-items-center w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-card border border-border text-primary transition-all group-hover:border-primary group-hover:bg-primary/10 group-hover:scale-105"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(60% 60% at 30% 30%, color-mix(in oklab, var(--primary) 12%, transparent), transparent 70%)",
-                }}
-              >
-                <Zap size={28} strokeWidth={2.2} />
-              </span>
-              <span className="text-[11px] font-display font-black uppercase tracking-widest text-white/80 group-hover:text-primary transition-colors text-center">
-                {c.label}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* --------- Product grid card in the Moto Chefe reference style --------- */
 
