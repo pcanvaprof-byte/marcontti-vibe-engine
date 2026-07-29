@@ -409,6 +409,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     }
   }
 
+  function setCoverFromGallery(url: string) {
+    const cs = d.colors ?? [];
+    set(
+      "colors",
+      cs.length > 0
+        ? cs.map((c, i) => (i === 0 ? { ...c, image: url, hidden: false } : c))
+        : [{ name: "Padrão", hex: "#1a1a1a", image: url }],
+    );
+    toast.success("Imagem definida como capa do card");
+  }
+
   function removeGalleryItem(idx: number) {
     set("gallery", normalizeGallery(d.gallery).filter((_, i) => i !== idx));
   }
