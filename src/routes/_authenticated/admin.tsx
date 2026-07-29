@@ -9,8 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
+import HeroFitEditor from "@/components/admin/HeroFitEditor";
 import {
   DndContext,
   closestCenter,
@@ -344,6 +345,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [saving, setSaving] = useState(false);
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [fitOpen, setFitOpen] = useState(false);
   const [autoBg, setAutoBg] = useState(true);
   const [autoFrame, setAutoFrame] = useState(true);
   /** URL da capa antes do último processamento (para comparação antes/depois). */
@@ -576,6 +578,26 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   }
 
 
+
+  /** Salva o enquadramento manual escolhido no editor de encaixe. */
+  async function saveManualFit(file: File) {
+    const before = d.colors?.[0]?.image ?? null;
+    setUploadingMain(true);
+    setProgress({ label: "Salvando enquadramento...", pct: 60 });
+    try {
+      const url = await uploadFile(file);
+      setCoverBefore(before);
+      applyCover(url);
+      setFitOpen(false);
+      toast.success("Encaixe ajustado — salve o modelo para publicar");
+    } catch (err: any) {
+      toast.error("Não foi possível salvar o encaixe", { description: err?.message ?? "Tente novamente." });
+    } finally {
+      setUploadingMain(false);
+      setProgress(null);
+    }
+  }
+
   /** Reprocessa a capa já existente, sem precisar reenviar o arquivo. */
   async function reprocessCover() {
     const url = d.colors?.[0]?.image;
@@ -756,6 +778,14 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                 </button>
                 <button
                   type="button"
+                  onClick={() => setFitOpen(true)}
+                  disabled={uploadingMain}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 text-sm disabled:opacity-50"
+                >
+                  <Move className="w-4 h-4" /> Ajustar encaixe
+                </button>
+                <button
+                  type="button"
                   onClick={() => processUrlAsCover(preview, true, true)}
                   disabled={uploadingMain}
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 hover:bg-orange-500/25 text-sm disabled:opacity-50"
@@ -908,6 +938,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           <Button variant="ghost" onClick={onClose}>Cancelar</Button>
           <Button onClick={handleSave} disabled={saving}>{saving ? "Salvando..." : "Salvar"}</Button>
         </DialogFooter>
+
+        {fitOpen && preview && (
+          <HeroFitEditor
+            src={preview}
+            open={fitOpen}
+            busy={uploadingMain}
+            onClose={() => setFitOpen(false)}
+            onApply={saveManualFit}
+          />
+        )}
       </DialogContent>
     </Dialog>
   );
