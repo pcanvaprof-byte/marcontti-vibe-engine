@@ -938,6 +938,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           <Button variant="ghost" onClick={onClose}>Cancelar</Button>
           <Button onClick={handleSave} disabled={saving}>{saving ? "Salvando..." : "Salvar"}</Button>
         </DialogFooter>
+
+        {fitOpen && preview && (
+          <HeroFitEditor
+            src={preview}
+            open={fitOpen}
+            busy={uploadingMain}
+            onClose={() => setFitOpen(false)}
+            onApply={saveManualFit}
+          />
+        )}
       </DialogContent>
     </Dialog>
   );
