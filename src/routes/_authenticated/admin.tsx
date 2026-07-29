@@ -348,44 +348,92 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [autoFrame, setAutoFrame] = useState(true);
   /** URL da capa antes do último processamento (para comparação antes/depois). */
   const [coverBefore, setCoverBefore] = useState<string | null>(null);
+  /** Progresso do processamento da imagem principal. */
+  const [progress, setProgress] = useState<{ label: string; pct: number } | null>(null);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
   }
 
-  async function removeBg(file: File): Promise<File> {
+  const MAX_IMAGE_MB = 20;
+  const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp", "image/avif", "image/gif"];
+
+  /** Valida o arquivo antes de qualquer processamento. Retorna a mensagem de erro ou null. */
+  function validateImageFile(file: File): string | null {
+    if (!file.type.startsWith("image/")) return `"${file.name}" não é uma imagem válida. Envie PNG, JPG ou WebP.`;
+    if (!ALLOWED_TYPES.includes(file.type)) return `Formato ${file.type.replace("image/", "").toUpperCase()} não suportado. Use PNG, JPG ou WebP.`;
+    if (file.size === 0) return `"${file.name}" está vazio ou corrompido.`;
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) return `A imagem tem ${(file.size / 1024 / 1024).toFixed(1)} MB. O limite é ${MAX_IMAGE_MB} MB.`;
+    return null;
+  }
+
+  async function removeBg(file: File): Promise<{ file: File; failed: boolean; reason?: string }> {
     try {
+      setProgress({ label: "Carregando modelo de IA...", pct: 5 });
       const { removeBackground } = await import("@imgly/background-removal");
-      const blob = await removeBackground(file, { output: { format: "image/png" } });
+      const blob = await removeBackground(file, {
+        output: { format: "image/png" },
+        progress: (key: string, current: number, total: number) => {
+          const pct = total > 0 ? Math.min(95, 5 + Math.round((current / total) * 85)) : 50;
+          const label = key.startsWith("fetch") ? "Baixando modelo de IA..." : "Removendo fundo...";
+          setProgress({ label, pct });
+        },
+      });
+      if (!blob || blob.size === 0) throw new Error("Resultado vazio");
       const base = file.name.replace(/\.[^.]+$/, "");
-      return new File([blob], `${base}-nobg.png`, { type: "image/png" });
-    } catch (err) {
+      return { file: new File([blob], `${base}-nobg.png`, { type: "image/png" }), failed: false };
+    } catch (err: any) {
       console.error("[bg-removal] falhou, enviando original:", err);
-      return file;
+      return { file, failed: true, reason: err?.message ?? "erro desconhecido" };
     }
   }
 
-  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean }): Promise<string> {
-    let finalFile = opts?.removeBackground ? await removeBg(file) : file;
-    if (opts?.normalize) {
-      const { normalizeHeroImage } = await import("@/lib/normalizeHeroImage");
-      finalFile = await normalizeHeroImage(finalFile);
+  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean; track?: boolean }): Promise<string> {
+    const track = opts?.track !== false;
+    let finalFile = file;
+    if (opts?.removeBackground) {
+      const res = await removeBg(file);
+      finalFile = res.file;
+      if (res.failed) {
+        toast.error("Não foi possível remover o fundo automaticamente", {
+          description: `A imagem original foi mantida. Detalhe: ${res.reason}. Tente novamente ou envie um PNG já sem fundo.`,
+        });
+      }
     }
+    if (opts?.normalize) {
+      if (track) setProgress({ label: "Padronizando enquadramento 4:3...", pct: 96 });
+      try {
+        const { normalizeHeroImage } = await import("@/lib/normalizeHeroImage");
+        finalFile = await normalizeHeroImage(finalFile);
+      } catch (err: any) {
+        console.error("[normalize] falhou:", err);
+        toast.error("Não foi possível padronizar o enquadramento", {
+          description: "A imagem foi enviada sem o recorte 4:3.",
+        });
+      }
+    }
+    if (track) setProgress({ label: "Enviando imagem...", pct: 98 });
     const ext = finalFile.name.split(".").pop() || "jpg";
     const safe = (d.slug || "novo").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
     const path = `${safe}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     const { error } = await supabase.storage.from("model-images").upload(path, finalFile, { upsert: true, contentType: finalFile.type });
-    if (error) throw error;
+    if (error) throw new Error(`Falha ao enviar a imagem para o servidor: ${error.message}`);
+    if (track) setProgress({ label: "Concluído", pct: 100 });
     return `/api/public/model-images/${path}`;
   }
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    const invalid = validateImageFile(file);
+    if (invalid) {
+      toast.error("Arquivo inválido", { description: invalid });
+      e.target.value = "";
+      return;
+    }
     setUploadingMain(true);
+    setProgress({ label: "Preparando imagem...", pct: 2 });
     try {
-      if (autoBg) toast.info("Removendo fundo da imagem hero...");
-      else if (autoFrame) toast.info("Padronizando enquadramento...");
       const originalPreview = autoBg || autoFrame ? URL.createObjectURL(file) : null;
       const url = await uploadFile(file, { removeBackground: autoBg, normalize: autoFrame });
       const currentColors = d.colors ?? [];
@@ -396,25 +444,33 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       set("colors", newColors);
       toast.success("Imagem principal enviada");
     } catch (err: any) {
-      toast.error(err.message ?? "Falha no upload");
+      toast.error("Falha no upload da imagem", { description: err?.message ?? "Tente novamente." });
     } finally {
       setUploadingMain(false);
+      setProgress(null);
       e.target.value = "";
     }
   }
 
 
+
   async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
+    const invalids = files.map((f) => ({ f, msg: validateImageFile(f) })).filter((x) => x.msg);
+    if (invalids.length) {
+      toast.error("Alguns arquivos foram ignorados", { description: invalids.map((i) => i.msg).join(" ") });
+    }
+    const valid = files.filter((f) => !validateImageFile(f));
+    if (!valid.length) { e.target.value = ""; return; }
     setUploadingGallery(true);
     try {
       const items: GalleryItem[] = [];
-      for (const f of files) items.push({ url: await uploadFile(f) });
+      for (const f of valid) items.push({ url: await uploadFile(f, { track: false }) });
       set("gallery", [...normalizeGallery(d.gallery), ...items]);
       toast.success(`${items.length} imagem(ns) adicionada(s)`);
     } catch (err: any) {
-      toast.error(err.message ?? "Falha no upload");
+      toast.error("Falha no upload da galeria", { description: err?.message ?? "Tente novamente." });
     } finally {
       setUploadingGallery(false);
       e.target.value = "";
@@ -433,11 +489,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
   async function processUrlAsCover(url: string, bg: boolean, frame: boolean) {
     setUploadingMain(true);
+    setProgress({ label: "Baixando imagem atual...", pct: 2 });
     try {
-      toast.info(bg ? "Removendo fundo da capa..." : "Padronizando enquadramento...");
       const res = await fetch(url);
-      if (!res.ok) throw new Error("Não foi possível baixar a imagem");
+      if (!res.ok) throw new Error(`Não foi possível baixar a imagem atual (erro ${res.status}).`);
       const blob = await res.blob();
+      if (!blob.size) throw new Error("A imagem atual está vazia ou indisponível.");
+      if (!blob.type.startsWith("image/")) throw new Error("O endereço informado não aponta para uma imagem válida.");
       const name = (url.split("/").pop() || "capa.png").split("?")[0];
       const file = new File([blob], name, { type: blob.type || "image/png" });
       const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
@@ -446,11 +504,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       toast.success("Capa processada — compare antes/depois e salve para publicar");
     } catch (err: any) {
       console.error("[processUrlAsCover]", err);
-      toast.error("Não foi possível processar a capa");
+      toast.error("Não foi possível processar a capa", { description: err?.message ?? "Tente novamente." });
     } finally {
       setUploadingMain(false);
+      setProgress(null);
     }
   }
+
 
   /** Reprocessa a capa já existente, sem precisar reenviar o arquivo. */
   async function reprocessCover() {
@@ -660,7 +720,21 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             </label>
           </div>
 
+          {progress && (
+            <div className="rounded-lg border border-orange-500/30 bg-orange-500/5 p-3 space-y-2">
+              <div className="flex items-center justify-between gap-2 text-xs text-orange-200">
+                <span>{progress.label}</span>
+                <span className="tabular-nums">{progress.pct}%</span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-neutral-800 overflow-hidden">
+                <div className="h-full bg-orange-500 transition-all duration-300" style={{ width: `${progress.pct}%` }} />
+              </div>
+              <p className="text-[11px] text-neutral-500">Na primeira remoção de fundo o modelo de IA é baixado — pode levar alguns segundos.</p>
+            </div>
+          )}
+
           {coverBefore && preview && (
+
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-3 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <span className="text-xs font-medium text-neutral-300">Pré-visualização antes / depois</span>
