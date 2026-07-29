@@ -346,6 +346,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [autoBg, setAutoBg] = useState(true);
   const [autoFrame, setAutoFrame] = useState(true);
+  /** URL da capa antes do último processamento (para comparação antes/depois). */
+  const [coverBefore, setCoverBefore] = useState<string | null>(null);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
