@@ -1,0 +1,1 @@
+UPDATE public.models SET colors = '[{"hex":"#1a3ea8","name":"Azul","image":"/__l5e/assets-v1/f856eafd-0e2d-4360-833c-13dbef33cc4e/factor150-hero.png"}]'::jsonb WHERE slug='semi-nova-yamaha-factor-150-ed';
