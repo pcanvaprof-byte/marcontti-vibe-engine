@@ -720,7 +720,21 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             </label>
           </div>
 
+          {progress && (
+            <div className="rounded-lg border border-orange-500/30 bg-orange-500/5 p-3 space-y-2">
+              <div className="flex items-center justify-between gap-2 text-xs text-orange-200">
+                <span>{progress.label}</span>
+                <span className="tabular-nums">{progress.pct}%</span>
+              </div>
+              <div className="h-1.5 w-full rounded-full bg-neutral-800 overflow-hidden">
+                <div className="h-full bg-orange-500 transition-all duration-300" style={{ width: `${progress.pct}%` }} />
+              </div>
+              <p className="text-[11px] text-neutral-500">Na primeira remoção de fundo o modelo de IA é baixado — pode levar alguns segundos.</p>
+            </div>
+          )}
+
           {coverBefore && preview && (
+
             <div className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-3 space-y-3">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <span className="text-xs font-medium text-neutral-300">Pré-visualização antes / depois</span>
