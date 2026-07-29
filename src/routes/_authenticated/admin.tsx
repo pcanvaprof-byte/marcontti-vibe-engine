@@ -573,6 +573,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               className="flex-1 min-w-[200px]"
             />
           </div>
+          <div className="flex items-center gap-5 flex-wrap text-xs text-neutral-400">
+            <label className="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={autoBg} onChange={(e) => setAutoBg(e.target.checked)} className="accent-orange-500" />
+              Remover fundo automaticamente
+            </label>
+            <label className="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={autoFrame} onChange={(e) => setAutoFrame(e.target.checked)} className="accent-orange-500" />
+              Padronizar proporção e centralização (4:3)
+            </label>
+          </div>
         </div>
 
         <div className="space-y-2">
