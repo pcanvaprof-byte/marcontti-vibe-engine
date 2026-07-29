@@ -386,7 +386,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
 
   return (
     <>
-      <div ref={ref} className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div ref={ref} className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-4">
         {items.map((m, i) => {
           const waMsg = `Olá, Klug Motors! Tenho interesse na *${m.name}*${m.price ? ` (${m.price})` : ""}. Pode me passar mais informações?`;
           return (
