@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle, MessageCircle } from "lucide-react";
 import { type Model, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
-import { usePublicModels } from "@/hooks/useDbModels";
+import { usePublicModelsLight } from "@/hooks/useDbModels";
 import { useReveal } from "@/hooks/use-reveal";
 import { LazyImage } from "@/components/LazyImage";
 import { QuickViewModal } from "@/components/QuickViewModal";
@@ -150,7 +150,7 @@ function activeCategoryKey(search: CatSearch): string {
 }
 
 function CatalogPage() {
-  const { items: models, isLoading, isFetching, data: dbData } = usePublicModels();
+  const { items: models, isLoading, isFetching, data: dbData } = usePublicModelsLight();
   const dataReady = Boolean(dbData);
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/modelos/" });
