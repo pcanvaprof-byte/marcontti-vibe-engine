@@ -348,44 +348,92 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [autoFrame, setAutoFrame] = useState(true);
   /** URL da capa antes do último processamento (para comparação antes/depois). */
   const [coverBefore, setCoverBefore] = useState<string | null>(null);
+  /** Progresso do processamento da imagem principal. */
+  const [progress, setProgress] = useState<{ label: string; pct: number } | null>(null);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
   }
 
-  async function removeBg(file: File): Promise<File> {
+  const MAX_IMAGE_MB = 20;
+  const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/webp", "image/avif", "image/gif"];
+
+  /** Valida o arquivo antes de qualquer processamento. Retorna a mensagem de erro ou null. */
+  function validateImageFile(file: File): string | null {
+    if (!file.type.startsWith("image/")) return `"${file.name}" não é uma imagem válida. Envie PNG, JPG ou WebP.`;
+    if (!ALLOWED_TYPES.includes(file.type)) return `Formato ${file.type.replace("image/", "").toUpperCase()} não suportado. Use PNG, JPG ou WebP.`;
+    if (file.size === 0) return `"${file.name}" está vazio ou corrompido.`;
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) return `A imagem tem ${(file.size / 1024 / 1024).toFixed(1)} MB. O limite é ${MAX_IMAGE_MB} MB.`;
+    return null;
+  }
+
+  async function removeBg(file: File): Promise<{ file: File; failed: boolean; reason?: string }> {
     try {
+      setProgress({ label: "Carregando modelo de IA...", pct: 5 });
       const { removeBackground } = await import("@imgly/background-removal");
-      const blob = await removeBackground(file, { output: { format: "image/png" } });
+      const blob = await removeBackground(file, {
+        output: { format: "image/png" },
+        progress: (key: string, current: number, total: number) => {
+          const pct = total > 0 ? Math.min(95, 5 + Math.round((current / total) * 85)) : 50;
+          const label = key.startsWith("fetch") ? "Baixando modelo de IA..." : "Removendo fundo...";
+          setProgress({ label, pct });
+        },
+      });
+      if (!blob || blob.size === 0) throw new Error("Resultado vazio");
       const base = file.name.replace(/\.[^.]+$/, "");
-      return new File([blob], `${base}-nobg.png`, { type: "image/png" });
-    } catch (err) {
+      return { file: new File([blob], `${base}-nobg.png`, { type: "image/png" }), failed: false };
+    } catch (err: any) {
       console.error("[bg-removal] falhou, enviando original:", err);
-      return file;
+      return { file, failed: true, reason: err?.message ?? "erro desconhecido" };
     }
   }
 
-  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean }): Promise<string> {
-    let finalFile = opts?.removeBackground ? await removeBg(file) : file;
-    if (opts?.normalize) {
-      const { normalizeHeroImage } = await import("@/lib/normalizeHeroImage");
-      finalFile = await normalizeHeroImage(finalFile);
+  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean; track?: boolean }): Promise<string> {
+    const track = opts?.track !== false;
+    let finalFile = file;
+    if (opts?.removeBackground) {
+      const res = await removeBg(file);
+      finalFile = res.file;
+      if (res.failed) {
+        toast.error("Não foi possível remover o fundo automaticamente", {
+          description: `A imagem original foi mantida. Detalhe: ${res.reason}. Tente novamente ou envie um PNG já sem fundo.`,
+        });
+      }
     }
+    if (opts?.normalize) {
+      if (track) setProgress({ label: "Padronizando enquadramento 4:3...", pct: 96 });
+      try {
+        const { normalizeHeroImage } = await import("@/lib/normalizeHeroImage");
+        finalFile = await normalizeHeroImage(finalFile);
+      } catch (err: any) {
+        console.error("[normalize] falhou:", err);
+        toast.error("Não foi possível padronizar o enquadramento", {
+          description: "A imagem foi enviada sem o recorte 4:3.",
+        });
+      }
+    }
+    if (track) setProgress({ label: "Enviando imagem...", pct: 98 });
     const ext = finalFile.name.split(".").pop() || "jpg";
     const safe = (d.slug || "novo").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
     const path = `${safe}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
     const { error } = await supabase.storage.from("model-images").upload(path, finalFile, { upsert: true, contentType: finalFile.type });
-    if (error) throw error;
+    if (error) throw new Error(`Falha ao enviar a imagem para o servidor: ${error.message}`);
+    if (track) setProgress({ label: "Concluído", pct: 100 });
     return `/api/public/model-images/${path}`;
   }
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    const invalid = validateImageFile(file);
+    if (invalid) {
+      toast.error("Arquivo inválido", { description: invalid });
+      e.target.value = "";
+      return;
+    }
     setUploadingMain(true);
+    setProgress({ label: "Preparando imagem...", pct: 2 });
     try {
-      if (autoBg) toast.info("Removendo fundo da imagem hero...");
-      else if (autoFrame) toast.info("Padronizando enquadramento...");
       const originalPreview = autoBg || autoFrame ? URL.createObjectURL(file) : null;
       const url = await uploadFile(file, { removeBackground: autoBg, normalize: autoFrame });
       const currentColors = d.colors ?? [];
@@ -396,12 +444,14 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       set("colors", newColors);
       toast.success("Imagem principal enviada");
     } catch (err: any) {
-      toast.error(err.message ?? "Falha no upload");
+      toast.error("Falha no upload da imagem", { description: err?.message ?? "Tente novamente." });
     } finally {
       setUploadingMain(false);
+      setProgress(null);
       e.target.value = "";
     }
   }
+
 
 
   async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
