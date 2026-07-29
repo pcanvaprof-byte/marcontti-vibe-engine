@@ -344,6 +344,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [saving, setSaving] = useState(false);
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [autoBg, setAutoBg] = useState(true);
+  const [autoFrame, setAutoFrame] = useState(true);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
