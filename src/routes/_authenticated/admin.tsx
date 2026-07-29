@@ -439,18 +439,31 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   }
 
 
-  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean; track?: boolean }): Promise<string> {
+  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean; track?: boolean; ai?: boolean }): Promise<string> {
     const track = opts?.track !== false;
     let finalFile = file;
     if (opts?.removeBackground) {
-      const res = await removeBg(file);
-      finalFile = res.file;
-      if (res.failed) {
-        toast.error("Não foi possível remover o fundo automaticamente", {
-          description: `A imagem original foi mantida. Detalhe: ${res.reason}. Tente novamente ou envie um PNG já sem fundo.`,
-        });
+      if (opts.ai) {
+        try {
+          const { aiRemoveBackground } = await import("@/lib/aiRemoveBg");
+          finalFile = await aiRemoveBackground(file, (label, pct) => setProgress({ label, pct }));
+        } catch (err: any) {
+          console.error("[ai-bg-removal]", err);
+          toast.error("A IA não conseguiu remover o fundo", {
+            description: `${err?.message ?? "Erro desconhecido"}. A imagem original foi mantida.`,
+          });
+        }
+      } else {
+        const res = await removeBg(file);
+        finalFile = res.file;
+        if (res.failed) {
+          toast.error("Não foi possível remover o fundo automaticamente", {
+            description: `A imagem original foi mantida. Detalhe: ${res.reason}. Tente novamente ou envie um PNG já sem fundo.`,
+          });
+        }
       }
     }
+
     if (opts?.normalize) {
       if (track) setProgress({ label: "Padronizando enquadramento 4:3...", pct: 96 });
       try {
