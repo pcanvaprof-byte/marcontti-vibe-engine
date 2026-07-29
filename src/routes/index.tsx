@@ -38,6 +38,7 @@ import { usePublicInstagramPosts, type InstagramPost } from "@/hooks/useInstagra
 
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { BenefitsBar } from "@/components/BenefitsBar";
+import { LazyVideo } from "@/components/LazyVideo";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import type { Product } from "@/components/ProductCard";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
@@ -1805,12 +1806,9 @@ function YoutubeShowcase() {
             </div>
           </div>
           <div className="relative aspect-video bg-black">
-            <video
+            <LazyVideo
               src={conhecaKlugMotorsVideo.url}
-              autoPlay
               loop
-              muted
-              playsInline
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
