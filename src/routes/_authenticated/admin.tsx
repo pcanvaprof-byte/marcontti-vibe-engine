@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2 } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
 import {
   DndContext,
@@ -439,18 +439,31 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   }
 
 
-  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean; track?: boolean }): Promise<string> {
+  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean; track?: boolean; ai?: boolean }): Promise<string> {
     const track = opts?.track !== false;
     let finalFile = file;
     if (opts?.removeBackground) {
-      const res = await removeBg(file);
-      finalFile = res.file;
-      if (res.failed) {
-        toast.error("Não foi possível remover o fundo automaticamente", {
-          description: `A imagem original foi mantida. Detalhe: ${res.reason}. Tente novamente ou envie um PNG já sem fundo.`,
-        });
+      if (opts.ai) {
+        try {
+          const { aiRemoveBackground } = await import("@/lib/aiRemoveBg");
+          finalFile = await aiRemoveBackground(file, (label, pct) => setProgress({ label, pct }));
+        } catch (err: any) {
+          console.error("[ai-bg-removal]", err);
+          toast.error("A IA não conseguiu remover o fundo", {
+            description: `${err?.message ?? "Erro desconhecido"}. A imagem original foi mantida.`,
+          });
+        }
+      } else {
+        const res = await removeBg(file);
+        finalFile = res.file;
+        if (res.failed) {
+          toast.error("Não foi possível remover o fundo automaticamente", {
+            description: `A imagem original foi mantida. Detalhe: ${res.reason}. Tente novamente ou envie um PNG já sem fundo.`,
+          });
+        }
       }
     }
+
     if (opts?.normalize) {
       if (track) setProgress({ label: "Padronizando enquadramento 4:3...", pct: 96 });
       try {
@@ -538,7 +551,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     );
   }
 
-  async function processUrlAsCover(url: string, bg: boolean, frame: boolean) {
+  async function processUrlAsCover(url: string, bg: boolean, frame: boolean, ai = false) {
     setUploadingMain(true);
     setProgress({ label: "Baixando imagem atual...", pct: 2 });
     try {
@@ -549,7 +562,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       if (!blob.type.startsWith("image/")) throw new Error("O endereço informado não aponta para uma imagem válida.");
       const name = (url.split("/").pop() || "capa.png").split("?")[0];
       const file = new File([blob], name, { type: blob.type || "image/png" });
-      const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
+      const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame, ai });
       setCoverBefore(url);
       applyCover(newUrl);
       toast.success("Capa processada — compare antes/depois e salve para publicar");
@@ -749,8 +762,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                 >
                   <Sparkles className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Fundo + 4:3"}
                 </button>
+                <button
+                  type="button"
+                  onClick={() => processUrlAsCover(preview, true, true, true)}
+                  disabled={uploadingMain}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500 text-black font-semibold hover:bg-orange-400 text-sm disabled:opacity-50"
+                >
+                  <Wand2 className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Remover fundo com IA"}
+                </button>
               </>
             )}
+
 
 
             <Input
