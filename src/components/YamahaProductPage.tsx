@@ -435,7 +435,7 @@ export function YamahaProductPage({
                           width: tenereNobgOptimized.w,
                           height: tenereNobgOptimized.h,
                         })}
-                        className="relative z-10 w-full h-full max-w-[720px] max-h-[280px] sm:max-h-[440px] lg:max-h-[600px] object-contain object-center animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)]"
+                        className="relative z-10 w-full h-full max-w-[900px] max-h-[330px] sm:max-h-[510px] lg:max-h-[690px] object-contain object-center scale-110 sm:scale-115 lg:scale-120 animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)]"
                         style={{
                           filter:
                             "drop-shadow(-30px 0 40px rgba(255,107,26,0.25)) drop-shadow(0 20px 30px rgba(0,0,0,0.6))",
