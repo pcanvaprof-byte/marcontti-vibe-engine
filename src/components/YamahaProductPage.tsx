@@ -340,7 +340,7 @@ export function YamahaProductPage({
                   </div>
 
                   {/* LADO DIREITO — imagem da moto */}
-                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[560px] grid place-items-center lg:items-center lg:justify-items-end">
+                  <div className="relative order-1 lg:order-2 w-full aspect-[4/3] max-h-[300px] sm:max-h-[460px] lg:max-h-[620px] mx-auto grid place-items-center">
                     {/* Glow primário denso atrás da moto */}
                     <div
                       aria-hidden
