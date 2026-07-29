@@ -59,7 +59,7 @@ export const Route = createFileRoute("/modelos/$slug")({
   beforeLoad: ({ params, search }) => {
     if (params.slug.startsWith("seminova-")) {
       const newSlug = params.slug.replace("seminova-", "semi-nova-");
-      throw redirect({ to: `/modelos/${newSlug}`, search });
+      throw redirect({ to: "/modelos/$slug", params: { slug: newSlug }, search });
     }
   },
   loader: ({ params }) => {
