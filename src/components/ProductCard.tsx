@@ -79,7 +79,7 @@ export function ProductCard({ product }: { product: Product }) {
         aria-label={`Ver detalhes de ${product.nome}`}
         className="relative z-[2] block mx-2.5 mt-2.5 sm:mx-3 sm:mt-3"
       >
-        <div className="relative aspect-[4/3] rounded-[10px] bg-white overflow-hidden shadow-[0_8px_20px_-12px_rgba(0,0,0,0.6)_inset]">
+        <div className="relative aspect-[4/3] rounded-[10px] bg-white overflow-hidden shadow-[0_8px_20px_-12px_rgba(0,0,0,0.6)_inset] isolate">
           <LazyImage
             src={product.imagem}
             alt={product.nome}
@@ -89,12 +89,20 @@ export function ProductCard({ product }: { product: Product }) {
             className="
               w-full h-full object-contain pointer-events-none
               scale-[1.15] sm:scale-[1.12]
-              transition-transform duration-500 motion-safe:group-hover:scale-[1.18]
+              transform-gpu will-change-transform backface-hidden
+              transition-transform duration-[700ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]
+              motion-safe:group-hover:scale-[1.22] sm:motion-safe:group-hover:scale-[1.19]
             "
+          />
+          {/* Brilho sutil no hover — não afeta o layout */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(120%_80%_at_50%_100%,rgba(248,96,0,0.16),transparent_60%)]"
           />
         </div>
 
       </Link>
+
 
       {/* MOBILE — bloco inferior padronizado (altura fixa, mesmo baseline) */}
       <div className="sm:hidden relative z-[4] px-3 pt-2.5 pb-3 flex flex-1 flex-col items-center justify-between text-center gap-1 min-w-0">
