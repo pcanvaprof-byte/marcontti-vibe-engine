@@ -346,6 +346,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [autoBg, setAutoBg] = useState(true);
   const [autoFrame, setAutoFrame] = useState(true);
+  /** URL da capa antes do último processamento (para comparação antes/depois). */
+  const [coverBefore, setCoverBefore] = useState<string | null>(null);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
@@ -384,11 +386,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     try {
       if (autoBg) toast.info("Removendo fundo da imagem hero...");
       else if (autoFrame) toast.info("Padronizando enquadramento...");
+      const originalPreview = autoBg || autoFrame ? URL.createObjectURL(file) : null;
       const url = await uploadFile(file, { removeBackground: autoBg, normalize: autoFrame });
       const currentColors = d.colors ?? [];
       const newColors = currentColors.length > 0
         ? currentColors.map((c, i) => i === 0 ? { ...c, image: url } : c)
         : [{ name: "Padrão", hex: "#1a1a1a", image: url }];
+      setCoverBefore(originalPreview);
       set("colors", newColors);
       toast.success("Imagem principal enviada");
     } catch (err: any) {
@@ -437,8 +441,9 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       const name = (url.split("/").pop() || "capa.png").split("?")[0];
       const file = new File([blob], name, { type: blob.type || "image/png" });
       const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
+      setCoverBefore(url);
       applyCover(newUrl);
-      toast.success("Capa processada — salve para publicar");
+      toast.success("Capa processada — compare antes/depois e salve para publicar");
     } catch (err: any) {
       console.error("[processUrlAsCover]", err);
       toast.error("Não foi possível processar a capa");
@@ -654,6 +659,42 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               Padronizar proporção e centralização (4:3)
             </label>
           </div>
+
+          {coverBefore && preview && (
+            <div className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-3 space-y-3">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="text-xs font-medium text-neutral-300">Pré-visualização antes / depois</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={uploadingMain}
+                    onClick={() => { applyCover(coverBefore); setCoverBefore(null); toast.info("Capa revertida para a original"); }}
+                    className="text-xs px-2.5 py-1 rounded-md border border-neutral-700 text-neutral-300 hover:bg-neutral-800 disabled:opacity-50"
+                  >
+                    Reverter
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCoverBefore(null)}
+                    className="text-xs px-2.5 py-1 rounded-md border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
+                  >
+                    Manter resultado
+                  </button>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <span className="block text-[11px] uppercase tracking-wide text-neutral-500">Antes</span>
+                  <img src={coverBefore} alt="Antes" className="w-full aspect-[4/3] rounded object-contain object-center bg-neutral-800" />
+                </div>
+                <div className="space-y-1">
+                  <span className="block text-[11px] uppercase tracking-wide text-orange-400">Depois</span>
+                  <img src={preview} alt="Depois" className="w-full aspect-[4/3] rounded object-contain object-center bg-[conic-gradient(#2a2a2a_0_25%,#1c1c1c_0_50%,#2a2a2a_0_75%,#1c1c1c_0)] bg-[length:16px_16px]" />
+                </div>
+              </div>
+              <p className="text-[11px] text-neutral-500">Nada é publicado até você salvar o modelo.</p>
+            </div>
+          )}
         </div>
 
         <div className="space-y-2">
