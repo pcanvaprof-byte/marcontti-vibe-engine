@@ -578,6 +578,26 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   }
 
 
+
+  /** Salva o enquadramento manual escolhido no editor de encaixe. */
+  async function saveManualFit(file: File) {
+    const before = d.colors?.[0]?.image ?? null;
+    setUploadingMain(true);
+    setProgress({ label: "Salvando enquadramento...", pct: 60 });
+    try {
+      const url = await uploadFile(file);
+      setCoverBefore(before);
+      applyCover(url);
+      setFitOpen(false);
+      toast.success("Encaixe ajustado — salve o modelo para publicar");
+    } catch (err: any) {
+      toast.error("Não foi possível salvar o encaixe", { description: err?.message ?? "Tente novamente." });
+    } finally {
+      setUploadingMain(false);
+      setProgress(null);
+    }
+  }
+
   /** Reprocessa a capa já existente, sem precisar reenviar o arquivo. */
   async function reprocessCover() {
     const url = d.colors?.[0]?.image;
