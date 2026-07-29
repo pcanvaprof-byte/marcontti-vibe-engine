@@ -562,7 +562,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       if (!blob.type.startsWith("image/")) throw new Error("O endereço informado não aponta para uma imagem válida.");
       const name = (url.split("/").pop() || "capa.png").split("?")[0];
       const file = new File([blob], name, { type: blob.type || "image/png" });
-      const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
+      const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame, ai });
       setCoverBefore(url);
       applyCover(newUrl);
       toast.success("Capa processada — compare antes/depois e salve para publicar");
