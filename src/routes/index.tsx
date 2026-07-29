@@ -1113,6 +1113,8 @@ function ProductCard({ product: p }: { product: Model }) {
           src={img}
           alt={`${p.name} — ${p.tag}`}
           loading="lazy"
+          decoding="async"
+          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="absolute inset-0 w-full h-full object-contain scale-125 sm:scale-[1.35] drop-shadow-[0_20px_35px_rgba(0,0,0,0.55)] group-hover:scale-[1.45] transition-transform duration-700"
         />
         <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
@@ -1703,6 +1705,8 @@ function RefProductCard({ m }: { m: Model }) {
           src={m.colors[0]?.image}
           alt={m.name}
           loading="lazy"
+          decoding="async"
+          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
         />
         <span className="absolute top-2 left-2 bg-primary text-primary-foreground text-[9px] font-display font-black uppercase tracking-widest px-2 py-1 rounded-sm">

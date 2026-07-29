@@ -13,6 +13,12 @@ type Props = ImgHTMLAttributes<HTMLImageElement> & {
    * (e.g. "4 / 3", "16 / 9", "1"). Defaults to "4 / 3".
    */
   aspectRatio?: string | null;
+  /**
+   * Marca a imagem como crítica (above the fold): carrega imediatamente com
+   * prioridade alta. As demais ficam com `loading="lazy"` + `fetchpriority="low"`
+   * para não competir com o conteúdo visível.
+   */
+  priority?: boolean;
 };
 
 /**
@@ -31,6 +37,8 @@ export function LazyImage({
   wrapperClassName = "",
   loadingLabel,
   aspectRatio = "4 / 3",
+  priority = false,
+  sizes,
   style,
   ...rest
 }: Props) {
@@ -74,8 +82,14 @@ export function LazyImage({
       <img
         src={src}
         alt={alt}
-        loading={(rest as { loading?: "eager" | "lazy" }).loading ?? "lazy"}
-        decoding="async"
+        loading={
+          (rest as { loading?: "eager" | "lazy" }).loading ??
+          (priority ? "eager" : "lazy")
+        }
+        decoding={priority ? "sync" : "async"}
+        // @ts-expect-error - fetchpriority é válido no DOM, tipagem do React ainda não cobre
+        fetchpriority={priority ? "high" : "low"}
+        sizes={sizes ?? "100vw"}
         onLoad={() => setLoaded(true)}
         onError={() => setErrored(true)}
         style={imgStyle}
