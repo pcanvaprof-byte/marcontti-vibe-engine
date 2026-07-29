@@ -599,7 +599,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           <div className="flex items-center gap-4 flex-wrap">
             {preview && (
               <div className="relative">
-                <img src={preview} alt="" className={`w-24 h-24 rounded object-cover bg-neutral-800 ${mainHidden ? "opacity-40 grayscale" : ""}`} />
+                <img src={preview} alt="" className={`w-32 aspect-[4/3] rounded object-contain object-center bg-neutral-800 ${mainHidden ? "opacity-40 grayscale" : ""}`} />
                 {mainHidden && <div className="absolute inset-0 flex items-center justify-center"><EyeOff className="w-6 h-6 text-white/80" /></div>}
               </div>
             )}
