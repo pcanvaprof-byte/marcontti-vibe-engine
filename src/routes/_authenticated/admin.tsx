@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
 import {
   DndContext,
@@ -427,34 +427,46 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     );
   }
 
+  async function processUrlAsCover(url: string, bg: boolean, frame: boolean) {
+    setUploadingMain(true);
+    try {
+      toast.info(bg ? "Removendo fundo da capa..." : "Padronizando enquadramento...");
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Não foi possível baixar a imagem");
+      const blob = await res.blob();
+      const name = (url.split("/").pop() || "capa.png").split("?")[0];
+      const file = new File([blob], name, { type: blob.type || "image/png" });
+      const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
+      applyCover(newUrl);
+      toast.success("Capa processada — salve para publicar");
+    } catch (err: any) {
+      console.error("[processUrlAsCover]", err);
+      toast.error("Não foi possível processar a capa");
+    } finally {
+      setUploadingMain(false);
+    }
+  }
+
+  /** Reprocessa a capa já existente, sem precisar reenviar o arquivo. */
+  async function reprocessCover() {
+    const url = d.colors?.[0]?.image;
+    if (!url) {
+      toast.error("Nenhuma capa definida");
+      return;
+    }
+    await processUrlAsCover(url, autoBg, autoFrame || !autoBg);
+  }
+
   async function setCoverFromGallery(url: string) {
-    // Ao promover uma foto da galeria a capa, aplicamos o mesmo tratamento do
-    // upload hero (remoção de fundo + padronização 4:3) quando as opções estão
-    // ligadas — assim a capa fica igual às demais.
+    // Promover foto da galeria a capa aplica o mesmo tratamento do upload hero.
     if (!autoBg && !autoFrame) {
       applyCover(url);
       toast.success("Imagem definida como capa do card");
       return;
     }
-    setUploadingMain(true);
-    try {
-      toast.info(autoBg ? "Removendo fundo da capa..." : "Padronizando enquadramento...");
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Não foi possível baixar a imagem da galeria");
-      const blob = await res.blob();
-      const name = (url.split("/").pop() || "capa.png").split("?")[0];
-      const file = new File([blob], name, { type: blob.type || "image/png" });
-      const newUrl = await uploadFile(file, { removeBackground: autoBg, normalize: autoFrame });
-      applyCover(newUrl);
-      toast.success("Capa processada e definida");
-    } catch (err: any) {
-      console.error("[setCoverFromGallery]", err);
-      applyCover(url);
-      toast.warning("Usando a imagem original como capa (processamento falhou)");
-    } finally {
-      setUploadingMain(false);
-    }
+    await processUrlAsCover(url, autoBg, autoFrame);
   }
+
 
 
   function removeGalleryItem(idx: number) {
@@ -587,7 +599,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           <div className="flex items-center gap-4 flex-wrap">
             {preview && (
               <div className="relative">
-                <img src={preview} alt="" className={`w-24 h-24 rounded object-cover bg-neutral-800 ${mainHidden ? "opacity-40 grayscale" : ""}`} />
+                <img src={preview} alt="" className={`w-32 aspect-[4/3] rounded object-contain object-center bg-neutral-800 ${mainHidden ? "opacity-40 grayscale" : ""}`} />
                 {mainHidden && <div className="absolute inset-0 flex items-center justify-center"><EyeOff className="w-6 h-6 text-white/80" /></div>}
               </div>
             )}
@@ -595,6 +607,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <Upload className="w-4 h-4" /> {uploadingMain ? "Enviando..." : "Escolher arquivo"}
               <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
             </label>
+            {preview && (
+              <button
+                type="button"
+                onClick={reprocessCover}
+                disabled={uploadingMain}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 hover:bg-orange-500/25 text-sm disabled:opacity-50"
+              >
+                <Sparkles className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Reprocessar capa (fundo + 4:3)"}
+              </button>
+            )}
+
             <Input
               placeholder="Ou cole uma URL de imagem"
               value={preview ?? ""}
