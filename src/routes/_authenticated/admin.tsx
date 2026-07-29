@@ -9,8 +9,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
+import HeroFitEditor from "@/components/admin/HeroFitEditor";
 import {
   DndContext,
   closestCenter,
