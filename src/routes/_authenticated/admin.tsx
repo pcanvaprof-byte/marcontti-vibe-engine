@@ -607,6 +607,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <Upload className="w-4 h-4" /> {uploadingMain ? "Enviando..." : "Escolher arquivo"}
               <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
             </label>
+            {preview && (
+              <button
+                type="button"
+                onClick={reprocessCover}
+                disabled={uploadingMain}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 hover:bg-orange-500/25 text-sm disabled:opacity-50"
+              >
+                <Sparkles className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Reprocessar capa (fundo + 4:3)"}
+              </button>
+            )}
+
             <Input
               placeholder="Ou cole uma URL de imagem"
               value={preview ?? ""}
