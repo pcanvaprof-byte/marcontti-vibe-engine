@@ -345,6 +345,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [saving, setSaving] = useState(false);
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [fitOpen, setFitOpen] = useState(false);
   const [autoBg, setAutoBg] = useState(true);
   const [autoFrame, setAutoFrame] = useState(true);
   /** URL da capa antes do último processamento (para comparação antes/depois). */
