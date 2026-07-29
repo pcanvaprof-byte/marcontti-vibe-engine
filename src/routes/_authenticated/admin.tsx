@@ -586,6 +586,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                       key={`g-${i}`}
                       id={`g-${i}`}
                       item={g}
+                      isCover={!!preview && g.url === preview}
+                      onSetCover={() => setCoverFromGallery(g.url)}
                       onToggleHidden={() => toggleGalleryHidden(i)}
                       onRemove={() => removeGalleryItem(i)}
                     />
