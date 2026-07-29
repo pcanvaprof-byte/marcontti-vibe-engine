@@ -344,6 +344,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [saving, setSaving] = useState(false);
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [autoBg, setAutoBg] = useState(true);
+  const [autoFrame, setAutoFrame] = useState(true);
 
   function set<K extends keyof Draft>(k: K, v: Draft[K]) {
     setD((prev) => ({ ...prev, [k]: v }));
@@ -361,8 +363,12 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     }
   }
 
-  async function uploadFile(file: File, opts?: { removeBackground?: boolean }): Promise<string> {
-    const finalFile = opts?.removeBackground ? await removeBg(file) : file;
+  async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean }): Promise<string> {
+    let finalFile = opts?.removeBackground ? await removeBg(file) : file;
+    if (opts?.normalize) {
+      const { normalizeHeroImage } = await import("@/lib/normalizeHeroImage");
+      finalFile = await normalizeHeroImage(finalFile);
+    }
     const ext = finalFile.name.split(".").pop() || "jpg";
     const safe = (d.slug || "novo").replace(/[^a-z0-9-]/gi, "-").toLowerCase();
     const path = `${safe}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
@@ -376,14 +382,15 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     if (!file) return;
     setUploadingMain(true);
     try {
-      toast.info("Removendo fundo da imagem hero...");
-      const url = await uploadFile(file, { removeBackground: true });
+      if (autoBg) toast.info("Removendo fundo da imagem hero...");
+      else if (autoFrame) toast.info("Padronizando enquadramento...");
+      const url = await uploadFile(file, { removeBackground: autoBg, normalize: autoFrame });
       const currentColors = d.colors ?? [];
       const newColors = currentColors.length > 0
         ? currentColors.map((c, i) => i === 0 ? { ...c, image: url } : c)
         : [{ name: "Padrão", hex: "#1a1a1a", image: url }];
       set("colors", newColors);
-      toast.success("Imagem principal enviada (fundo removido)");
+      toast.success("Imagem principal enviada");
     } catch (err: any) {
       toast.error(err.message ?? "Falha no upload");
     } finally {
@@ -391,6 +398,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       e.target.value = "";
     }
   }
+
 
   async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
@@ -564,6 +572,16 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               onChange={(e) => set("colors", [{ name: d.colors?.[0]?.name ?? "Padrão", hex: d.colors?.[0]?.hex ?? "#1a1a1a", image: e.target.value, hidden: d.colors?.[0]?.hidden }, ...(d.colors ?? []).slice(1)])}
               className="flex-1 min-w-[200px]"
             />
+          </div>
+          <div className="flex items-center gap-5 flex-wrap text-xs text-neutral-400">
+            <label className="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={autoBg} onChange={(e) => setAutoBg(e.target.checked)} className="accent-orange-500" />
+              Remover fundo automaticamente
+            </label>
+            <label className="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={autoFrame} onChange={(e) => setAutoFrame(e.target.checked)} className="accent-orange-500" />
+              Padronizar proporção e centralização (4:3)
+            </label>
           </div>
         </div>
 
