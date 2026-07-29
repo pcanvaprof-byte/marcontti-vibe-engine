@@ -608,15 +608,34 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
             </label>
             {preview && (
-              <button
-                type="button"
-                onClick={reprocessCover}
-                disabled={uploadingMain}
-                className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 hover:bg-orange-500/25 text-sm disabled:opacity-50"
-              >
-                <Sparkles className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Reprocessar capa (fundo + 4:3)"}
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={() => processUrlAsCover(preview, true, false)}
+                  disabled={uploadingMain}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 text-sm disabled:opacity-50"
+                >
+                  <Eraser className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Remover fundo"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => processUrlAsCover(preview, false, true)}
+                  disabled={uploadingMain}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 text-sm disabled:opacity-50"
+                >
+                  <Crop className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Padronizar 4:3"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => processUrlAsCover(preview, true, true)}
+                  disabled={uploadingMain}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 hover:bg-orange-500/25 text-sm disabled:opacity-50"
+                >
+                  <Sparkles className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Fundo + 4:3"}
+                </button>
+              </>
             )}
+
 
             <Input
               placeholder="Ou cole uma URL de imagem"
