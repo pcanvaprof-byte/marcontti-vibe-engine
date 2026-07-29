@@ -61,8 +61,8 @@ export async function normalizeHeroImage(
   opts: NormalizeOptions = {},
 ): Promise<File> {
   const aspect = opts.aspect ?? 4 / 3;
-  const outW = opts.width ?? 1600;
-  const outH = Math.round(outW / aspect);
+  const minW = opts.width ?? 1600;
+  const maxW = 2800;
   const padding = opts.padding ?? 0.06;
   const alphaThreshold = opts.alphaThreshold ?? 12;
 
@@ -89,7 +89,14 @@ export async function normalizeHeroImage(
       // imagem cross-origin: mantém o quadro inteiro
     }
 
-    // 2) Desenha centralizado no canvas final, respeitando a margem
+    // 2) Dimensiona o canvas para preservar a resolução original do conteúdo
+    //    (evita reamostrar para cima e perder nitidez).
+    const fitW = box.w / (1 - padding * 2);
+    const fitH = (box.h / (1 - padding * 2)) * aspect;
+    const nativeW = Math.max(fitW, fitH);
+    const outW = Math.round(Math.min(maxW, Math.max(minW, nativeW)));
+    const outH = Math.round(outW / aspect);
+
     const out = document.createElement("canvas");
     out.width = outW;
     out.height = outH;
@@ -107,6 +114,7 @@ export async function normalizeHeroImage(
     const dy = (outH - dh) / 2;
 
     ctx.drawImage(img, box.x, box.y, box.w, box.h, dx, dy, dw, dh);
+
 
     const blob: Blob | null = await new Promise((res) =>
       out.toBlob((b) => res(b), "image/png"),

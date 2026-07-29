@@ -372,7 +372,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       setProgress({ label: "Carregando modelo de IA...", pct: 5 });
       const { removeBackground } = await import("@imgly/background-removal");
       const blob = await removeBackground(file, {
-        output: { format: "image/png" },
+        model: "isnet",
+        output: { format: "image/png", quality: 1 },
         progress: (key: string, current: number, total: number) => {
           const pct = total > 0 ? Math.min(95, 5 + Math.round((current / total) * 85)) : 50;
           const label = key.startsWith("fetch") ? "Baixando modelo de IA..." : "Removendo fundo...";
