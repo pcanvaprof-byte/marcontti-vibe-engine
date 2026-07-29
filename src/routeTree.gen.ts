@@ -24,6 +24,7 @@ import { Route as ModelosIndexRouteImport } from './routes/modelos.index'
 import { Route as ModelosYamahaRouteImport } from './routes/modelos.yamaha'
 import { Route as ModelosSuduRouteImport } from './routes/modelos.sudu'
 import { Route as ModelosSlugRouteImport } from './routes/modelos.$slug'
+import { Route as ApiRemoveBgRouteImport } from './routes/api/remove-bg'
 import { Route as AuthenticatedLeadsRouteImport } from './routes/_authenticated/leads'
 import { Route as AuthenticatedInstagramRouteImport } from './routes/_authenticated/instagram'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
@@ -104,6 +105,11 @@ const ModelosSlugRoute = ModelosSlugRouteImport.update({
   path: '/modelos/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiRemoveBgRoute = ApiRemoveBgRouteImport.update({
+  id: '/api/remove-bg',
+  path: '/api/remove-bg',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedLeadsRoute = AuthenticatedLeadsRouteImport.update({
   id: '/leads',
   path: '/leads',
@@ -146,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
   '/leads': typeof AuthenticatedLeadsRoute
+  '/api/remove-bg': typeof ApiRemoveBgRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
   '/leads': typeof AuthenticatedLeadsRoute
+  '/api/remove-bg': typeof ApiRemoveBgRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/instagram': typeof AuthenticatedInstagramRoute
   '/_authenticated/leads': typeof AuthenticatedLeadsRoute
+  '/api/remove-bg': typeof ApiRemoveBgRoute
   '/modelos/$slug': typeof ModelosSlugRoute
   '/modelos/sudu': typeof ModelosSuduRoute
   '/modelos/yamaha': typeof ModelosYamahaRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/instagram'
     | '/leads'
+    | '/api/remove-bg'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/instagram'
     | '/leads'
+    | '/api/remove-bg'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/_authenticated/analytics'
     | '/_authenticated/instagram'
     | '/_authenticated/leads'
+    | '/api/remove-bg'
     | '/modelos/$slug'
     | '/modelos/sudu'
     | '/modelos/yamaha'
@@ -275,6 +287,7 @@ export interface RootRouteChildren {
   PrivacidadeRoute: typeof PrivacidadeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
+  ApiRemoveBgRoute: typeof ApiRemoveBgRoute
   ModelosSlugRoute: typeof ModelosSlugRoute
   ModelosSuduRoute: typeof ModelosSuduRoute
   ModelosYamahaRoute: typeof ModelosYamahaRoute
@@ -389,6 +402,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/remove-bg': {
+      id: '/api/remove-bg'
+      path: '/api/remove-bg'
+      fullPath: '/api/remove-bg'
+      preLoaderRoute: typeof ApiRemoveBgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/leads': {
       id: '/_authenticated/leads'
       path: '/leads'
@@ -456,6 +476,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadeRoute: PrivacidadeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
+  ApiRemoveBgRoute: ApiRemoveBgRoute,
   ModelosSlugRoute: ModelosSlugRoute,
   ModelosSuduRoute: ModelosSuduRoute,
   ModelosYamahaRoute: ModelosYamahaRoute,
@@ -465,3 +486,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
