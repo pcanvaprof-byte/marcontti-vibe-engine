@@ -86,7 +86,8 @@ export function ProductCard({ product }: { product: Product }) {
             sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 40vw, 85vw"
             className="
               w-full h-full object-contain pointer-events-none
-              transition-transform duration-500 motion-safe:group-hover:scale-[1.03]
+              scale-[1.15] sm:scale-[1.12]
+              transition-transform duration-500 motion-safe:group-hover:scale-[1.18]
             "
           />
         </div>
