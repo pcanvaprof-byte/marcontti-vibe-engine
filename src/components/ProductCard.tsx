@@ -19,7 +19,13 @@ export type Product = {
 // Bebas Neue — condensada, pesada, próximo do traço da referência.
 const displayFont = "'Bebas Neue', 'Urbanist', sans-serif";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  priority = false,
+}: {
+  product: Product;
+  priority?: boolean;
+}) {
   const href = product.slug ? `/modelos/${product.slug}` : "#";
   const [open, setOpen] = useState(false);
 
@@ -84,6 +90,7 @@ export function ProductCard({ product }: { product: Product }) {
             src={product.imagem}
             alt={product.nome}
             aspectRatio={null}
+            priority={priority}
             wrapperClassName="absolute inset-0 w-full h-full grid place-items-center"
             sizes="(min-width: 1280px) 20vw, (min-width: 1024px) 25vw, (min-width: 640px) 40vw, 85vw"
             className="

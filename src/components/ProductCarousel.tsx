@@ -107,7 +107,7 @@ export function ProductCarousel({
               "
               style={{ animation: `fade-in 0.5s ease-out ${i * 90}ms both` }}
             >
-              <ProductCard product={p} />
+              <ProductCard product={p} priority={i < 2} />
             </div>
           ))}
 
