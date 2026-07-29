@@ -457,14 +457,20 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
+    const invalids = files.map((f) => ({ f, msg: validateImageFile(f) })).filter((x) => x.msg);
+    if (invalids.length) {
+      toast.error("Alguns arquivos foram ignorados", { description: invalids.map((i) => i.msg).join(" ") });
+    }
+    const valid = files.filter((f) => !validateImageFile(f));
+    if (!valid.length) { e.target.value = ""; return; }
     setUploadingGallery(true);
     try {
       const items: GalleryItem[] = [];
-      for (const f of files) items.push({ url: await uploadFile(f) });
+      for (const f of valid) items.push({ url: await uploadFile(f, { track: false }) });
       set("gallery", [...normalizeGallery(d.gallery), ...items]);
       toast.success(`${items.length} imagem(ns) adicionada(s)`);
     } catch (err: any) {
-      toast.error(err.message ?? "Falha no upload");
+      toast.error("Falha no upload da galeria", { description: err?.message ?? "Tente novamente." });
     } finally {
       setUploadingGallery(false);
       e.target.value = "";
@@ -483,11 +489,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
 
   async function processUrlAsCover(url: string, bg: boolean, frame: boolean) {
     setUploadingMain(true);
+    setProgress({ label: "Baixando imagem atual...", pct: 2 });
     try {
-      toast.info(bg ? "Removendo fundo da capa..." : "Padronizando enquadramento...");
       const res = await fetch(url);
-      if (!res.ok) throw new Error("Não foi possível baixar a imagem");
+      if (!res.ok) throw new Error(`Não foi possível baixar a imagem atual (erro ${res.status}).`);
       const blob = await res.blob();
+      if (!blob.size) throw new Error("A imagem atual está vazia ou indisponível.");
+      if (!blob.type.startsWith("image/")) throw new Error("O endereço informado não aponta para uma imagem válida.");
       const name = (url.split("/").pop() || "capa.png").split("?")[0];
       const file = new File([blob], name, { type: blob.type || "image/png" });
       const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
@@ -496,11 +504,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       toast.success("Capa processada — compare antes/depois e salve para publicar");
     } catch (err: any) {
       console.error("[processUrlAsCover]", err);
-      toast.error("Não foi possível processar a capa");
+      toast.error("Não foi possível processar a capa", { description: err?.message ?? "Tente novamente." });
     } finally {
       setUploadingMain(false);
+      setProgress(null);
     }
   }
+
 
   /** Reprocessa a capa já existente, sem precisar reenviar o arquivo. */
   async function reprocessCover() {
