@@ -778,6 +778,14 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                 </button>
                 <button
                   type="button"
+                  onClick={() => setFitOpen(true)}
+                  disabled={uploadingMain}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-neutral-200 hover:bg-neutral-700 text-sm disabled:opacity-50"
+                >
+                  <Move className="w-4 h-4" /> Ajustar encaixe
+                </button>
+                <button
+                  type="button"
                   onClick={() => processUrlAsCover(preview, true, true)}
                   disabled={uploadingMain}
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 hover:bg-orange-500/25 text-sm disabled:opacity-50"
