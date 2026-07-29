@@ -25,7 +25,7 @@ import {
   buildWhatsAppFallbackUrl,
   openWhatsAppWithFallback,
 } from "@/lib/models";
-import { usePublicModels } from "@/hooks/useDbModels";
+import { useModelBySlug, dbToModel } from "@/hooks/useDbModels";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { YamahaProductPage } from "@/components/YamahaProductPage";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
@@ -202,9 +202,9 @@ type Tab = (typeof TABS)[number];
 
 function ModelPage() {
   const data = Route.useLoaderData() as { model: import("@/lib/models").Model | null; slug: string };
-  const { items: dbModels, isLoading: dbLoading } = usePublicModels();
+  const { data: dbRow, isLoading: dbLoading } = useModelBySlug(data.slug);
   // Prefer DB (source of truth for price/gallery); fall back to static seed.
-  const m = dbModels.find((x) => x.slug === data.slug) ?? data.model ?? null;
+  const m = (dbRow ? dbToModel(dbRow) : null) ?? data.model ?? null;
 
   // Hooks must be declared unconditionally — never early-return above them.
   const [selected, setSelectedState] = useState(0);
