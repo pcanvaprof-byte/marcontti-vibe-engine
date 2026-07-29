@@ -367,12 +367,58 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     return null;
   }
 
+  /** Reduz imagens muito grandes antes da IA (entradas enormes geram artefatos/rastros). */
+  async function downscaleForAi(file: File, maxSide = 2048): Promise<File> {
+    try {
+      const bitmap = await createImageBitmap(file);
+      const { width: w, height: h } = bitmap;
+      if (Math.max(w, h) <= maxSide) { bitmap.close(); return file; }
+      const scale = maxSide / Math.max(w, h);
+      const cv = document.createElement("canvas");
+      cv.width = Math.round(w * scale);
+      cv.height = Math.round(h * scale);
+      const ctx = cv.getContext("2d");
+      if (!ctx) { bitmap.close(); return file; }
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(bitmap, 0, 0, cv.width, cv.height);
+      bitmap.close();
+      const blob: Blob | null = await new Promise((res) => cv.toBlob((b) => res(b), "image/png"));
+      if (!blob) return file;
+      return new File([blob], file.name.replace(/\.[^.]+$/, "") + ".png", { type: "image/png" });
+    } catch {
+      return file;
+    }
+  }
+
+  /** Detecta resultados corrompidos (quase tudo apagado ou nada removido). */
+  async function alphaCoverage(blob: Blob): Promise<number> {
+    try {
+      const bitmap = await createImageBitmap(blob);
+      const w = Math.min(256, bitmap.width);
+      const h = Math.max(1, Math.round((bitmap.height / bitmap.width) * w));
+      const cv = document.createElement("canvas");
+      cv.width = w; cv.height = h;
+      const ctx = cv.getContext("2d", { willReadFrequently: true });
+      if (!ctx) { bitmap.close(); return 0.5; }
+      ctx.drawImage(bitmap, 0, 0, w, h);
+      bitmap.close();
+      const { data } = ctx.getImageData(0, 0, w, h);
+      let solid = 0;
+      for (let i = 3; i < data.length; i += 4) if (data[i] > 24) solid++;
+      return solid / (w * h);
+    } catch {
+      return 0.5;
+    }
+  }
+
   async function removeBg(file: File): Promise<{ file: File; failed: boolean; reason?: string }> {
     try {
+      setProgress({ label: "Preparando imagem...", pct: 3 });
+      const input = await downscaleForAi(file);
       setProgress({ label: "Carregando modelo de IA...", pct: 5 });
       const { removeBackground } = await import("@imgly/background-removal");
-      const blob = await removeBackground(file, {
-        model: "isnet",
+      const blob = await removeBackground(input, {
         output: { format: "image/png", quality: 1 },
         progress: (key: string, current: number, total: number) => {
           const pct = total > 0 ? Math.min(95, 5 + Math.round((current / total) * 85)) : 50;
@@ -381,6 +427,9 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         },
       });
       if (!blob || blob.size === 0) throw new Error("Resultado vazio");
+      const cov = await alphaCoverage(blob);
+      if (cov < 0.01) throw new Error("o recorte apagou quase toda a imagem");
+      if (cov > 0.98) throw new Error("nenhum fundo foi identificado");
       const base = file.name.replace(/\.[^.]+$/, "");
       return { file: new File([blob], `${base}-nobg.png`, { type: "image/png" }), failed: false };
     } catch (err: any) {
@@ -388,6 +437,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       return { file, failed: true, reason: err?.message ?? "erro desconhecido" };
     }
   }
+
 
   async function uploadFile(file: File, opts?: { removeBackground?: boolean; normalize?: boolean; track?: boolean }): Promise<string> {
     const track = opts?.track !== false;
