@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
 import {
   DndContext,
@@ -32,11 +32,15 @@ import { CSS } from "@dnd-kit/utilities";
 function SortableGalleryTile({
   id,
   item,
+  isCover,
+  onSetCover,
   onToggleHidden,
   onRemove,
 }: {
   id: string;
   item: GalleryItem;
+  isCover?: boolean;
+  onSetCover: () => void;
   onToggleHidden: () => void;
   onRemove: () => void;
 }) {
@@ -89,6 +93,20 @@ function SortableGalleryTile({
           <Trash2 className="w-3 h-3" />
         </button>
       </div>
+      {isCover ? (
+        <span className="absolute bottom-1 left-1 right-1 inline-flex items-center justify-center gap-1 text-[10px] font-semibold rounded bg-emerald-500/90 text-black py-1">
+          <Star className="w-3 h-3" fill="currentColor" /> Capa
+        </span>
+      ) : (
+        <button
+          type="button"
+          onClick={onSetCover}
+          title="Definir como imagem do card"
+          className="absolute bottom-1 left-1 right-1 inline-flex items-center justify-center gap-1 text-[10px] font-semibold rounded bg-neutral-900/90 hover:bg-primary hover:text-black text-white py-1 opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <Star className="w-3 h-3" /> Definir como capa
+        </button>
+      )}
     </div>
   );
 }
@@ -391,6 +409,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     }
   }
 
+  function setCoverFromGallery(url: string) {
+    const cs = d.colors ?? [];
+    set(
+      "colors",
+      cs.length > 0
+        ? cs.map((c, i) => (i === 0 ? { ...c, image: url, hidden: false } : c))
+        : [{ name: "Padrão", hex: "#1a1a1a", image: url }],
+    );
+    toast.success("Imagem definida como capa do card");
+  }
+
   function removeGalleryItem(idx: number) {
     set("gallery", normalizeGallery(d.gallery).filter((_, i) => i !== idx));
   }
@@ -568,6 +597,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                       key={`g-${i}`}
                       id={`g-${i}`}
                       item={g}
+                      isCover={!!preview && g.url === preview}
+                      onSetCover={() => setCoverFromGallery(g.url)}
                       onToggleHidden={() => toggleGalleryHidden(i)}
                       onRemove={() => removeGalleryItem(i)}
                     />
