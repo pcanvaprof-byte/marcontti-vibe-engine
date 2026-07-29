@@ -94,24 +94,24 @@ export function ProductCard({ product }: { product: Product }) {
 
       </Link>
 
-      {/* MOBILE — bloco inferior em fluxo, altura automática, sem clipping */}
-      <div className="sm:hidden relative z-[4] px-3 pt-2.5 pb-3 flex flex-1 flex-col items-center justify-center text-center gap-1 min-w-0">
-        <Link to={href} className="min-w-0 w-full">
+      {/* MOBILE — bloco inferior padronizado (altura fixa, mesmo baseline) */}
+      <div className="sm:hidden relative z-[4] px-3 pt-2.5 pb-3 flex flex-1 flex-col items-center justify-between text-center gap-1 min-w-0">
+        <Link to={href} className="min-w-0 w-full flex-1 flex flex-col justify-center">
           <h3
-            className="text-primary italic uppercase leading-[0.9] tracking-[-0.01em] text-[24px] sm:text-[28px] break-words"
+            className="text-primary italic uppercase leading-[0.9] tracking-[-0.01em] text-[22px] break-words line-clamp-2 min-h-[40px] flex items-center justify-center"
             style={{ fontFamily: displayFont, fontWeight: 400 }}
           >
-            {product.nome}{" "}
-            <span className="text-white/90 text-[18px] not-italic ml-1 break-words">
-              {product.potencia}
+            <span>
+              {product.nome}{" "}
+              <span className="text-white/90 text-[17px] not-italic ml-1 break-words">
+                {product.potencia}
+              </span>
             </span>
           </h3>
         </Link>
-        {product.preco && (
-          <p className="text-white/80 text-[11px] font-semibold tracking-wide break-words">
-            {product.preco}
-          </p>
-        )}
+        <p className="text-white/80 text-[11px] font-semibold tracking-wide break-words min-h-[16px]">
+          {product.preco ?? ""}
+        </p>
         <button
           type="button"
           onClick={openModal}
@@ -121,17 +121,17 @@ export function ProductCard({ product }: { product: Product }) {
         </button>
       </div>
 
-      {/* DESKTOP — bloco inferior em fluxo com título à esquerda e CTA à direita */}
+      {/* DESKTOP — bloco inferior padronizado (mesma altura e baseline) */}
       <div className="hidden sm:flex relative z-[4] flex-1 items-end justify-between gap-3 px-4 pb-4 pt-3 min-w-0">
-        <Link to={href} className="min-w-0 flex-1">
+        <Link to={href} className="min-w-0 flex-1 flex flex-col justify-end">
           <h3
-            className="text-primary italic uppercase leading-[0.9] tracking-[-0.01em] text-[32px] lg:text-[40px] break-words hyphens-auto"
+            className="text-primary italic uppercase leading-[0.9] tracking-[-0.01em] text-[28px] lg:text-[34px] break-words hyphens-auto line-clamp-2 min-h-[52px] lg:min-h-[62px] flex items-end"
             style={{ fontFamily: displayFont, fontWeight: 400 }}
           >
-            {product.nome}
+            <span className="line-clamp-2">{product.nome}</span>
           </h3>
           <p
-            className="mt-1 text-white italic uppercase leading-[0.9] tracking-[-0.01em] text-[28px] lg:text-[36px] break-words"
+            className="mt-1 text-white italic uppercase leading-[0.9] tracking-[-0.01em] text-[24px] lg:text-[30px] break-words line-clamp-1 min-h-[26px] lg:min-h-[32px]"
             style={{
               fontFamily: displayFont,
               fontWeight: 400,
@@ -144,11 +144,12 @@ export function ProductCard({ product }: { product: Product }) {
         <button
           type="button"
           onClick={openModal}
-          className="shrink-0 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-3 py-1.5 rounded-full shadow-[0_5px_14px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
+          className="shrink-0 self-end mb-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] px-3 py-1.5 rounded-full shadow-[0_5px_14px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition"
         >
           Saiba mais
         </button>
       </div>
+
 
       <QuickViewModal product={product} open={open} onClose={() => setOpen(false)} />
     </article>
