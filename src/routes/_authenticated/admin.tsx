@@ -386,11 +386,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     try {
       if (autoBg) toast.info("Removendo fundo da imagem hero...");
       else if (autoFrame) toast.info("Padronizando enquadramento...");
+      const originalPreview = autoBg || autoFrame ? URL.createObjectURL(file) : null;
       const url = await uploadFile(file, { removeBackground: autoBg, normalize: autoFrame });
       const currentColors = d.colors ?? [];
       const newColors = currentColors.length > 0
         ? currentColors.map((c, i) => i === 0 ? { ...c, image: url } : c)
         : [{ name: "Padrão", hex: "#1a1a1a", image: url }];
+      setCoverBefore(originalPreview);
       set("colors", newColors);
       toast.success("Imagem principal enviada");
     } catch (err: any) {
