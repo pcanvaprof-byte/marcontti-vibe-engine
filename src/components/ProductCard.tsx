@@ -38,11 +38,13 @@ export function ProductCard({ product }: { product: Product }) {
         bg-black overflow-visible
         rounded-[14px]
         shadow-[0_8px_24px_-12px_rgba(0,0,0,0.6)]
-        transition-[transform,box-shadow] duration-500 ease-out
-        motion-safe:hover:-translate-y-2
-        hover:shadow-[0_20px_50px_-18px_rgba(248,96,0,0.45),0_0_0_1px_rgba(248,96,0,0.35)]
+        transition-[transform,box-shadow] duration-[600ms] [transition-timing-function:cubic-bezier(0.22,1,0.36,1)]
+        will-change-transform transform-gpu
+        motion-safe:hover:-translate-y-1.5
+        hover:shadow-[0_24px_60px_-20px_rgba(248,96,0,0.5),0_0_0_1px_rgba(248,96,0,0.35)]
       "
     >
+
       {/* Raio pequeno branco no canto superior esquerdo */}
       <span
         aria-hidden
