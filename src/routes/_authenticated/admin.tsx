@@ -417,7 +417,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     }
   }
 
-  function setCoverFromGallery(url: string) {
+  function applyCover(url: string) {
     const cs = d.colors ?? [];
     set(
       "colors",
@@ -425,8 +425,37 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         ? cs.map((c, i) => (i === 0 ? { ...c, image: url, hidden: false } : c))
         : [{ name: "Padrão", hex: "#1a1a1a", image: url }],
     );
-    toast.success("Imagem definida como capa do card");
   }
+
+  async function setCoverFromGallery(url: string) {
+    // Ao promover uma foto da galeria a capa, aplicamos o mesmo tratamento do
+    // upload hero (remoção de fundo + padronização 4:3) quando as opções estão
+    // ligadas — assim a capa fica igual às demais.
+    if (!autoBg && !autoFrame) {
+      applyCover(url);
+      toast.success("Imagem definida como capa do card");
+      return;
+    }
+    setUploadingMain(true);
+    try {
+      toast.info(autoBg ? "Removendo fundo da capa..." : "Padronizando enquadramento...");
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Não foi possível baixar a imagem da galeria");
+      const blob = await res.blob();
+      const name = (url.split("/").pop() || "capa.png").split("?")[0];
+      const file = new File([blob], name, { type: blob.type || "image/png" });
+      const newUrl = await uploadFile(file, { removeBackground: autoBg, normalize: autoFrame });
+      applyCover(newUrl);
+      toast.success("Capa processada e definida");
+    } catch (err: any) {
+      console.error("[setCoverFromGallery]", err);
+      applyCover(url);
+      toast.warning("Usando a imagem original como capa (processamento falhou)");
+    } finally {
+      setUploadingMain(false);
+    }
+  }
+
 
   function removeGalleryItem(idx: number) {
     set("gallery", normalizeGallery(d.gallery).filter((_, i) => i !== idx));
