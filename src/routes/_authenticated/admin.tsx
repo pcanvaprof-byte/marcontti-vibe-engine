@@ -427,8 +427,38 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     );
   }
 
+  async function processUrlAsCover(url: string, bg: boolean, frame: boolean) {
+    setUploadingMain(true);
+    try {
+      toast.info(bg ? "Removendo fundo da capa..." : "Padronizando enquadramento...");
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Não foi possível baixar a imagem");
+      const blob = await res.blob();
+      const name = (url.split("/").pop() || "capa.png").split("?")[0];
+      const file = new File([blob], name, { type: blob.type || "image/png" });
+      const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
+      applyCover(newUrl);
+      toast.success("Capa processada — salve para publicar");
+    } catch (err: any) {
+      console.error("[processUrlAsCover]", err);
+      toast.error("Não foi possível processar a capa");
+    } finally {
+      setUploadingMain(false);
+    }
+  }
+
+  /** Reprocessa a capa já existente, sem precisar reenviar o arquivo. */
+  async function reprocessCover() {
+    const url = d.colors?.[0]?.image;
+    if (!url) {
+      toast.error("Nenhuma capa definida");
+      return;
+    }
+    await processUrlAsCover(url, autoBg, autoFrame || !autoBg);
+  }
+
   async function setCoverFromGallery(url: string) {
-    // Ao promover uma foto da galeria a capa, aplicamos o mesmo tratamento do
+
     // upload hero (remoção de fundo + padronização 4:3) quando as opções estão
     // ligadas — assim a capa fica igual às demais.
     if (!autoBg && !autoFrame) {
