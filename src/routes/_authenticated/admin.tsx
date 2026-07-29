@@ -551,7 +551,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     );
   }
 
-  async function processUrlAsCover(url: string, bg: boolean, frame: boolean) {
+  async function processUrlAsCover(url: string, bg: boolean, frame: boolean, ai = false) {
     setUploadingMain(true);
     setProgress({ label: "Baixando imagem atual...", pct: 2 });
     try {
