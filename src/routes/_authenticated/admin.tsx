@@ -93,6 +93,20 @@ function SortableGalleryTile({
           <Trash2 className="w-3 h-3" />
         </button>
       </div>
+      {isCover ? (
+        <span className="absolute bottom-1 left-1 right-1 inline-flex items-center justify-center gap-1 text-[10px] font-semibold rounded bg-emerald-500/90 text-black py-1">
+          <Star className="w-3 h-3" fill="currentColor" /> Capa
+        </span>
+      ) : (
+        <button
+          type="button"
+          onClick={onSetCover}
+          title="Definir como imagem do card"
+          className="absolute bottom-1 left-1 right-1 inline-flex items-center justify-center gap-1 text-[10px] font-semibold rounded bg-neutral-900/90 hover:bg-primary hover:text-black text-white py-1 opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <Star className="w-3 h-3" /> Definir como capa
+        </button>
+      )}
     </div>
   );
 }
