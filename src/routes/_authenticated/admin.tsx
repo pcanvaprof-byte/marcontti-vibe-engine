@@ -32,11 +32,15 @@ import { CSS } from "@dnd-kit/utilities";
 function SortableGalleryTile({
   id,
   item,
+  isCover,
+  onSetCover,
   onToggleHidden,
   onRemove,
 }: {
   id: string;
   item: GalleryItem;
+  isCover?: boolean;
+  onSetCover: () => void;
   onToggleHidden: () => void;
   onRemove: () => void;
 }) {
