@@ -340,7 +340,7 @@ export function YamahaProductPage({
                   </div>
 
                   {/* LADO DIREITO — imagem da moto */}
-                  <div className="relative order-1 lg:order-2 min-h-[280px] sm:min-h-[380px] lg:min-h-[560px] grid place-items-center lg:items-center lg:justify-items-end">
+                  <div className="relative order-1 lg:order-2 w-full aspect-[4/3] max-h-[300px] sm:max-h-[460px] lg:max-h-[620px] mx-auto grid place-items-center">
                     {/* Glow primário denso atrás da moto */}
                     <div
                       aria-hidden
@@ -435,7 +435,7 @@ export function YamahaProductPage({
                           width: tenereNobgOptimized.w,
                           height: tenereNobgOptimized.h,
                         })}
-                        className="relative z-10 w-full max-w-[720px] lg:max-w-none max-h-[380px] sm:max-h-[520px] lg:max-h-[780px] object-contain animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)] scale-105 lg:scale-[1.15]"
+                        className="relative z-10 w-full h-full max-w-[720px] max-h-[280px] sm:max-h-[440px] lg:max-h-[600px] object-contain object-center animate-slide-in-right drop-shadow-[0_30px_50px_rgba(0,0,0,0.75)]"
                         style={{
                           filter:
                             "drop-shadow(-30px 0 40px rgba(255,107,26,0.25)) drop-shadow(0 20px 30px rgba(0,0,0,0.6))",
