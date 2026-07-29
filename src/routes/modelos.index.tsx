@@ -289,8 +289,8 @@ function CatalogPage() {
         </p>
 
         {!dataReady && (isLoading || isFetching) ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
                 className="rounded-2xl border border-border bg-card/60 h-80 animate-pulse"
@@ -386,7 +386,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
 
   return (
     <>
-      <div ref={ref} className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div ref={ref} className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-4">
         {items.map((m, i) => {
           const waMsg = `Olá, Klug Motors! Tenho interesse na *${m.name}*${m.price ? ` (${m.price})` : ""}. Pode me passar mais informações?`;
           return (
