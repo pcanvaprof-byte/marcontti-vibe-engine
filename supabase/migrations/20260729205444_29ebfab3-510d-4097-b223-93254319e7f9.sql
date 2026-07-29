@@ -1,0 +1,1 @@
+UPDATE public.models SET colors = '[{"hex":"#1a1a1a","name":"Preto","image":"/__l5e/assets-v1/73079faa-b550-4c8e-ab1b-829e63ff5670/tenere-4005-hero-fill.png","hidden":false}]'::jsonb WHERE slug = 'semi-nova-yamaha-tenere-250';
