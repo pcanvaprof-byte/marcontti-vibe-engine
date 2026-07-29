@@ -439,8 +439,9 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       const name = (url.split("/").pop() || "capa.png").split("?")[0];
       const file = new File([blob], name, { type: blob.type || "image/png" });
       const newUrl = await uploadFile(file, { removeBackground: bg, normalize: frame });
+      setCoverBefore(url);
       applyCover(newUrl);
-      toast.success("Capa processada — salve para publicar");
+      toast.success("Capa processada — compare antes/depois e salve para publicar");
     } catch (err: any) {
       console.error("[processUrlAsCover]", err);
       toast.error("Não foi possível processar a capa");
