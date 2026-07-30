@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle, MessageCircle } from "lucide-react";
 import { type Model, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
-import { usePublicModelsLight } from "@/hooks/useDbModels";
+import { usePublicModelsLight, publicModelsLightOptions } from "@/hooks/useDbModels";
 import { useReveal } from "@/hooks/use-reveal";
 import { LazyImage } from "@/components/LazyImage";
 import { QuickViewModal } from "@/components/QuickViewModal";
@@ -67,7 +67,14 @@ export const Route = createFileRoute("/modelos/")({
     marca: typeof s.marca === "string" ? s.marca : undefined,
   }),
   loaderDeps: ({ search }) => ({ marca: search.marca, cat: search.cat }),
-  loader: ({ deps }) => ({ marca: deps.marca, cat: deps.cat }),
+  loader: async ({ deps, context }) => {
+    // Pré-carrega o catálogo já no loader (inclusive no SSR) para os cards —
+    // especialmente as semi novas — aparecerem sem espera após a navegação.
+    await context.queryClient
+      .ensureQueryData(publicModelsLightOptions)
+      .catch(() => undefined);
+    return { marca: deps.marca, cat: deps.cat };
+  },
   head: ({ loaderData }) => {
     const marca = loaderData?.marca;
     const cat = loaderData?.cat;

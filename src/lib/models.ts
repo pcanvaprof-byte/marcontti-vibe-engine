@@ -50,6 +50,7 @@ export type Model = {
   specs: { label: string; value: string }[];
   features: string[];
   gallery?: string[];
+  condition?: "zero_km" | "semi_nova";
 };
 
 /** Build a gallery for a model: explicit gallery > color variants > single image. */

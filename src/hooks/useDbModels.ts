@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { models as staticModels, type Model } from "@/lib/models";
 
@@ -53,6 +53,7 @@ export function dbToModel(m: DbModel): Model {
     specs: m.specs ?? [],
     features: m.features ?? [],
     gallery: visibleGallery.length ? visibleGallery : undefined,
+    condition: m.condition,
   };
 }
 
@@ -88,14 +89,17 @@ export function usePublicModels() {
   return { ...q, items, brands: q.data?.map((m) => m.brand) ?? staticModels.map((m) => brandFallback(m.slug)) };
 }
 
+/** Query options do catálogo enxuto — reutilizável no loader da rota. */
+export const publicModelsLightOptions = queryOptions({
+  queryKey: ["models", "public", "light"],
+  queryFn: () => fetchModels(false, true),
+  staleTime: 5 * 60_000,
+  gcTime: 30 * 60_000,
+});
+
 /** Catálogo (cards) — payload enxuto, muito mais rápido que o SELECT *. */
 export function usePublicModelsLight() {
-  const q = useQuery({
-    queryKey: ["models", "public", "light"],
-    queryFn: () => fetchModels(false, true),
-    staleTime: 5 * 60_000,
-    gcTime: 30 * 60_000,
-  });
+  const q = useQuery(publicModelsLightOptions);
   const items = q.data ? q.data.map(dbToModel) : staticModels;
   return { ...q, items, brands: q.data?.map((m) => m.brand) ?? staticModels.map((m) => brandFallback(m.slug)) };
 }
