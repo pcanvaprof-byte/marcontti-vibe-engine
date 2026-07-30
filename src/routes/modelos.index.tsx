@@ -67,7 +67,14 @@ export const Route = createFileRoute("/modelos/")({
     marca: typeof s.marca === "string" ? s.marca : undefined,
   }),
   loaderDeps: ({ search }) => ({ marca: search.marca, cat: search.cat }),
-  loader: ({ deps }) => ({ marca: deps.marca, cat: deps.cat }),
+  loader: async ({ deps, context }) => {
+    // Pré-carrega o catálogo já no loader (inclusive no SSR) para os cards —
+    // especialmente as semi novas — aparecerem sem espera após a navegação.
+    await context.queryClient
+      .ensureQueryData(publicModelsLightOptions)
+      .catch(() => undefined);
+    return { marca: deps.marca, cat: deps.cat };
+  },
   head: ({ loaderData }) => {
     const marca = loaderData?.marca;
     const cat = loaderData?.cat;
