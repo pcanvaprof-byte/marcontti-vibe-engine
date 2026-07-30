@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Phone, Mail, Clock, Instagram, MessageCircle } from "lucide-react";
 import { PageLayout, SectionCard } from "@/components/PageLayout";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
+import { ContatoForm } from "@/components/ContatoForm";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 
 const BASE_URL = "https://althaciamoveis.shop";
@@ -172,7 +173,8 @@ function ContatoPage() {
           </SectionCard>
         </div>
 
-        <div>
+        <div className="space-y-8">
+          <ContatoForm />
           <FinanciamentoForm />
         </div>
       </div>
