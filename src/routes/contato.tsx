@@ -172,7 +172,8 @@ function ContatoPage() {
           </SectionCard>
         </div>
 
-        <div>
+        <div className="space-y-8">
+          <ContatoForm />
           <FinanciamentoForm />
         </div>
       </div>
