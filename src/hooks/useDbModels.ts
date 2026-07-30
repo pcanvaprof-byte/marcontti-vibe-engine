@@ -53,6 +53,7 @@ export function dbToModel(m: DbModel): Model {
     specs: m.specs ?? [],
     features: m.features ?? [],
     gallery: visibleGallery.length ? visibleGallery : undefined,
+    condition: m.condition,
   };
 }
 
