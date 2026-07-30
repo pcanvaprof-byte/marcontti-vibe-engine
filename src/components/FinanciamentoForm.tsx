@@ -350,8 +350,14 @@ export function FinanciamentoForm({
       meta: { model: d.model, payment_type: d.paymentType, entry: d.entry, term: d.term },
     });
     const waUrl = buildWhatsAppFallbackUrl(text);
+    // O evento é disparado UMA única vez por envio: aqui (aba pré-aberta) ou
+    // dentro de openWhatsAppNewTab (fallback), nunca nos dois caminhos.
     if (waWindow && !waWindow.closed) {
       waWindow.location.href = waUrl;
+      trackEvent("whatsapp_redirected", {
+        source: "financiamento_form",
+        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
+      });
     } else {
       openWhatsAppNewTab(text, {
         source: "financiamento_form",
@@ -359,10 +365,6 @@ export function FinanciamentoForm({
         meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
       });
     }
-    trackEvent("whatsapp_redirected", {
-      source: "financiamento_form",
-      meta: { name: d.name, phone: d.phone, model: d.model, payment_type: d.paymentType },
-    });
   }
 
   function reset() {
