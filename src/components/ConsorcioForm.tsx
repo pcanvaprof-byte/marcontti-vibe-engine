@@ -166,21 +166,22 @@ export function ConsorcioForm({
       },
     });
     // Redireciona a aba pré-aberta para o WhatsApp com a mensagem pronta.
+    // O evento whatsapp_redirected é disparado UMA única vez por envio.
     const waUrl = buildWhatsAppFallbackUrl(text);
     if (waWindow && !waWindow.closed) {
       waWindow.location.href = waUrl;
+      trackEvent("whatsapp_redirected", {
+        source: "consorcio_form",
+        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: "Consórcio", origin_page: originPage },
+      });
     } else {
       // Fallback: pop-up foi bloqueado — abre agora (pode disparar bloqueador em alguns navegadores).
       openWhatsAppNewTab(text, {
         source: "consorcio_form",
         event: "whatsapp_redirected",
-        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: "Consórcio" },
+        meta: { name: d.name, phone: d.phone, model: d.model, payment_type: "Consórcio", origin_page: originPage },
       });
     }
-    trackEvent("whatsapp_redirected", {
-      source: "consorcio_form",
-      meta: { name: d.name, phone: d.phone, model: d.model, payment_type: "Consórcio", origin_page: originPage },
-    });
   }
 
   function reset() {
