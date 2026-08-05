@@ -251,7 +251,6 @@ function PromoStrip() {
 /* --------------------------- Category nav (barra) --------------------------- */
 
 const CATEGORY_LINKS = [
-  { label: "Todos", search: {} },
   { label: "Scooter Elétricas Moto Chefe", search: { marca: "klug" } },
   { label: "Scooter Elétricas Sudu", search: { marca: "sudu" } },
   { label: "Triciclos Elétricos", search: { cat: "triciclo" } },
@@ -267,7 +266,7 @@ function CategoryNav() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
         <nav
           aria-label="Categorias"
-          className="flex items-center gap-4 lg:gap-5 text-[10px] lg:text-[11px] font-display font-bold uppercase tracking-[0.12em] text-white/80 overflow-x-auto scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex items-center gap-6 lg:gap-8 text-[12px] lg:text-[14px] font-display font-black uppercase tracking-[0.15em] text-white/90 overflow-x-auto scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {CATEGORY_LINKS.map((c) => (
             <Link
