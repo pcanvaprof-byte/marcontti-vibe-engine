@@ -595,7 +595,16 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 flex flex-col items-center sm:items-end gap-[5px] animate-fade-up">
+        <div className="mt-6 flex flex-col items-center sm:items-end gap-1 animate-fade-up">
+          <div className="flex flex-col items-center sm:items-end mb-2">
+            <h2 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tighter text-white leading-none">
+              Klug <span className="text-primary">motors</span>
+            </h2>
+            <p className="text-white/70 text-xs sm:text-sm font-medium tracking-wide mt-1">
+              Com vc em todas as direções 🧭
+            </p>
+          </div>
+
           <Link
             to="/modelos"
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
