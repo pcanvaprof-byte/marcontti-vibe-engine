@@ -236,7 +236,7 @@ function PromoStrip() {
     <div className="w-full bg-primary text-primary-foreground text-[11px] sm:text-xs font-display font-black uppercase tracking-[0.18em]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-8 flex items-center justify-center gap-3">
         <Flame size={14} className="shrink-0" />
-        <span className="truncate">A maior loja de mobilidade elétrica de Joinville</span>
+        <span className="truncate">Com vc em todas as direções 🧭</span>
         <Link
           to="/modelos"
           className="hidden sm:inline-flex items-center gap-1 border border-primary-foreground/60 px-2.5 py-0.5 rounded-full hover:bg-primary-foreground hover:text-primary transition-colors"
@@ -595,15 +595,8 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 flex flex-col items-center sm:items-end gap-1 animate-fade-up">
-          <div className="flex flex-col items-center sm:items-end mb-2">
-            <h2 className="font-display font-black uppercase text-2xl sm:text-3xl tracking-tighter text-white leading-none">
-              Klug <span className="text-primary">motors</span>
-            </h2>
-            <p className="text-white/70 text-xs sm:text-sm font-medium tracking-wide mt-1">
-              Com vc em todas as direções 🧭
-            </p>
-          </div>
+        <div className="mt-6 flex flex-col items-center sm:items-end gap-[5px] animate-fade-up">
+
 
           <Link
             to="/modelos"
