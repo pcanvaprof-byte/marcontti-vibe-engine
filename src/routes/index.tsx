@@ -281,12 +281,6 @@ function CategoryNav() {
         </nav>
 
 
-        <Link
-          to="/modelos"
-          className="inline-flex items-center gap-2 bg-primary/15 border border-primary/40 text-primary rounded-xl px-4 py-1.5 text-[11px] font-display font-black uppercase tracking-widest hover:bg-primary hover:text-primary-foreground transition-colors"
-        >
-          <Flame size={13} /> Promoção <ChevronDown size={12} />
-        </Link>
       </div>
     </div>
   );
