@@ -236,7 +236,7 @@ function PromoStrip() {
     <div className="w-full bg-primary text-primary-foreground text-[11px] sm:text-xs font-display font-black uppercase tracking-[0.18em]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-8 flex items-center justify-center gap-3">
         <Flame size={14} className="shrink-0" />
-        <span className="truncate">Com vc em todas as direções 🧭</span>
+        <span className="truncate text-[10px] sm:text-[11px]">Klug Motors — Com vc em todas as direções 🧭</span>
         <Link
           to="/modelos"
           className="hidden sm:inline-flex items-center gap-1 border border-primary-foreground/60 px-2.5 py-0.5 rounded-full hover:bg-primary-foreground hover:text-primary transition-colors"
