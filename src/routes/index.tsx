@@ -1717,9 +1717,10 @@ function RefProductCard({ m }: { m: Model }) {
         </span>
       </div>
       <div className="p-4 text-center flex-1 flex flex-col min-w-0">
-        <h3 className="font-display font-black uppercase text-xs sm:text-sm tracking-tight text-white break-words min-h-[2.4em]">
-          {m.name} | Klug
+        <h3 className="font-display font-black uppercase text-xs sm:text-sm tracking-tight text-white/90 break-words min-h-[2.4em]">
+          {m.name}
         </h3>
+
         <div className="flex items-center justify-center gap-0.5 text-primary mt-1.5">
           {Array.from({ length: 5 }).map((_, i) => (
             <span key={i} className="text-[10px]">★</span>
