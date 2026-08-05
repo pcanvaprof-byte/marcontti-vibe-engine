@@ -104,7 +104,6 @@ export const Route = createFileRoute("/modelos/")({
 });
 
 const CATEGORY_TABS = [
-  { key: "todos", label: "Todos", search: {} as CatSearch },
   { key: "klug", label: "Scooter Elétricas Moto Chefe", search: { marca: "klug" } as CatSearch },
   { key: "sudu", label: "Scooter Elétricas Sudu", search: { marca: "sudu" } as CatSearch },
   { key: "triciclo", label: "Triciclos Elétricos", search: { cat: "triciclo" } as CatSearch },
@@ -153,7 +152,7 @@ function activeCategoryKey(search: CatSearch): string {
   if (search.cat === "seminovos") return "seminovos";
   const marca = search.marca?.toLowerCase();
   if (marca && (VALID_MARCAS as readonly string[]).includes(marca)) return marca;
-  return "todos";
+  return "klug";
 }
 
 function CatalogPage() {
@@ -179,7 +178,7 @@ function CatalogPage() {
         catOk = brandOf(m) === MARCA_LABEL[activeKey] && !isTriciclo(m);
       } else if (activeKey === "yamaha") {
         catOk = brandOf(m) === "Yamaha" && !isSemiNova(m);
-      } else if (activeKey === "todos") {
+      } else if (activeKey === "todos" || !activeKey) {
         catOk = !isSemiNova(m);
       }
       const priceOk = m.priceNumber >= range.min && m.priceNumber <= range.max;
@@ -242,7 +241,7 @@ function CatalogPage() {
           <div
             role="tablist"
             aria-label="Filtrar por categoria"
-            className="flex flex-wrap gap-x-5 gap-y-2 text-[10px] font-display font-black uppercase tracking-widest"
+            className="flex flex-wrap gap-x-6 gap-y-3 text-[12px] font-display font-black uppercase tracking-widest"
           >
             {CATEGORY_TABS.map((c) => {
               const active = activeKey === c.key;
