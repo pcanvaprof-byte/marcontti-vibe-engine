@@ -28,18 +28,45 @@ function SobrePage() {
   return (
     <PageLayout
       eyebrow="Institucional"
-      title="Sobre a"
+      title="Missão, visão e valores"
       titleAccent="Klug Motors"
-      intro="Somos uma concessionária especializada em mobilidade elétrica em Joinville/SC. Motos, scooters, triciclos com foco em economia, sustentabilidade e o melhor pós-venda da região."
+      intro="Na Klug Motors, acreditamos que cada moto e cada scooter entregam muito mais do que mobilidade: entregam liberdade, conquistas e novos começos."
     >
-      <SectionCard title="Nossa missão">
+      <SectionCard title="Nossa Missão">
         <p>
-          Democratizar o acesso à mobilidade elétrica no sul do Brasil, oferecendo veículos
-          confiáveis, com preço justo, garantia real e atendimento técnico local. Acreditamos
-          que motos e scooters elétricas são a solução mais inteligente para o dia a dia
-          urbano — econômicas, silenciosas e livres de emissões.
+          Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação, fazendo com que cada pessoa saia daqui com a certeza de que fez a escolha certa.
         </p>
       </SectionCard>
+
+      <SectionCard title="Nossa Visão">
+        <p>
+          Queremos ser reconhecidos como uma empresa que conquista clientes pela confiança, pelo atendimento humano e pela paixão em servir. Nosso objetivo é crescer sem perder nossa essência: tratar cada cliente como único e construir relações que durem muito além da entrega das chaves.
+        </p>
+      </SectionCard>
+
+      <SectionCard title="Nossos Valores">
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 not-prose">
+          {[
+            "Atender com o coração e colocar as pessoas em primeiro lugar.",
+            "Agir sempre com honestidade, ética e transparência.",
+            "Respeitar cada história, cada sonho e cada conquista.",
+            "Trabalhar com paixão, dedicação e responsabilidade.",
+            "Buscar excelência em tudo o que fazemos.",
+            "Valorizar o trabalho em equipe e o respeito entre todos.",
+            "Construir relações baseadas na confiança.",
+            "Evoluir constantemente para oferecer a melhor experiência aos nossos clientes.",
+            "Ter gratidão pela oportunidade de fazer parte da realização de tantos sonhos.",
+          ].map((valor, idx) => (
+            <li key={idx} className="flex gap-3 items-start border border-border rounded-lg p-3 bg-background/30">
+              <span className="w-5 h-5 rounded-full bg-primary/20 text-primary grid place-items-center shrink-0 mt-0.5">
+                <Zap size={10} />
+              </span>
+              <p className="text-white/80 text-[13px] leading-tight">{valor}</p>
+            </li>
+          ))}
+        </ul>
+      </SectionCard>
+
 
       <SectionCard title="Por que Klug Motors">
         <ul className="grid sm:grid-cols-2 gap-4 not-prose">
