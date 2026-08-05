@@ -408,7 +408,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
                 aria-label={`Ver detalhes de ${m.name}`}
               >
                 <div className="relative aspect-[16/10] p-2">
-                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
+                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.05)]">
                     <LazyImage
                       src={m.colors[0]?.image ?? ""}
                       alt={`${m.name} — ${m.tag}`}
