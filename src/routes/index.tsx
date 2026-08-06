@@ -46,6 +46,7 @@ import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import oficinaKlug from "@/assets/klug/oficina-klug-v3.png.asset.json";
 import oficinaKlugV4 from "/assets/oficina-klug-v4.jpg";
+import oficinaKlugV5 from "/assets/oficina-klug-v5.jpg";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
 import klugHeroVideo from "@/assets/videos/klug-hero-telao.mp4.asset.json";
@@ -637,7 +638,7 @@ function Hero() {
         </div>
         <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group min-h-[160px] sm:min-h-0 aspect-[2.5/1] xs:aspect-[3.5/1] md:aspect-[6/1] lg:aspect-[8/1]">
           <img
-            src={oficinaKlugV4}
+            src={oficinaKlugV5}
             alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
             width={1280}
             height={512}
