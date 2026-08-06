@@ -771,10 +771,10 @@ const PERKS: Perk[] = [
   },
   {
     icon: BadgePercent,
-    title: "10% OFF no PIX",
-    desc: "desconto na hora",
+    title: "No PIX",
+    desc: "ganhe desconto na hora",
     message:
-      "Olá! Tenho interesse em aproveitar o desconto de 10% no PIX. Podem me atender?",
+      "Olá! Tenho interesse em aproveitar o desconto no PIX. Podem me atender?",
   },
   {
     icon: Store,
