@@ -28,18 +28,18 @@ export function PageLayout({
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0 min-w-0" aria-label="Klug Motors — início">
-            <img src={klugLogo.url} alt="Klug Motors" className="h-8 w-auto object-contain" />
+            <img src={klugLogo.url} alt="Klug Motors" className="h-7 sm:h-8 w-auto object-contain" />
           </Link>
-          <nav className="hidden lg:flex items-center gap-6 text-[11px] font-display font-black uppercase tracking-widest text-white/70">
-            <Link to="/modelos" className="hover:text-primary">Modelos</Link>
-            <Link to="/modelos/yamaha" className="hover:text-primary">Yamaha</Link>
-            <Link to="/modelos/sudu" className="hover:text-primary">SUDU</Link>
-            <Link to="/comparar" className="hover:text-primary">Comparar</Link>
-            <Link to="/financiamento" className="hover:text-primary">Financiamento</Link>
-            <Link to="/garantia" className="hover:text-primary">Garantia</Link>
-            <Link to="/sobre" className="hover:text-primary">Sobre</Link>
-            <Link to="/faq" className="hover:text-primary">FAQ</Link>
-            <Link to="/contato" className="hover:text-primary">Contato</Link>
+          <nav className="hidden lg:flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11px] font-display font-black uppercase tracking-widest text-white/70">
+            <Link to="/modelos" className="hover:text-primary whitespace-nowrap">Modelos</Link>
+            <Link to="/modelos" search={{ marca: "yamaha" }} className="hover:text-primary whitespace-nowrap">Yamaha</Link>
+            <Link to="/modelos" search={{ marca: "sudu" }} className="hover:text-primary whitespace-nowrap">SUDU</Link>
+            <Link to="/comparar" className="hover:text-primary whitespace-nowrap">Comparar</Link>
+            <Link to="/financiamento" className="hover:text-primary whitespace-nowrap">Financiamento</Link>
+            <Link to="/garantia" className="hover:text-primary whitespace-nowrap">Garantia</Link>
+            <Link to="/sobre" className="hover:text-primary whitespace-nowrap">Sobre</Link>
+            <Link to="/faq" className="hover:text-primary whitespace-nowrap">FAQ</Link>
+            <Link to="/contato" className="hover:text-primary whitespace-nowrap">Contato</Link>
           </nav>
           <div className="flex items-center gap-3 shrink-0">
             <button

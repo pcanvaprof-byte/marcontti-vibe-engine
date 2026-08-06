@@ -237,7 +237,7 @@ function PromoStrip() {
     <div className="w-full bg-primary text-primary-foreground text-[11px] sm:text-xs font-display font-black uppercase tracking-[0.18em]">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-8 flex items-center justify-center gap-3">
         <Flame size={14} className="shrink-0" />
-        <span className="truncate text-[10px] sm:text-[11px]">Klug Motors — Com vc em todas as direções 🧭</span>
+        <span className="truncate text-[10px] sm:text-[11px] font-bold">Klug Motors — Com vc em todas as direções 🧭</span>
         <Link
           to="/modelos"
           className="hidden sm:inline-flex items-center gap-1 border border-primary-foreground/60 px-2.5 py-0.5 rounded-full hover:bg-primary-foreground hover:text-primary transition-colors"
@@ -321,6 +321,7 @@ function Header() {
   const [scrolled, setScrolled] = useState(false);
   const reduced = useReducedMotion();
   const active = useActiveSection(NAV_IDS);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -359,7 +360,7 @@ function Header() {
           : "bg-background/70 border-border/60"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 md:h-20 flex items-center gap-4 md:gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 md:h-20 flex items-center gap-3 sm:gap-6">
         {/* Logo */}
         <a
           href="#"
@@ -375,15 +376,18 @@ function Header() {
         </a>
 
         {/* Search bar */}
+        {/* Search bar (Desktop) */}
         <form
           role="search"
           onSubmit={(e) => {
             e.preventDefault();
-            window.location.href = "/modelos";
+            const q = (e.currentTarget.elements.namedItem("q") as HTMLInputElement)?.value;
+            window.location.href = `/modelos?q=${encodeURIComponent(q || "")}`;
           }}
           className="hidden md:flex flex-1 max-w-xl h-11 items-center rounded-full bg-card border border-border focus-within:border-primary/60 transition-colors overflow-hidden"
         >
           <input
+            name="q"
             type="search"
             placeholder="O que deseja procurar?"
             className="flex-1 bg-transparent px-5 text-sm text-white placeholder:text-white/40 focus:outline-none"
@@ -397,6 +401,15 @@ function Header() {
             <Search size={18} strokeWidth={2.4} />
           </button>
         </form>
+
+        {/* Mobile Search Button */}
+        <button
+          onClick={() => setSearchOpen(!searchOpen)}
+          className="md:hidden p-2 min-h-11 min-w-11 grid place-items-center rounded-full border border-white/10 text-primary"
+          aria-label="Abrir busca"
+        >
+          <Search size={20} />
+        </button>
 
         {/* Trust items */}
         <div className="hidden lg:flex items-center gap-6 ml-auto text-white">
@@ -451,7 +464,32 @@ function Header() {
               />
             </span>
           </button>
-        </div>
+        {/* Mobile Search Overlay */}
+        {searchOpen && (
+          <div className="absolute inset-x-0 top-full bg-background border-b border-border p-4 animate-in slide-in-from-top duration-200">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const q = (e.currentTarget.elements.namedItem("q-mobile") as HTMLInputElement)?.value;
+                window.location.href = `/modelos?q=${encodeURIComponent(q || "")}`;
+              }}
+              className="flex h-12 items-center rounded-full bg-card border border-primary/40 overflow-hidden"
+            >
+              <input
+                name="q-mobile"
+                autoFocus
+                type="search"
+                placeholder="Buscar modelos..."
+                className="flex-1 bg-transparent px-5 text-sm text-white focus:outline-none"
+              />
+              <button type="submit" className="px-5 text-primary">
+                <Search size={20} />
+              </button>
+            </form>
+          </div>
+        )}
+
+      </div>
       </div>
 
       {/* Mobile drawer + backdrop */}
@@ -525,7 +563,7 @@ function Header() {
               style={{
                 transitionDelay: open ? `${140 + NAV_LINKS.length * 40}ms` : "0ms",
               }}
-              className={`mt-4 inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-extrabold uppercase text-xs tracking-widest px-5 py-4 rounded-full transition-all duration-300 active:scale-95 ${
+              className={`mt-4 inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase text-xs tracking-widest px-5 py-4 min-h-[48px] rounded-full transition-all duration-300 active:scale-95 ${
                 open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
               }`}
             >

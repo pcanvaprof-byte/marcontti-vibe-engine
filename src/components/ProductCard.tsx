@@ -132,7 +132,7 @@ export function ProductCard({
         <button
           type="button"
           onClick={openModal}
-          className="mt-1 inline-flex items-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[9px] px-3 py-1.5 rounded-full shadow-[0_5px_14px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 transition shrink-0"
+          className="mt-1 inline-flex items-center justify-center gap-1.5 bg-primary text-black font-display font-black uppercase tracking-widest text-[10px] min-h-[44px] min-w-[110px] px-4 rounded-full shadow-[0_5px_14px_-6px_rgba(248,96,0,0.7)] hover:brightness-110 active:scale-95 transition shrink-0"
         >
           Saiba mais
         </button>
