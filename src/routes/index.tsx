@@ -634,7 +634,7 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group">
+        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group min-h-[140px] sm:min-h-0">
           <img
             src={oficinaKlug.url}
             alt="Oficina Klug Motors: manutenção de motos e scooters elétricas em Joinville"
@@ -642,13 +642,13 @@ function Hero() {
             height={512}
             loading="lazy"
             decoding="async"
-            className="w-full object-cover aspect-[4/1] md:aspect-[8/1] transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-cover aspect-[3/1] xs:aspect-[4/1] md:aspect-[8/1] transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/70" />
-          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-3 sm:gap-4">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-black/80" />
+          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-3 sm:gap-4 overflow-visible">
             <Link
               to="/modelos"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0"
             >
               Ver Modelos
               <ArrowRight size={16} />
@@ -659,7 +659,7 @@ function Hero() {
                 e.preventDefault();
                 openWhatsAppWithFallback(FINANCE_MSG);
               }}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0"
               aria-label="Simular financiamento no WhatsApp"
             >
               <MessageCircle size={16} fill="white" strokeWidth={0} />
@@ -956,7 +956,7 @@ function PerksBar() {
                     {p.count ? (
                       <PerkCountLabel perk={p} active={inView} reduced={reduced} />
                     ) : (
-                      <p className="font-display font-black uppercase text-[12px] tracking-wider leading-none">
+                      <p className="font-display font-black uppercase text-[11px] sm:text-[12px] tracking-wider leading-none truncate pr-1">
                         {p.title}
                       </p>
                     )}
