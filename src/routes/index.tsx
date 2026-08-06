@@ -636,7 +636,7 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group min-h-[160px] sm:min-h-0 aspect-[2.2/1] xs:aspect-[3/1] md:aspect-[5/1] lg:aspect-[7/1]">
+        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group min-h-[140px] sm:min-h-0 aspect-[3.2/1] xs:aspect-[4/1] md:aspect-[6/1] lg:aspect-[8/1]">
           <img
             src={oficinaKlugV5}
             alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
