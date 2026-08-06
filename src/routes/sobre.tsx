@@ -106,15 +106,6 @@ function SobrePage() {
           ))}
         </ul>
       </SectionCard>
-            <li key={idx} className="flex gap-3 items-start border border-border rounded-lg p-3 bg-background/30">
-              <span className="w-5 h-5 rounded-full bg-primary/20 text-primary grid place-items-center shrink-0 mt-0.5">
-                <Zap size={10} />
-              </span>
-              <p className="text-white/80 text-[13px] leading-tight">{valor}</p>
-            </li>
-          ))}
-        </ul>
-      </SectionCard>
 
 
       <SectionCard title="Por que Klug Motors">
