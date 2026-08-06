@@ -607,7 +607,7 @@ function Hero() {
             className="w-full object-cover aspect-[4/1] md:aspect-[8/1] transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/70" />
-          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-[5px]">
+          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-3">
 
 
 
