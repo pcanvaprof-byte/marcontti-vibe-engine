@@ -359,7 +359,7 @@ function Header() {
           : "bg-background/70 border-border/60"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-16 md:h-20 flex items-center gap-4 md:gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 md:h-20 flex items-center gap-3 sm:gap-6">
         {/* Logo */}
         <a
           href="#"
