@@ -645,29 +645,26 @@ function Hero() {
             className="w-full object-cover aspect-[4/1] md:aspect-[8/1] transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/70" />
-          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-3">
-
-
-
-          <Link
-            to="/modelos"
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
-          >
-            Ver Modelos
-            <ArrowRight size={18} />
-          </Link>
-          <a
-            href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
-            onClick={(e) => {
-              e.preventDefault();
-              openWhatsAppWithFallback(FINANCE_MSG);
-            }}
-            className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-6 py-2.5 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
-            aria-label="Simular financiamento no WhatsApp"
-          >
-            <MessageCircle size={18} fill="white" strokeWidth={0} />
-            Simular Financiamento
-          </a>
+          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-3 sm:gap-4">
+            <Link
+              to="/modelos"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0"
+            >
+              Ver Modelos
+              <ArrowRight size={16} />
+            </Link>
+            <a
+              href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
+              onClick={(e) => {
+                e.preventDefault();
+                openWhatsAppWithFallback(FINANCE_MSG);
+              }}
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0"
+              aria-label="Simular financiamento no WhatsApp"
+            >
+              <MessageCircle size={16} fill="white" strokeWidth={0} />
+              Simular Financiamento
+            </a>
           </div>
         </div>
 
