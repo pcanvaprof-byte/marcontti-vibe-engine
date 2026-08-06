@@ -579,7 +579,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-black">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 py-6 sm:py-8">
-        <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-[21/9]">
+        <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-[2/1]">
           <video
             src={klugHeroVideo.url}
             poster={klugHeroPoster.url}
