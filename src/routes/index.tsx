@@ -629,7 +629,9 @@ function Hero() {
             <MessageCircle size={18} fill="white" strokeWidth={0} />
             Simular Financiamento
           </a>
+          </div>
         </div>
+
       </div>
     </section>
 
