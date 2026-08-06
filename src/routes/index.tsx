@@ -634,7 +634,7 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group min-h-[160px] sm:min-h-0 aspect-[2/1] xs:aspect-[3/1] md:aspect-[5/1] lg:aspect-[7/1]">
+        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group min-h-[160px] sm:min-h-0 aspect-[2/1] xs:aspect-[3.5/1] md:aspect-[6/1] lg:aspect-[8/1]">
           <img
             src={oficinaKlug.url}
             alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
@@ -645,14 +645,21 @@ function Hero() {
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-transparent to-transparent hidden sm:block" />
-          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-center items-center sm:items-end overflow-visible bg-black/40 sm:bg-transparent">
+          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-3 sm:gap-4 overflow-visible bg-black/40 sm:bg-transparent">
+            <Link
+              to="/modelos"
+              className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0"
+            >
+              Ver Modelos
+              <ArrowRight size={16} />
+            </Link>
             <a
               href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
               onClick={(e) => {
                 e.preventDefault();
                 openWhatsAppWithFallback(FINANCE_MSG);
               }}
-              className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-8 sm:px-10 py-3 sm:py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0 shadow-lg"
+              className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0"
               aria-label="Simular financiamento no WhatsApp"
             >
               <MessageCircle size={16} fill="white" strokeWidth={0} />
