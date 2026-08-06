@@ -379,11 +379,13 @@ function Header() {
           role="search"
           onSubmit={(e) => {
             e.preventDefault();
-            window.location.href = "/modelos";
+            const q = (e.currentTarget.elements.namedItem("q") as HTMLInputElement)?.value;
+            window.location.href = `/modelos?q=${encodeURIComponent(q || "")}`;
           }}
           className="hidden md:flex flex-1 max-w-xl h-11 items-center rounded-full bg-card border border-border focus-within:border-primary/60 transition-colors overflow-hidden"
         >
           <input
+            name="q"
             type="search"
             placeholder="O que deseja procurar?"
             className="flex-1 bg-transparent px-5 text-sm text-white placeholder:text-white/40 focus:outline-none"
