@@ -33,54 +33,58 @@ function SobrePage() {
       titleAccent="Klug Motors"
       intro="Na Klug Motors, acreditamos que cada moto e cada scooter entregam muito mais do que mobilidade: entregam liberdade, conquistas e novos começos."
     >
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 group bg-card lg:order-1">
-          <img 
-            src={janainaKlugAsset.url} 
-            alt="Janaina Klug - Proprietária da Klug Motors" 
-            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-          />
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6">
-            <p className="font-display font-black text-2xl text-white uppercase tracking-tighter">Janaina Klug</p>
-            <p className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Proprietária & Fundadora</p>
+      <div className="grid md:grid-cols-2 gap-8 mb-16 items-center">
+        <div className="flex flex-col gap-8 order-2 md:order-1">
+          <SectionCard title="Nossa Missão" className="m-0 border-primary/20 bg-primary/5">
+            <div className="w-12 h-12 rounded-xl bg-primary text-primary-foreground grid place-items-center mb-6 shadow-lg shadow-primary/20">
+              <Zap size={24} fill="currentColor" />
+            </div>
+            <p className="text-white text-lg leading-relaxed font-medium italic">
+              "Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação, fazendo com que cada pessoa saia daqui com a certeza de que fez a escolha certa."
+            </p>
+          </SectionCard>
+
+          <SectionCard title="Nossa Visão" className="m-0 border-white/10 bg-white/[0.02]">
+            <div className="w-12 h-12 rounded-xl bg-white/10 text-white grid place-items-center mb-6">
+              <Users size={24} />
+            </div>
+            <p className="text-white/80 text-lg leading-relaxed">
+              "Queremos ser reconhecidos como uma empresa que conquista clientes pela confiança, pelo atendimento humano e pela paixão em servir. Nosso objetivo é crescer sem perder nossa essência: tratar cada cliente como único e construir relações que durem muito além da entrega das chaves."
+            </p>
+          </SectionCard>
+          
+          <div className="grid grid-cols-3 gap-4 pt-4">
+            <div className="text-center p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+              <p className="text-3xl font-display font-black text-primary mb-1 tracking-tighter">+5.000</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Clientes</p>
+            </div>
+            <div className="text-center p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+              <p className="text-3xl font-display font-black text-primary mb-1 tracking-tighter">100%</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Mobilidade</p>
+            </div>
+            <div className="text-center p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+              <p className="text-3xl font-display font-black text-primary mb-1 tracking-tighter">2026</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Evoluindo</p>
+            </div>
           </div>
         </div>
         
-        <div className="flex flex-col gap-6 lg:order-2">
-          <SectionCard title="Nossa Missão" className="m-0 h-full flex flex-col">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center mb-4">
-              <Zap size={20} />
+        <div className="relative aspect-[4/5] md:aspect-square lg:aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 group bg-card order-1 md:order-2 shadow-2xl">
+          <img 
+            src={janainaKlugAsset.url} 
+            alt="Janaina Klug - Proprietária da Klug Motors" 
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60" />
+          <div className="absolute inset-x-0 bottom-0 p-8">
+            <div className="backdrop-blur-md bg-white/10 border border-white/20 p-6 rounded-2xl">
+              <p className="font-display font-black text-3xl text-white uppercase tracking-tighter">Janaina Klug</p>
+              <p className="text-primary text-[11px] font-bold uppercase tracking-[0.3em] mt-2 flex items-center gap-2">
+                <span className="w-8 h-px bg-primary" />
+                Proprietária & Fundadora
+              </p>
             </div>
-            <p className="text-white/80 leading-relaxed italic">
-              "Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação."
-            </p>
-          </SectionCard>
-
-          <SectionCard title="Nossa Visão" className="m-0 h-full flex flex-col">
-            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center mb-4">
-              <Users size={20} />
-            </div>
-            <p className="text-white/80 leading-relaxed">
-              Ser reconhecidos pela confiança, pelo atendimento humano e pela paixão em servir, crescendo sem perder nossa essência.
-            </p>
-          </SectionCard>
-        </div>
-
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-card p-8 flex flex-col justify-center gap-8 lg:order-3 hidden lg:flex">
-           <div className="text-center">
-              <p className="text-4xl font-display font-black text-primary mb-1 tracking-tighter">+5.000</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Clientes Atendidos</p>
-           </div>
-           <div className="h-px bg-white/5 w-1/2 mx-auto" />
-           <div className="text-center">
-              <p className="text-4xl font-display font-black text-primary mb-1 tracking-tighter">100%</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Foco em Mobilidade</p>
-           </div>
-           <div className="h-px bg-white/5 w-1/2 mx-auto" />
-           <div className="text-center">
-              <p className="text-4xl font-display font-black text-primary mb-1 tracking-tighter">2026</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Sempre Evoluindo</p>
-           </div>
+          </div>
         </div>
       </div>
 
