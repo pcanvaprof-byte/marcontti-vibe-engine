@@ -956,7 +956,7 @@ function PerksBar() {
                     {p.count ? (
                       <PerkCountLabel perk={p} active={inView} reduced={reduced} />
                     ) : (
-                      <p className="font-display font-black uppercase text-[12px] tracking-wider leading-none">
+                      <p className="font-display font-black uppercase text-[11px] sm:text-[12px] tracking-wider leading-none truncate pr-1">
                         {p.title}
                       </p>
                     )}
