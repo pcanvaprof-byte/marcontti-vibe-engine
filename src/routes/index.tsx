@@ -652,7 +652,7 @@ function Hero() {
                 e.preventDefault();
                 openWhatsAppWithFallback(FINANCE_MSG);
               }}
-              className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0"
+              className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-8 sm:px-10 py-3 sm:py-4 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0 shadow-lg"
               aria-label="Simular financiamento no WhatsApp"
             >
               <MessageCircle size={16} fill="white" strokeWidth={0} />
