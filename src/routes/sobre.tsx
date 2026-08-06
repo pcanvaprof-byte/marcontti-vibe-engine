@@ -33,47 +33,79 @@ function SobrePage() {
       titleAccent="Klug Motors"
       intro="Na Klug Motors, acreditamos que cada moto e cada scooter entregam muito mais do que mobilidade: entregam liberdade, conquistas e novos começos."
     >
-      <div className="grid md:grid-cols-2 gap-8 mb-12">
-        <div className="relative aspect-[3/4] md:aspect-auto md:h-[500px] overflow-hidden rounded-2xl border border-white/10 group">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 group bg-card lg:order-1">
           <img 
             src={janainaKlugAsset.url} 
             alt="Janaina Klug - Proprietária da Klug Motors" 
             className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
           />
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6">
             <p className="font-display font-black text-2xl text-white uppercase tracking-tighter">Janaina Klug</p>
-            <p className="text-primary text-xs font-bold uppercase tracking-widest mt-1">Proprietária</p>
+            <p className="text-primary text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Proprietária & Fundadora</p>
           </div>
         </div>
         
-        <div className="flex flex-col justify-center gap-6">
-          <SectionCard title="Nossa Missão" className="m-0 h-full">
-            <p>
-              Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação, fazendo com que cada pessoa saia daqui com a certeza de que fez a escolha certa.
+        <div className="flex flex-col gap-6 lg:order-2">
+          <SectionCard title="Nossa Missão" className="m-0 h-full flex flex-col">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center mb-4">
+              <Zap size={20} />
+            </div>
+            <p className="text-white/80 leading-relaxed italic">
+              "Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação."
+            </p>
+          </SectionCard>
+
+          <SectionCard title="Nossa Visão" className="m-0 h-full flex flex-col">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center mb-4">
+              <Users size={20} />
+            </div>
+            <p className="text-white/80 leading-relaxed">
+              Ser reconhecidos pela confiança, pelo atendimento humano e pela paixão em servir, crescendo sem perder nossa essência.
             </p>
           </SectionCard>
         </div>
+
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-card p-8 flex flex-col justify-center gap-8 lg:order-3 hidden lg:flex">
+           <div className="text-center">
+              <p className="text-4xl font-display font-black text-primary mb-1 tracking-tighter">+5.000</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Clientes Atendidos</p>
+           </div>
+           <div className="h-px bg-white/5 w-1/2 mx-auto" />
+           <div className="text-center">
+              <p className="text-4xl font-display font-black text-primary mb-1 tracking-tighter">100%</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Foco em Mobilidade</p>
+           </div>
+           <div className="h-px bg-white/5 w-1/2 mx-auto" />
+           <div className="text-center">
+              <p className="text-4xl font-display font-black text-primary mb-1 tracking-tighter">2026</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Sempre Evoluindo</p>
+           </div>
+        </div>
       </div>
 
-      <SectionCard title="Nossa Visão">
-        <p>
-          Queremos ser reconhecidos como uma empresa que conquista clientes pela confiança, pelo atendimento humano e pela paixão em servir. Nosso objetivo é crescer sem perder nossa essência: tratar cada cliente como único e construir relações que durem muito além da entrega das chaves.
-        </p>
-      </SectionCard>
-
       <SectionCard title="Nossos Valores">
-        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 not-prose">
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 not-prose">
           {[
-            "Atender com o coração e colocar as pessoas em primeiro lugar.",
-            "Agir sempre com honestidade, ética e transparência.",
-            "Respeitar cada história, cada sonho e cada conquista.",
-            "Trabalhar com paixão, dedicação e responsabilidade.",
-            "Buscar excelência em tudo o que fazemos.",
-            "Valorizar o trabalho em equipe e o respeito entre todos.",
-            "Construir relações baseadas na confiança.",
-            "Evoluir constantemente para oferecer a melhor experiência aos nossos clientes.",
-            "Ter gratidão pela oportunidade de fazer parte da realização de tantos sonhos.",
-          ].map((valor, idx) => (
+            { text: "Atender com o coração e colocar as pessoas em primeiro lugar.", icon: Zap },
+            { text: "Agir sempre com honestidade, ética e transparência.", icon: Award },
+            { text: "Respeitar cada história, cada sonho e cada conquista.", icon: Users },
+            { text: "Trabalhar com paixão, dedicação e responsabilidade.", icon: Zap },
+            { text: "Buscar excelência em tudo o que fazemos.", icon: Award },
+            { text: "Valorizar o trabalho em equipe e o respeito entre todos.", icon: Users },
+            { text: "Construir relações baseadas na confiança.", icon: Zap },
+            { text: "Evoluir constantemente para oferecer a melhor experiência.", icon: Award },
+            { text: "Gratidão pela oportunidade de realizar sonhos.", icon: Users },
+          ].map((item, idx) => (
+            <li key={idx} className="flex gap-4 items-start border border-white/5 rounded-xl p-4 bg-white/[0.02] hover:bg-white/[0.04] transition-colors group">
+              <span className="w-8 h-8 rounded-lg bg-primary/5 text-primary/40 group-hover:text-primary group-hover:bg-primary/10 grid place-items-center shrink-0 transition-colors">
+                <item.icon size={14} />
+              </span>
+              <p className="text-white/70 text-[13px] leading-snug font-medium">{item.text}</p>
+            </li>
+          ))}
+        </ul>
+      </SectionCard>
             <li key={idx} className="flex gap-3 items-start border border-border rounded-lg p-3 bg-background/30">
               <span className="w-5 h-5 rounded-full bg-primary/20 text-primary grid place-items-center shrink-0 mt-0.5">
                 <Zap size={10} />
