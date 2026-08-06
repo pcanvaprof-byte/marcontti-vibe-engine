@@ -33,18 +33,18 @@ function SobrePage() {
       titleAccent="Klug Motors"
       intro="Na Klug Motors, acreditamos que cada moto e cada scooter entregam muito mais do que mobilidade: entregam liberdade, conquistas e novos começos."
     >
-      <div className="grid md:grid-cols-2 gap-8 mb-16 items-center">
-        <div className="flex flex-col gap-8 order-2 md:order-1">
-          <SectionCard title="Nossa Missão" className="m-0 border-primary/20 bg-primary/5">
+      <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="flex flex-col gap-8 h-full">
+          <SectionCard title="Nossa Missão" className="m-0 border-primary/20 bg-primary/5 flex-1">
             <div className="w-12 h-12 rounded-xl bg-primary text-primary-foreground grid place-items-center mb-6 shadow-lg shadow-primary/20">
               <Zap size={24} fill="currentColor" />
             </div>
             <p className="text-white text-lg leading-relaxed font-medium italic">
-              "Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação, fazendo com que cada pessoa saia daqui com a certeza de que fez a escolha certa."
+              "Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solution com honestidade, respeito e dedicação, fazendo com que cada pessoa saia daqui com a certeza de que fez a escolha certa."
             </p>
           </SectionCard>
 
-          <SectionCard title="Nossa Visão" className="m-0 border-white/10 bg-white/[0.02]">
+          <SectionCard title="Nossa Visão" className="m-0 border-white/10 bg-white/[0.02] flex-1">
             <div className="w-12 h-12 rounded-xl bg-white/10 text-white grid place-items-center mb-6">
               <Users size={24} />
             </div>
@@ -52,24 +52,9 @@ function SobrePage() {
               "Queremos ser reconhecidos como uma empresa que conquista clientes pela confiança, pelo atendimento humano e pela paixão em servir. Nosso objetivo é crescer sem perder nossa essência: tratar cada cliente como único e construir relações que durem muito além da entrega das chaves."
             </p>
           </SectionCard>
-          
-          <div className="grid grid-cols-3 gap-4 pt-4">
-            <div className="text-center p-4 rounded-2xl bg-white/[0.03] border border-white/5">
-              <p className="text-3xl font-display font-black text-primary mb-1 tracking-tighter">+5.000</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Clientes</p>
-            </div>
-            <div className="text-center p-4 rounded-2xl bg-white/[0.03] border border-white/5">
-              <p className="text-3xl font-display font-black text-primary mb-1 tracking-tighter">100%</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Mobilidade</p>
-            </div>
-            <div className="text-center p-4 rounded-2xl bg-white/[0.03] border border-white/5">
-              <p className="text-3xl font-display font-black text-primary mb-1 tracking-tighter">2026</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Evoluindo</p>
-            </div>
-          </div>
         </div>
         
-        <div className="relative aspect-[4/5] md:aspect-square lg:aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 group bg-card order-1 md:order-2 shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 group bg-card shadow-2xl h-full min-h-[500px]">
           <img 
             src={janainaKlugAsset.url} 
             alt="Janaina Klug - Proprietária da Klug Motors" 
