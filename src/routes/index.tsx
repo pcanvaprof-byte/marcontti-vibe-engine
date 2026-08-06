@@ -596,7 +596,7 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10">
+        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group">
           <img
             src={oficinaKlug.url}
             alt="Oficina Klug Motors: manutenção de motos e scooters elétricas em Joinville"
@@ -604,7 +604,7 @@ function Hero() {
             height={512}
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-cover aspect-[8/1]"
+            className="w-full object-cover aspect-[4/1] md:aspect-[8/1] transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/70" />
           <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-[5px]">
