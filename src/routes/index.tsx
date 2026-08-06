@@ -44,6 +44,7 @@ import type { Product } from "@/components/ProductCard";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
+import oficinaKlug from "@/assets/klug/oficina-klug.jpg.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
 import klugHeroVideo from "@/assets/videos/klug-hero-telao.mp4.asset.json";
@@ -595,7 +596,19 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 flex flex-col items-center sm:items-end gap-[5px] animate-fade-up">
+        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10">
+          <img
+            src={oficinaKlug.url}
+            alt="Oficina Klug Motors: manutenção de motos e scooters elétricas em Joinville"
+            width={1280}
+            height={512}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover aspect-[5/2]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/70" />
+          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-[5px]">
+
 
 
           <Link
@@ -617,7 +630,9 @@ function Hero() {
             <MessageCircle size={18} fill="white" strokeWidth={0} />
             Simular Financiamento
           </a>
+          </div>
         </div>
+
       </div>
     </section>
 
