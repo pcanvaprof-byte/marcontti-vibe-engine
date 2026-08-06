@@ -141,12 +141,14 @@ export function PageLayout({
 export function SectionCard({
   title,
   children,
+  className = "",
 }: {
   title?: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <section className="border border-border bg-card rounded-2xl p-6 sm:p-8">
+    <section className={`border border-border bg-card rounded-2xl p-6 sm:p-8 ${className}`}>
       {title && (
         <h2 className="font-display font-black uppercase text-xl sm:text-2xl tracking-tight mb-4">
           {title}

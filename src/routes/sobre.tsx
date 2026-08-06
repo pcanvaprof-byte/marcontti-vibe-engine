@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Clock, Award, Leaf, Users, Zap } from "lucide-react";
 import { PageLayout, SectionCard } from "@/components/PageLayout";
+import janainaKlugAsset from "@/assets/janaina-klug.jpg.asset.json";
 
 const BASE_URL = "https://althaciamoveis.shop";
 
@@ -32,11 +33,27 @@ function SobrePage() {
       titleAccent="Klug Motors"
       intro="Na Klug Motors, acreditamos que cada moto e cada scooter entregam muito mais do que mobilidade: entregam liberdade, conquistas e novos começos."
     >
-      <SectionCard title="Nossa Missão">
-        <p>
-          Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação, fazendo com que cada pessoa saia daqui com a certeza de que fez a escolha certa.
-        </p>
-      </SectionCard>
+      <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="relative aspect-[3/4] md:aspect-auto md:h-[500px] overflow-hidden rounded-2xl border border-white/10 group">
+          <img 
+            src={janainaKlugAsset.url} 
+            alt="Janaina Klug - Proprietária da Klug Motors" 
+            className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+          />
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+            <p className="font-display font-black text-2xl text-white uppercase tracking-tighter">Janaina Klug</p>
+            <p className="text-primary text-xs font-bold uppercase tracking-widest mt-1">Proprietária</p>
+          </div>
+        </div>
+        
+        <div className="flex flex-col justify-center gap-6">
+          <SectionCard title="Nossa Missão" className="m-0 h-full">
+            <p>
+              Acolher cada cliente com carinho, ouvir suas necessidades e oferecer a melhor solução com honestidade, respeito e dedicação, fazendo com que cada pessoa saia daqui com a certeza de que fez a escolha certa.
+            </p>
+          </SectionCard>
+        </div>
+      </div>
 
       <SectionCard title="Nossa Visão">
         <p>
