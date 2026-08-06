@@ -1301,7 +1301,7 @@ function SubNav({
   return (
     <nav
       aria-label="Seções da página"
-      className="border-b border-border bg-neutral-950/85 backdrop-blur-md sticky top-14 z-30"
+      className="border-b border-border bg-neutral-950/85 backdrop-blur-md sticky top-14 sm:top-14 md:top-14 lg:top-14 z-30"
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-12 flex items-center justify-between gap-6">
         <div
