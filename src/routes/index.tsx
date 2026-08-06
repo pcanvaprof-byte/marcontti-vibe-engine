@@ -647,7 +647,7 @@ function Hero() {
             className="w-full h-full object-cover object-bottom transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-transparent to-transparent hidden sm:block" />
-          <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-end items-center sm:items-end gap-3 sm:gap-4 overflow-visible bg-black/20 sm:bg-transparent">
+          <div className="absolute inset-0 p-3 sm:p-8 flex flex-col justify-end items-end gap-2 sm:gap-4 overflow-visible bg-black/10 sm:bg-transparent">
             <Link
               to="/modelos"
               className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0"
