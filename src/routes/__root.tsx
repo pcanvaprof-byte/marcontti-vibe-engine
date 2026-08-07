@@ -176,6 +176,12 @@ src="https://www.facebook.com/tr?id=1002813009427833&ev=PageView&noscript=1"
   );
 }
 
+/** Assina o Realtime do catálogo (precisa estar dentro do QueryClientProvider). */
+function CatalogRealtime() {
+  useModelsRealtime();
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -185,11 +191,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <CatalogRealtime />
       <ScrollProgress />
       <Outlet />
       <BackToTop />
       <CookieConsent />
     </QueryClientProvider>
   );
-
 }
+
