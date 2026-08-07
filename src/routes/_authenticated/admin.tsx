@@ -794,19 +794,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <Upload className="w-4 h-4" /> {uploadingMain ? "Enviando..." : "Escolher arquivo"}
               <input type="file" ref={fileInputRef} accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
             </label>
-            {fileInputRef.current?.files?.[0] && !uploadingMain && (
-              <Button 
-                type="button" 
-                variant="outline" 
-                size="sm" 
-                onClick={handleAutoIdentify}
-                disabled={analyzingImage}
-                className="gap-2 border-orange-500/50 text-orange-400 hover:bg-orange-500/10"
-              >
-                <Smartphone className="w-4 h-4" />
-                {analyzingImage ? "Identificando..." : "Identificar via IA"}
-              </Button>
-            )}
+            <Button 
+              type="button" 
+              variant="outline" 
+              size="sm" 
+              onClick={handleManualIdentify}
+              disabled={identifyingManual}
+              className="gap-2 border-orange-500/50 text-orange-400 hover:bg-orange-500/10"
+            >
+              <Smartphone className="w-4 h-4" />
+              {identifyingManual ? "Identificando..." : "Identificar Padrão"}
+            </Button>
             {preview && (
               <>
                 <button
