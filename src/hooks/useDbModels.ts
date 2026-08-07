@@ -82,7 +82,7 @@ export function usePublicModels() {
   const q = useQuery({
     queryKey: ["models", "public"],
     queryFn: () => fetchModels(false),
-    staleTime: 10_000, // 10 segundos para o catálogo público (mais responsivo a edições no admin)
+    staleTime: 0, // sempre revalida: edições no admin aparecem imediatamente
     gcTime: 30 * 60_000,
   });
   const items = q.data ? q.data.map(dbToModel) : staticModels;
@@ -93,7 +93,7 @@ export function usePublicModels() {
 export const publicModelsLightOptions = queryOptions({
   queryKey: ["models", "public", "light"],
   queryFn: () => fetchModels(false, true),
-  staleTime: 10_000, // 10 segundos para listagem enxuta (mais responsivo a edições no admin)
+  staleTime: 0, // sempre revalida: edições no admin aparecem imediatamente
   gcTime: 30 * 60_000,
 });
 
@@ -118,7 +118,7 @@ export function useModelBySlug(slug: string) {
       if (error) throw error;
       return (data as unknown as DbModel | null) ?? null;
     },
-    staleTime: 10_000, // 10 segundos para página de produto (mais responsivo a edições no admin)
+    staleTime: 0, // sempre revalida: edições no admin aparecem imediatamente
     gcTime: 30 * 60_000,
   });
 }
