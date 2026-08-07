@@ -67,7 +67,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x, 10% OFF no PIX.",
+          "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x com parcelas que cabem no bolso.",
       },
       { name: "keywords", content: "moto elétrica Joinville, scooter elétrica Joinville, Yamaha Joinville, concessionária elétrica SC, moto sem CNH, Klug Motors" },
       { name: "geo.region", content: "BR-SC" },
