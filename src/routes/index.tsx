@@ -41,7 +41,7 @@ import { BenefitsBar } from "@/components/BenefitsBar";
 import { LazyVideo } from "@/components/LazyVideo";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import type { Product } from "@/components/ProductCard";
-import { installmentLabel } from "@/lib/installment";
+import { modelInstallment } from "@/lib/installment";
 
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import { CreatedBy } from "@/components/CreatedBy";
@@ -1743,7 +1743,7 @@ function fmtBRL(n: number) {
 }
 
 function RefProductCard({ m }: { m: Model }) {
-  const parcela = installmentLabel(m.priceNumber);
+  const { label: parcela, note: parcelaNote } = modelInstallment(m);
   return (
     <Link
       to="/modelos/$slug"
@@ -1783,7 +1783,7 @@ function RefProductCard({ m }: { m: Model }) {
           {parcela ?? "Sob consulta"}
         </p>
         <p className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">
-          {parcela ? "parcela prevista no financiamento" : "Fale com um consultor"}
+          {parcela ? parcelaNote : "Fale com um consultor"}
         </p>
         {parcela && (
           <p className="text-[10px] text-white/40 mt-0.5">
@@ -1838,7 +1838,7 @@ function MaisVendidosGrid() {
 
 function YoutubeShowcase() {
   const highlight = models[1] ?? models[0];
-  const parcela = installmentLabel(highlight.priceNumber);
+  const { label: parcela, note: parcelaNote } = modelInstallment(highlight);
   return (
     <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
@@ -1888,7 +1888,7 @@ function YoutubeShowcase() {
               {parcela ?? highlight.price}
             </p>
             <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">
-              {parcela ? "parcela prevista no financiamento" : "consulte condições"}
+              {parcela ? parcelaNote : "consulte condições"}
             </p>
             {parcela && (
               <p className="text-[10px] text-white/40 mt-0.5">
