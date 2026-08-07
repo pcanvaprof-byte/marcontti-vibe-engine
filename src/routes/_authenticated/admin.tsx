@@ -711,7 +711,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     setSaving(true);
     try {
       const payload = {
-        slug: d.slug,
+        // slug sempre minúsculo: evita páginas de produto que não encontram o modelo
+        slug: d.slug.trim().toLowerCase(),
         brand: d.brand,
         name: d.name,
         tag: d.tag ?? "",
