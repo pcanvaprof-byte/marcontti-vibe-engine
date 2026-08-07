@@ -346,6 +346,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [analyzingImage, setAnalyzingImage] = useState(false);
+  const [identifyingManual, setIdentifyingManual] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fitOpen, setFitOpen] = useState(false);
   const [autoBg, setAutoBg] = useState(true);
