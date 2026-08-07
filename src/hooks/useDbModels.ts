@@ -112,7 +112,7 @@ export function useModelBySlug(slug: string) {
       const { data, error } = await supabase
         .from("models")
         .select("*")
-        .eq("slug", slug)
+        .ilike("slug", slug)
         .eq("is_active", true)
         .maybeSingle();
       if (error) throw error;

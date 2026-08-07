@@ -15,6 +15,7 @@ import klugSymbol from "../assets/klug/klug-symbol.png.asset.json";
 import { BackToTop } from "../components/BackToTop";
 import { CookieConsent } from "../components/CookieConsent";
 import { captureAttribution } from "../lib/attribution";
+import { useModelsRealtime } from "../hooks/useModelsRealtime";
 
 const PUBLIC_ORIGIN = "https://althaciamoveis.shop";
 
@@ -176,6 +177,12 @@ src="https://www.facebook.com/tr?id=1002813009427833&ev=PageView&noscript=1"
   );
 }
 
+/** Assina o Realtime do catálogo (precisa estar dentro do QueryClientProvider). */
+function CatalogRealtime() {
+  useModelsRealtime();
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -185,11 +192,12 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <CatalogRealtime />
       <ScrollProgress />
       <Outlet />
       <BackToTop />
       <CookieConsent />
     </QueryClientProvider>
   );
-
 }
+

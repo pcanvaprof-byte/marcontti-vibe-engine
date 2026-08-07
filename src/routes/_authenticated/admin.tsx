@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move, Smartphone } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move, Smartphone, RefreshCw } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
 import HeroFitEditor from "@/components/admin/HeroFitEditor";
 import {
@@ -297,9 +297,22 @@ function AdminPage() {
       title="Painel de Modelos"
       subtitle={`${data?.length ?? 0} modelos no catálogo`}
       actions={
-        <Button size="sm" onClick={() => setEditing({ ...emptyDraft })} className="gap-1">
-          <Plus className="w-4 h-4" /> <span className="hidden sm:inline">Novo modelo</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            className="gap-1"
+            onClick={async () => {
+              await syncSite();
+              toast.success("Catálogo revalidado — site oficial atualizado");
+            }}
+          >
+            <RefreshCw className="w-4 h-4" /> <span className="hidden sm:inline">Revalidar catálogo</span>
+          </Button>
+          <Button size="sm" onClick={() => setEditing({ ...emptyDraft })} className="gap-1">
+            <Plus className="w-4 h-4" /> <span className="hidden sm:inline">Novo modelo</span>
+          </Button>
+        </div>
       }
     >
       <div className="space-y-6">
@@ -698,7 +711,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     setSaving(true);
     try {
       const payload = {
-        slug: d.slug,
+        // slug sempre minúsculo: evita páginas de produto que não encontram o modelo
+        slug: d.slug.trim().toLowerCase(),
         brand: d.brand,
         name: d.name,
         tag: d.tag ?? "",
