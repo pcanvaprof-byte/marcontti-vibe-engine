@@ -44,6 +44,11 @@ export function LazyImage({
 }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const wrapperStyle: CSSProperties | undefined = aspectRatio
     ? { aspectRatio }
