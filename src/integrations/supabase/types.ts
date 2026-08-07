@@ -213,6 +213,9 @@ export type Database = {
           features: Json
           gallery: Json
           id: string
+          installment_months: number
+          installment_note: string
+          installment_value: number
           is_active: boolean
           name: string
           power: string
@@ -236,6 +239,9 @@ export type Database = {
           features?: Json
           gallery?: Json
           id?: string
+          installment_months?: number
+          installment_note?: string
+          installment_value?: number
           is_active?: boolean
           name: string
           power?: string
@@ -259,6 +265,9 @@ export type Database = {
           features?: Json
           gallery?: Json
           id?: string
+          installment_months?: number
+          installment_note?: string
+          installment_value?: number
           is_active?: boolean
           name?: string
           power?: string
