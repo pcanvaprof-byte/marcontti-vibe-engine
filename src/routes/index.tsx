@@ -1838,7 +1838,7 @@ function MaisVendidosGrid() {
 
 function YoutubeShowcase() {
   const highlight = models[1] ?? models[0];
-  const pix = highlight.priceNumber * 0.9;
+  const parcela = installmentLabel(highlight.priceNumber);
   return (
     <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
