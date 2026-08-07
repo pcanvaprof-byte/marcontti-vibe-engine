@@ -1741,7 +1741,7 @@ function fmtBRL(n: number) {
 }
 
 function RefProductCard({ m }: { m: Model }) {
-  const pix = m.priceNumber * 0.9;
+  const parcela = installmentLabel(m.priceNumber);
   return (
     <Link
       to="/modelos/$slug"
@@ -1778,16 +1778,17 @@ function RefProductCard({ m }: { m: Model }) {
             fontSize: "26px",
           }}
         >
-          {m.priceNumber > 0 ? fmtBRL(pix) : "Sob consulta"}
+          {parcela ?? "Sob consulta"}
         </p>
         <p className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">
-          {m.priceNumber > 0 ? "À vista no PIX" : "Fale com um consultor"}
+          {parcela ? "parcela prevista no financiamento" : "Fale com um consultor"}
         </p>
-        {m.priceNumber > 0 && (
+        {parcela && (
           <p className="text-[10px] text-white/40 mt-0.5">
-            ou <span className="text-white/70">{m.price}</span>
+            à vista <span className="text-white/70">{m.price}</span>
           </p>
         )}
+
         <span className="mt-auto pt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] min-h-11 py-2.5 rounded-md group-hover:brightness-110">
           Ver produto
         </span>
