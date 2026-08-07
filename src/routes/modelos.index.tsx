@@ -6,6 +6,8 @@ import { usePublicModelsLight, publicModelsLightOptions } from "@/hooks/useDbMod
 import { useReveal } from "@/hooks/use-reveal";
 import { LazyImage } from "@/components/LazyImage";
 import { QuickViewModal } from "@/components/QuickViewModal";
+import { installmentLabel } from "@/lib/installment";
+
 
 
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
