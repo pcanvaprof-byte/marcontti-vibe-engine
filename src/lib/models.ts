@@ -51,7 +51,11 @@ export type Model = {
   features: string[];
   gallery?: string[];
   condition?: "zero_km" | "semi_nova";
+  installmentMonths?: number;
+  installmentValue?: number;
+  installmentNote?: string;
 };
+
 
 /** Build a gallery for a model: explicit gallery > color variants > single image. */
 export function getGallery(m: Model): string[] {
