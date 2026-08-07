@@ -58,8 +58,12 @@ export function dbToModel(m: DbModel): Model {
     features: m.features ?? [],
     gallery: visibleGallery.length ? visibleGallery : undefined,
     condition: m.condition,
+    installmentMonths: m.installment_months ?? undefined,
+    installmentValue: m.installment_value ? Number(m.installment_value) : undefined,
+    installmentNote: m.installment_note ?? undefined,
   };
 }
+
 
 // Colunas mínimas para renderizar cards de catálogo — evita trafegar
 // description/specs/features/gallery (payload muito maior) na listagem.
