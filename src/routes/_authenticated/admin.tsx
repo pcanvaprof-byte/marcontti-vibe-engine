@@ -841,7 +841,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                 </button>
                 <button
                   type="button"
-                  onClick={() => processUrlAsCover(preview, true, true, true)}
+                  onClick={() => processUrlAsCover(preview, true, true)}
                   disabled={uploadingMain}
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500 text-black font-semibold hover:bg-orange-400 text-sm disabled:opacity-50"
                 >
