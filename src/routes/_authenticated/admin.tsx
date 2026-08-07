@@ -521,25 +521,12 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     }
   }
 
-  async function handleAutoIdentify() {
-    if (!fileInputRef.current?.files?.[0]) {
-      toast.error("Selecione uma imagem primeiro");
-      return;
-    }
-    const file = fileInputRef.current.files[0];
-    setAnalyzingImage(true);
-    setProgress({ label: "IA Analisando imagem...", pct: 30 });
-    
+  async function handleManualIdentify() {
+    setIdentifyingManual(true);
     try {
-      // Em um cenário real, enviaríamos para uma API de Visão (como Gemini Vision)
-      // Aqui simulamos a identificação baseada no nome do arquivo ou metadados
-      // Para a XMAX 250 - 2021 especificamente solicitada:
-      
-      const isXmax = /xmax/i.test(file.name) || /xmax/i.test(d.name);
+      const isXmax = d.name.toLowerCase().includes("xmax") || d.slug.toLowerCase().includes("xmax");
       
       if (isXmax) {
-        setProgress({ label: "Identificado: Yamaha XMAX Conectividade", pct: 80 });
-        
         const connectivityFeature = "Conectividade Y-Connect: Sua XMAX 250 na palma da mão";
         const currentFeatures = d.features as string[] ?? [];
         
@@ -551,21 +538,19 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           set("description", (d.description ? d.description + "\n\n" : "") + "Sua XMAX 250 - 2021 na palma da mão com o sistema de conectividade via aplicativo.");
         }
         
-        // Adiciona spec de conectividade se não existir
         const currentSpecs = d.specs as Array<{label: string, value: string}> ?? [];
         if (!currentSpecs.some(s => s.label.toLowerCase().includes("conectividade"))) {
           set("specs", [{ label: "Tipo", value: "Conectividade" }, ...currentSpecs]);
         }
         
-        toast.success("IA identificou características de conectividade!");
+        toast.success("Identificação manual aplicada para XMAX!");
       } else {
-        toast.info("IA analisou a imagem, mas não encontrou padrões específicos automáticos.");
+        toast.info("Identificação manual: Preencha o nome 'XMAX' para aplicar o padrão automaticamente.");
       }
     } catch (err) {
-      toast.error("Erro na análise da IA");
+      toast.error("Erro na identificação manual");
     } finally {
-      setAnalyzingImage(false);
-      setProgress(null);
+      setIdentifyingManual(false);
     }
   }
 
