@@ -68,7 +68,8 @@ export function dbToModel(m: DbModel): Model {
 // Colunas mínimas para renderizar cards de catálogo — evita trafegar
 // description/specs/features/gallery (payload muito maior) na listagem.
 const LIST_COLUMNS =
-  "id,slug,brand,name,tag,price,price_number,range_km,speed,power,short_description,colors,is_active,sort_order,condition";
+  "id,slug,brand,name,tag,price,price_number,range_km,speed,power,short_description,colors,is_active,sort_order,condition,installment_months,installment_value,installment_note";
+
 
 async function fetchModels(includeInactive = false, light = false) {
   let q = supabase
