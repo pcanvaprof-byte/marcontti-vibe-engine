@@ -114,10 +114,11 @@ const CATEGORY_TABS = [
 const VALID_MARCAS = ["klug", "sudu", "yamaha"] as const;
 
 function isSemiNova(m: Model): boolean {
+  const condition = (m as unknown as { condition?: string }).condition;
   return (
+    condition === "semi_nova" ||
     m.slug.startsWith("semi-nova") ||
-    /semi\s*nova/i.test(m.tag ?? "") ||
-    (m as unknown as { condition?: string }).condition === "semi_nova"
+    /semi\s*nova/i.test(m.tag ?? "")
   );
 }
 
