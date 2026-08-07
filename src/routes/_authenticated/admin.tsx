@@ -1,5 +1,6 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState, useRef } from "react";
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminModels, normalizeGallery, type DbModel, type GalleryItem } from "@/hooks/useDbModels";
 import { Button } from "@/components/ui/button";
@@ -230,9 +231,19 @@ const emptyDraft: Draft = {
 function AdminPage() {
   const navigate = useNavigate();
   const { data, isLoading, refetch } = useAdminModels();
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [filter, setFilter] = useState("");
   const [editing, setEditing] = useState<Draft | null>(null);
+
+  // Após qualquer alteração, limpa TODO o cache de modelos (catálogo, cards,
+  // páginas de produto) e revalida as rotas para o site refletir na hora.
+  const syncSite = useCallback(async () => {
+    await refetch();
+    await queryClient.invalidateQueries({ queryKey: ["models"], refetchType: "all" });
+    await router.invalidate();
+  }, [refetch, queryClient, router]);
 
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data: u }) => {
@@ -259,14 +270,15 @@ function AdminPage() {
     const { error } = await supabase.from("models").delete().eq("id", m.id);
     if (error) return toast.error(error.message);
     toast.success("Modelo removido");
-    refetch();
+    void syncSite();
   }
 
   async function handleToggle(m: DbModel) {
     const { error } = await supabase.from("models").update({ is_active: !m.is_active }).eq("id", m.id);
     if (error) return toast.error(error.message);
-    refetch();
+    void syncSite();
   }
+
 
   if (isAdmin === false) {
     return (
@@ -333,7 +345,7 @@ function AdminPage() {
         <EditDialog
           draft={editing}
           onClose={() => setEditing(null)}
-          onSaved={() => { setEditing(null); refetch(); }}
+          onSaved={() => { setEditing(null); void syncSite(); }}
         />
       )}
     </AdminShell>
