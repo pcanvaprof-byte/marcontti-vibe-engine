@@ -1,5 +1,6 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState, useRef } from "react";
+import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminModels, normalizeGallery, type DbModel, type GalleryItem } from "@/hooks/useDbModels";
 import { Button } from "@/components/ui/button";
@@ -344,7 +345,7 @@ function AdminPage() {
         <EditDialog
           draft={editing}
           onClose={() => setEditing(null)}
-          onSaved={() => { setEditing(null); refetch(); }}
+          onSaved={() => { setEditing(null); void syncSite(); }}
         />
       )}
     </AdminShell>
