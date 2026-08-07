@@ -101,7 +101,7 @@ export function LazyImage({
         }}
         onError={() => setErrored(true)}
         style={imgStyle}
-        className={`${className} transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+        className={`${className} transition-opacity duration-500 ${loaded || !isClient ? "opacity-100" : "opacity-0"}`}
         {...rest}
       />
     </span>
