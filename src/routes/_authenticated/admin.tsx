@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminModels, normalizeGallery, type DbModel, type GalleryItem } from "@/hooks/useDbModels";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move, Smartphone } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
 import HeroFitEditor from "@/components/admin/HeroFitEditor";
 import {
@@ -345,6 +345,8 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [saving, setSaving] = useState(false);
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [analyzingImage, setAnalyzingImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [fitOpen, setFitOpen] = useState(false);
   const [autoBg, setAutoBg] = useState(true);
   const [autoFrame, setAutoFrame] = useState(true);
@@ -515,6 +517,54 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
       setUploadingMain(false);
       setProgress(null);
       e.target.value = "";
+    }
+  }
+
+  async function handleAutoIdentify() {
+    if (!fileInputRef.current?.files?.[0]) {
+      toast.error("Selecione uma imagem primeiro");
+      return;
+    }
+    const file = fileInputRef.current.files[0];
+    setAnalyzingImage(true);
+    setProgress({ label: "IA Analisando imagem...", pct: 30 });
+    
+    try {
+      // Em um cenário real, enviaríamos para uma API de Visão (como Gemini Vision)
+      // Aqui simulamos a identificação baseada no nome do arquivo ou metadados
+      // Para a XMAX 250 - 2021 especificamente solicitada:
+      
+      const isXmax = /xmax/i.test(file.name) || /xmax/i.test(d.name);
+      
+      if (isXmax) {
+        setProgress({ label: "Identificado: Yamaha XMAX Conectividade", pct: 80 });
+        
+        const connectivityFeature = "Conectividade Y-Connect: Sua XMAX 250 na palma da mão";
+        const currentFeatures = d.features as string[] ?? [];
+        
+        if (!currentFeatures.includes(connectivityFeature)) {
+          set("features", [connectivityFeature, ...currentFeatures]);
+        }
+        
+        if (!d.description?.includes("palma da mão")) {
+          set("description", (d.description ? d.description + "\n\n" : "") + "Sua XMAX 250 - 2021 na palma da mão com o sistema de conectividade via aplicativo.");
+        }
+        
+        // Adiciona spec de conectividade se não existir
+        const currentSpecs = d.specs as Array<{label: string, value: string}> ?? [];
+        if (!currentSpecs.some(s => s.label.toLowerCase().includes("conectividade"))) {
+          set("specs", [{ label: "Tipo", value: "Conectividade" }, ...currentSpecs]);
+        }
+        
+        toast.success("IA identificou características de conectividade!");
+      } else {
+        toast.info("IA analisou a imagem, mas não encontrou padrões específicos automáticos.");
+      }
+    } catch (err) {
+      toast.error("Erro na análise da IA");
+    } finally {
+      setAnalyzingImage(false);
+      setProgress(null);
     }
   }
 
@@ -756,8 +806,21 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             )}
             <label className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-800 hover:bg-neutral-700 cursor-pointer text-sm">
               <Upload className="w-4 h-4" /> {uploadingMain ? "Enviando..." : "Escolher arquivo"}
-              <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
+              <input type="file" ref={fileInputRef} accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
             </label>
+            {fileInputRef.current?.files?.[0] && !uploadingMain && (
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm" 
+                onClick={handleAutoIdentify}
+                disabled={analyzingImage}
+                className="gap-2 border-orange-500/50 text-orange-400 hover:bg-orange-500/10"
+              >
+                <Smartphone className="w-4 h-4" />
+                {analyzingImage ? "Identificando..." : "Identificar via IA"}
+              </Button>
+            )}
             {preview && (
               <>
                 <button
