@@ -24,7 +24,11 @@ export type DbModel = {
   is_active: boolean;
   sort_order: number;
   condition: "zero_km" | "semi_nova";
+  installment_months?: number;
+  installment_value?: number;
+  installment_note?: string;
 };
+
 
 export function normalizeGallery(raw: DbModel["gallery"] | null | undefined): GalleryItem[] {
   return (raw ?? []).map((g) => (typeof g === "string" ? { url: g } : { url: g.url, hidden: !!g.hidden }));
