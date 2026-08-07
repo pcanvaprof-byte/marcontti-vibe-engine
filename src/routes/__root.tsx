@@ -15,6 +15,7 @@ import klugSymbol from "../assets/klug/klug-symbol.png.asset.json";
 import { BackToTop } from "../components/BackToTop";
 import { CookieConsent } from "../components/CookieConsent";
 import { captureAttribution } from "../lib/attribution";
+import { useModelsRealtime } from "../hooks/useModelsRealtime";
 
 const PUBLIC_ORIGIN = "https://althaciamoveis.shop";
 
