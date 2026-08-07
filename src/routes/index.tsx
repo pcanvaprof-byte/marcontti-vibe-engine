@@ -1885,11 +1885,17 @@ function YoutubeShowcase() {
                 fontSize: "28px",
               }}
             >
-              {fmtBRL(pix)}
+              {parcela ?? highlight.price}
             </p>
             <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">
-              À vista no PIX (10% OFF)
+              {parcela ? "parcela prevista no financiamento" : "consulte condições"}
             </p>
+            {parcela && (
+              <p className="text-[10px] text-white/40 mt-0.5">
+                à vista <span className="text-white/70">{highlight.price}</span>
+              </p>
+            )}
+
             <Link
               to="/modelos/$slug"
               params={{ slug: highlight.slug }}
