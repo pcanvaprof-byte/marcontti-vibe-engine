@@ -24,7 +24,11 @@ export type DbModel = {
   is_active: boolean;
   sort_order: number;
   condition: "zero_km" | "semi_nova";
+  installment_months?: number;
+  installment_value?: number;
+  installment_note?: string;
 };
+
 
 export function normalizeGallery(raw: DbModel["gallery"] | null | undefined): GalleryItem[] {
   return (raw ?? []).map((g) => (typeof g === "string" ? { url: g } : { url: g.url, hidden: !!g.hidden }));
@@ -54,13 +58,18 @@ export function dbToModel(m: DbModel): Model {
     features: m.features ?? [],
     gallery: visibleGallery.length ? visibleGallery : undefined,
     condition: m.condition,
+    installmentMonths: m.installment_months ?? undefined,
+    installmentValue: m.installment_value ? Number(m.installment_value) : undefined,
+    installmentNote: m.installment_note ?? undefined,
   };
 }
+
 
 // Colunas mínimas para renderizar cards de catálogo — evita trafegar
 // description/specs/features/gallery (payload muito maior) na listagem.
 const LIST_COLUMNS =
-  "id,slug,brand,name,tag,price,price_number,range_km,speed,power,short_description,colors,is_active,sort_order,condition";
+  "id,slug,brand,name,tag,price,price_number,range_km,speed,power,short_description,colors,is_active,sort_order,condition,installment_months,installment_value,installment_note";
+
 
 async function fetchModels(includeInactive = false, light = false) {
   let q = supabase

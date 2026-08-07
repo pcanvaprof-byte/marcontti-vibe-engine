@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { modelInstallment } from "@/lib/installment";
+
 import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move, Smartphone, RefreshCw } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
 import HeroFitEditor from "@/components/admin/HeroFitEditor";
@@ -226,6 +228,10 @@ const emptyDraft: Draft = {
   is_active: true,
   sort_order: 0,
   condition: "zero_km",
+  installment_months: 36,
+  installment_value: 0,
+  installment_note: "parcela prevista no financiamento",
+
 };
 
 function AdminPage() {
@@ -729,6 +735,10 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         gallery: d.gallery ?? [],
         is_active: d.is_active ?? true,
         sort_order: d.sort_order ?? 0,
+        installment_months: d.installment_months ?? 36,
+        installment_value: d.installment_value ?? 0,
+        installment_note: d.installment_note?.trim() || "parcela prevista no financiamento",
+
         condition: d.condition ?? "zero_km",
       };
       const { error } = d.id
@@ -786,7 +796,44 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           <Field label="Velocidade"><Input value={d.speed ?? ""} onChange={(e) => set("speed", e.target.value)} /></Field>
           <Field label="Potência"><Input value={d.power ?? ""} onChange={(e) => set("power", e.target.value)} /></Field>
           <Field label="Ordem"><Input type="number" value={d.sort_order ?? 0} onChange={(e) => set("sort_order", Number(e.target.value))} /></Field>
+          <Field label="Nº de parcelas (financiamento)">
+            <Input
+              type="number"
+              min={1}
+              value={d.installment_months ?? 36}
+              onChange={(e) => set("installment_months", Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Valor da parcela (deixe 0 para calcular automático)">
+            <Input
+              type="number"
+              step="0.01"
+              min={0}
+              value={d.installment_value ?? 0}
+              onChange={(e) => set("installment_value", Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Texto abaixo da parcela">
+            <Input
+              value={d.installment_note ?? ""}
+              placeholder="parcela prevista no financiamento"
+              onChange={(e) => set("installment_note", e.target.value)}
+            />
+          </Field>
+          <div className="md:col-span-2 text-[11px] text-neutral-500">
+            Prévia no card:{" "}
+            <span className="text-neutral-200">
+              {modelInstallment({
+                priceNumber: d.price_number ?? 0,
+                installmentMonths: d.installment_months ?? 36,
+                installmentValue: d.installment_value ?? 0,
+                installmentNote: d.installment_note ?? "",
+              }).label ?? "Sob consulta"}
+            </span>{" "}
+            — {d.installment_note?.trim() || "parcela prevista no financiamento"}
+          </div>
         </div>
+
 
         <Field label="Descrição curta">
           <Input value={d.short_description ?? ""} onChange={(e) => set("short_description", e.target.value)} />

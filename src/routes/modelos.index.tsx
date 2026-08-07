@@ -6,7 +6,7 @@ import { usePublicModelsLight, publicModelsLightOptions } from "@/hooks/useDbMod
 import { useReveal } from "@/hooks/use-reveal";
 import { LazyImage } from "@/components/LazyImage";
 import { QuickViewModal } from "@/components/QuickViewModal";
-import { installmentLabel } from "@/lib/installment";
+import { modelInstallment } from "@/lib/installment";
 
 
 
@@ -441,16 +441,16 @@ function CatalogGrid({ items }: { items: Model[] }) {
               <div className="px-4 pb-4 pt-3 mt-auto">
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-3 mb-3">
                   <div className="min-w-0">
-                    {installmentLabel(m.priceNumber) ? (
+                    {modelInstallment(m).label ? (
                       <>
                         <span
                           className="block text-primary leading-none"
                           style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "24px" }}
                         >
-                          {installmentLabel(m.priceNumber)}
+                          {modelInstallment(m).label}
                         </span>
                         <span className="block text-[9px] text-white/45 uppercase font-bold tracking-wider mt-0.5">
-                          parcela prevista no financiamento
+                          {modelInstallment(m).note}
                         </span>
                         <span className="block text-[10px] text-white/50 mt-0.5">
                           à vista <span className="text-white/75">{m.price}</span>
