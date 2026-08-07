@@ -438,12 +438,32 @@ function CatalogGrid({ items }: { items: Model[] }) {
 
               <div className="px-4 pb-4 pt-3 mt-auto">
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-3 mb-3">
-                  <div>
-                    <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
-                      A partir de
-                    </span>
-                    <span className="font-display font-black text-base">{m.price}</span>
+                  <div className="min-w-0">
+                    {installmentLabel(m.priceNumber) ? (
+                      <>
+                        <span
+                          className="block text-primary leading-none"
+                          style={{ fontFamily: "'Bebas Neue', 'Urbanist', sans-serif", fontSize: "24px" }}
+                        >
+                          {installmentLabel(m.priceNumber)}
+                        </span>
+                        <span className="block text-[9px] text-white/45 uppercase font-bold tracking-wider mt-0.5">
+                          parcela prevista no financiamento
+                        </span>
+                        <span className="block text-[10px] text-white/50 mt-0.5">
+                          à vista <span className="text-white/75">{m.price}</span>
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="block text-[9px] text-white/40 uppercase font-bold tracking-wider">
+                          A partir de
+                        </span>
+                        <span className="font-display font-black text-base">{m.price}</span>
+                      </>
+                    )}
                   </div>
+
                   <Link
                     to="/modelos/$slug"
                     params={{ slug: m.slug }}
