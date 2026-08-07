@@ -41,6 +41,8 @@ import { BenefitsBar } from "@/components/BenefitsBar";
 import { LazyVideo } from "@/components/LazyVideo";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import type { Product } from "@/components/ProductCard";
+import { installmentLabel } from "@/lib/installment";
+
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
@@ -65,7 +67,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x, 10% OFF no PIX.",
+          "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x com parcelas que cabem no bolso.",
       },
       { name: "keywords", content: "moto elétrica Joinville, scooter elétrica Joinville, Yamaha Joinville, concessionária elétrica SC, moto sem CNH, Klug Motors" },
       { name: "geo.region", content: "BR-SC" },
@@ -1741,7 +1743,7 @@ function fmtBRL(n: number) {
 }
 
 function RefProductCard({ m }: { m: Model }) {
-  const pix = m.priceNumber * 0.9;
+  const parcela = installmentLabel(m.priceNumber);
   return (
     <Link
       to="/modelos/$slug"
@@ -1778,16 +1780,17 @@ function RefProductCard({ m }: { m: Model }) {
             fontSize: "26px",
           }}
         >
-          {m.priceNumber > 0 ? fmtBRL(pix) : "Sob consulta"}
+          {parcela ?? "Sob consulta"}
         </p>
         <p className="text-[9px] text-white/50 uppercase font-bold tracking-widest mt-1">
-          {m.priceNumber > 0 ? "À vista no PIX" : "Fale com um consultor"}
+          {parcela ? "parcela prevista no financiamento" : "Fale com um consultor"}
         </p>
-        {m.priceNumber > 0 && (
+        {parcela && (
           <p className="text-[10px] text-white/40 mt-0.5">
-            ou <span className="text-white/70">{m.price}</span>
+            à vista <span className="text-white/70">{m.price}</span>
           </p>
         )}
+
         <span className="mt-auto pt-3 inline-flex items-center justify-center w-full gap-1 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] min-h-11 py-2.5 rounded-md group-hover:brightness-110">
           Ver produto
         </span>
@@ -1835,7 +1838,7 @@ function MaisVendidosGrid() {
 
 function YoutubeShowcase() {
   const highlight = models[1] ?? models[0];
-  const pix = highlight.priceNumber * 0.9;
+  const parcela = installmentLabel(highlight.priceNumber);
   return (
     <section className="py-10 sm:py-12 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
@@ -1882,11 +1885,17 @@ function YoutubeShowcase() {
                 fontSize: "28px",
               }}
             >
-              {fmtBRL(pix)}
+              {parcela ?? highlight.price}
             </p>
             <p className="text-[10px] text-white/40 uppercase font-bold tracking-widest mt-1">
-              À vista no PIX (10% OFF)
+              {parcela ? "parcela prevista no financiamento" : "consulte condições"}
             </p>
+            {parcela && (
+              <p className="text-[10px] text-white/40 mt-0.5">
+                à vista <span className="text-white/70">{highlight.price}</span>
+              </p>
+            )}
+
             <Link
               to="/modelos/$slug"
               params={{ slug: highlight.slug }}
