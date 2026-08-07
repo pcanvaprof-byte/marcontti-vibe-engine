@@ -226,6 +226,10 @@ const emptyDraft: Draft = {
   is_active: true,
   sort_order: 0,
   condition: "zero_km",
+  installment_months: 36,
+  installment_value: 0,
+  installment_note: "parcela prevista no financiamento",
+
 };
 
 function AdminPage() {
