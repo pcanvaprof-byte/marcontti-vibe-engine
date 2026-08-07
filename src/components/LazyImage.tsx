@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ImgHTMLAttributes } from "react";
+import { useState, useEffect, type CSSProperties, type ImgHTMLAttributes } from "react";
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
