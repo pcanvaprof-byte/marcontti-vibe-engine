@@ -780,7 +780,7 @@ export const models: Model[] = [
     short: "XMAX 250 — a maxi scooter Yamaha para longas distâncias com conforto premium.",
     description:
       "Maxi scooter com motor 250cc Blue Core, ABS, controle de tração, para-brisa regulável, sistema Smart Key e amplo porta-capacete. Estilo MAX com conforto rodoviário.",
-    colors: [{ name: "Matte Gray", hex: "#4b5058", image: yamahaXmaxImg.url }],
+    colors: [{ name: "Matte Gray", hex: "#4b5058", image: "https://id-preview--6eaf19e2-66cd-4a54-b5f8-bfaa084b735b.lovable.app/api/public/model-images/yamaha-xmax/xmax-250-2021.png" }],
     specs: [
       { label: "Motor", value: "250cc Blue Core" },
       { label: "Freios", value: "ABS dianteiro e traseiro" },
