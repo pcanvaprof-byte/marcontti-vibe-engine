@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ImgHTMLAttributes } from "react";
+import { useState, useEffect, type CSSProperties, type ImgHTMLAttributes } from "react";
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
@@ -44,6 +44,11 @@ export function LazyImage({
 }: Props) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const wrapperStyle: CSSProperties | undefined = aspectRatio
     ? { aspectRatio }
@@ -90,10 +95,13 @@ export function LazyImage({
         // @ts-expect-error - fetchpriority é válido no DOM, tipagem do React ainda não cobre
         fetchpriority={priority ? "high" : "low"}
         sizes={sizes ?? "100vw"}
-        onLoad={() => setLoaded(true)}
+        onLoad={() => {
+          console.log("LazyImage loaded:", src);
+          setLoaded(true);
+        }}
         onError={() => setErrored(true)}
         style={imgStyle}
-        className={`${className} transition-opacity duration-500 ${loaded ? "opacity-100" : "opacity-0"}`}
+        className={`${className} transition-opacity duration-500 ${loaded || !isClient ? "opacity-100" : "opacity-0"}`}
         {...rest}
       />
     </span>
