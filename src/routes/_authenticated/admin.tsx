@@ -345,7 +345,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
   const [saving, setSaving] = useState(false);
   const [uploadingMain, setUploadingMain] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
-  const [analyzingImage, setAnalyzingImage] = useState(false);
+  const [identifyingManual, setIdentifyingManual] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [fitOpen, setFitOpen] = useState(false);
   const [autoBg, setAutoBg] = useState(true);
@@ -520,25 +520,12 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     }
   }
 
-  async function handleAutoIdentify() {
-    if (!fileInputRef.current?.files?.[0]) {
-      toast.error("Selecione uma imagem primeiro");
-      return;
-    }
-    const file = fileInputRef.current.files[0];
-    setAnalyzingImage(true);
-    setProgress({ label: "IA Analisando imagem...", pct: 30 });
-    
+  async function handleManualIdentify() {
+    setIdentifyingManual(true);
     try {
-      // Em um cenário real, enviaríamos para uma API de Visão (como Gemini Vision)
-      // Aqui simulamos a identificação baseada no nome do arquivo ou metadados
-      // Para a XMAX 250 - 2021 especificamente solicitada:
-      
-      const isXmax = /xmax/i.test(file.name) || /xmax/i.test(d.name);
+      const isXmax = d.name.toLowerCase().includes("xmax") || d.slug.toLowerCase().includes("xmax");
       
       if (isXmax) {
-        setProgress({ label: "Identificado: Yamaha XMAX Conectividade", pct: 80 });
-        
         const connectivityFeature = "Conectividade Y-Connect: Sua XMAX 250 na palma da mão";
         const currentFeatures = d.features as string[] ?? [];
         
@@ -550,21 +537,19 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           set("description", (d.description ? d.description + "\n\n" : "") + "Sua XMAX 250 - 2021 na palma da mão com o sistema de conectividade via aplicativo.");
         }
         
-        // Adiciona spec de conectividade se não existir
         const currentSpecs = d.specs as Array<{label: string, value: string}> ?? [];
         if (!currentSpecs.some(s => s.label.toLowerCase().includes("conectividade"))) {
           set("specs", [{ label: "Tipo", value: "Conectividade" }, ...currentSpecs]);
         }
         
-        toast.success("IA identificou características de conectividade!");
+        toast.success("Identificação manual aplicada para XMAX!");
       } else {
-        toast.info("IA analisou a imagem, mas não encontrou padrões específicos automáticos.");
+        toast.info("Identificação manual: Preencha o nome 'XMAX' para aplicar o padrão automaticamente.");
       }
     } catch (err) {
-      toast.error("Erro na análise da IA");
+      toast.error("Erro na identificação manual");
     } finally {
-      setAnalyzingImage(false);
-      setProgress(null);
+      setIdentifyingManual(false);
     }
   }
 
@@ -808,19 +793,17 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <Upload className="w-4 h-4" /> {uploadingMain ? "Enviando..." : "Escolher arquivo"}
               <input type="file" ref={fileInputRef} accept="image/*" className="hidden" onChange={handleUpload} disabled={uploadingMain} />
             </label>
-            {fileInputRef.current?.files?.[0] && !uploadingMain && (
-              <Button 
-                type="button" 
-                variant="outline" 
-                size="sm" 
-                onClick={handleAutoIdentify}
-                disabled={analyzingImage}
-                className="gap-2 border-orange-500/50 text-orange-400 hover:bg-orange-500/10"
-              >
-                <Smartphone className="w-4 h-4" />
-                {analyzingImage ? "Identificando..." : "Identificar via IA"}
-              </Button>
-            )}
+            <Button 
+              type="button" 
+              variant="outline" 
+              size="sm" 
+              onClick={handleManualIdentify}
+              disabled={identifyingManual}
+              className="gap-2 border-orange-500/50 text-orange-400 hover:bg-orange-500/10"
+            >
+              <Smartphone className="w-4 h-4" />
+              {identifyingManual ? "Identificando..." : "Identificar Padrão"}
+            </Button>
             {preview && (
               <>
                 <button
@@ -850,14 +833,6 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                 <button
                   type="button"
                   onClick={() => processUrlAsCover(preview, true, true)}
-                  disabled={uploadingMain}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500/15 border border-orange-500/40 text-orange-300 hover:bg-orange-500/25 text-sm disabled:opacity-50"
-                >
-                  <Sparkles className="w-4 h-4" /> {uploadingMain ? "Processando..." : "Fundo + 4:3"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => processUrlAsCover(preview, true, true, true)}
                   disabled={uploadingMain}
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-orange-500 text-black font-semibold hover:bg-orange-400 text-sm disabled:opacity-50"
                 >
