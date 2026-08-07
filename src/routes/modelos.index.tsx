@@ -410,13 +410,14 @@ function CatalogGrid({ items }: { items: Model[] }) {
                 <div className="relative aspect-[16/10] p-2">
                   <div className="relative w-full h-full bg-white rounded-xl overflow-hidden shadow-[inset_0_2px_10px_rgba(0,0,0,0.05)]">
                     <LazyImage
-                      src={m.colors[0]?.image ?? ""}
-                      alt={`${m.name} — ${m.tag}`}
+                      src={m.colors[0]?.image || ""}
+                      alt={m.name}
                       wrapperClassName="w-full h-full rounded-xl"
                       loadingLabel="Carregando"
-                      priority={i < 3}
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-700"
+                      priority={i < 4}
+                      aspectRatio="4 / 3"
+                      sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-700"
                     />
                     <span className="absolute bottom-2 left-2 bg-black/85 backdrop-blur text-white text-[9px] font-display font-black uppercase tracking-wider px-2 py-1 rounded-full inline-flex items-center gap-1">
                       <Zap size={10} className="text-primary" /> {m.power}
