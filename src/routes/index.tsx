@@ -41,6 +41,8 @@ import { BenefitsBar } from "@/components/BenefitsBar";
 import { LazyVideo } from "@/components/LazyVideo";
 import { ProductCarousel } from "@/components/ProductCarousel";
 import type { Product } from "@/components/ProductCard";
+import { installmentLabel } from "@/lib/installment";
+
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
