@@ -26,6 +26,22 @@ import yamahaFactorImg from "@/assets/motos/yamaha-factor-150.png.asset.json";
 import yamahaFactorDxImg from "@/assets/motos/yamaha-factor-150-dx.png.asset.json";
 import yamahaFz25Img from "@/assets/motos/yamaha-fz25.png.asset.json";
 
+/** Slots de imagem dos blocos da página de vendas (chave ausente = automático). */
+export const SECTION_SLOTS = [
+  { key: "hero", label: "Hero (imagem principal)" },
+  { key: "terreno", label: "Pronta para qualquer terreno" },
+  { key: "tecnologia_a", label: "Tecnologia e conforto — imagem A" },
+  { key: "tecnologia_b", label: "Tecnologia e conforto — imagem B" },
+  { key: "comodidade", label: "Comodidade — Praticidade que acompanha a sua rotina" },
+  { key: "conectividade", label: "Conectividade" },
+  { key: "modernidade_a", label: "Modernidade — Painel 100% digital (A)" },
+  { key: "modernidade_b", label: "Modernidade — Painel 100% digital (B)" },
+  { key: "modernidade_c", label: "Modernidade — Painel 100% digital (C)" },
+] as const;
+
+export type SectionSlot = (typeof SECTION_SLOTS)[number]["key"];
+export type SectionImages = Partial<Record<SectionSlot, string>>;
+
 export type ColorVariant = {
   name: string;
   hex: string;
@@ -33,7 +49,10 @@ export type ColorVariant = {
   gallery?: string[];
   tagline?: string;
   description?: string;
+  /** Imagem escolhida no admin para cada bloco da página de vendas. */
+  sections?: SectionImages;
 };
+
 
 export type Model = {
   slug: string;
