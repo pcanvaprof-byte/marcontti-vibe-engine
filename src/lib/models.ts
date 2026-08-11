@@ -1445,3 +1445,30 @@ export function openWhatsAppNewTab(
   return window.open(url, "_blank", "noopener,noreferrer");
 }
 
+
+/** Modelo semi novo (usado, tag/slug ou coluna condition). */
+export function isSemiNovaModel(m: Pick<Model, "slug" | "tag"> & { condition?: string }): boolean {
+  return (
+    m.condition === "semi_nova" ||
+    m.slug.startsWith("semi-nova") ||
+    /semi\s*nova/i.test(m.tag ?? "")
+  );
+}
+
+/** Triciclo elétrico. */
+export function isTricicloModel(m: Pick<Model, "tag">): boolean {
+  return (m.tag ?? "").toLowerCase().includes("triciclo");
+}
+
+/**
+ * A parcela prevista só é exibida para scooters Moto Chefe (klug),
+ * SUDU e triciclos elétricos. Yamaha 0km e semi novas mostram só o valor.
+ */
+export function supportsInstallment(
+  m: Pick<Model, "slug" | "tag"> & { condition?: string },
+): boolean {
+  if (isSemiNovaModel(m)) return false;
+  if (isTricicloModel(m)) return true;
+  if (m.slug.startsWith("yamaha")) return false;
+  return true;
+}
