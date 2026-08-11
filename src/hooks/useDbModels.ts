@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { models as staticModels, type Model } from "@/lib/models";
+import { models as staticModels, type Model, type SectionImages } from "@/lib/models";
 
 export type GalleryItem = { url: string; hidden?: boolean };
 
