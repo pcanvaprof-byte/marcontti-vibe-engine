@@ -639,38 +639,40 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group min-h-[140px] sm:min-h-0 aspect-[1.8/1] xs:aspect-[2.5/1] md:aspect-[5/1] lg:aspect-[7.5/1]">
+        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black">
           <img
-            src={oficinaKlugV5}
+            src={oficinaKlugV6}
             alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
-            width={1280}
-            height={512}
+            width={1983}
+            height={450}
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-contain sm:object-cover object-left-top sm:object-bottom bg-neutral-900 transition-transform duration-700 group-hover:scale-105"
+            className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.02]"
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-transparent to-transparent hidden sm:block" />
-          <div className="absolute inset-0 p-3 sm:p-8 flex flex-col justify-end items-end gap-2 sm:gap-4 overflow-visible bg-black/5 sm:bg-transparent">
+          <div className="absolute inset-0 p-3 sm:p-8 flex flex-col justify-end items-end gap-2 sm:gap-4 overflow-visible">
             <Link
               to="/modelos"
-              className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:shadow-[var(--shadow-ember)] hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0"
+              className="inline-flex items-center justify-center gap-2 bg-transparent text-transparent font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all min-h-[44px] sm:min-h-0 w-[120px] sm:w-[150px] absolute bottom-[10%] right-[10%] opacity-0 cursor-pointer"
+              title="Ver Modelos"
             >
               Ver Modelos
-              <ArrowRight size={16} />
             </Link>
-            <a
-              href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
-              onClick={(e) => {
-                e.preventDefault();
-                openWhatsAppWithFallback(FINANCE_MSG);
-              }}
-              className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:-translate-y-0.5 active:translate-y-0 min-h-[44px] sm:min-h-0 shadow-lg"
-              aria-label="Simular financiamento no WhatsApp"
-            >
-              <MessageCircle size={16} fill="white" strokeWidth={0} />
-              Simular Financiamento
-            </a>
           </div>
+        </div>
+        
+        <div className="mt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
+          <a
+            href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
+            onClick={(e) => {
+              e.preventDefault();
+              openWhatsAppWithFallback(FINANCE_MSG);
+            }}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-8 py-3.5 rounded-full transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 min-h-[48px] shadow-md group"
+            aria-label="Simular financiamento no WhatsApp"
+          >
+            <MessageCircle size={18} fill="white" strokeWidth={0} className="group-hover:scale-110 transition-transform" />
+            Simular Financiamento
+          </a>
         </div>
 
       </div>
