@@ -640,22 +640,25 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black w-full sm:max-w-[50%] mx-auto">
-          <img
-            src={oficinaEspecializada.url}
-            alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
-            width={1983}
-            height={450}
-            fetchPriority="high"
-            loading="eager"
-            decoding="async"
-            className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.02]"
-          />
-          {/* Desktop Overlay Buttons */}
-          <div className="hidden sm:flex absolute bottom-3 right-3 items-center gap-2">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6 w-full mx-auto max-w-7xl">
+          <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black w-full sm:w-1/2">
+            <img
+              src={oficinaEspecializada.url}
+              alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
+              width={1983}
+              height={450}
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.02]"
+            />
+          </div>
+          
+          {/* Desktop Buttons Side by Side */}
+          <div className="hidden sm:flex flex-col gap-3 shrink-0">
             <Link
               to="/modelos"
-              className="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full transition-all border border-white/20"
+              className="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-display font-black uppercase tracking-widest text-[11px] px-8 py-3 rounded-full transition-all text-center min-w-[200px]"
             >
               Ver Modelos
             </Link>
@@ -665,7 +668,7 @@ function Hero() {
                 e.preventDefault();
                 openWhatsAppWithFallback(FINANCE_MSG);
               }}
-              className="bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full transition-all shadow-lg"
+              className="bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-black uppercase tracking-widest text-[11px] px-8 py-3 rounded-full transition-all shadow-lg text-center min-w-[200px]"
             >
               Simular Financiamento
             </a>
