@@ -441,7 +441,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
               <div className="px-4 pb-4 pt-3 mt-auto">
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-3 mb-3">
                   <div className="min-w-0">
-                    {modelInstallment(m).label ? (
+                    {supportsInstallment(m) && modelInstallment(m).label ? (
                       <>
                         <span
                           className="block text-primary leading-none"
