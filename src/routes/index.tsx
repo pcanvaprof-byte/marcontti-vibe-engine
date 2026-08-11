@@ -640,7 +640,7 @@ function Hero() {
             className="pointer-events-none absolute inset-0 w-full h-full object-cover"
           />
         </div>
-        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black">
+        <div className="mt-6 relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black w-full sm:max-w-[50%] mx-auto">
           <img
             src={oficinaEspecializada.url}
             alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
@@ -651,26 +651,44 @@ function Hero() {
             decoding="async"
             className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.02]"
           />
-          <Link
-            to="/modelos"
-            className="absolute bottom-[10%] right-[10%] w-[120px] sm:w-[150px] aspect-[4/1] bg-transparent cursor-pointer z-10"
-            title="Ver Modelos"
-          >
-            <span className="sr-only">Ver Modelos</span>
-          </Link>
+          {/* Desktop Overlay Buttons */}
+          <div className="hidden sm:flex absolute bottom-3 right-3 items-center gap-2">
+            <Link
+              to="/modelos"
+              className="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full transition-all border border-white/20"
+            >
+              Ver Modelos
+            </Link>
+            <a
+              href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
+              onClick={(e) => {
+                e.preventDefault();
+                openWhatsAppWithFallback(FINANCE_MSG);
+              }}
+              className="bg-[#25D366] hover:bg-[#20ba5a] text-white font-display font-black uppercase tracking-widest text-[10px] px-4 py-2 rounded-full transition-all shadow-lg"
+            >
+              Simular Financiamento
+            </a>
+          </div>
         </div>
 
-        <div className="mt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
+        {/* Mobile Stacked Buttons */}
+        <div className="mt-4 flex flex-col sm:hidden justify-center items-center gap-2 px-4">
+          <Link
+            to="/modelos"
+            className="w-full inline-flex items-center justify-center bg-white/5 border border-white/10 text-white font-display font-black uppercase tracking-widest text-xs px-8 py-3.5 rounded-full transition-all active:scale-95 min-h-[44px]"
+          >
+            Ver Modelos
+          </Link>
           <a
             href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
             onClick={(e) => {
               e.preventDefault();
               openWhatsAppWithFallback(FINANCE_MSG);
             }}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-8 py-3.5 rounded-full transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 min-h-[48px] shadow-md group"
-            aria-label="Simular financiamento no WhatsApp"
+            className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white font-display font-black uppercase tracking-widest text-xs px-8 py-3.5 rounded-full transition-all active:scale-95 min-h-[44px] shadow-md"
           >
-            <MessageCircle size={18} fill="white" strokeWidth={0} className="group-hover:scale-110 transition-transform" />
+            <MessageCircle size={18} fill="white" strokeWidth={0} />
             Simular Financiamento
           </a>
         </div>
