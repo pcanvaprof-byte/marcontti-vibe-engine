@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { modelInstallment } from "@/lib/installment";
-import { supportsInstallment } from "@/lib/models";
+import { supportsInstallment, SECTION_SLOTS } from "@/lib/models";
 
 import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move, Smartphone, RefreshCw } from "lucide-react";
 import { AdminShell, CardSkeleton, EmptyState } from "@/components/admin/AdminShell";
