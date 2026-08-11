@@ -49,6 +49,7 @@ import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import oficinaKlug from "@/assets/klug/oficina-klug-v3.png.asset.json";
 import oficinaKlugV4 from "/assets/oficina-klug-v4.jpg";
 import oficinaKlugV5 from "/assets/oficina-klug-v5.jpg";
+import oficinaKlugV6 from "/assets/oficina-klug-v6.jpg";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
 import klugHeroVideo from "@/assets/videos/klug-hero-telao.mp4.asset.json";
