@@ -98,7 +98,16 @@ export function YamahaProductPage({
     return vg.length > 0 ? vg : modelGallery;
   }, [variant, modelGallery]);
   const isTenereSeminova = m.slug === "semi-nova-yamaha-tenere-250";
-  const heroImg = isTenereSeminova ? tenereNobgFallback : (variant?.image ?? activeGallery[0]);
+  // Imagem escolhida no admin para o slot da cor atual; senão, fallback automático.
+  const pick = useCallback(
+    (slot: SectionSlot, ...fallbacks: Array<string | undefined>) =>
+      variant?.sections?.[slot] || fallbacks.find(Boolean),
+    [variant],
+  );
+  const heroImg = isTenereSeminova
+    ? tenereNobgFallback
+    : pick("hero", variant?.image, activeGallery[0]);
+
 
 
   // O hero oficial só se aplica ao Neo's Connected. Demais modelos usam a
