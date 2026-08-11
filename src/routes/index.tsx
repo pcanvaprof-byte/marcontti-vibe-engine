@@ -649,17 +649,15 @@ function Hero() {
             decoding="async"
             className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.02]"
           />
-          <div className="absolute inset-0 p-3 sm:p-8 flex flex-col justify-end items-end gap-2 sm:gap-4 overflow-visible">
-            <Link
-              to="/modelos"
-              className="inline-flex items-center justify-center gap-2 bg-transparent text-transparent font-display font-black uppercase tracking-widest text-[10px] sm:text-xs px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all min-h-[44px] sm:min-h-0 w-[120px] sm:w-[150px] absolute bottom-[10%] right-[10%] opacity-0 cursor-pointer"
-              title="Ver Modelos"
-            >
-              Ver Modelos
-            </Link>
-          </div>
+          <Link
+            to="/modelos"
+            className="absolute bottom-[10%] right-[10%] w-[120px] sm:w-[150px] aspect-[4/1] bg-transparent cursor-pointer z-10"
+            title="Ver Modelos"
+          >
+            <span className="sr-only">Ver Modelos</span>
+          </Link>
         </div>
-        
+
         <div className="mt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
           <a
             href={buildWhatsAppFallbackUrl(FINANCE_MSG)}
