@@ -1,14 +1,31 @@
-# Nova imagem no banner da Oficina (sem cortar textos)
+# Parcelamento apenas para Moto Chefe, SUDU e Triciclos
 
-## O que muda
+## Objetivo
 
-- A imagem enviada (banner "OFICINA ESPECIALIZADA EM SCOOTERS ELÉTRICAS" com os ícones Baterias, Motores, Eletrônica e Pneus) substitui a atual `oficina-klug-v5.jpg` na Home.
-- O container passa a usar a proporção real da imagem (~4,4:1) em todos os tamanhos de tela, com a imagem inteira visível — nada de texto ou ícone cortado no celular, tablet ou desktop.
-- Saem os recortes atuais (`object-cover`, `object-bottom`, `object-left-top`) e as proporções diferentes por breakpoint que causavam o corte.
-- A imagem já traz o botão "VER MODELOS" desenhado nela: o botão real "Ver Modelos" do site é posicionado exatamente sobre essa área (clicável, sem texto duplicado visível) e o botão verde "Simular Financiamento" fica logo abaixo do banner, para não cobrir o conteúdo da arte.
+O destaque de "parcela prevista no financiamento" nos cards passa a valer somente para:
+
+- Scooters elétricas Moto Chefe (marca Klug)
+- Scooters elétricas SUDU
+- Triciclos elétricos
+
+Nas **Motos Yamaha 0km** e nas **Motos Semi Novas**, os cards voltam a mostrar apenas o valor, no mesmo formato para as duas categorias:
+
+```text
+A PARTIR DE
+R$ 23.990,00
+```
+
+Sem linha de parcela, sem "à vista" e sem texto de financiamento.
+
+## O que muda na tela
+
+- Catálogo (/modelos): cards Moto Chefe / SUDU / Triciclo continuam com a parcela em destaque laranja + preço à vista abaixo. Cards Yamaha 0km e Semi Novas exibem só "A partir de" + preço.
+- Home: os blocos Destaques, Mais Vendidos e o card do vídeo seguem a mesma regra.
+- Página do produto e formulários de financiamento não mudam — quem quiser simular continua clicando em "Simular Financiamento".
 
 ## Detalhes técnicos
 
-- Upload via `lovable-assets create` a partir de `/mnt/user-uploads/`, gerando `src/assets/klug/oficina-klug-v6.jpg.asset.json` (binário não entra no repositório).
-- `src/routes/index.tsx`, componente `Hero` (~linhas 641-673): importar o novo pointer, trocar o `src`, aplicar `aspect-[4.4/1]` único, `object-contain object-center`, fundo `bg-black`, `width={1983}` / `height={450}`.
-- Manter `loading="lazy"`, `decoding="async"`, `alt` descritivo e o rastreio de analytics existente nos botões.
+1. `src/lib/models.ts`: expor helpers reutilizáveis já existentes hoje só dentro do catálogo — `isSemiNova(m)`, `isTriciclo(m)`, `brandOf(m)` — e adicionar `supportsInstallment(m)`, que retorna `true` quando o modelo é triciclo, marca Klug (Moto Chefe) ou SUDU, e `false` para Yamaha 0km e qualquer modelo com `condition === "semi_nova"` (ou slug/tag de semi nova).
+2. `src/routes/modelos.index.tsx`: passar a usar os helpers importados (removendo as cópias locais) e condicionar o bloco de parcela a `supportsInstallment(m)`; o `else` já existente ("A partir de" + preço) atende Yamaha e Semi Novas.
+3. `src/routes/index.tsx`: em `RefProductCard` e no card de destaque do `YoutubeShowcase`, calcular a parcela apenas quando `supportsInstallment(m)`; caso contrário renderizar o bloco "A partir de" + preço.
+4. `src/routes/_authenticated/admin.tsx`: manter os campos de parcela, mas exibi-los somente quando o modelo em edição for elegível (marca klug/sudu ou triciclo e condição 0km), com um aviso curto de que Yamaha 0km e Semi Novas mostram apenas o valor no card. Nenhuma alteração de banco é necessária — as colunas `installment_*` continuam salvas e simplesmente não são exibidas nessas categorias.
