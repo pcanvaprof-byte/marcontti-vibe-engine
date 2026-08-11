@@ -1,12 +1,15 @@
-O que vou ajustar:
+# Trocar o banner da Oficina sem cortar os textos
 
-- Padronizar os cards de imagem das seções "Modos de Condução", "Comodidade", "Conectividade", "Modernidade" e "Tecnologia" para terem a mesma altura em cada breakpoint (mobile, tablet, desktop).
-- Aplicar `items-stretch` aos grids de duas colunas para que o card de imagem cresça igualmente ao texto ao lado, mantendo alinhamento vertical.
-- Definir alturas fixas consistentes nos containers (`min-h` + `max-h`) para que imagens com proporções diferentes não quebrem o grid.
-- Manter a seção "Baterias" com altura uniforme entre os 3 cards, já que está correta, mas ajustar se necessário para manter consistência com o novo padrão.
-- Ajustar `gap` e `padding` entre seções para não criar pulos no scroll após as imagens ficarem menores.
-- Validar visualmente nos breakpoints 360px, 430px, 768px, 1024px e 1440px.
+## O que muda
 
-Arquivos envolvidos:
-- `src/components/YamahaProductPage.tsx` (principal)
-- `src/components/ProductCard.tsx` (se aplicável ao catálogo)
+- A imagem enviada passa a ser o banner da seção "Oficina Especializada" na Home (hoje usa `oficina-klug-v5.jpg`).
+- A faixa superior da imagem (logo Klug + barra de busca + Atendimento/Localização/Contato) é recortada, porque duplica o cabeçalho real do site. Fica apenas o banner da oficina, com o texto "OFICINA ESPECIALIZADA EM SCOOTERS ELÉTRICAS" e os 4 ícones (Baterias, Motores, Eletrônica, Pneus).
+- A proporção do container passa a acompanhar exatamente a proporção da imagem recortada (~3,1:1), em todos os tamanhos de tela. Assim nada de texto ou ícone é cortado no celular, tablet ou desktop.
+- Os recortes atuais (`object-cover`, `object-bottom`, `object-left-top`) e o zoom no hover saem: a imagem sempre aparece inteira.
+- Os botões "Ver Modelos" e "Simular Financiamento" continuam funcionando, reposicionados no canto inferior direito com um leve fundo escuro para não cobrir o texto impresso na imagem.
+
+## Detalhes técnicos
+
+- Recorte da faixa do cabeçalho e upload via `lovable-assets create`, gerando `src/assets/klug/oficina-klug-v6.jpg.asset.json`; o arquivo original não fica no repositório.
+- `src/routes/index.tsx` (componente `Hero`, ~linhas 641-673): importar o novo pointer, trocar o `src`, usar uma única `aspect-[31/10]` (sem variação por breakpoint), `object-contain object-center` e `bg-black`.
+- Manter `loading="lazy"`, `decoding="async"` e o `alt` descritivo; atualizar `width`/`height` para as dimensões reais recortadas.
