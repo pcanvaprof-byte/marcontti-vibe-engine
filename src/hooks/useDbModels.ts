@@ -48,6 +48,7 @@ export function dbToModel(m: DbModel): Model {
     hex: c.hex,
     image: c.hidden ? "" : c.image,
     ...(c.gallery && c.gallery.length ? { gallery: c.gallery } : {}),
+    ...(!c.hidden && c.sections && Object.keys(c.sections).length ? { sections: c.sections } : {}),
   }));
   return {
     slug: m.slug,
