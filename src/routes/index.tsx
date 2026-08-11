@@ -31,6 +31,7 @@ import {
   openWhatsAppWithFallback,
   models,
   type Model,
+  supportsInstallment,
 } from "@/lib/models";
 import { useReveal } from "@/hooks/use-reveal";
 import { usePublicInstagramPosts, type InstagramPost } from "@/hooks/useInstagramPosts";
