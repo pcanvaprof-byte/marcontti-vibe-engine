@@ -1057,8 +1057,137 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           features={(d.features as string[]) ?? []}
           onChange={(v) => set("features", v as any)}
         />
-        <Field label='Cores (avançado — JSON: [{"name","hex","image","gallery":["url"],"hidden":false}])'>
-          <Textarea rows={6} value={JSON.stringify(d.colors ?? [], null, 2)}
+        <div className="space-y-4 rounded-lg border border-neutral-800 bg-neutral-900/40 p-4">
+          <div className="flex items-center justify-between">
+            <Label className="text-sm font-bold text-neutral-200">Variantes de Cores e Imagens</Label>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                const colors = [...(d.colors ?? [])];
+                colors.push({ name: "Nova Cor", hex: "#000000", image: "", hidden: false });
+                set("colors", colors);
+              }}
+              className="h-7 px-2 text-[10px] uppercase tracking-wider"
+            >
+              <Plus className="w-3 h-3 mr-1" /> Adicionar Cor
+            </Button>
+          </div>
+          
+          <div className="space-y-3">
+            {(d.colors ?? []).map((c, idx) => (
+              <div key={idx} className="flex flex-col gap-3 p-3 rounded-md border border-neutral-800 bg-neutral-950/50">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex-1 grid grid-cols-2 gap-2">
+                    <div className="space-y-1">
+                      <Label className="text-[10px] text-neutral-500 uppercase">Nome da Cor</Label>
+                      <Input 
+                        value={c.name} 
+                        onChange={(e) => {
+                          const colors = [...(d.colors ?? [])];
+                          colors[idx] = { ...c, name: e.target.value };
+                          set("colors", colors);
+                        }}
+                        className="h-8 text-xs"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-[10px] text-neutral-500 uppercase">Cor (Hex)</Label>
+                      <div className="flex gap-2">
+                        <Input 
+                          type="color"
+                          value={c.hex}
+                          onChange={(e) => {
+                            const colors = [...(d.colors ?? [])];
+                            colors[idx] = { ...c, hex: e.target.value };
+                            set("colors", colors);
+                          }}
+                          className="h-8 w-8 p-0 border-none bg-transparent"
+                        />
+                        <Input 
+                          value={c.hex}
+                          onChange={(e) => {
+                            const colors = [...(d.colors ?? [])];
+                            colors[idx] = { ...c, hex: e.target.value };
+                            set("colors", colors);
+                          }}
+                          className="h-8 text-xs font-mono"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 text-red-500 hover:text-red-400 hover:bg-red-500/10"
+                      onClick={() => {
+                        const colors = [...(d.colors ?? [])];
+                        colors.splice(idx, 1);
+                        set("colors", colors);
+                      }}
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const colors = [...(d.colors ?? [])];
+                        colors[idx] = { ...c, hidden: !c.hidden };
+                        set("colors", colors);
+                      }}
+                      className={`inline-flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded border ${c.hidden ? "bg-neutral-800 border-neutral-700 text-neutral-400" : "bg-emerald-500/10 border-emerald-500/40 text-emerald-300"}`}
+                    >
+                      {c.hidden ? <><EyeOff className="w-2.5 h-2.5" /> Em falta</> : <><Eye className="w-2.5 h-2.5" /> Em estoque</>}
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="space-y-1">
+                  <Label className="text-[10px] text-neutral-500 uppercase">URL da Imagem</Label>
+                  <div className="flex gap-2">
+                    {c.image && (
+                      <img src={c.image} className="w-8 h-8 rounded object-contain bg-neutral-800" alt="" />
+                    )}
+                    <Input 
+                      value={c.image} 
+                      onChange={(e) => {
+                        const colors = [...(d.colors ?? [])];
+                        colors[idx] = { ...c, image: e.target.value };
+                        set("colors", colors);
+                      }}
+                      placeholder="https://..."
+                      className="h-8 text-xs flex-1"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {(d.colors ?? []).length === 0 && (
+              <p className="text-center py-4 text-xs text-neutral-500 border border-dashed border-neutral-800 rounded-md">
+                Nenhuma cor definida. Adicione pelo menos uma cor com imagem.
+              </p>
+            )}
+          </div>
+          
+          <div className="pt-2 border-t border-neutral-800">
+            <Label className="text-[10px] text-neutral-500 uppercase">Editor JSON (Avançado)</Label>
+            <Textarea 
+              rows={4} 
+              value={JSON.stringify(d.colors ?? [], null, 2)}
+              onChange={(e) => {
+                try {
+                  const val = JSON.parse(e.target.value);
+                  set("colors", val);
+                } catch (err) {}
+              }}
+              className="mt-1 text-[10px] font-mono bg-neutral-950"
+            />
+          </div>
+        </div>
             onChange={(e) => { try { set("colors", JSON.parse(e.target.value)); } catch {} }} />
         </Field>
 
