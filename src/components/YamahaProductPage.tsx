@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { ArrowLeft, MessageCircle, ChevronRight, Check, Plus, Minus, ShieldCheck, CreditCard, Headphones } from "lucide-react";
 
-import type { Model } from "@/lib/models";
+import type { Model, SectionSlot } from "@/lib/models";
 import { getGallery, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { trackEvent } from "@/lib/analytics";
 
