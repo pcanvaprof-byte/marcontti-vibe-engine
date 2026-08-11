@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Zap, ChevronRight, AlertCircle, MessageCircle } from "lucide-react";
-import { type Model, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
+import { type Model, supportsInstallment, buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 import { usePublicModelsLight, publicModelsLightOptions } from "@/hooks/useDbModels";
 import { useReveal } from "@/hooks/use-reveal";
 import { LazyImage } from "@/components/LazyImage";
@@ -441,7 +441,7 @@ function CatalogGrid({ items }: { items: Model[] }) {
               <div className="px-4 pb-4 pt-3 mt-auto">
                 <div className="pt-3 border-t border-border flex items-center justify-between gap-3 mb-3">
                   <div className="min-w-0">
-                    {modelInstallment(m).label ? (
+                    {supportsInstallment(m) && modelInstallment(m).label ? (
                       <>
                         <span
                           className="block text-primary leading-none"
