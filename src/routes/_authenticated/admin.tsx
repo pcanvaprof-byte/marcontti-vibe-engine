@@ -1189,6 +1189,14 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           </div>
         </div>
 
+        <SectionImagesEditor
+          colors={(d.colors ?? []) as any}
+          modelGallery={galleryItems.filter((g) => !g.hidden).map((g) => g.url)}
+          onChange={(v) => set("colors", v as any)}
+        />
+
+
+
         <div className="flex items-center gap-3">
           <Switch checked={d.is_active ?? true} onCheckedChange={(v) => set("is_active", v)} />
           <Label>Ativo (visível no site)</Label>
