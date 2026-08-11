@@ -1319,3 +1319,160 @@ function FeaturesEditor({
     </div>
   );
 }
+
+type ColorDraft = {
+  name: string;
+  hex: string;
+  image: string;
+  hidden?: boolean;
+  gallery?: string[];
+  sections?: Record<string, string>;
+};
+
+/** Escolha, por cor em estoque, qual imagem aparece em cada bloco da página de vendas. */
+function SectionImagesEditor({
+  colors,
+  modelGallery,
+  onChange,
+}: {
+  colors: ColorDraft[];
+  modelGallery: string[];
+  onChange: (v: ColorDraft[]) => void;
+}) {
+  const [activeColorIdx, setActiveColorIdx] = useState(0);
+  const rows = Array.isArray(colors) ? colors : [];
+  const active = rows[activeColorIdx];
+  const options = (active?.gallery?.filter(Boolean)?.length
+    ? active.gallery!.filter(Boolean)
+    : modelGallery
+  ).concat(active?.image && !modelGallery.includes(active.image) ? [active.image] : []);
+  const uniqueOptions = Array.from(new Set(options.filter(Boolean)));
+
+  const setSlot = (slot: string, url: string | null) => {
+    const next = rows.map((c, i) => {
+      if (i !== activeColorIdx) return c;
+      const sections = { ...(c.sections ?? {}) };
+      if (url) sections[slot] = url;
+      else delete sections[slot];
+      return { ...c, sections };
+    });
+    onChange(next);
+  };
+
+  if (rows.length === 0) {
+    return (
+      <div className="rounded-lg border border-dashed border-neutral-800 p-4 text-xs text-neutral-500">
+        Adicione ao menos uma cor para escolher as imagens da página de vendas.
+      </div>
+    );
+  }
+
+  const missing = SECTION_SLOTS.filter((s) => !active?.sections?.[s.key]);
+
+  return (
+    <div className="space-y-4 rounded-lg border border-neutral-800 bg-neutral-900/40 p-4">
+      <div>
+        <Label className="text-sm font-bold text-neutral-200">Imagens da página de vendas</Label>
+        <p className="mt-1 text-[11px] text-neutral-500">
+          Escolha, para cada cor, qual imagem aparece em cada bloco. Sem escolha, o site usa a ordem
+          automática da galeria.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {rows.map((c, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setActiveColorIdx(i)}
+            className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] ${
+              i === activeColorIdx
+                ? "border-primary bg-primary/10 text-primary"
+                : "border-neutral-700 text-neutral-300 hover:border-neutral-500"
+            } ${c.hidden ? "opacity-40" : ""}`}
+          >
+            <span
+              className="h-3.5 w-3.5 rounded-full border border-white/20"
+              style={{ backgroundColor: c.hex }}
+            />
+            {c.name || `Cor ${i + 1}`}
+            {c.hidden && <span className="uppercase tracking-wider">· em falta</span>}
+          </button>
+        ))}
+      </div>
+
+      {active?.hidden && (
+        <p className="rounded-md border border-amber-600/40 bg-amber-500/10 p-2 text-[11px] text-amber-300">
+          Esta cor está marcada como "Em falta" e não será exibida no site.
+        </p>
+      )}
+
+      <div className="space-y-3">
+        {SECTION_SLOTS.map((slot) => {
+          const current = active?.sections?.[slot.key];
+          return (
+            <div
+              key={slot.key}
+              className="flex items-start gap-3 rounded-md border border-neutral-800 bg-neutral-950/50 p-3"
+            >
+              <div className="grid h-16 w-20 shrink-0 place-items-center overflow-hidden rounded bg-neutral-900">
+                {current ? (
+                  <img src={current} alt={slot.label} className="max-h-full max-w-full object-contain" />
+                ) : (
+                  <span className="text-[9px] uppercase tracking-wider text-neutral-500">Auto</span>
+                )}
+              </div>
+              <div className="min-w-0 flex-1 space-y-2">
+                <p className="text-xs font-semibold text-neutral-200">{slot.label}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setSlot(slot.key, null)}
+                    className={`rounded border px-2 py-1 text-[10px] uppercase tracking-wider ${
+                      current
+                        ? "border-neutral-700 text-neutral-400"
+                        : "border-primary text-primary"
+                    }`}
+                  >
+                    Automático
+                  </button>
+                  {uniqueOptions.map((url) => (
+                    <button
+                      key={url}
+                      type="button"
+                      onClick={() => setSlot(slot.key, url)}
+                      title={url}
+                      className={`h-10 w-12 overflow-hidden rounded border ${
+                        current === url ? "border-primary" : "border-neutral-700"
+                      }`}
+                    >
+                      <img src={url} alt="" className="h-full w-full object-contain" />
+                    </button>
+                  ))}
+                </div>
+                {!current && (
+                  <p className="text-[10px] text-neutral-500">
+                    Sem imagem definida — o site usará o fallback automático.
+                  </p>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {uniqueOptions.length === 0 && (
+        <p className="text-[11px] text-neutral-500">
+          Nenhuma imagem disponível: adicione imagens na galeria do modelo ou na galeria desta cor.
+        </p>
+      )}
+
+      {missing.length > 0 && (
+        <p className="rounded-md border border-neutral-700 bg-neutral-950/60 p-2 text-[11px] text-neutral-400">
+          {missing.length} bloco(s) sem imagem definida para "{active?.name}" — cairão no fallback
+          automático. Confirme antes de salvar.
+        </p>
+      )}
+    </div>
+  );
+}
