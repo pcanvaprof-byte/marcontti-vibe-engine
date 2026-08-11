@@ -17,7 +17,14 @@ export type DbModel = {
   power: string;
   short_description: string;
   description: string;
-  colors: { name: string; hex: string; image: string; hidden?: boolean; gallery?: string[] }[];
+  colors: {
+    name: string;
+    hex: string;
+    image: string;
+    hidden?: boolean;
+    gallery?: string[];
+    sections?: SectionImages;
+  }[];
   specs: { label: string; value: string }[];
   features: string[];
   gallery: Array<string | GalleryItem>;
