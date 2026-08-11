@@ -1,15 +1,14 @@
-# Trocar o banner da Oficina sem cortar os textos
+# Nova imagem no banner da Oficina (sem cortar textos)
 
 ## O que muda
 
-- A imagem enviada passa a ser o banner da seção "Oficina Especializada" na Home (hoje usa `oficina-klug-v5.jpg`).
-- A faixa superior da imagem (logo Klug + barra de busca + Atendimento/Localização/Contato) é recortada, porque duplica o cabeçalho real do site. Fica apenas o banner da oficina, com o texto "OFICINA ESPECIALIZADA EM SCOOTERS ELÉTRICAS" e os 4 ícones (Baterias, Motores, Eletrônica, Pneus).
-- A proporção do container passa a acompanhar exatamente a proporção da imagem recortada (~3,1:1), em todos os tamanhos de tela. Assim nada de texto ou ícone é cortado no celular, tablet ou desktop.
-- Os recortes atuais (`object-cover`, `object-bottom`, `object-left-top`) e o zoom no hover saem: a imagem sempre aparece inteira.
-- Os botões "Ver Modelos" e "Simular Financiamento" continuam funcionando, reposicionados no canto inferior direito com um leve fundo escuro para não cobrir o texto impresso na imagem.
+- A imagem enviada (banner "OFICINA ESPECIALIZADA EM SCOOTERS ELÉTRICAS" com os ícones Baterias, Motores, Eletrônica e Pneus) substitui a atual `oficina-klug-v5.jpg` na Home.
+- O container passa a usar a proporção real da imagem (~4,4:1) em todos os tamanhos de tela, com a imagem inteira visível — nada de texto ou ícone cortado no celular, tablet ou desktop.
+- Saem os recortes atuais (`object-cover`, `object-bottom`, `object-left-top`) e as proporções diferentes por breakpoint que causavam o corte.
+- A imagem já traz o botão "VER MODELOS" desenhado nela: o botão real "Ver Modelos" do site é posicionado exatamente sobre essa área (clicável, sem texto duplicado visível) e o botão verde "Simular Financiamento" fica logo abaixo do banner, para não cobrir o conteúdo da arte.
 
 ## Detalhes técnicos
 
-- Recorte da faixa do cabeçalho e upload via `lovable-assets create`, gerando `src/assets/klug/oficina-klug-v6.jpg.asset.json`; o arquivo original não fica no repositório.
-- `src/routes/index.tsx` (componente `Hero`, ~linhas 641-673): importar o novo pointer, trocar o `src`, usar uma única `aspect-[31/10]` (sem variação por breakpoint), `object-contain object-center` e `bg-black`.
-- Manter `loading="lazy"`, `decoding="async"` e o `alt` descritivo; atualizar `width`/`height` para as dimensões reais recortadas.
+- Upload via `lovable-assets create` a partir de `/mnt/user-uploads/`, gerando `src/assets/klug/oficina-klug-v6.jpg.asset.json` (binário não entra no repositório).
+- `src/routes/index.tsx`, componente `Hero` (~linhas 641-673): importar o novo pointer, trocar o `src`, aplicar `aspect-[4.4/1]` único, `object-contain object-center`, fundo `bg-black`, `width={1983}` / `height={450}`.
+- Manter `loading="lazy"`, `decoding="async"`, `alt` descritivo e o rastreio de analytics existente nos botões.
