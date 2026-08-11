@@ -645,7 +645,8 @@ function Hero() {
             alt="Oficina Especializada em Scooters Elétricas Klug Motors - Baterias, Motores, Eletrônica e Pneus"
             width={1983}
             height={450}
-            loading="lazy"
+            fetchPriority="high"
+            loading="eager"
             decoding="async"
             className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.02]"
           />
