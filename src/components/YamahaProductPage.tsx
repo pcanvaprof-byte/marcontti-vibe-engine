@@ -546,7 +546,7 @@ export function YamahaProductPage({
             <div className="relative rounded-3xl bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center h-[260px] sm:h-[340px] lg:h-[440px]">
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent animate-pulse" />
               <img
-                src={activeGallery[1] ?? activeGallery[0] ?? heroImg}
+                src={pick("terreno", activeGallery[1], activeGallery[0], heroImg)}
                 alt={`${m.name} — modos de condução`}
                 loading="eager"
                 decoding="async"
@@ -591,8 +591,8 @@ export function YamahaProductPage({
 
           <div className="mt-8 sm:mt-14 grid sm:grid-cols-2 gap-6 items-stretch">
             {[
-              activeGallery[2] ?? activeGallery[0],
-              activeGallery[4] ?? activeGallery[3] ?? activeGallery[1] ?? activeGallery[0],
+              pick("tecnologia_a", activeGallery[2], activeGallery[0]),
+              pick("tecnologia_b", activeGallery[4], activeGallery[3], activeGallery[1], activeGallery[0]),
             ].map((img, i) => (
               <div
                 key={i}
@@ -622,7 +622,7 @@ export function YamahaProductPage({
             <div className="relative rounded-3xl bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center h-[260px] sm:h-[340px] lg:h-[440px]">
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent animate-pulse" />
               <img
-                src={activeGallery[5] ?? activeGallery[0] ?? heroImg}
+                src={pick("comodidade", activeGallery[5], activeGallery[0], heroImg)}
                 alt="Comodidade"
                 loading="eager"
                 decoding="async"
@@ -679,7 +679,7 @@ export function YamahaProductPage({
               <div className="relative rounded-3xl bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center h-[260px] sm:h-[340px] lg:h-[440px]">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent animate-pulse" />
                 <img
-                  src={activeGallery[6] ?? activeGallery[1] ?? heroImg}
+                  src={pick("conectividade", activeGallery[6], activeGallery[1], heroImg)}
                   alt="Conectividade"
                   loading="eager"
                   decoding="async"
@@ -718,8 +718,8 @@ export function YamahaProductPage({
             <div className="mt-8 sm:mt-14 grid sm:grid-cols-3 gap-6 items-stretch">
               {[
                 activeGallery[7] ?? activeGallery[0],
-                activeGallery[8] ?? activeGallery[1] ?? activeGallery[0],
-                activeGallery[9] ?? activeGallery[2] ?? activeGallery[0],
+                pick("modernidade_b", activeGallery[8], activeGallery[1], activeGallery[0]),
+                pick("modernidade_c", activeGallery[9], activeGallery[2], activeGallery[0]),
               ].map((img, i) => (
               <div
                 key={i}
@@ -748,7 +748,7 @@ export function YamahaProductPage({
           <div className="relative rounded-3xl bg-neutral-950 border border-white/10 p-3 sm:p-4 flex items-center justify-center h-[260px] sm:h-[340px] lg:h-[440px]">
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent animate-pulse" />
             <img
-              src={activeGallery[10] ?? activeGallery[2] ?? heroImg}
+              src={pick("modernidade_a", activeGallery[10], activeGallery[2], heroImg)}
               alt={`${m.name} — painel 100% digital`}
               loading="eager"
               decoding="async"
