@@ -1187,6 +1187,7 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               className="mt-1 text-[10px] font-mono bg-neutral-950"
             />
           </div>
+        </div>
 
         <div className="flex items-center gap-3">
           <Switch checked={d.is_active ?? true} onCheckedChange={(v) => set("is_active", v)} />
