@@ -807,8 +807,13 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                 <Input
                   type="number"
                   min={1}
+                  max={72}
+                  step={1}
                   value={d.installment_months ?? 36}
-                  onChange={(e) => set("installment_months", Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = Math.max(1, Math.min(72, Math.floor(Number(e.target.value))));
+                    set("installment_months", val);
+                  }}
                 />
               </Field>
               <Field label="Valor da parcela (deixe 0 para calcular automático)">
@@ -817,7 +822,10 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
                   step="0.01"
                   min={0}
                   value={d.installment_value ?? 0}
-                  onChange={(e) => set("installment_value", Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = Math.max(0, Number(e.target.value));
+                    set("installment_value", val);
+                  }}
                 />
               </Field>
               <Field label="Texto abaixo da parcela">
