@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { models as staticModels, type Model } from "@/lib/models";
+import { models as staticModels, type Model, type SectionImages } from "@/lib/models";
 
 export type GalleryItem = { url: string; hidden?: boolean };
 
@@ -17,7 +17,14 @@ export type DbModel = {
   power: string;
   short_description: string;
   description: string;
-  colors: { name: string; hex: string; image: string; hidden?: boolean; gallery?: string[] }[];
+  colors: {
+    name: string;
+    hex: string;
+    image: string;
+    hidden?: boolean;
+    gallery?: string[];
+    sections?: SectionImages;
+  }[];
   specs: { label: string; value: string }[];
   features: string[];
   gallery: Array<string | GalleryItem>;
@@ -41,6 +48,7 @@ export function dbToModel(m: DbModel): Model {
     hex: c.hex,
     image: c.hidden ? "" : c.image,
     ...(c.gallery && c.gallery.length ? { gallery: c.gallery } : {}),
+    ...(!c.hidden && c.sections && Object.keys(c.sections).length ? { sections: c.sections } : {}),
   }));
   return {
     slug: m.slug,
