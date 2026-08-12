@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { modelInstallment } from "@/lib/installment";
+import { modelInstallment, INSTALLMENT_MONTHS, INSTALLMENT_NOTE } from "@/lib/installment";
 import { supportsInstallment, SECTION_SLOTS } from "@/lib/models";
 
 import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move, Smartphone, RefreshCw } from "lucide-react";
@@ -803,15 +803,15 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
             condition: d.condition ?? "zero_km",
           }) ? (
             <>
-              <Field label="Nº de parcelas (financiamento)">
+              <Field label="Nº de parcelas (boleto)">
                 <Input
                   type="number"
                   min={1}
-                  max={72}
+                  max={96}
                   step={1}
-                  value={d.installment_months ?? 36}
+                  value={d.installment_months ?? INSTALLMENT_MONTHS}
                   onChange={(e) => {
-                    const val = Math.max(1, Math.min(72, Math.floor(Number(e.target.value))));
+                    const val = Math.max(1, Math.min(96, Math.floor(Number(e.target.value))));
                     set("installment_months", val);
                   }}
                 />
@@ -831,22 +831,23 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
               <Field label="Texto abaixo da parcela">
                 <Input
                   value={d.installment_note ?? ""}
-                  placeholder="parcela prevista no financiamento"
+                  placeholder={INSTALLMENT_NOTE}
                   onChange={(e) => set("installment_note", e.target.value)}
                 />
               </Field>
               <div className="md:col-span-2 text-[11px] text-neutral-500">
-                Prévia no card:{" "}
+                Padrão: {INSTALLMENT_MONTHS}x no boleto com juros de 2,58% ao mês (tabela Price). Prévia no card:{" "}
                 <span className="text-neutral-200">
                   {modelInstallment({
                     priceNumber: d.price_number ?? 0,
-                    installmentMonths: d.installment_months ?? 36,
+                    installmentMonths: d.installment_months ?? INSTALLMENT_MONTHS,
                     installmentValue: d.installment_value ?? 0,
                     installmentNote: d.installment_note ?? "",
                   }).label ?? "Sob consulta"}
                 </span>{" "}
-                — {d.installment_note?.trim() || "parcela prevista no financiamento"}
+                — {d.installment_note?.trim() || INSTALLMENT_NOTE}
               </div>
+
             </>
           ) : (
             <div className="md:col-span-2 text-[11px] text-neutral-500">
