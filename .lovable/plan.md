@@ -1,33 +1,29 @@
-# Seletor de cor + escolha das imagens da página de vendas
+# Prévia de parcela: 71x no boleto com juros de 2,58% ao mês
 
 ## Objetivo
 
-No painel admin, poder escolher **por cor em estoque** qual imagem aparece em cada bloco da página de vendas, com miniatura de confirmação antes de salvar.
+Nos cards dos modelos elegíveis (Scooters Moto Chefe, SUDU e Triciclos elétricos), a parcela em destaque passa a ser uma prévia de **71x no boleto**, calculada com juros compostos de **2,58% ao mês** (tabela Price), substituindo a prévia atual de 36x.
 
-## Como vai funcionar no admin
+Yamaha 0km e Motos Semi Novas continuam exibindo apenas "A partir de R$ ...".
 
-Novo painel "Imagens da página de vendas", logo abaixo de "Variantes de Cores e Imagens":
+## Como fica no card
 
-1. **Seletor de cor** no topo: pastilhas com o hex + nome de cada variante (as marcadas "Em falta" aparecem esmaecidas e avisam que não serão exibidas no site). O painel edita a cor selecionada.
-2. Para a cor escolhida, uma lista de **slots nomeados** exatamente como os blocos da página:
-   - Hero (imagem principal)
-   - Pronta para qualquer terreno
-   - Tecnologia e conforto (imagem A e imagem B)
-   - Comodidade — Praticidade que acompanha a sua rotina
-   - Conectividade
-   - Modernidade — Painel 100% digital (imagem A, B e C)
-3. Cada slot mostra a miniatura atual e abre um seletor com as imagens disponíveis (galeria da cor, se houver, senão a galeria do modelo) para trocar; há opção "Automático" que volta ao comportamento atual.
-4. Aviso quando um slot não tem imagem definida e cairá no fallback automático, para o admin confirmar antes de salvar.
+```text
+71x R$ 1.234,56
+prévia de parcela no boleto (juros 2,58% a.m.)
+À vista R$ 23.990,00
+```
 
-## Como reflete no site
+## Regras de cálculo
 
-A página do produto passa a usar a imagem definida para o slot da cor selecionada; se não houver definição, mantém a ordem automática da galeria como hoje. Trocar de cor troca todas as imagens dos blocos junto.
+- Parcela = PV × i / (1 − (1+i)^−n), com i = 0,0258 e n = 71.
+- Se o admin cadastrar um valor fixo de parcela para o modelo, esse valor prevalece.
+- Se o admin cadastrar um número de parcelas diferente, esse número é usado no mesmo cálculo com juros.
+- Sem preço cadastrado, nenhuma linha de parcela é exibida (comportamento atual mantido).
 
 ## Detalhes técnicos
 
-- Sem migração: as escolhas ficam em `models.colors[i].sections`, um objeto `{ hero, terreno, tecnologia_a, tecnologia_b, comodidade, conectividade, modernidade_a, modernidade_b, modernidade_c }` com URLs (chave ausente = automático). `colors` já é `jsonb`.
-- `src/hooks/useDbModels.ts`: propagar `sections` no tipo `DbModel["colors"]` e em `dbToModel` (limpar quando a cor está `hidden`).
-- `src/lib/models.ts`: adicionar `sections?` opcional ao tipo de cor do `Model`.
-- `src/components/YamahaProductPage.tsx`: helper `pick(slot, ...fallbacks)` que lê `variant.sections?.[slot]` e substitui os usos atuais nas linhas de `activeGallery[n]` (540, 585-586, 616, 673, 711-713, 742) e no `heroImg` (101). Fallbacks atuais preservados.
-- `src/routes/_authenticated/admin.tsx`: novo sub-componente do editor (estado local `activeColorIdx`), reutilizando as miniaturas/galeria já carregadas no formulário; grava via `set("colors", ...)`.
-- Nenhuma alteração no editor JSON avançado, que continua funcionando.
+1. `src/lib/installment.ts`: trocar `INSTALLMENT_MONTHS` para 71, adicionar `INSTALLMENT_RATE = 0.0258` e `INSTALLMENT_NOTE = "prévia de parcela no boleto (juros 2,58% a.m.)"`. Criar `pmt(pv, i, n)` (Price) e usá-la em `installmentLabel` e `modelInstallment`, substituindo a divisão simples `priceNumber / months`.
+2. Nenhuma mudança em `src/routes/modelos.index.tsx` e `src/routes/index.tsx` — ambos já usam `modelInstallment` + `supportsInstallment`, então herdam o novo cálculo e a nova nota.
+3. `src/routes/_authenticated/admin.tsx`: o preview de parcela já usa `modelInstallment`; atualizar apenas o texto de ajuda/placeholder para indicar o padrão 71x no boleto com juros de 2,58% a.m.
+4. Sem alteração de banco: as colunas `installment_months`, `installment_value` e `installment_note` continuam como override opcional.
