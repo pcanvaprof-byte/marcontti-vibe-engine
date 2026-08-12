@@ -41,12 +41,20 @@ export function normalizeGallery(raw: DbModel["gallery"] | null | undefined): Ga
   return (raw ?? []).map((g) => (typeof g === "string" ? { url: g } : { url: g.url, hidden: !!g.hidden }));
 }
 
+/** URLs `blob:`/`data:` são temporárias do navegador e nunca carregam depois de salvas. */
+function safeUrl(url?: string) {
+  if (!url) return "";
+  return /^(blob:|data:)/i.test(url) ? "" : url;
+}
+
 export function dbToModel(m: DbModel): Model {
-  const visibleGallery = normalizeGallery(m.gallery).filter((g) => !g.hidden).map((g) => g.url);
+  const visibleGallery = normalizeGallery(m.gallery)
+    .filter((g) => !g.hidden && safeUrl(g.url))
+    .map((g) => g.url);
   const colors = (m.colors ?? []).map((c) => ({
     name: c.name,
     hex: c.hex,
-    image: c.hidden ? "" : c.image,
+    image: c.hidden ? "" : safeUrl(c.image) || visibleGallery[0] || "",
     ...(c.gallery && c.gallery.length ? { gallery: c.gallery } : {}),
     ...(!c.hidden && c.sections && Object.keys(c.sections).length ? { sections: c.sections } : {}),
   }));
