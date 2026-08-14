@@ -203,8 +203,9 @@ type Tab = (typeof TABS)[number];
 function ModelPage() {
   const data = Route.useLoaderData() as { model: import("@/lib/models").Model | null; slug: string };
   const { data: dbRow, isLoading: dbLoading } = useModelBySlug(data.slug);
-  // Prefer DB (source of truth for price/gallery); fall back to static seed.
-  const m = (dbRow ? dbToModel(dbRow) : null) ?? data.model ?? null;
+  // O banco é a fonte de verdade: o cadastro estático só serve de placeholder
+  // durante o carregamento. Modelo ausente/inativo no admin => 404.
+  const m = dbRow ? dbToModel(dbRow) : dbLoading ? data.model ?? null : null;
 
   // Hooks must be declared unconditionally — never early-return above them.
   const [selected, setSelectedState] = useState(0);
