@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "6b35d732-1c5f-43a4-926c-0d94b62b7d35",
+  "asset_id": "8571dbfc-6851-4772-ba74-005434c2046d",
   "project_id": "6eaf19e2-66cd-4a54-b5f8-bfaa084b735b",
-  "url": "/__l5e/assets-v1/6b35d732-1c5f-43a4-926c-0d94b62b7d35/klug-dark.jpg",
-  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/6b35d732-1c5f-43a4-926c-0d94b62b7d35/klug-dark.jpg",
-  "original_filename": "klug-dark.jpg",
-  "size": 255344,
-  "content_type": "image/jpeg",
-  "created_at": "2026-07-09T14:45:13Z"
+  "url": "/__l5e/assets-v1/8571dbfc-6851-4772-ba74-005434c2046d/klug-dark.webp",
+  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/8571dbfc-6851-4772-ba74-005434c2046d/klug-dark.webp",
+  "original_filename": "klug-dark.webp",
+  "size": 30150,
+  "content_type": "image/webp",
+  "created_at": "2026-08-14T20:50:10Z"
 }

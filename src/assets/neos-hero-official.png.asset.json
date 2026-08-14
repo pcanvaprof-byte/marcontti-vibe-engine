@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "94fd9dc2-7220-4102-adb2-4d0e64455095",
+  "asset_id": "f69809df-18a4-47dd-b0c5-6cd43c44ba30",
   "project_id": "6eaf19e2-66cd-4a54-b5f8-bfaa084b735b",
-  "url": "/__l5e/assets-v1/94fd9dc2-7220-4102-adb2-4d0e64455095/neos-hero-official.png",
-  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/94fd9dc2-7220-4102-adb2-4d0e64455095/neos-hero-official.png",
-  "original_filename": "neos-hero-official.png",
-  "size": 1005962,
-  "content_type": "image/png",
-  "created_at": "2026-07-22T14:54:51Z"
+  "url": "/__l5e/assets-v1/f69809df-18a4-47dd-b0c5-6cd43c44ba30/neos-hero-official.webp",
+  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/f69809df-18a4-47dd-b0c5-6cd43c44ba30/neos-hero-official.webp",
+  "original_filename": "neos-hero-official.webp",
+  "size": 70462,
+  "content_type": "image/webp",
+  "created_at": "2026-08-14T20:48:58Z"
 }

@@ -107,7 +107,7 @@ export function usePublicModels() {
   const q = useQuery({
     queryKey: ["models", "public"],
     queryFn: () => fetchModels(false),
-    staleTime: 0, // sempre revalida: edições no admin aparecem imediatamente
+    staleTime: 30_000, // Realtime invalida o cache quando o admin edita
     gcTime: 30 * 60_000,
   });
   const items = q.data ? q.data.map(dbToModel) : staticModels;
@@ -118,7 +118,7 @@ export function usePublicModels() {
 export const publicModelsLightOptions = queryOptions({
   queryKey: ["models", "public", "light"],
   queryFn: () => fetchModels(false, true),
-  staleTime: 0, // sempre revalida: edições no admin aparecem imediatamente
+  staleTime: 30_000, // Realtime invalida o cache quando o admin edita
   gcTime: 30 * 60_000,
 });
 
@@ -143,7 +143,7 @@ export function useModelBySlug(slug: string) {
       if (error) throw error;
       return (data as unknown as DbModel | null) ?? null;
     },
-    staleTime: 0, // sempre revalida: edições no admin aparecem imediatamente
+    staleTime: 30_000, // Realtime invalida o cache quando o admin edita
     gcTime: 30 * 60_000,
   });
 }

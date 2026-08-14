@@ -47,11 +47,9 @@ import { modelInstallment } from "@/lib/installment";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 import { CreatedBy } from "@/components/CreatedBy";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
-import oficinaKlug from "@/assets/klug/oficina-klug-v3.png.asset.json";
-import oficinaKlugV4 from "/assets/oficina-klug-v4.jpg";
-import oficinaKlugV5 from "/assets/oficina-klug-v5.jpg";
 import oficinaEspecializada from "@/assets/klug/oficina-especializada.png.asset.json";
 import x12Img from "@/assets/motos/x12.jpg.asset.json";
+import { HeroVideo } from "@/components/HeroVideo";
 import heroBoltVideo from "@/assets/videos/hero-bolt.webm.asset.json";
 import klugHeroVideo from "@/assets/videos/klug-hero-telao.mp4.asset.json";
 import klugHeroPoster from "@/assets/videos/klug-hero-poster.jpg.asset.json";
@@ -624,21 +622,7 @@ function Hero() {
     <section className="relative overflow-hidden border-b border-border bg-black">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 py-6 sm:py-8">
         <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-[2/1]">
-          <video
-            src={klugHeroVideo.url}
-            poster={klugHeroPoster.url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            disablePictureInPicture
-            disableRemotePlayback
-            controls={false}
-            preload="metadata"
-            aria-hidden="true"
-            tabIndex={-1}
-            className="pointer-events-none absolute inset-0 w-full h-full object-cover"
-          />
+          <HeroVideo src={klugHeroVideo.url} poster={klugHeroPoster.url} />
         </div>
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6 w-full mx-auto max-w-7xl">
           <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black w-full sm:w-1/2">

@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "d5b9f6cb-6ebf-4d80-8cc7-2fca90d9b9e8",
+  "asset_id": "ff89fbf3-f63c-43af-8cb4-c2360796f8a8",
   "project_id": "6eaf19e2-66cd-4a54-b5f8-bfaa084b735b",
-  "url": "/__l5e/assets-v1/d5b9f6cb-6ebf-4d80-8cc7-2fca90d9b9e8/yamaha-fz15-deadpool.png",
-  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/d5b9f6cb-6ebf-4d80-8cc7-2fca90d9b9e8/yamaha-fz15-deadpool.png",
-  "original_filename": "yamaha-fz15-deadpool.png",
-  "size": 193091,
-  "content_type": "image/png",
-  "created_at": "2026-07-22T12:51:53Z"
+  "url": "/__l5e/assets-v1/ff89fbf3-f63c-43af-8cb4-c2360796f8a8/deadpool.webp",
+  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/ff89fbf3-f63c-43af-8cb4-c2360796f8a8/deadpool.webp",
+  "original_filename": "deadpool.webp",
+  "size": 26422,
+  "content_type": "image/webp",
+  "created_at": "2026-08-14T20:56:37Z"
 }

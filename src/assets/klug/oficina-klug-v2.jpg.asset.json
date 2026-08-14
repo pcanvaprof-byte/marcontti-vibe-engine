@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "602762fc-f01a-42ba-a335-65f75713e698",
+  "asset_id": "e040ade6-2ef1-414b-a1a7-09d97dc1089b",
   "project_id": "6eaf19e2-66cd-4a54-b5f8-bfaa084b735b",
-  "url": "/__l5e/assets-v1/602762fc-f01a-42ba-a335-65f75713e698/oficina-klug-v2.jpg",
-  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/602762fc-f01a-42ba-a335-65f75713e698/oficina-klug-v2.jpg",
-  "original_filename": "oficina-klug-v2.jpg",
-  "size": 410807,
-  "content_type": "image/jpeg",
-  "created_at": "2026-08-06T19:26:18Z"
+  "url": "/__l5e/assets-v1/e040ade6-2ef1-414b-a1a7-09d97dc1089b/oficina-klug-v2.webp",
+  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/e040ade6-2ef1-414b-a1a7-09d97dc1089b/oficina-klug-v2.webp",
+  "original_filename": "oficina-klug-v2.webp",
+  "size": 82276,
+  "content_type": "image/webp",
+  "created_at": "2026-08-14T20:50:36Z"
 }

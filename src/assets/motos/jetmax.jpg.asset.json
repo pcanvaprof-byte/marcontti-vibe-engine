@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "02956cf8-79b3-4912-bf41-46b9116a6f71",
+  "asset_id": "684bd69c-77ef-4c0f-a469-4f0c439685d9",
   "project_id": "6eaf19e2-66cd-4a54-b5f8-bfaa084b735b",
-  "url": "/__l5e/assets-v1/02956cf8-79b3-4912-bf41-46b9116a6f71/jetmax.jpg",
-  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/02956cf8-79b3-4912-bf41-46b9116a6f71/jetmax.jpg",
-  "original_filename": "jetmax.jpg",
-  "size": 216105,
-  "content_type": "image/jpeg",
-  "created_at": "2026-07-09T14:45:53Z"
+  "url": "/__l5e/assets-v1/684bd69c-77ef-4c0f-a469-4f0c439685d9/jetmax.webp",
+  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/684bd69c-77ef-4c0f-a469-4f0c439685d9/jetmax.webp",
+  "original_filename": "jetmax.webp",
+  "size": 92102,
+  "content_type": "image/webp",
+  "created_at": "2026-08-14T20:51:42Z"
 }
