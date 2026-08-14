@@ -62,7 +62,7 @@ export async function normalizeHeroImage(
 ): Promise<File> {
   const aspect = opts.aspect ?? 4 / 3;
   const minW = opts.width ?? 1600;
-  const maxW = 2800;
+  const maxW = 2000;
   const padding = opts.padding ?? 0.06;
   const alphaThreshold = opts.alphaThreshold ?? 12;
 
@@ -116,9 +116,15 @@ export async function normalizeHeroImage(
     ctx.drawImage(img, box.x, box.y, box.w, box.h, dx, dy, dw, dh);
 
 
-    const blob: Blob | null = await new Promise((res) =>
-      out.toBlob((b) => res(b), "image/png"),
+    // WebP com alpha: mesma nitidez com ~5% do peso de um PNG equivalente.
+    let blob: Blob | null = await new Promise((res) =>
+      out.toBlob((b) => res(b), "image/webp", 0.92),
     );
+    if (blob && blob.type === "image/webp") {
+      const base = file.name.replace(/\.[^.]+$/, "");
+      return new File([blob], `${base}-hero.webp`, { type: "image/webp" });
+    }
+    blob = await new Promise((res) => out.toBlob((b) => res(b), "image/png"));
     if (!blob) return file;
 
     const base = file.name.replace(/\.[^.]+$/, "");

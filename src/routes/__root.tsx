@@ -131,7 +131,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", href: klugSymbol.url },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800;900&family=Epilogue:wght@400;500;600;700&family=Bebas+Neue&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;900&family=Epilogue:wght@400;500;600;700&family=Bebas+Neue&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -147,28 +147,33 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <div 
-          dangerouslySetInnerHTML={{ 
+        {/* Meta Pixel — a fila (fbq) fica pronta na hora, mas o script pesado
+            só baixa quando o navegador está ocioso ou na 1ª interação, para não
+            competir com o conteúdo visível. */}
+        <div
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
             __html: `
-<!-- Meta Pixel Code -->
 <script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+f.__klugLoadPixel=function(){if(f.__klugPixelLoaded)return;f.__klugPixelLoaded=!0;
+t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1002813009427833');
-fbq('track', 'PageView');
+fbq('init','1002813009427833');fbq('track','PageView');
+(function(w,d){var go=function(){w.__klugLoadPixel&&w.__klugLoadPixel()};
+['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){
+d.addEventListener(ev,go,{once:true,passive:true})});
+if(w.requestIdleCallback)w.requestIdleCallback(go,{timeout:5000});
+else setTimeout(go,3000)})(window,document);
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1002813009427833&ev=PageView&noscript=1"
 /></noscript>
-<!-- End Meta Pixel Code -->
-            `.trim() 
-          }} 
+            `.trim(),
+          }}
         />
         {children}
         <Scripts />

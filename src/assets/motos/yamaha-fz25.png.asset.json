@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "311e166d-8078-444f-a855-d64c64334fcc",
+  "asset_id": "eeb9cbd5-5d3e-4615-85a7-a55573041005",
   "project_id": "6eaf19e2-66cd-4a54-b5f8-bfaa084b735b",
-  "url": "/__l5e/assets-v1/311e166d-8078-444f-a855-d64c64334fcc/yamaha-fz25.png",
-  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/311e166d-8078-444f-a855-d64c64334fcc/yamaha-fz25.png",
-  "original_filename": "yamaha-fz25.png",
-  "size": 223250,
-  "content_type": "image/png",
-  "created_at": "2026-07-22T12:00:39Z"
+  "url": "/__l5e/assets-v1/eeb9cbd5-5d3e-4615-85a7-a55573041005/yamaha-fz25.webp",
+  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/eeb9cbd5-5d3e-4615-85a7-a55573041005/yamaha-fz25.webp",
+  "original_filename": "yamaha-fz25.webp",
+  "size": 34308,
+  "content_type": "image/webp",
+  "created_at": "2026-08-14T20:53:35Z"
 }

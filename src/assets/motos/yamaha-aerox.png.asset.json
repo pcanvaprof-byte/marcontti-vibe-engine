@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "113bc4f1-3d5c-4fb0-92af-dce0212f372d",
+  "asset_id": "3f151c9a-a328-4a6f-ae89-b77bf6f02a4f",
   "project_id": "6eaf19e2-66cd-4a54-b5f8-bfaa084b735b",
-  "url": "/__l5e/assets-v1/113bc4f1-3d5c-4fb0-92af-dce0212f372d/yamaha-aerox.png",
-  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/113bc4f1-3d5c-4fb0-92af-dce0212f372d/yamaha-aerox.png",
-  "original_filename": "yamaha-aerox.png",
-  "size": 212053,
-  "content_type": "image/png",
-  "created_at": "2026-07-22T12:00:39Z"
+  "url": "/__l5e/assets-v1/3f151c9a-a328-4a6f-ae89-b77bf6f02a4f/yamaha-aerox.webp",
+  "r2_key": "a/v1/6eaf19e2-66cd-4a54-b5f8-bfaa084b735b/3f151c9a-a328-4a6f-ae89-b77bf6f02a4f/yamaha-aerox.webp",
+  "original_filename": "yamaha-aerox.webp",
+  "size": 27766,
+  "content_type": "image/webp",
+  "created_at": "2026-08-14T20:52:50Z"
 }

@@ -95,10 +95,7 @@ export function LazyImage({
         // @ts-expect-error - fetchpriority é válido no DOM, tipagem do React ainda não cobre
         fetchpriority={priority ? "high" : "low"}
         sizes={sizes ?? "100vw"}
-        onLoad={() => {
-          console.log("LazyImage loaded:", src);
-          setLoaded(true);
-        }}
+        onLoad={() => setLoaded(true)}
         onError={() => setErrored(true)}
         style={imgStyle}
         className={`${className} transition-opacity duration-500 ${loaded || !isClient ? "opacity-100" : "opacity-0"}`}
