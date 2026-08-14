@@ -151,6 +151,7 @@ function RootShell({ children }: { children: ReactNode }) {
             só baixa quando o navegador está ocioso ou na 1ª interação, para não
             competir com o conteúdo visível. */}
         <div
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
 <script>
