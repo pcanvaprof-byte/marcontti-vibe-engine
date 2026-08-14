@@ -1019,7 +1019,7 @@ function matchCategory(m: Model, cat: Category) {
 
 /* ------------------------- Nossa Linha (featured) ------------------------- */
 
-const FEATURED_SLUGS = ["p10", "pop", "x12", "x15"] as const;
+const FEATURED_SLUGS = ["p10", "pop", "x12", "jet"] as const;
 
 function Featured() {
   const featured = FEATURED_SLUGS

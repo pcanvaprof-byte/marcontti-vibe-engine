@@ -599,7 +599,10 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
     setUploadingGallery(true);
     try {
       const items: GalleryItem[] = [];
-      for (const f of valid) items.push({ url: await uploadFile(f, { track: false }) });
+      // Mesmo padrão da capa: fundo removido + enquadramento 4:3, para que os
+      // blocos da página de vendas fiquem visualmente idênticos entre si.
+      for (const f of valid)
+        items.push({ url: await uploadFile(f, { removeBackground: autoBg, normalize: autoFrame }) });
       set("gallery", [...normalizeGallery(d.gallery), ...items]);
       toast.success(`${items.length} imagem(ns) adicionada(s)`);
     } catch (err: any) {

@@ -4,11 +4,9 @@ import gigaImg from "@/assets/motos/giga.jpg.asset.json";
 import retImg from "@/assets/motos/ret.jpg.asset.json";
 import somaImg from "@/assets/motos/soma.jpg.asset.json";
 import jetImg from "@/assets/motos/jet.jpg.asset.json";
-import jetmaxImg from "@/assets/motos/jetmax.jpg.asset.json";
 import bigtriImg from "@/assets/motos/bigtri.jpg.asset.json";
 import sofiaImg from "@/assets/motos/sofia.jpg.asset.json";
 import miatriImg from "@/assets/motos/miatri.jpg.asset.json";
-import x15Img from "@/assets/motos/x15.jpg.asset.json";
 import suduA12Img from "@/assets/motos/sudu-a12.png.asset.json";
 import suduA10Img from "@/assets/motos/sudu-a10.png.asset.json";
 import suduA3PlusImg from "@/assets/motos/sudu-a3-plus.png.asset.json";
@@ -247,33 +245,6 @@ export const models: Model[] = [
     features: ["Pico 3.000W p/ subidas", "Freio a disco hidráulico", "Farol LED full", "Alarme com sirene"],
   },
   {
-    slug: "jet-max",
-    name: "JET MAX 1000W",
-    tag: "Moto Elétrica · Sem CNH",
-    price: "R$ 12.340,00",
-    priceNumber: 12340,
-    range: "até 60 km",
-    speed: "32 km/h",
-    power: "1.000W (pico 3.000W)",
-    short: "Top de linha: bateria 30Ah, marcha ré, baú 31L e chave NFC.",
-    description:
-      "A JET MAX é o topo da linha: bateria de 30Ah, motor com pico de 3.000W, marcha ré, baú traseiro de 31L, chave pulseira com NFC e acabamento premium. Sem CNH.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: jetmaxImg.url }],
-    specs: [
-      { label: "Autonomia", value: "até 60 km" },
-      { label: "Velocidade máx.", value: "32 km/h" },
-      { label: "Potência", value: "1.000W nominal (pico 3.000W)" },
-      { label: "Bateria", value: "Lítio 30Ah 60V removível" },
-      { label: "Carregador", value: "Turbo 5A bivolt 110/220V" },
-      { label: "Recarga", value: "até 5 horas" },
-      { label: "Aro", value: "12\" dianteiro" },
-      { label: "Baú traseiro", value: "31 litros" },
-      { label: "Capacidade", value: "até 180 kg" },
-      { label: "Habilitação", value: "Não exige CNH (CONTRAN 996/23)" },
-    ],
-    features: ["Marcha ré", "Chave pulseira com NFC", "Baú traseiro 31L", "Suspensão dupla"],
-  },
-  {
     slug: "big-tri",
     name: "BIG TRI 1000W",
     tag: "Triciclo · Sem CNH",
@@ -322,33 +293,6 @@ export const models: Model[] = [
       { label: "Habilitação", value: "Não exige CNH (CONTRAN 996/23)" },
     ],
     features: ["Design feminino", "Painel digital", "Cesto frontal", "Farol LED full"],
-  },
-  {
-    slug: "x15",
-    name: "X15 3000W",
-    tag: "Triciclo Elétrico · Com CNH",
-    price: "R$ 13.491,00",
-    priceNumber: 13491,
-    range: "40–45 km",
-    speed: "75 km/h",
-    power: "3.000W",
-    short: "Triciclo top de linha — 3.000W, 75 km/h, marcha ré e alarme.",
-    description:
-      "O X15 3000W é o triciclo elétrico mais potente da linha — motor 3.000W, velocidade até 75 km/h e bateria de lítio 60V 25Ah removível (suporta 2). Freios hidráulicos a disco, marcha ré, alarme com partida remota e suspensão dupla. Produto homologado — exige CNH e emplacamento.",
-    colors: [{ name: "Padrão", hex: "#1a1a1a", image: x15Img.url }],
-    specs: [
-      { label: "Autonomia", value: "40–45 km" },
-      { label: "Velocidade máx.", value: "75 km/h" },
-      { label: "Potência", value: "3.000W" },
-      { label: "Bateria", value: "Lítio 60V 25Ah removível (suporta 2)" },
-      { label: "Carregador", value: "Bivolt 110/220V" },
-      { label: "Recarga", value: "5 a 6 horas" },
-      { label: "Aro", value: "10\"" },
-      { label: "Peso", value: "≈ 50 kg (com bateria)" },
-      { label: "Capacidade", value: "até 180 kg" },
-      { label: "Habilitação", value: "Exige CNH · homologado p/ emplacamento" },
-    ],
-    features: ["Marcha ré", "Freios hidráulicos a disco", "Alarme com partida remota", "Suporte p/ 2 baterias"],
   },
   {
     slug: "mia-tri",
