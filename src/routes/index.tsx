@@ -192,7 +192,6 @@ export const Route = createFileRoute("/")({
             "https://www.instagram.com/klugmotors/",
           ],
           parentOrganization: { "@id": `${BASE_URL}/#organizacao` },
-challenge_placeholder
         }),
       },
       {
