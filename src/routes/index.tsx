@@ -622,9 +622,17 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-black">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 py-6 sm:py-8">
+        <h1 className="mb-4 text-center font-display font-black uppercase text-white text-xl sm:text-3xl md:text-4xl tracking-tight leading-[1.05]">
+          Scooters e Motos Elétricas em <span className="text-primary">Joinville</span>
+        </h1>
+        <p className="mb-5 text-center text-xs sm:text-sm text-white/70 max-w-2xl mx-auto">
+          Moto Chefe, SUDU, triciclos elétricos, Yamaha 0km e semi novas — com loja física na
+          R. Albano Schmidt, 1882 (Boa Vista) e oficina especializada em Joinville/SC.
+        </p>
         <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-[2/1]">
           <HeroVideo src={klugHeroVideo.url} poster={klugHeroPoster.url} />
         </div>
+
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6 w-full mx-auto max-w-7xl">
           <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black w-full sm:w-1/2">
             <img
