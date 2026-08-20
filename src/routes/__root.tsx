@@ -133,7 +133,63 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;900&family=Epilogue:wght@400;500;600;700&family=Bebas+Neue&display=swap" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": `${PUBLIC_ORIGIN}/#organizacao`,
+              name: "Klug Motors",
+              alternateName: ["Klug Motor's", "Klug Motors Joinville"],
+              url: `${PUBLIC_ORIGIN}/`,
+              logo: {
+                "@type": "ImageObject",
+                url: `${PUBLIC_ORIGIN}${klugSymbol.url}`,
+              },
+              image: `${PUBLIC_ORIGIN}${klugSymbol.url}`,
+              description:
+                "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC, com oficina especializada e financiamento facilitado.",
+              email: "klugmotors@gmail.com",
+              telephone: "+554793429320",
+              taxID: "51.728.597/0001-26",
+              vatID: "51.728.597/0001-26",
+              foundingLocation: { "@type": "Place", name: "Joinville, SC" },
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "R. Albano Schmidt, 1882 - Boa Vista",
+                addressLocality: "Joinville",
+                addressRegion: "SC",
+                postalCode: "89205-100",
+                addressCountry: "BR",
+              },
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  telephone: "+554793429320",
+                  contactType: "customer service",
+                  areaServed: "BR",
+                  availableLanguage: ["Portuguese"],
+                },
+              ],
+              sameAs: ["https://www.instagram.com/klugmotors/"],
+            },
+            {
+              "@type": "WebSite",
+              "@id": `${PUBLIC_ORIGIN}/#website`,
+              url: `${PUBLIC_ORIGIN}/`,
+              name: "Klug Motors",
+              inLanguage: "pt-BR",
+              publisher: { "@id": `${PUBLIC_ORIGIN}/#organizacao` },
+            },
+          ],
+        }),
+      },
+    ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
