@@ -153,7 +153,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               description:
                 "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC, com oficina especializada e financiamento facilitado.",
               email: "klugmotors@gmail.com",
-              telephone: "+554793429320",
+              telephone: "+5547934293200",
               taxID: "51.728.597/0001-26",
               vatID: "51.728.597/0001-26",
               foundingLocation: { "@type": "Place", name: "Joinville, SC" },
@@ -168,7 +168,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               contactPoint: [
                 {
                   "@type": "ContactPoint",
-                  telephone: "+554793429320",
+                  telephone: "+5547934293200",
                   contactType: "customer service",
                   areaServed: "BR",
                   availableLanguage: ["Portuguese"],

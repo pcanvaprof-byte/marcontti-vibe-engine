@@ -45,7 +45,7 @@ export const Route = createFileRoute("/contato")({
           url: `${BASE_URL}/contato`,
           logo: `${BASE_URL}/favicon.ico`,
           image: `${BASE_URL}/favicon.ico`,
-          telephone: "+554734293200",
+          telephone: "+5547934293200",
           email: "klugmotors@gmail.com",
           taxID: "51.728.597/0001-26",
           vatID: "51.728.597/0001-26",
@@ -78,7 +78,7 @@ export const Route = createFileRoute("/contato")({
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+554734293200",
+              telephone: "+5547934293200",
               contactType: "customer service",
               areaServed: "BR",
               availableLanguage: ["Portuguese"],
@@ -119,7 +119,7 @@ function ContatoPage() {
                 </div>
                 <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity text-xs uppercase tracking-widest">Abrir →</span>
               </a>
-              <a href="tel:+554734293200" className="flex items-center gap-3 p-4 border border-border rounded-xl bg-background/50 hover:border-primary transition-colors">
+              <a href="tel:+5547934293200" className="flex items-center gap-3 p-4 border border-border rounded-xl bg-background/50 hover:border-primary transition-colors">
                 <span className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center"><Phone size={18} /></span>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-white/40 font-display font-black mb-0.5">Telefone</p>
