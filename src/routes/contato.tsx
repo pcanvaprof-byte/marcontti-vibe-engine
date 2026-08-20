@@ -5,7 +5,7 @@ import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { ContatoForm } from "@/components/ContatoForm";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 const FINANCE_MSG =
   "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições. Podem me ajudar?";
 

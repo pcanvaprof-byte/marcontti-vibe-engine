@@ -3,7 +3,7 @@ import { CreditCard, Wallet, MessageCircle, Check } from "lucide-react";
 import { PageLayout, SectionCard } from "@/components/PageLayout";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 const FINANCE_MSG =
   "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições. Podem me ajudar?";
 

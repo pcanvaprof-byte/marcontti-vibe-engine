@@ -17,7 +17,7 @@ import { CookieConsent } from "../components/CookieConsent";
 import { captureAttribution } from "../lib/attribution";
 import { useModelsRealtime } from "../hooks/useModelsRealtime";
 
-const PUBLIC_ORIGIN = "https://althaciamoveis.shop";
+const PUBLIC_ORIGIN = "https://klugmotors.com.br";
 
 /** Slim top progress bar that reflects vertical scroll position. */
 function ScrollProgress() {

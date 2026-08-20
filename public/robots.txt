@@ -5,4 +5,4 @@ Disallow: /leads
 Disallow: /auth
 Disallow: /api/
 
-Sitemap: https://althaciamoveis.shop/sitemap.xml
+Sitemap: https://klugmotors.com.br/sitemap.xml

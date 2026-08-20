@@ -3,7 +3,7 @@ import { MapPin, Clock, Award, Leaf, Users, Zap } from "lucide-react";
 import { PageLayout, SectionCard } from "@/components/PageLayout";
 import janainaKlugAsset from "@/assets/janaina-klug.jpg.asset.json";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 
 export const Route = createFileRoute("/sobre")({
   head: () => ({
