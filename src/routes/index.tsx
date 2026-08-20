@@ -60,6 +60,35 @@ const BASE_URL = "https://klugmotors.com.br";
 const FINANCE_MSG =
   "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições para as motos elétricas. Podem me ajudar?";
 
+/** Perguntas frequentes locais exibidas na home (e usadas no FAQPage JSON-LD). */
+const HOME_FAQS: { q: string; a: string }[] = [
+  {
+    q: "Onde fica a loja da Klug Motors em Joinville?",
+    a: "Estamos na R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC (CEP 89205-100). Atendemos de segunda a sexta das 8h30 às 18h30 e sábado das 8h30 às 13h.",
+  },
+  {
+    q: "Preciso de CNH para andar de scooter elétrica?",
+    a: "Depende do modelo. Os modelos equiparados a autopropelidos, com limite de velocidade e potência definidos pelo CONTRAN, dispensam CNH e licenciamento. Já as motos e scooters com placa exigem habilitação. Nossa equipe indica em loja qual modelo se encaixa no seu caso.",
+  },
+  {
+    q: "A Klug Motors financia scooters e motos elétricas?",
+    a: "Sim. Trabalhamos com financiamento e prévia de parcelas no boleto em até 71x para as scooters elétricas Moto Chefe, SUDU e triciclos. Você também pode pagar à vista no PIX, com desconto na hora, ou no cartão.",
+  },
+  {
+    q: "Vocês têm oficina para scooter elétrica?",
+    a: "Sim, temos oficina especializada em scooters elétricas em Joinville: baterias, motores, parte eletrônica e pneus, com peças e suporte da própria loja.",
+  },
+  {
+    q: "Quais marcas e modelos vocês vendem?",
+    a: "Scooters elétricas Moto Chefe (Klug) e SUDU, triciclos elétricos, motos Yamaha 0km e motos semi novas revisadas.",
+  },
+  {
+    q: "A Klug Motors atende outras cidades da região?",
+    a: "Sim. Além de Joinville, atendemos clientes de Araquari, São Francisco do Sul, Jaraguá do Sul, Guaramirim, Barra Velha e região norte de Santa Catarina.",
+  },
+];
+
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
