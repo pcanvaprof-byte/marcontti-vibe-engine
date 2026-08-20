@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import klugLogo from "@/assets/klug/klug-horizontal-white.png.asset.json";
 import klugSymbol from "@/assets/klug/klug-symbol.png.asset.json";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 
 export const Route = createFileRoute("/privacidade")({
   head: () => ({

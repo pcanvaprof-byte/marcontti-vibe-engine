@@ -5,7 +5,7 @@ import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { ContatoForm } from "@/components/ContatoForm";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 const FINANCE_MSG =
   "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições. Podem me ajudar?";
 
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/contato")({
   head: () => ({
     meta: [
       { title: "Contato — Klug Motors Joinville/SC | WhatsApp e Loja Física" },
-      { name: "description", content: "Fale com a Klug Motors em Joinville/SC: WhatsApp, telefone (47) 3429-3200, e-mail e loja física na R. Albano Schmidt, 1882 — Boa Vista. Seg–Sex 08:30–18:30, Sáb 08:30–13:00." },
+      { name: "description", content: "Fale com a Klug Motors em Joinville/SC: WhatsApp, telefone (47) 93429-3200, e-mail e loja física na R. Albano Schmidt, 1882 — Boa Vista. Seg–Sex 08:30–18:30, Sáb 08:30–13:00." },
       { name: "keywords", content: "Klug Motors contato, moto elétrica Joinville contato, WhatsApp Klug, loja Albano Schmidt Joinville, concessionária Boa Vista Joinville" },
       { name: "geo.region", content: "BR-SC" },
       { name: "geo.placename", content: "Joinville" },
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/contato")({
           url: `${BASE_URL}/contato`,
           logo: `${BASE_URL}/favicon.ico`,
           image: `${BASE_URL}/favicon.ico`,
-          telephone: "+554734293200",
+          telephone: "+5547934293200",
           email: "klugmotors@gmail.com",
           taxID: "51.728.597/0001-26",
           vatID: "51.728.597/0001-26",
@@ -78,7 +78,7 @@ export const Route = createFileRoute("/contato")({
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+554734293200",
+              telephone: "+5547934293200",
               contactType: "customer service",
               areaServed: "BR",
               availableLanguage: ["Portuguese"],
@@ -119,11 +119,11 @@ function ContatoPage() {
                 </div>
                 <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity text-xs uppercase tracking-widest">Abrir →</span>
               </a>
-              <a href="tel:+554734293200" className="flex items-center gap-3 p-4 border border-border rounded-xl bg-background/50 hover:border-primary transition-colors">
+              <a href="tel:+5547934293200" className="flex items-center gap-3 p-4 border border-border rounded-xl bg-background/50 hover:border-primary transition-colors">
                 <span className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center"><Phone size={18} /></span>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-white/40 font-display font-black mb-0.5">Telefone</p>
-                  <p className="text-sm font-display font-black text-white">(47) 3429-3200</p>
+                  <p className="text-sm font-display font-black text-white">(47) 93429-3200</p>
                 </div>
               </a>
               <a href="mailto:klugmotors@gmail.com" className="flex items-center gap-3 p-4 border border-border rounded-xl bg-background/50 hover:border-primary transition-colors">

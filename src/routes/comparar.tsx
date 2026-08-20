@@ -6,7 +6,7 @@ import { z } from "zod";
 import { PageLayout } from "@/components/PageLayout";
 import { usePublicModels } from "@/hooks/useDbModels";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 
 const searchSchema = z.object({
   a: fallback(z.string().optional(), undefined),
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/comparar")({
   validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
-      { title: "Comparar Modelos — Klug Motors" },
+      { title: "Comparar Scooters e Motos Elétricas | Klug Motors" },
       { name: "description", content: "Compare motos e scooters lado a lado: ficha técnica completa, autonomia, velocidade, potência, bateria e preço. Escolha o modelo ideal." },
       { property: "og:title", content: "Comparar Modelos — Klug Motors" },
       { property: "og:description", content: "Tabela comparativa com ficha técnica completa. Compare até 3 modelos ao mesmo tempo." },

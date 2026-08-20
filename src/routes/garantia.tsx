@@ -2,12 +2,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ShieldCheck, Battery, Wrench, AlertTriangle } from "lucide-react";
 import { PageLayout, SectionCard } from "@/components/PageLayout";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 
 export const Route = createFileRoute("/garantia")({
   head: () => ({
     meta: [
-      { title: "Garantia — Klug Motors" },
+      { title: "Garantia de Scooter Elétrica | Klug Motors Joinville" },
       { name: "description", content: "Condições de garantia para motos e scooters elétricas Klug Motors. Cobertura de bateria, motor e componentes, além de assistência técnica em Joinville/SC." },
       { property: "og:title", content: "Garantia — Klug Motors" },
       { property: "og:description", content: "Cobertura de garantia, prazo, o que cobre e como acionar. Assistência técnica em Joinville/SC." },

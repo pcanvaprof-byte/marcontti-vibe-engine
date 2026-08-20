@@ -56,29 +56,58 @@ import klugHeroPoster from "@/assets/videos/klug-hero-poster.jpg.asset.json";
 import conhecaKlugMotorsVideo from "@/assets/videos/conheca-klug-motors.mp4.asset.json";
 
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 const FINANCE_MSG =
   "Olá, Klug Motors! Quero simular um financiamento e conhecer as condições para as motos elétricas. Podem me ajudar?";
+
+/** Perguntas frequentes locais exibidas na home (e usadas no FAQPage JSON-LD). */
+const HOME_FAQS: { q: string; a: string }[] = [
+  {
+    q: "Onde fica a loja da Klug Motors em Joinville?",
+    a: "Estamos na R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC (CEP 89205-100). Atendemos de segunda a sexta das 8h30 às 18h30 e sábado das 8h30 às 13h.",
+  },
+  {
+    q: "Preciso de CNH para andar de scooter elétrica?",
+    a: "Depende do modelo. Os modelos equiparados a autopropelidos, com limite de velocidade e potência definidos pelo CONTRAN, dispensam CNH e licenciamento. Já as motos e scooters com placa exigem habilitação. Nossa equipe indica em loja qual modelo se encaixa no seu caso.",
+  },
+  {
+    q: "A Klug Motors financia scooters e motos elétricas?",
+    a: "Sim. Trabalhamos com financiamento e prévia de parcelas no boleto em até 71x para as scooters elétricas Moto Chefe, SUDU e triciclos. Você também pode pagar à vista no PIX, com desconto na hora, ou no cartão.",
+  },
+  {
+    q: "Vocês têm oficina para scooter elétrica?",
+    a: "Sim, temos oficina especializada em scooters elétricas em Joinville: baterias, motores, parte eletrônica e pneus, com peças e suporte da própria loja.",
+  },
+  {
+    q: "Quais marcas e modelos vocês vendem?",
+    a: "Scooters elétricas Moto Chefe (Klug) e SUDU, triciclos elétricos, motos Yamaha 0km e motos semi novas revisadas.",
+  },
+  {
+    q: "A Klug Motors atende outras cidades da região?",
+    a: "Sim. Além de Joinville, atendemos clientes de Araquari, São Francisco do Sul, Jaraguá do Sul, Guaramirim, Barra Velha e região norte de Santa Catarina.",
+  },
+];
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Klug Motors — Motos e Scooters Elétricas em Joinville/SC" },
+      { title: "Scooters e Motos Elétricas em Joinville | Klug Motors" },
       {
         name: "description",
         content:
-          "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x com parcelas que cabem no bolso.",
+          "Loja de scooters, motos e triciclos elétricos em Joinville/SC: Moto Chefe, SUDU, Yamaha 0km e semi novas. Oficina especializada e financiamento em até 71x no boleto.",
       },
-      { name: "keywords", content: "moto elétrica Joinville, scooter elétrica Joinville, Yamaha Joinville, concessionária elétrica SC, moto sem CNH, Klug Motors" },
+      { name: "keywords", content: "scooter elétrica Joinville, moto elétrica Joinville, triciclo elétrico SC, scooter sem CNH, Yamaha Joinville, Klug Motors" },
       { name: "geo.region", content: "BR-SC" },
       { name: "geo.placename", content: "Joinville" },
       { name: "geo.position", content: "-26.2836;-48.8451" },
       { name: "ICBM", content: "-26.2836, -48.8451" },
-      { property: "og:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville/SC" },
+      { property: "og:title", content: "Scooters e Motos Elétricas em Joinville | Klug Motors" },
       {
         property: "og:description",
         content:
-          "Motos, scooters e triciclos elétricos em Joinville/SC. Sem CNH, econômicas e sustentáveis. Loja física + financiamento facilitado.",
+          "Scooters, motos e triciclos elétricos em Joinville/SC. Loja física na R. Albano Schmidt, 1882 — Boa Vista, com oficina especializada e financiamento facilitado.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
@@ -86,10 +115,11 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: `${BASE_URL}/` },
       { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
-      { name: "twitter:description", content: "Concessionária de mobilidade elétrica em Joinville/SC. Yamaha, SUDU, MotoChefe." },
+      { name: "twitter:title", content: "Scooters e Motos Elétricas em Joinville | Klug Motors" },
+      { name: "twitter:description", content: "Mobilidade elétrica em Joinville/SC: Moto Chefe, SUDU, Yamaha 0km e semi novas." },
       { name: "twitter:image", content: `${BASE_URL}${x12Img.url}` },
     ],
+
     links: [
       { rel: "canonical", href: `${BASE_URL}/` },
       // LCP preload: pôster do vídeo do hero (renderiza antes do vídeo carregar).
@@ -109,7 +139,7 @@ export const Route = createFileRoute("/")({
           url: BASE_URL,
           logo: `${BASE_URL}${x12Img.url}`,
           image: `${BASE_URL}${x12Img.url}`,
-          telephone: "+554734293200",
+          telephone: "+5547934293200",
           email: "klugmotors@gmail.com",
           taxID: "51.728.597/0001-26",
           vatID: "51.728.597/0001-26",
@@ -152,7 +182,7 @@ export const Route = createFileRoute("/")({
           contactPoint: [
             {
               "@type": "ContactPoint",
-              telephone: "+554734293200",
+              telephone: "+5547934293200",
               contactType: "customer service",
               areaServed: "BR",
               availableLanguage: ["Portuguese"],
@@ -161,9 +191,24 @@ export const Route = createFileRoute("/")({
           sameAs: [
             "https://www.instagram.com/klugmotors/",
           ],
+          parentOrganization: { "@id": `${BASE_URL}/#organizacao` },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "@id": `${BASE_URL}/#faq-home`,
+          mainEntity: HOME_FAQS.map(({ q, a }) => ({
+            "@type": "Question",
+            name: q,
+            acceptedAnswer: { "@type": "Answer", text: a },
+          })),
         }),
       },
     ],
+
   }),
   component: Index,
 });
@@ -621,9 +666,17 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border bg-black">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 py-6 sm:py-8">
+        <h1 className="mb-4 text-center font-display font-black uppercase text-white text-xl sm:text-3xl md:text-4xl tracking-tight leading-[1.05]">
+          Scooters e Motos Elétricas em <span className="text-primary">Joinville</span>
+        </h1>
+        <p className="mb-5 text-center text-xs sm:text-sm text-white/70 max-w-2xl mx-auto">
+          Moto Chefe, SUDU, triciclos elétricos, Yamaha 0km e semi novas — com loja física na
+          R. Albano Schmidt, 1882 (Boa Vista) e oficina especializada em Joinville/SC.
+        </p>
         <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 shadow-2xl bg-black aspect-[2/1]">
           <HeroVideo src={klugHeroVideo.url} poster={klugHeroPoster.url} />
         </div>
+
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-6 w-full mx-auto max-w-7xl">
           <div className="relative rounded-2xl overflow-hidden ring-1 ring-white/10 group aspect-[4.4/1] bg-black w-full sm:w-1/2">
             <img
@@ -1340,7 +1393,7 @@ function Contact() {
               icon={Phone}
               label="Central de vendas"
               value="(47) 3429-3200"
-              href="tel:+554734293200"
+              href="tel:+5547934293200"
               highlight
             />
             <ContactRow
@@ -1533,7 +1586,7 @@ function Footer() {
             <ul className="space-y-3 text-sm text-white/70">
               <li className="flex items-center gap-2">
                 <Phone {...iconProps} className="shrink-0 text-white/40" />
-                <a href="tel:+554734293200" className="font-display font-black text-base text-white hover:text-primary transition-colors">
+                <a href="tel:+5547934293200" className="font-display font-black text-base text-white hover:text-primary transition-colors">
                   (47) 3429-3200
                 </a>
               </li>
@@ -1711,6 +1764,8 @@ function Index() {
         <MaisVendidosGrid />
         <YoutubeShowcase />
         <InstagramRow />
+        <HomeFaq />
+
         {/* Blocos de suporte (financiamento + contato) mantidos como no Moto Chefe: rodapé estendido */}
         <Contact />
       </main>
@@ -1720,6 +1775,35 @@ function Index() {
   );
 }
 
+/* ------------------------- FAQ local (home) ------------------------- */
+
+function HomeFaq() {
+  return (
+    <section id="perguntas-frequentes" className="border-t border-border bg-background py-14 sm:py-20">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        <h2 className="text-center font-display font-black uppercase text-2xl sm:text-3xl tracking-tight leading-none">
+          Perguntas frequentes — Klug Motors Joinville
+        </h2>
+        <p className="mt-3 text-center text-sm text-muted-foreground">
+          Dúvidas sobre CNH, financiamento, oficina e atendimento na região de Joinville/SC.
+        </p>
+        <div className="mt-8 divide-y divide-border rounded-2xl border border-border bg-card/40">
+          {HOME_FAQS.map(({ q, a }) => (
+            <details key={q} className="group p-5 sm:p-6">
+              <summary className="cursor-pointer list-none font-display font-black uppercase text-sm sm:text-base tracking-wide flex items-start justify-between gap-4">
+                <span>{q}</span>
+                <span aria-hidden="true" className="text-primary transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 
 /* ---------------------------- Reveal helper ---------------------------- */

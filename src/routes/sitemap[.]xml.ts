@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { models as staticModels } from "@/lib/models";
 
-const BASE_URL = "https://althaciamoveis.shop";
+const BASE_URL = "https://klugmotors.com.br";
 
 interface SitemapEntry {
   path: string;
