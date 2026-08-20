@@ -1775,6 +1775,35 @@ function Index() {
   );
 }
 
+/* ------------------------- FAQ local (home) ------------------------- */
+
+function HomeFaq() {
+  return (
+    <section id="perguntas-frequentes" className="border-t border-border bg-background py-14 sm:py-20">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
+        <h2 className="text-center font-display font-black uppercase text-2xl sm:text-3xl tracking-tight leading-none">
+          Perguntas frequentes — Klug Motors Joinville
+        </h2>
+        <p className="mt-3 text-center text-sm text-muted-foreground">
+          Dúvidas sobre CNH, financiamento, oficina e atendimento na região de Joinville/SC.
+        </p>
+        <div className="mt-8 divide-y divide-border rounded-2xl border border-border bg-card/40">
+          {HOME_FAQS.map(({ q, a }) => (
+            <details key={q} className="group p-5 sm:p-6">
+              <summary className="cursor-pointer list-none font-display font-black uppercase text-sm sm:text-base tracking-wide flex items-start justify-between gap-4">
+                <span>{q}</span>
+                <span aria-hidden="true" className="text-primary transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 
 /* ---------------------------- Reveal helper ---------------------------- */
