@@ -10,7 +10,7 @@ const FINANCE_MSG =
 export const Route = createFileRoute("/financiamento")({
   head: () => ({
     meta: [
-      { title: "Financiamento e Condições — Klug Motors" },
+      { title: "Financiamento de Moto Elétrica em Joinville | Klug Motors" },
       { name: "description", content: "Financie sua moto ou scooter elétrica na Klug Motors. Consulte condições, parcelas, entrada e prazos direto no WhatsApp com nossa equipe em Joinville/SC." },
       { property: "og:title", content: "Financiamento — Klug Motors" },
       { property: "og:description", content: "Condições facilitadas para motos e scooters elétricas. Simulação rápida via WhatsApp." },

@@ -13,7 +13,7 @@ export const Route = createFileRoute("/contato")({
   head: () => ({
     meta: [
       { title: "Contato — Klug Motors Joinville/SC | WhatsApp e Loja Física" },
-      { name: "description", content: "Fale com a Klug Motors em Joinville/SC: WhatsApp, telefone (47) 3429-3200, e-mail e loja física na R. Albano Schmidt, 1882 — Boa Vista. Seg–Sex 08:30–18:30, Sáb 08:30–13:00." },
+      { name: "description", content: "Fale com a Klug Motors em Joinville/SC: WhatsApp, telefone (47) 93429-3200, e-mail e loja física na R. Albano Schmidt, 1882 — Boa Vista. Seg–Sex 08:30–18:30, Sáb 08:30–13:00." },
       { name: "keywords", content: "Klug Motors contato, moto elétrica Joinville contato, WhatsApp Klug, loja Albano Schmidt Joinville, concessionária Boa Vista Joinville" },
       { name: "geo.region", content: "BR-SC" },
       { name: "geo.placename", content: "Joinville" },
@@ -123,7 +123,7 @@ function ContatoPage() {
                 <span className="w-10 h-10 rounded-lg bg-primary/10 text-primary grid place-items-center"><Phone size={18} /></span>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-white/40 font-display font-black mb-0.5">Telefone</p>
-                  <p className="text-sm font-display font-black text-white">(47) 3429-3200</p>
+                  <p className="text-sm font-display font-black text-white">(47) 93429-3200</p>
                 </div>
               </a>
               <a href="mailto:klugmotors@gmail.com" className="flex items-center gap-3 p-4 border border-border rounded-xl bg-background/50 hover:border-primary transition-colors">
