@@ -1764,6 +1764,8 @@ function Index() {
         <MaisVendidosGrid />
         <YoutubeShowcase />
         <InstagramRow />
+        <HomeFaq />
+
         {/* Blocos de suporte (financiamento + contato) mantidos como no Moto Chefe: rodapé estendido */}
         <Contact />
       </main>
