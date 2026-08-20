@@ -30,38 +30,39 @@ function brandMeta(marca?: string) {
   switch (key) {
     case "yamaha":
       return {
-        title: "Modelos Yamaha — Catálogo Klug Motors",
+        title: "Motos Yamaha 0km em Joinville | Klug Motors",
         description:
-          "Descubra os modelos elétricos Yamaha na Klug Motors: scooters urbanas, design e performance com financiamento facilitado em Joinville/SC.",
-        ogTitle: "Modelos Yamaha — Catálogo Klug Motors",
-        ogDescription: "Veículos elétricos Yamaha disponíveis na Klug Motors. Filtre e compare modelos.",
+          "Motos Yamaha 0km na Klug Motors, em Joinville/SC: ficha técnica, fotos e condições de pagamento. Loja física na R. Albano Schmidt, 1882.",
+        ogTitle: "Motos Yamaha 0km em Joinville | Klug Motors",
+        ogDescription: "Linha Yamaha 0km disponível na Klug Motors, em Joinville/SC. Filtre e compare modelos.",
       };
     case "sudu":
       return {
-        title: "Modelos SUDU — Catálogo Klug Motors",
+        title: "Scooters Elétricas SUDU em Joinville | Klug Motors",
         description:
-          "Conheça a linha SUDU de veículos elétricos na Klug Motors: scooters, motos e triciclos com tecnologia e autonomia para o dia a dia.",
-        ogTitle: "Modelos SUDU — Catálogo Klug Motors",
-        ogDescription: "Veículos elétricos SUDU na Klug Motors. Encontre o modelo ideal para você.",
+          "Linha SUDU de scooters e triciclos elétricos na Klug Motors, em Joinville/SC: autonomia, tecnologia e prévia de parcelas em até 71x no boleto.",
+        ogTitle: "Scooters Elétricas SUDU em Joinville | Klug Motors",
+        ogDescription: "Veículos elétricos SUDU na Klug Motors, em Joinville/SC. Encontre o modelo ideal.",
       };
     case "klug":
       return {
-        title: "Modelos Klug — Catálogo Klug Motors",
+        title: "Scooters Elétricas Moto Chefe em Joinville | Klug Motors",
         description:
-          "Explore a linha completa Klug Motors: scooters, motos elétricos sem CNH em Joinville/SC.",
-        ogTitle: "Modelos Klug — Catálogo Klug Motors",
-        ogDescription: "Todos os modelos Klug Motors elétricos. Filtre por tipo, preço e autonomia.",
+          "Scooters elétricas Moto Chefe na Klug Motors, em Joinville/SC: modelos econômicos, muitos sem necessidade de CNH, com oficina especializada e financiamento.",
+        ogTitle: "Scooters Elétricas Moto Chefe em Joinville | Klug Motors",
+        ogDescription: "Linha Moto Chefe de scooters elétricas na Klug Motors. Filtre por tipo, preço e autonomia.",
       };
     default:
       return {
-        title: "Catálogo — Klug Motors",
+        title: "Catálogo de Scooters e Motos Elétricas | Klug Motors",
         description:
-          "Explore todos os modelos elétricos da Klug Motors: scooters, motos. Filtre por tipo, marca e faixa de preço.",
-        ogTitle: "Catálogo — Klug Motors",
-        ogDescription: "Todos os modelos elétricos da Klug — filtre por tipo, marca e preço.",
+          "Catálogo completo da Klug Motors em Joinville/SC: scooters elétricas Moto Chefe e SUDU, triciclos, Yamaha 0km e motos semi novas. Filtre por tipo, marca e preço.",
+        ogTitle: "Catálogo de Scooters e Motos Elétricas | Klug Motors",
+        ogDescription: "Todos os modelos elétricos e semi novos da Klug Motors — filtre por tipo, marca e preço.",
       };
   }
 }
+
 
 export const Route = createFileRoute("/modelos/")({
   validateSearch: (s: Record<string, unknown>): CatSearch => ({
