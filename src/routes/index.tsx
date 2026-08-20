@@ -63,22 +63,22 @@ const FINANCE_MSG =
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Klug Motors — Motos e Scooters Elétricas em Joinville/SC" },
+      { title: "Scooters e Motos Elétricas em Joinville | Klug Motors" },
       {
         name: "description",
         content:
-          "Concessionária de motos, scooters e triciclos elétricos em Joinville/SC. Yamaha, SUDU e MotoChefe. Loja física na R. Albano Schmidt, 1882 — Boa Vista. Financiamento em até 36x com parcelas que cabem no bolso.",
+          "Loja de scooters, motos e triciclos elétricos em Joinville/SC: Moto Chefe, SUDU, Yamaha 0km e semi novas. Oficina especializada e financiamento em até 71x no boleto.",
       },
-      { name: "keywords", content: "moto elétrica Joinville, scooter elétrica Joinville, Yamaha Joinville, concessionária elétrica SC, moto sem CNH, Klug Motors" },
+      { name: "keywords", content: "scooter elétrica Joinville, moto elétrica Joinville, triciclo elétrico SC, scooter sem CNH, Yamaha Joinville, Klug Motors" },
       { name: "geo.region", content: "BR-SC" },
       { name: "geo.placename", content: "Joinville" },
       { name: "geo.position", content: "-26.2836;-48.8451" },
       { name: "ICBM", content: "-26.2836, -48.8451" },
-      { property: "og:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville/SC" },
+      { property: "og:title", content: "Scooters e Motos Elétricas em Joinville | Klug Motors" },
       {
         property: "og:description",
         content:
-          "Motos, scooters e triciclos elétricos em Joinville/SC. Sem CNH, econômicas e sustentáveis. Loja física + financiamento facilitado.",
+          "Scooters, motos e triciclos elétricos em Joinville/SC. Loja física na R. Albano Schmidt, 1882 — Boa Vista, com oficina especializada e financiamento facilitado.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
@@ -86,10 +86,11 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: `${BASE_URL}/` },
       { property: "og:image", content: `${BASE_URL}${x12Img.url}` },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Klug Motors — Motos e Scooters Elétricas em Joinville" },
-      { name: "twitter:description", content: "Concessionária de mobilidade elétrica em Joinville/SC. Yamaha, SUDU, MotoChefe." },
+      { name: "twitter:title", content: "Scooters e Motos Elétricas em Joinville | Klug Motors" },
+      { name: "twitter:description", content: "Mobilidade elétrica em Joinville/SC: Moto Chefe, SUDU, Yamaha 0km e semi novas." },
       { name: "twitter:image", content: `${BASE_URL}${x12Img.url}` },
     ],
+
     links: [
       { rel: "canonical", href: `${BASE_URL}/` },
       // LCP preload: pôster do vídeo do hero (renderiza antes do vídeo carregar).
