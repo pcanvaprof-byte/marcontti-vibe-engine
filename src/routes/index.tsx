@@ -191,9 +191,25 @@ export const Route = createFileRoute("/")({
           sameAs: [
             "https://www.instagram.com/klugmotors/",
           ],
+          parentOrganization: { "@id": `${BASE_URL}/#organizacao` },
+challenge_placeholder
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "@id": `${BASE_URL}/#faq-home`,
+          mainEntity: HOME_FAQS.map(({ q, a }) => ({
+            "@type": "Question",
+            name: q,
+            acceptedAnswer: { "@type": "Answer", text: a },
+          })),
         }),
       },
     ],
+
   }),
   component: Index,
 });
