@@ -120,7 +120,7 @@ export function YamahaProductPage({
   // Padrão "estilo Ténéré" (hero premium + copy "Trail robusta / Performance na medida"):
   // aplicado a todas as motos Yamaha, todas as semi novas e todos os modelos Moto Chefe (Klug).
   // Apenas os scooters Sudu mantêm a copy "elétrica" original.
-  const isCombustion = !m.slug.startsWith("sudu-");
+  const isCombustion = m.slug.startsWith("yamaha-") || m.slug.startsWith("semi-nova-");
 
   // Textos das seções Intro/Versatilidade/Tecnologia são fixos (não trocam por cor)
   // — evita re-render/piscada de várias seções a cada clique na cor.
