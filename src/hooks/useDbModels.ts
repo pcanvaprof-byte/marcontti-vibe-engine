@@ -128,8 +128,8 @@ export const publicModelsLightOptions = queryOptions({
 /** Catálogo (cards) — payload enxuto, muito mais rápido que o SELECT *. */
 export function usePublicModelsLight() {
   const q = useQuery(publicModelsLightOptions);
-  const items = q.data ? q.data.map(dbToModel) : staticModels;
-  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? staticModels.map((m) => brandFallback(m.slug)) };
+  const items = q.data ? q.data.map(dbToModel) : [];
+  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? [] };
 }
 
 /** Página de produto — busca apenas o modelo pedido (1 linha). */
