@@ -98,9 +98,6 @@ async function fetchModels(includeInactive = false, light = false) {
   return (data ?? []) as unknown as DbModel[];
 }
 
-function brandFallback(slug: string) {
-  return slug.startsWith("sudu-") ? "sudu" : slug.startsWith("yamaha-") ? "yamaha" : "klug";
-}
 
 /**
  * Public catalog — active only. O banco é a ÚNICA fonte de preços: nada de
