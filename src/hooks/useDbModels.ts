@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { models as staticModels, type Model, type SectionImages } from "@/lib/models";
+import { type Model, type SectionImages } from "@/lib/models";
 
 export type GalleryItem = { url: string; hidden?: boolean };
 
@@ -98,11 +98,11 @@ async function fetchModels(includeInactive = false, light = false) {
   return (data ?? []) as unknown as DbModel[];
 }
 
-function brandFallback(slug: string) {
-  return slug.startsWith("sudu-") ? "sudu" : slug.startsWith("yamaha-") ? "yamaha" : "klug";
-}
 
-/** Public catalog — active only. Falls back to static list until DB responds. */
+/**
+ * Public catalog — active only. O banco é a ÚNICA fonte de preços: nada de
+ * fallback estático, que exibia valores antigos até a resposta do banco.
+ */
 export function usePublicModels() {
   const q = useQuery({
     queryKey: ["models", "public"],
@@ -110,8 +110,8 @@ export function usePublicModels() {
     staleTime: 30_000, // Realtime invalida o cache quando o admin edita
     gcTime: 30 * 60_000,
   });
-  const items = q.data ? q.data.map(dbToModel) : staticModels;
-  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? staticModels.map((m) => brandFallback(m.slug)) };
+  const items = q.data ? q.data.map(dbToModel) : [];
+  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? [] };
 }
 
 /** Query options do catálogo enxuto — reutilizável no loader da rota. */
@@ -125,8 +125,8 @@ export const publicModelsLightOptions = queryOptions({
 /** Catálogo (cards) — payload enxuto, muito mais rápido que o SELECT *. */
 export function usePublicModelsLight() {
   const q = useQuery(publicModelsLightOptions);
-  const items = q.data ? q.data.map(dbToModel) : staticModels;
-  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? staticModels.map((m) => brandFallback(m.slug)) };
+  const items = q.data ? q.data.map(dbToModel) : [];
+  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? [] };
 }
 
 /** Página de produto — busca apenas o modelo pedido (1 linha). */
