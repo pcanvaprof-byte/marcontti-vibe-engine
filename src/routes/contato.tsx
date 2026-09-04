@@ -3,6 +3,7 @@ import { MapPin, Phone, Mail, Clock, Instagram, MessageCircle } from "lucide-rea
 import { PageLayout, SectionCard } from "@/components/PageLayout";
 import { FinanciamentoForm } from "@/components/FinanciamentoForm";
 import { ContatoForm } from "@/components/ContatoForm";
+import { StoreLocator } from "@/components/StoreLocator";
 import { buildWhatsAppFallbackUrl, openWhatsAppWithFallback } from "@/lib/models";
 
 const BASE_URL = "https://klugmotors.com.br";
