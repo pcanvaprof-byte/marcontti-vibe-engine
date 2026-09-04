@@ -6,22 +6,22 @@ const LIB_SRC =
 const CONFIGURATION = {
   locations: [
     {
-      title: "Klug Motors — Joinville",
-      address1: "R. Albano Schmidt, 1882",
-      address2: "Boa Vista, Joinville - SC, 89205-100",
-      coords: { lat: -26.2836, lng: -48.8451 },
-      placeId: "",
+      title: "Klug Motors - Concessionária de Scooters Elétricas e Motos",
+      address1: "Rua Albano Schimidt 1882",
+      address2: "Joinville, SC, Brazil",
+      coords: { lat: -26.2989132, lng: -48.8203431 },
+      placeId: "ChIJnXaWyi6x3pQRtRqlFs8vhlw",
       actions: [
         {
           label: "Como chegar",
           defaultUrl:
-            "https://www.google.com/maps/dir/?api=1&destination=R.+Albano+Schmidt,+1882+-+Boa+Vista,+Joinville+-+SC,+89205-100",
+            "https://www.google.com/maps/dir/?api=1&destination=Rua+Albano+Schimidt+1882,+Joinville+-+SC&destination_place_id=ChIJnXaWyi6x3pQRtRqlFs8vhlw",
         },
       ],
     },
   ],
   mapOptions: {
-    center: { lat: -26.2836, lng: -48.8451 },
+    center: { lat: -26.2989132, lng: -48.8203431 },
     fullscreenControl: true,
     mapTypeControl: false,
     streetViewControl: false,
