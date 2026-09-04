@@ -88,7 +88,7 @@ export function StoreLocator() {
   return (
     <div
       ref={hostRef}
-      className="klug-store-locator h-[420px] w-full bg-white"
+      className="klug-store-locator h-[460px] w-full bg-background"
       aria-label="Localizador da loja Klug Motors"
     />
   );
