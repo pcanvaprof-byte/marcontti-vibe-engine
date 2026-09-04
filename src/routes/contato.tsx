@@ -149,15 +149,7 @@ function ContatoPage() {
               <p className="inline-flex items-start gap-2"><Clock size={16} className="text-primary mt-0.5 shrink-0" /> <span>Seg a Sex: 08:30 às 18:30 (sem fechar para almoço)<br />Sábado: 08:30 às 13:00<br />Domingo: fechado</span></p>
             </div>
             <div className="not-prose mt-5 border border-border rounded-xl overflow-hidden">
-              <iframe
-                title="Localização da Klug Motors"
-                src="https://www.google.com/maps?q=R.+Albano+Schmidt,+1882+-+Boa+Vista,+Joinville+-+SC,+89205-100&output=embed"
-                width="100%"
-                height="260"
-                style={{ border: 0 }}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              <StoreLocator />
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 border-t border-border bg-background/50">
                 <p className="text-xs text-white/60">R. Albano Schmidt, 1882 — Boa Vista, Joinville/SC · 89205-100</p>
                 <a
