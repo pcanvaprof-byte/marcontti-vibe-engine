@@ -102,7 +102,10 @@ function brandFallback(slug: string) {
   return slug.startsWith("sudu-") ? "sudu" : slug.startsWith("yamaha-") ? "yamaha" : "klug";
 }
 
-/** Public catalog — active only. Falls back to static list until DB responds. */
+/**
+ * Public catalog — active only. O banco é a ÚNICA fonte de preços: nada de
+ * fallback estático, que exibia valores antigos até a resposta do banco.
+ */
 export function usePublicModels() {
   const q = useQuery({
     queryKey: ["models", "public"],
@@ -110,8 +113,8 @@ export function usePublicModels() {
     staleTime: 30_000, // Realtime invalida o cache quando o admin edita
     gcTime: 30 * 60_000,
   });
-  const items = q.data ? q.data.map(dbToModel) : staticModels;
-  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? staticModels.map((m) => brandFallback(m.slug)) };
+  const items = q.data ? q.data.map(dbToModel) : [];
+  return { ...q, items, brands: q.data?.map((m) => m.brand) ?? [] };
 }
 
 /** Query options do catálogo enxuto — reutilizável no loader da rota. */
