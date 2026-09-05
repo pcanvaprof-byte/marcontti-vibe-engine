@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { modelInstallment, INSTALLMENT_MONTHS, INSTALLMENT_NOTE } from "@/lib/installment";
+import { modelInstallment, fmtBRL, INSTALLMENT_MONTHS, INSTALLMENT_NOTE } from "@/lib/installment";
 import { supportsInstallment, SECTION_SLOTS } from "@/lib/models";
 
 import { Plus, Pencil, Trash2, Upload, Eye, EyeOff, GripVertical, Bike, Search, Star, Sparkles, Eraser, Crop, Wand2, Move, Smartphone, RefreshCw } from "lucide-react";
@@ -792,9 +792,23 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
           </Field>
           <Field label="Nome"><Input value={d.name} onChange={(e) => set("name", e.target.value)} /></Field>
           <Field label="Tag / Categoria"><Input value={d.tag ?? ""} onChange={(e) => set("tag", e.target.value)} /></Field>
-          <Field label="Preço (texto)"><Input value={d.price ?? ""} onChange={(e) => set("price", e.target.value)} /></Field>
-          <Field label="Preço (número)">
-            <Input type="number" value={d.price_number ?? 0} onChange={(e) => set("price_number", Number(e.target.value))} />
+          <Field label="Preço (R$)">
+            <Input
+              type="number"
+              step="1"
+              min={0}
+              value={d.price_number ?? 0}
+              onChange={(e) => {
+                const val = Math.max(0, Number(e.target.value));
+                set("price_number", val);
+                set("price", val > 0 ? fmtBRL(val) : "Consultar disponibilidade");
+              }}
+            />
+            <p className={`mt-1 text-[11px] ${d.price_number ? "text-neutral-500" : "text-amber-400"}`}>
+              {d.price_number
+                ? `Aparece no site como ${fmtBRL(d.price_number)}`
+                : "Preço vazio — o site vai mostrar “Consultar disponibilidade”."}
+            </p>
           </Field>
           <Field label="Autonomia"><Input value={d.range_km ?? ""} onChange={(e) => set("range_km", e.target.value)} /></Field>
           <Field label="Velocidade"><Input value={d.speed ?? ""} onChange={(e) => set("speed", e.target.value)} /></Field>
