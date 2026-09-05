@@ -19,9 +19,7 @@ import {
   Star,
 } from "lucide-react";
 import {
-  getModel,
   getGallery,
-  models as staticModels,
   buildWhatsAppFallbackUrl,
   openWhatsAppWithFallback,
 } from "@/lib/models";
