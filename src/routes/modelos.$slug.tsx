@@ -19,9 +19,7 @@ import {
   Star,
 } from "lucide-react";
 import {
-  getModel,
   getGallery,
-  models as staticModels,
   buildWhatsAppFallbackUrl,
   openWhatsAppWithFallback,
 } from "@/lib/models";
@@ -63,9 +61,9 @@ export const Route = createFileRoute("/modelos/$slug")({
     }
   },
   loader: ({ params }) => {
-    const model = getModel(params.slug);
-    // Allow unknown slugs to render — the component fetches from the DB.
-    return { model: model ?? null, slug: params.slug };
+    // O banco é a única fonte de preço: nada de cadastro estático como
+    // placeholder, que exibia valores antigos até a resposta do banco.
+    return { model: null as import("@/lib/models").Model | null, slug: params.slug };
   },
   head: ({ loaderData, params }) => {
     const url = `${BASE_URL}/modelos/${params.slug}`;
