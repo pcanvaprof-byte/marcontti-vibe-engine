@@ -726,7 +726,9 @@ function EditDialog({ draft, onClose, onSaved }: { draft: Draft; onClose: () => 
         brand: d.brand,
         name: d.name,
         tag: d.tag ?? "",
-        price: d.price ?? "Consultar disponibilidade",
+        // Preço tem UMA fonte: o número. O texto é sempre derivado dele,
+        // então card e prévia de parcela nunca ficam divergentes.
+        price: (d.price_number ?? 0) > 0 ? fmtBRL(Number(d.price_number)) : "Consultar disponibilidade",
         price_number: d.price_number ?? 0,
         range_km: d.range_km ?? "",
         speed: d.speed ?? "",
