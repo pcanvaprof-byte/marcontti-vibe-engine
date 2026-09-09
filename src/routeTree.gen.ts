@@ -9,9 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TriciclosEletricosJoinvilleRouteImport } from './routes/triciclos-eletricos-joinville'
 import { Route as SobreRouteImport } from './routes/sobre'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ScootersEletricasJoinvilleRouteImport } from './routes/scooters-eletricas-joinville'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as MotosEletricasJoinvilleRouteImport } from './routes/motos-eletricas-joinville'
+import { Route as MotinhaEletricaSemCnhRouteImport } from './routes/motinha-eletrica-sem-cnh'
 import { Route as GarantiaRouteImport } from './routes/garantia'
 import { Route as FinanciamentoRouteImport } from './routes/financiamento'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -31,6 +35,12 @@ import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authentica
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as ApiPublicModelImagesSplatRouteImport } from './routes/api/public/model-images/$'
 
+const TriciclosEletricosJoinvilleRoute =
+  TriciclosEletricosJoinvilleRouteImport.update({
+    id: '/triciclos-eletricos-joinville',
+    path: '/triciclos-eletricos-joinville',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const SobreRoute = SobreRouteImport.update({
   id: '/sobre',
   path: '/sobre',
@@ -41,9 +51,25 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScootersEletricasJoinvilleRoute =
+  ScootersEletricasJoinvilleRouteImport.update({
+    id: '/scooters-eletricas-joinville',
+    path: '/scooters-eletricas-joinville',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MotosEletricasJoinvilleRoute = MotosEletricasJoinvilleRouteImport.update({
+  id: '/motos-eletricas-joinville',
+  path: '/motos-eletricas-joinville',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MotinhaEletricaSemCnhRoute = MotinhaEletricaSemCnhRouteImport.update({
+  id: '/motinha-eletrica-sem-cnh',
+  path: '/motinha-eletrica-sem-cnh',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GarantiaRoute = GarantiaRouteImport.update({
@@ -145,9 +171,13 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/financiamento': typeof FinanciamentoRoute
   '/garantia': typeof GarantiaRoute
+  '/motinha-eletrica-sem-cnh': typeof MotinhaEletricaSemCnhRoute
+  '/motos-eletricas-joinville': typeof MotosEletricasJoinvilleRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/scooters-eletricas-joinville': typeof ScootersEletricasJoinvilleRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/triciclos-eletricos-joinville': typeof TriciclosEletricosJoinvilleRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
@@ -167,9 +197,13 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/financiamento': typeof FinanciamentoRoute
   '/garantia': typeof GarantiaRoute
+  '/motinha-eletrica-sem-cnh': typeof MotinhaEletricaSemCnhRoute
+  '/motos-eletricas-joinville': typeof MotosEletricasJoinvilleRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/scooters-eletricas-joinville': typeof ScootersEletricasJoinvilleRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/triciclos-eletricos-joinville': typeof TriciclosEletricosJoinvilleRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/instagram': typeof AuthenticatedInstagramRoute
@@ -191,9 +225,13 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/financiamento': typeof FinanciamentoRoute
   '/garantia': typeof GarantiaRoute
+  '/motinha-eletrica-sem-cnh': typeof MotinhaEletricaSemCnhRoute
+  '/motos-eletricas-joinville': typeof MotosEletricasJoinvilleRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/scooters-eletricas-joinville': typeof ScootersEletricasJoinvilleRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sobre': typeof SobreRoute
+  '/triciclos-eletricos-joinville': typeof TriciclosEletricosJoinvilleRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/instagram': typeof AuthenticatedInstagramRoute
@@ -215,9 +253,13 @@ export interface FileRouteTypes {
     | '/faq'
     | '/financiamento'
     | '/garantia'
+    | '/motinha-eletrica-sem-cnh'
+    | '/motos-eletricas-joinville'
     | '/privacidade'
+    | '/scooters-eletricas-joinville'
     | '/sitemap.xml'
     | '/sobre'
+    | '/triciclos-eletricos-joinville'
     | '/admin'
     | '/analytics'
     | '/instagram'
@@ -237,9 +279,13 @@ export interface FileRouteTypes {
     | '/faq'
     | '/financiamento'
     | '/garantia'
+    | '/motinha-eletrica-sem-cnh'
+    | '/motos-eletricas-joinville'
     | '/privacidade'
+    | '/scooters-eletricas-joinville'
     | '/sitemap.xml'
     | '/sobre'
+    | '/triciclos-eletricos-joinville'
     | '/admin'
     | '/analytics'
     | '/instagram'
@@ -260,9 +306,13 @@ export interface FileRouteTypes {
     | '/faq'
     | '/financiamento'
     | '/garantia'
+    | '/motinha-eletrica-sem-cnh'
+    | '/motos-eletricas-joinville'
     | '/privacidade'
+    | '/scooters-eletricas-joinville'
     | '/sitemap.xml'
     | '/sobre'
+    | '/triciclos-eletricos-joinville'
     | '/_authenticated/admin'
     | '/_authenticated/analytics'
     | '/_authenticated/instagram'
@@ -284,9 +334,13 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   FinanciamentoRoute: typeof FinanciamentoRoute
   GarantiaRoute: typeof GarantiaRoute
+  MotinhaEletricaSemCnhRoute: typeof MotinhaEletricaSemCnhRoute
+  MotosEletricasJoinvilleRoute: typeof MotosEletricasJoinvilleRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  ScootersEletricasJoinvilleRoute: typeof ScootersEletricasJoinvilleRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SobreRoute: typeof SobreRoute
+  TriciclosEletricosJoinvilleRoute: typeof TriciclosEletricosJoinvilleRoute
   ApiRemoveBgRoute: typeof ApiRemoveBgRoute
   ModelosSlugRoute: typeof ModelosSlugRoute
   ModelosSuduRoute: typeof ModelosSuduRoute
@@ -297,6 +351,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/triciclos-eletricos-joinville': {
+      id: '/triciclos-eletricos-joinville'
+      path: '/triciclos-eletricos-joinville'
+      fullPath: '/triciclos-eletricos-joinville'
+      preLoaderRoute: typeof TriciclosEletricosJoinvilleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sobre': {
       id: '/sobre'
       path: '/sobre'
@@ -311,11 +372,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/scooters-eletricas-joinville': {
+      id: '/scooters-eletricas-joinville'
+      path: '/scooters-eletricas-joinville'
+      fullPath: '/scooters-eletricas-joinville'
+      preLoaderRoute: typeof ScootersEletricasJoinvilleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacidade': {
       id: '/privacidade'
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motos-eletricas-joinville': {
+      id: '/motos-eletricas-joinville'
+      path: '/motos-eletricas-joinville'
+      fullPath: '/motos-eletricas-joinville'
+      preLoaderRoute: typeof MotosEletricasJoinvilleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/motinha-eletrica-sem-cnh': {
+      id: '/motinha-eletrica-sem-cnh'
+      path: '/motinha-eletrica-sem-cnh'
+      fullPath: '/motinha-eletrica-sem-cnh'
+      preLoaderRoute: typeof MotinhaEletricaSemCnhRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/garantia': {
@@ -473,9 +555,13 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   FinanciamentoRoute: FinanciamentoRoute,
   GarantiaRoute: GarantiaRoute,
+  MotinhaEletricaSemCnhRoute: MotinhaEletricaSemCnhRoute,
+  MotosEletricasJoinvilleRoute: MotosEletricasJoinvilleRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  ScootersEletricasJoinvilleRoute: ScootersEletricasJoinvilleRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SobreRoute: SobreRoute,
+  TriciclosEletricosJoinvilleRoute: TriciclosEletricosJoinvilleRoute,
   ApiRemoveBgRoute: ApiRemoveBgRoute,
   ModelosSlugRoute: ModelosSlugRoute,
   ModelosSuduRoute: ModelosSuduRoute,
